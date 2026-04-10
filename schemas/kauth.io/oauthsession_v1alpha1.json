@@ -1,0 +1,56 @@
+{
+  "properties": {
+    "spec": {
+      "properties": {
+        "createdAt": {
+          "description": "Timestamp when session was created",
+          "format": "date-time",
+          "type": "string"
+        },
+        "state": {
+          "description": "OAuth state parameter for CSRF protection",
+          "type": "string"
+        },
+        "verifier": {
+          "description": "PKCE verifier for code exchange",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state",
+        "verifier"
+      ],
+      "type": "object",
+      "additionalProperties": false
+    },
+    "status": {
+      "properties": {
+        "completedAt": {
+          "description": "Timestamp when OAuth flow completed",
+          "format": "date-time",
+          "type": "string"
+        },
+        "email": {
+          "description": "Authenticated user's email address",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error message if OAuth flow failed",
+          "type": "string"
+        },
+        "ready": {
+          "default": false,
+          "description": "Whether OAuth flow has completed",
+          "type": "boolean"
+        },
+        "refreshToken": {
+          "description": "JWT refresh token for token rotation",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  "type": "object"
+}
