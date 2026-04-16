@@ -100,6 +100,11 @@
           "type": "object",
           "additionalProperties": false
         },
+        "managedDeployment": {
+          "default": true,
+          "description": "ManagedDeployment controls whether the operator creates the newt Deployment and\nServiceAccount. When false, the Pangolin site and credentials Secret are still created\nbut the Deployment is not. Only meaningful when type is \"newt\". Defaults to true.",
+          "type": "boolean"
+        },
         "name": {
           "description": "Name is the site display name in Pangolin",
           "maxLength": 255,
