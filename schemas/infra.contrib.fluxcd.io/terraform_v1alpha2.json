@@ -310,6 +310,17 @@
           "description": "Path to the directory containing Terraform (.tf) files.\nDefaults to 'None', which translates to the root path of the SourceRef.",
           "type": "string"
         },
+        "plan": {
+          "description": "Plan configures options that apply only to the plan phase. They never\naffect the apply phase, which always runs lock-protected.",
+          "properties": {
+            "lock": {
+              "description": "Lock controls whether the plan acquires the Terraform state lock.\n\nLeaving this unset preserves the Terraform default (locking enabled).\nSetting it to `false` runs `terraform plan -lock=false`, which allows\nmultiple plans to run concurrently (for example, parallel Branch Planner\npull requests) without serialising on the state lock.\n\nOnly the plan phase is affected; the apply phase always runs\nlock-protected.",
+              "type": "boolean"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false
+        },
         "planOnly": {
           "description": "PlanOnly specifies if the reconciliation should or should not stop at plan\nphase.",
           "type": "boolean"
@@ -5163,6 +5174,11 @@
           "description": "LastPlanAt is the time when the last terraform plan was performed",
           "format": "date-time",
           "type": "string"
+        },
+        "lastPlannedGeneration": {
+          "description": "LastPlannedGeneration is the generation of the Terraform resource\nat the time of the last plan. This can be used to detect whether a\npending plan has become stale, due to the spec being modified since the\nplan was generated.",
+          "format": "int64",
+          "type": "integer"
         },
         "lastPlannedRevision": {
           "description": "LastPlannedRevision is the revision used by the last planning process.\nThe result could be either no plan change or a new plan generated.",
