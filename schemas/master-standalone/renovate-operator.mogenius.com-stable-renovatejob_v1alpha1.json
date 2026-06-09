@@ -2613,6 +2613,31 @@
           },
           "type": "array"
         },
+        "githubAppReference": {
+          "description": "Reference to a Github App for authentication, this will automatically mount a secret with\nRENOVATE_TOKEN",
+          "properties": {
+            "appIdSecretKey": {
+              "type": "string"
+            },
+            "installationIdSecretKey": {
+              "type": "string"
+            },
+            "pemSecretKey": {
+              "type": "string"
+            },
+            "secretName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "appIdSecretKey",
+            "installationIdSecretKey",
+            "pemSecretKey",
+            "secretName"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
         "image": {
           "description": "Renovate Docker image to use",
           "type": "string"
@@ -3541,7 +3566,7 @@
         "executionOptions": {
           "properties": {
             "debug": {
-              "description": "If true, the renovate job will be executed with LOG_LEVEL=debug",
+              "description": "If true, the renovate job will be executed with RENOVATE_LOG_LEVEL=debug",
               "type": "boolean"
             }
           },
