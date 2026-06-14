@@ -7,8 +7,17 @@
           "format": "date-time",
           "type": "string"
         },
-        "state": {
-          "description": "OAuth state parameter for CSRF protection",
+        "lastUsed": {
+          "description": "Timestamp when session was last used for token refresh",
+          "format": "date-time",
+          "type": "string"
+        },
+        "sessionID": {
+          "description": "Unique identifier for this session",
+          "type": "string"
+        },
+        "userID": {
+          "description": "User identifier (email or sub)",
           "type": "string"
         },
         "verifier": {
@@ -17,7 +26,7 @@
         }
       },
       "required": [
-        "state",
+        "sessionID",
         "verifier"
       ],
       "type": "object",
@@ -38,13 +47,27 @@
           "description": "Error message if OAuth flow failed",
           "type": "string"
         },
-        "ready": {
-          "default": false,
-          "description": "Whether OAuth flow has completed",
-          "type": "boolean"
+        "phase": {
+          "description": "Lifecycle phase of the session (Pending, Active, Revoked, Expired)",
+          "enum": [
+            "Pending",
+            "Active",
+            "Revoked",
+            "Expired"
+          ],
+          "type": "string"
         },
         "refreshToken": {
-          "description": "JWT refresh token for token rotation",
+          "description": "Encrypted JWT refresh token for token rotation",
+          "type": "string"
+        },
+        "revokedAt": {
+          "description": "Timestamp when the session was revoked",
+          "format": "date-time",
+          "type": "string"
+        },
+        "username": {
+          "description": "Authenticated user's preferred username",
           "type": "string"
         }
       },
