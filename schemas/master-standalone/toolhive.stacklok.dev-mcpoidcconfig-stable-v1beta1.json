@@ -333,7 +333,7 @@
           ]
         },
         "referencingWorkloads": {
-          "description": "ReferencingWorkloads is a list of workload resources that reference this MCPOIDCConfig.\nEach entry identifies the workload by kind and name.",
+          "description": "ReferencingWorkloads is a list of workload resources that reference this MCPOIDCConfig.\nEach entry identifies the workload by kind and name. The map key is the\n(kind, name) pair so two workloads of different kinds that share a name\n(e.g., an MCPServer \"foo\" and a VirtualMCPServer \"foo\") are distinct\nentries rather than colliding under merge-patch semantics.",
           "items": {
             "additionalProperties": false,
             "description": "WorkloadReference identifies a workload that references a shared configuration resource.\nNamespace is implicit — cross-namespace references are not supported.",
@@ -364,6 +364,7 @@
             "null"
           ],
           "x-kubernetes-list-map-keys": [
+            "kind",
             "name"
           ],
           "x-kubernetes-list-type": "map"

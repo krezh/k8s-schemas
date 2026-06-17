@@ -463,12 +463,14 @@ Currently the only supported kind is MCPExternalAuthConfig (type: embeddedAuthSe
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.authzConfig" data-path-key="|spec|authzConfig|" data-parent-path="spec" data-name="authzConfig" data-text="AuthzConfig defines authorization policy configuration for the proxy">
+<details class="prop" data-prop-row data-path="spec.authzConfig" data-path-key="|spec|authzConfig|" data-parent-path="spec" data-name="authzConfig" data-text="AuthzConfig defines authorization policy configuration for the proxy.
+AuthzConfig and AuthzConfigRef are mutually exclusive.">
 <summary>
   <span class="prop-name">authzConfig</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">AuthzConfig defines authorization policy configuration for the proxy</div>
+<div class="prop-content"><div class="prop-desc">AuthzConfig defines authorization policy configuration for the proxy.
+AuthzConfig and AuthzConfigRef are mutually exclusive.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.authzConfig.configMap" data-path-key="|spec|authzConfig|configMap|" data-parent-path="spec.authzConfig" data-name="configMap" data-text="ConfigMap references a ConfigMap containing authorization configuration
 Only used when Type is &#34;configMap&#34;">
@@ -615,6 +617,43 @@ overridden by this field if both are set.<div class="leaf-constraints">
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Type is the type of authorization configuration<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: configMap, inline"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">configMap, inline</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.authzConfigRef" data-path-key="|spec|authzConfigRef|" data-parent-path="spec" data-name="authzConfigRef" data-text="AuthzConfigRef references a shared MCPAuthzConfig resource for authorization.
+The referenced MCPAuthzConfig must exist in the same namespace as this MCPRemoteProxy.
+Mutually exclusive with authzConfig.
+
+resolve AuthzConfigRef into a runtime authz config.
+
+NOTE: this field is consumed by workload controllers in a follow-up PR.
+Until that lands, AuthzConfigRef is reference-tracked by the
+MCPAuthzConfig controller (deletion protection, status.referenceCount)
+but does NOT apply authorization to this MCPRemoteProxy. Use the
+inline AuthzConfig field in the meantime.">
+<summary>
+  <span class="prop-name">authzConfigRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">AuthzConfigRef references a shared MCPAuthzConfig resource for authorization.
+The referenced MCPAuthzConfig must exist in the same namespace as this MCPRemoteProxy.
+Mutually exclusive with authzConfig.
+
+resolve AuthzConfigRef into a runtime authz config.
+
+NOTE: this field is consumed by workload controllers in a follow-up PR.
+Until that lands, AuthzConfigRef is reference-tracked by the
+MCPAuthzConfig controller (deletion protection, status.referenceCount)
+but does NOT apply authorization to this MCPRemoteProxy. Use the
+inline AuthzConfig field in the meantime.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authzConfigRef.name" data-path-key="|spec|authzConfigRef|name|" data-parent-path="spec.authzConfigRef" data-name="name" data-text="Name is the name of the MCPAuthzConfig resource in the same namespace. minLength: 1">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the MCPAuthzConfig resource in the same namespace.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
   </div>
@@ -811,6 +850,28 @@ If empty, defaults to [&#34;openid&#34;].
 <div class="schema-constraint" title="pattern: ^https?://"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.replicas" data-path-key="|spec|replicas|" data-parent-path="spec" data-name="replicas" data-text="Replicas is the desired number of proxy pod replicas.
+MCPRemoteProxy creates a single Deployment for the proxy process, so there
+is only one replicas field (mirrors VirtualMCPServer.spec.replicas).
+When nil, the operator does not set Deployment.Spec.Replicas, leaving replica
+management to an HPA or other external controller.
+When set above 1, also configure sessionStorage with the redis provider and
+sessionAffinity: &#34;None&#34; so sessions resolve across replicas; otherwise a
+SessionStorageWarning condition is surfaced on the resource status. format: int32 minimum: 0">
+  <span class="prop-name">replicas</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Replicas is the desired number of proxy pod replicas.
+MCPRemoteProxy creates a single Deployment for the proxy process, so there
+is only one replicas field (mirrors VirtualMCPServer.spec.replicas).
+When nil, the operator does not set Deployment.Spec.Replicas, leaving replica
+management to an HPA or other external controller.
+When set above 1, also configure sessionStorage with the redis provider and
+sessionAffinity: &#34;None&#34; so sessions resolve across replicas; otherwise a
+SessionStorageWarning condition is surfaced on the resource status.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.resourceOverrides" data-path-key="|spec|resourceOverrides|" data-parent-path="spec" data-name="resourceOverrides" data-text="ResourceOverrides allows overriding annotations and labels for resources created by the operator">
 <summary>
   <span class="prop-name">resourceOverrides</span>
@@ -1003,15 +1064,121 @@ If not specified, a ServiceAccount will be created automatically and used by the
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.sessionAffinity" data-path-key="|spec|sessionAffinity|" data-parent-path="spec" data-name="sessionAffinity" data-text="SessionAffinity controls whether the Service routes repeated client connections to the same pod.
 MCP protocols (SSE, streamable-http) are stateful, so ClientIP is the default.
-Set to &#34;None&#34; for stateless servers or when using an external load balancer with its own affinity. enum: ClientIP, None">
+Set to &#34;None&#34; for stateless servers or when using an external load balancer with its own affinity.
+
+Interaction with sessionStorage: when running multiple replicas with
+sessionStorage.provider &#34;redis&#34;, set this to &#34;None&#34; so requests are
+distributed across replicas and sessions resolve via the shared store.
+Conversely, &#34;None&#34; without Redis-backed sessionStorage breaks session
+continuity — any request landing on a different pod fails with
+&#34;Session not found&#34;. enum: ClientIP, None">
   <span class="prop-name">sessionAffinity</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">SessionAffinity controls whether the Service routes repeated client connections to the same pod.
 MCP protocols (SSE, streamable-http) are stateful, so ClientIP is the default.
-Set to &#34;None&#34; for stateless servers or when using an external load balancer with its own affinity.<div class="leaf-constraints">
+Set to &#34;None&#34; for stateless servers or when using an external load balancer with its own affinity.
+
+Interaction with sessionStorage: when running multiple replicas with
+sessionStorage.provider &#34;redis&#34;, set this to &#34;None&#34; so requests are
+distributed across replicas and sessions resolve via the shared store.
+Conversely, &#34;None&#34; without Redis-backed sessionStorage breaks session
+continuity — any request landing on a different pod fails with
+&#34;Session not found&#34;.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: ClientIP, None"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">ClientIP, None</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.sessionStorage" data-path-key="|spec|sessionStorage|" data-parent-path="spec" data-name="sessionStorage" data-text="SessionStorage configures session storage for stateful horizontal scaling.
+When nil, no session storage is configured and the proxy falls back to
+pod-local in-memory session state — incompatible with multi-replica
+deployments behind load balancers that don&#39;t preserve client-IP affinity
+(e.g. AWS ALB across multiple AZs).
+
+The transparent proxy validates `Mcp-Session-Id` against this store on
+every non-initialize request (see pkg/transport/proxy/transparent/
+transparent_proxy.go) and rewrites client-facing session IDs to backend
+session IDs using session metadata. Both lookups require shared state
+across replicas.
+
+When using the Redis provider, also set sessionAffinity to &#34;None&#34; so the
+Service routes requests round-robin and all replicas rely on the shared
+session store rather than pod-local state.
+
+Mirrors MCPServer.spec.sessionStorage and VirtualMCPServer.spec.sessionStorage.">
+<summary>
+  <span class="prop-name">sessionStorage</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SessionStorage configures session storage for stateful horizontal scaling.
+When nil, no session storage is configured and the proxy falls back to
+pod-local in-memory session state — incompatible with multi-replica
+deployments behind load balancers that don&#39;t preserve client-IP affinity
+(e.g. AWS ALB across multiple AZs).
+
+The transparent proxy validates `Mcp-Session-Id` against this store on
+every non-initialize request (see pkg/transport/proxy/transparent/
+transparent_proxy.go) and rewrites client-facing session IDs to backend
+session IDs using session metadata. Both lookups require shared state
+across replicas.
+
+When using the Redis provider, also set sessionAffinity to &#34;None&#34; so the
+Service routes requests round-robin and all replicas rely on the shared
+session store rather than pod-local state.
+
+Mirrors MCPServer.spec.sessionStorage and VirtualMCPServer.spec.sessionStorage.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.address" data-path-key="|spec|sessionStorage|address|" data-parent-path="spec.sessionStorage" data-name="address" data-text="Address is the Redis server address (required when provider is redis) minLength: 1">
+  <span class="prop-name">address</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Address is the Redis server address (required when provider is redis)<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.db" data-path-key="|spec|sessionStorage|db|" data-parent-path="spec.sessionStorage" data-name="db" data-text="DB is the Redis database number format: int32 minimum: 0">
+  <span class="prop-name">db</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">DB is the Redis database number<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.keyPrefix" data-path-key="|spec|sessionStorage|keyPrefix|" data-parent-path="spec.sessionStorage" data-name="keyPrefix" data-text="KeyPrefix is an optional prefix for all Redis keys used by ToolHive">
+  <span class="prop-name">keyPrefix</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">KeyPrefix is an optional prefix for all Redis keys used by ToolHive
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.sessionStorage.passwordRef" data-path-key="|spec|sessionStorage|passwordRef|" data-parent-path="spec.sessionStorage" data-name="passwordRef" data-text="PasswordRef is a reference to a Secret key containing the Redis password">
+<summary>
+  <span class="prop-name">passwordRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">PasswordRef is a reference to a Secret key containing the Redis password</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.passwordRef.key" data-path-key="|spec|sessionStorage|passwordRef|key|" data-parent-path="spec.sessionStorage.passwordRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.passwordRef.name" data-path-key="|spec|sessionStorage|passwordRef|name|" data-parent-path="spec.sessionStorage.passwordRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.provider" data-path-key="|spec|sessionStorage|provider|" data-parent-path="spec.sessionStorage" data-name="provider" data-text="Provider is the session storage backend type enum: memory, redis">
+  <span class="prop-name">provider</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Provider is the session storage backend type<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: memory, redis"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">memory, redis</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.telemetryConfigRef" data-path-key="|spec|telemetryConfigRef|" data-parent-path="spec" data-name="telemetryConfigRef" data-text="TelemetryConfigRef references an MCPTelemetryConfig resource for shared telemetry configuration.
 The referenced MCPTelemetryConfig must exist in the same namespace as this MCPRemoteProxy.
 Cross-namespace references are not supported for security and isolation reasons.">

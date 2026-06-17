@@ -532,6 +532,32 @@ accepts client_id values that were registered via DCR.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.disableUpstreamTokenInjection" data-path-key="|spec|authServerConfig|disableUpstreamTokenInjection|" data-parent-path="spec.authServerConfig" data-name="disableUpstreamTokenInjection" data-text="DisableUpstreamTokenInjection prevents the embedded auth server from injecting
+upstream IdP tokens into requests forwarded to the backend MCP server.
+When true, the embedded auth server still handles OAuth flows for clients,
+but instead of swapping ToolHive JWTs for upstream tokens the proxy STRIPS
+the client&#39;s credential headers (Authorization, Cookie, Proxy-Authorization)
+after validating the JWT — the backend receives an unauthenticated request.
+Use headerForward to attach static credentials (e.g. an API key) if the
+backend needs them. Cannot be combined with token exchange or AWS STS,
+which would re-add credentials after the strip.
+This is useful when the backend MCP server does not require authentication
+(e.g., public documentation servers) but you still want client authentication.">
+  <span class="prop-name">disableUpstreamTokenInjection</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">DisableUpstreamTokenInjection prevents the embedded auth server from injecting
+upstream IdP tokens into requests forwarded to the backend MCP server.
+When true, the embedded auth server still handles OAuth flows for clients,
+but instead of swapping ToolHive JWTs for upstream tokens the proxy STRIPS
+the client&#39;s credential headers (Authorization, Cookie, Proxy-Authorization)
+after validating the JWT — the backend receives an unauthenticated request.
+Use headerForward to attach static credentials (e.g. an API key) if the
+backend needs them. Cannot be combined with token exchange or AWS STS,
+which would re-add credentials after the strip.
+This is useful when the backend MCP server does not require authentication
+(e.g., public documentation servers) but you still want client authentication.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.authServerConfig.hmacSecretRefs" data-path-key="|spec|authServerConfig|hmacSecretRefs|" data-parent-path="spec.authServerConfig" data-name="hmacSecretRefs" data-text="HMACSecretRefs references Kubernetes Secrets containing symmetric secrets for signing
 authorization codes and refresh tokens (opaque tokens).
 Current secret must be at least 32 bytes and cryptographically random.
@@ -3011,6 +3037,20 @@ embedded authorization server. Must match an entry in AuthServer.Upstreams.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.config.passthroughHeaders" data-path-key="|spec|config|passthroughHeaders|" data-parent-path="spec.config" data-name="passthroughHeaders" data-text="PassthroughHeaders is an allowlist of incoming client request header names
+forwarded verbatim to all backends. Captured at the vMCP incoming edge by
+headerforward.CaptureMiddleware and consumed once at session creation
+when the per-session backend client&#39;s HeaderForwardConfig is built. Names
+must not be in the restricted set (Host, hop-by-hop, X-Forwarded-*, etc.).">
+  <span class="prop-name">passthroughHeaders</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">PassthroughHeaders is an allowlist of incoming client request header names
+forwarded verbatim to all backends. Captured at the vMCP incoming edge by
+headerforward.CaptureMiddleware and consumed once at session creation
+when the per-session backend client&#39;s HeaderForwardConfig is built. Names
+must not be in the restricted set (Host, hop-by-hop, X-Forwarded-*, etc.).
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.config.rateLimiting" data-path-key="|spec|config|rateLimiting|" data-parent-path="spec.config" data-name="rateLimiting" data-text="RateLimiting defines rate limiting configuration for the Virtual MCP server.
 Requires Redis session storage to be configured for distributed rate limiting.">
 <summary>
@@ -3496,14 +3536,16 @@ This field takes precedence over config.IncomingAuth and should be preferred bec
 supports Kubernetes-native secret references (SecretKeyRef, ConfigMapRef) for secure
 dynamic discovery of credentials, rather than requiring secrets to be embedded in config.</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.incomingAuth.authzConfig" data-path-key="|spec|incomingAuth|authzConfig|" data-parent-path="spec.incomingAuth" data-name="authzConfig" data-text="AuthzConfig defines authorization policy configuration
-Reuses MCPServer authz patterns">
+<details class="prop" data-prop-row data-path="spec.incomingAuth.authzConfig" data-path-key="|spec|incomingAuth|authzConfig|" data-parent-path="spec.incomingAuth" data-name="authzConfig" data-text="AuthzConfig defines authorization policy configuration.
+Reuses MCPServer authz patterns.
+AuthzConfig and AuthzConfigRef are mutually exclusive.">
 <summary>
   <span class="prop-name">authzConfig</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">AuthzConfig defines authorization policy configuration
-Reuses MCPServer authz patterns</div>
+<div class="prop-content"><div class="prop-desc">AuthzConfig defines authorization policy configuration.
+Reuses MCPServer authz patterns.
+AuthzConfig and AuthzConfigRef are mutually exclusive.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.incomingAuth.authzConfig.configMap" data-path-key="|spec|incomingAuth|authzConfig|configMap|" data-parent-path="spec.incomingAuth.authzConfig" data-name="configMap" data-text="ConfigMap references a ConfigMap containing authorization configuration
 Only used when Type is &#34;configMap&#34;">
@@ -3655,6 +3697,43 @@ overridden by this field if both are set.<div class="leaf-constraints">
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.incomingAuth.authzConfigRef" data-path-key="|spec|incomingAuth|authzConfigRef|" data-parent-path="spec.incomingAuth" data-name="authzConfigRef" data-text="AuthzConfigRef references a shared MCPAuthzConfig resource for authorization.
+The referenced MCPAuthzConfig must exist in the same namespace as this VirtualMCPServer.
+Mutually exclusive with authzConfig.
+
+resolve AuthzConfigRef into a runtime authz config.
+
+NOTE: this field is consumed by workload controllers in a follow-up PR.
+Until that lands, AuthzConfigRef is reference-tracked by the
+MCPAuthzConfig controller (deletion protection, status.referenceCount)
+but does NOT apply authorization to this VirtualMCPServer. Use the
+inline AuthzConfig field in the meantime.">
+<summary>
+  <span class="prop-name">authzConfigRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">AuthzConfigRef references a shared MCPAuthzConfig resource for authorization.
+The referenced MCPAuthzConfig must exist in the same namespace as this VirtualMCPServer.
+Mutually exclusive with authzConfig.
+
+resolve AuthzConfigRef into a runtime authz config.
+
+NOTE: this field is consumed by workload controllers in a follow-up PR.
+Until that lands, AuthzConfigRef is reference-tracked by the
+MCPAuthzConfig controller (deletion protection, status.referenceCount)
+but does NOT apply authorization to this VirtualMCPServer. Use the
+inline AuthzConfig field in the meantime.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.incomingAuth.authzConfigRef.name" data-path-key="|spec|incomingAuth|authzConfigRef|name|" data-parent-path="spec.incomingAuth.authzConfigRef" data-name="name" data-text="Name is the name of the MCPAuthzConfig resource in the same namespace. minLength: 1">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the MCPAuthzConfig resource in the same namespace.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.incomingAuth.oidcConfigRef" data-path-key="|spec|incomingAuth|oidcConfigRef|" data-parent-path="spec.incomingAuth" data-name="oidcConfigRef" data-text="OIDCConfigRef references a shared MCPOIDCConfig resource for OIDC authentication.
 The referenced MCPOIDCConfig must exist in the same namespace as this VirtualMCPServer.
 Per-server overrides (audience, scopes) are specified here; shared provider config
@@ -3789,6 +3868,20 @@ Only used when Type is &#34;externalAuthConfigRef&#34;</div>
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.passthroughHeaders" data-path-key="|spec|passthroughHeaders|" data-parent-path="spec" data-name="passthroughHeaders" data-text="PassthroughHeaders is an allowlist of incoming client request header names
+forwarded verbatim to all backends (e.g. an API key the backend resolves to
+a user). Takes precedence over config.PassthroughHeaders. Names must not be
+restricted headers (Host, hop-by-hop, X-Forwarded-*). Forwarded headers are
+attacker-influenceable unless a trusted upstream sets them.">
+  <span class="prop-name">passthroughHeaders</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">PassthroughHeaders is an allowlist of incoming client request header names
+forwarded verbatim to all backends (e.g. an API key the backend resolves to
+a user). Takes precedence over config.PassthroughHeaders. Names must not be
+restricted headers (Host, hop-by-hop, X-Forwarded-*). Forwarded headers are
+attacker-influenceable unless a trusted upstream sets them.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.podTemplateSpec" data-path-key="|spec|podTemplateSpec|" data-parent-path="spec" data-name="podTemplateSpec" data-text="PodTemplateSpec defines the pod template to use for the Virtual MCP server
 This allows for customizing the pod configuration beyond what is provided by the other fields.
 Note that to modify the specific container the Virtual MCP server runs in, you must specify

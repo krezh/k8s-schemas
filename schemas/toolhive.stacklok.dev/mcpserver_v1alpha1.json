@@ -83,7 +83,7 @@
         },
         "authzConfig": {
           "additionalProperties": false,
-          "description": "AuthzConfig defines authorization policy configuration for the MCP server",
+          "description": "AuthzConfig defines authorization policy configuration for the MCP server.\nAuthzConfig and AuthzConfigRef are mutually exclusive.",
           "properties": {
             "configMap": {
               "additionalProperties": false,
@@ -201,6 +201,24 @@
               "message": "inline must be set when type is 'inline', and must not be set otherwise",
               "rule": "self.type == 'inline' ? has(self.inline) : !has(self.inline)"
             }
+          ]
+        },
+        "authzConfigRef": {
+          "additionalProperties": false,
+          "description": "AuthzConfigRef references a shared MCPAuthzConfig resource for authorization.\nThe referenced MCPAuthzConfig must exist in the same namespace as this MCPServer.\nMutually exclusive with authzConfig.\n\nresolve AuthzConfigRef into a runtime authz config.\n\nNOTE: this field is consumed by workload controllers in a follow-up PR.\nUntil that lands, AuthzConfigRef is reference-tracked by the\nMCPAuthzConfig controller (deletion protection, status.referenceCount)\nbut does NOT apply authorization to this MCPServer. Use the inline\nAuthzConfig field in the meantime.",
+          "properties": {
+            "name": {
+              "description": "Name is the name of the MCPAuthzConfig resource in the same namespace.",
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": [
+            "object",
+            "null"
           ]
         },
         "backendReplicas": {
@@ -1032,6 +1050,10 @@
         "null"
       ],
       "x-kubernetes-validations": [
+        {
+          "message": "authzConfig and authzConfigRef are mutually exclusive; use authzConfigRef to reference a shared MCPAuthzConfig",
+          "rule": "!(has(self.authzConfig) \u0026\u0026 has(self.authzConfigRef))"
+        },
         {
           "message": "rateLimiting requires sessionStorage with provider 'redis'",
           "rule": "!has(self.rateLimiting) || (has(self.sessionStorage) \u0026\u0026 self.sessionStorage.provider == 'redis')"

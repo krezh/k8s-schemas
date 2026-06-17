@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MCPOIDCConfig v1alpha1 — toolhive.stacklok.dev</title>
+<title>MCPAuthzConfig v1alpha1 — toolhive.stacklok.dev</title>
 <link rel="icon" type="image/svg+xml" href="/k8s-schemas/favicon.svg">
 <style>
   :root {
@@ -352,11 +352,11 @@
   <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Light mode" aria-pressed="false">☀/☾</button>
 </nav>
 <header>
-  <h1 class="schema-title">MCPOIDCConfig</h1>
+  <h1 class="schema-title">MCPAuthzConfig</h1>
   <p class="schema-title-group">toolhive.stacklok.dev / v1alpha1</p>
 </header>
 <div class="yaml-block">apiVersion: toolhive.stacklok.dev/v1alpha1
-kind: MCPOIDCConfig
+kind: MCPAuthzConfig
 metadata:
   name: example</div>
 <div class="search-row">
@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.inline for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.config for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -373,8 +373,8 @@ metadata:
     <button id="collapse-all">Collapse all</button>
   </div>
   <div class="toolbar-left">
-    <a href="/k8s-schemas/toolhive.stacklok.dev/mcpoidcconfig_v1alpha1.json" target="_blank">View raw schema</a>
-    <button id="copy-url" data-url="/k8s-schemas/toolhive.stacklok.dev/mcpoidcconfig_v1alpha1.json">Copy schema URL</button>
+    <a href="/k8s-schemas/toolhive.stacklok.dev/mcpauthzconfig_v1alpha1.json" target="_blank">View raw schema</a>
+    <button id="copy-url" data-url="/k8s-schemas/toolhive.stacklok.dev/mcpauthzconfig_v1alpha1.json">Copy schema URL</button>
   </div>
 </div>
 <div id="properties">
@@ -410,244 +410,54 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
   <div class="leaf-desc">
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="MCPOIDCConfigSpec defines the desired state of MCPOIDCConfig.
-MCPOIDCConfig resources are namespace-scoped and can only be referenced by
-MCPServer resources in the same namespace.">
+<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="MCPAuthzConfigSpec defines the desired state of MCPAuthzConfig.
+MCPAuthzConfig resources are namespace-scoped and can only be referenced by
+MCPServer, MCPRemoteProxy, or VirtualMCPServer resources in the same namespace.">
 <summary>
   <span class="prop-name">spec</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">MCPOIDCConfigSpec defines the desired state of MCPOIDCConfig.
-MCPOIDCConfig resources are namespace-scoped and can only be referenced by
-MCPServer resources in the same namespace.</div>
+<div class="prop-content"><div class="prop-desc">MCPAuthzConfigSpec defines the desired state of MCPAuthzConfig.
+MCPAuthzConfig resources are namespace-scoped and can only be referenced by
+MCPServer, MCPRemoteProxy, or VirtualMCPServer resources in the same namespace.</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.inline" data-path-key="|spec|inline|" data-parent-path="spec" data-name="inline" data-text="Inline contains direct OIDC configuration.
-Only used when Type is &#34;inline&#34;.">
-<summary>
-  <span class="prop-name">inline</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Inline contains direct OIDC configuration.
-Only used when Type is &#34;inline&#34;.</div>
-  <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.inline.caBundleRef" data-path-key="|spec|inline|caBundleRef|" data-parent-path="spec.inline" data-name="caBundleRef" data-text="CABundleRef references a ConfigMap containing the CA certificate bundle.
-When specified, ToolHive auto-mounts the ConfigMap and auto-computes ThvCABundlePath.">
-<summary>
-  <span class="prop-name">caBundleRef</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">CABundleRef references a ConfigMap containing the CA certificate bundle.
-When specified, ToolHive auto-mounts the ConfigMap and auto-computes ThvCABundlePath.</div>
-  <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.inline.caBundleRef.configMapRef" data-path-key="|spec|inline|caBundleRef|configMapRef|" data-parent-path="spec.inline.caBundleRef" data-name="configMapRef" data-text="ConfigMapRef references a ConfigMap containing the CA certificate bundle.
-If Key is not specified, it defaults to &#34;ca.crt&#34;.">
-<summary>
-  <span class="prop-name">configMapRef</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">ConfigMapRef references a ConfigMap containing the CA certificate bundle.
-If Key is not specified, it defaults to &#34;ca.crt&#34;.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.inline.caBundleRef.configMapRef.key" data-path-key="|spec|inline|caBundleRef|configMapRef|key|" data-parent-path="spec.inline.caBundleRef.configMapRef" data-name="key" data-text="The key to select.">
-  <span class="prop-name">key</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The key to select.
+<div class="prop-leaf" data-prop-row data-path="spec.config" data-path-key="|spec|config|" data-parent-path="spec" data-name="config" data-text="Config contains the backend-specific authorization configuration.
+The structure depends on the Type field:
+  - cedarv1: policies ([]string), entities_json (string), primary_upstream_provider (string), group_claim_name (string)
+  - httpv1: http ({url, timeout, insecure_skip_verify}), context ({include_args, include_operation}), claim_mapping (string)">
+  <span class="prop-name">config</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Config contains the backend-specific authorization configuration.
+The structure depends on the Type field:
+  - cedarv1: policies ([]string), entities_json (string), primary_upstream_provider (string), group_claim_name (string)
+  - httpv1: http ({url, timeout, insecure_skip_verify}), context ({include_args, include_operation}), claim_mapping (string)
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.caBundleRef.configMapRef.name" data-path-key="|spec|inline|caBundleRef|configMapRef|name|" data-parent-path="spec.inline.caBundleRef.configMapRef" data-name="name" data-text="Name of the referent.
-This field is effectively required, but due to backwards compatibility is
-allowed to be empty. Instances of this type with an empty value here are
-almost certainly wrong.
-More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the referent.
-This field is effectively required, but due to backwards compatibility is
-allowed to be empty. Instances of this type with an empty value here are
-almost certainly wrong.
-More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.caBundleRef.configMapRef.optional" data-path-key="|spec|inline|caBundleRef|configMapRef|optional|" data-parent-path="spec.inline.caBundleRef.configMapRef" data-name="optional" data-text="Specify whether the ConfigMap or its key must be defined">
-  <span class="prop-name">optional</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">Specify whether the ConfigMap or its key must be defined
-  </div>
-</div>
-  </div>
-</div>
-</details>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.clientId" data-path-key="|spec|inline|clientId|" data-parent-path="spec.inline" data-name="clientId" data-text="ClientID is the OIDC client ID">
-  <span class="prop-name">clientId</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ClientID is the OIDC client ID
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.inline.clientSecretRef" data-path-key="|spec|inline|clientSecretRef|" data-parent-path="spec.inline" data-name="clientSecretRef" data-text="ClientSecretRef is a reference to a Kubernetes Secret containing the client secret">
-<summary>
-  <span class="prop-name">clientSecretRef</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">ClientSecretRef is a reference to a Kubernetes Secret containing the client secret</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.inline.clientSecretRef.key" data-path-key="|spec|inline|clientSecretRef|key|" data-parent-path="spec.inline.clientSecretRef" data-name="key" data-text="Key is the key within the secret">
-  <span class="prop-name">key</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Key is the key within the secret
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.clientSecretRef.name" data-path-key="|spec|inline|clientSecretRef|name|" data-parent-path="spec.inline.clientSecretRef" data-name="name" data-text="Name is the name of the secret">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name is the name of the secret
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.insecureAllowHTTP" data-path-key="|spec|inline|insecureAllowHTTP|" data-parent-path="spec.inline" data-name="insecureAllowHTTP" data-text="InsecureAllowHTTP allows HTTP (non-HTTPS) OIDC issuers for development/testing.
-WARNING: This is insecure and should NEVER be used in production.">
-  <span class="prop-name">insecureAllowHTTP</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">InsecureAllowHTTP allows HTTP (non-HTTPS) OIDC issuers for development/testing.
-WARNING: This is insecure and should NEVER be used in production.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.introspectionUrl" data-path-key="|spec|inline|introspectionUrl|" data-parent-path="spec.inline" data-name="introspectionUrl" data-text="IntrospectionURL is the URL for token introspection endpoint">
-  <span class="prop-name">introspectionUrl</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">IntrospectionURL is the URL for token introspection endpoint
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.issuer" data-path-key="|spec|inline|issuer|" data-parent-path="spec.inline" data-name="issuer" data-text="Issuer is the OIDC issuer URL">
-  <span class="prop-name">issuer</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Issuer is the OIDC issuer URL
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.jwksAllowPrivateIP" data-path-key="|spec|inline|jwksAllowPrivateIP|" data-parent-path="spec.inline" data-name="jwksAllowPrivateIP" data-text="JWKSAllowPrivateIP allows JWKS/OIDC endpoints on private IP addresses.
-Note: at runtime, if either JWKSAllowPrivateIP or ProtectedResourceAllowPrivateIP
-is true, private IPs are allowed for all OIDC HTTP requests (JWKS, discovery, introspection).">
-  <span class="prop-name">jwksAllowPrivateIP</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">JWKSAllowPrivateIP allows JWKS/OIDC endpoints on private IP addresses.
-Note: at runtime, if either JWKSAllowPrivateIP or ProtectedResourceAllowPrivateIP
-is true, private IPs are allowed for all OIDC HTTP requests (JWKS, discovery, introspection).
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.jwksAuthTokenPath" data-path-key="|spec|inline|jwksAuthTokenPath|" data-parent-path="spec.inline" data-name="jwksAuthTokenPath" data-text="JWKSAuthTokenPath is the path to file containing bearer token for JWKS/OIDC requests">
-  <span class="prop-name">jwksAuthTokenPath</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">JWKSAuthTokenPath is the path to file containing bearer token for JWKS/OIDC requests
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.jwksUrl" data-path-key="|spec|inline|jwksUrl|" data-parent-path="spec.inline" data-name="jwksUrl" data-text="JWKSURL is the URL to fetch the JWKS from">
-  <span class="prop-name">jwksUrl</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">JWKSURL is the URL to fetch the JWKS from
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.inline.protectedResourceAllowPrivateIP" data-path-key="|spec|inline|protectedResourceAllowPrivateIP|" data-parent-path="spec.inline" data-name="protectedResourceAllowPrivateIP" data-text="ProtectedResourceAllowPrivateIP allows protected resource endpoint on private IP addresses.
-Note: at runtime, if either ProtectedResourceAllowPrivateIP or JWKSAllowPrivateIP
-is true, private IPs are allowed for all OIDC HTTP requests (JWKS, discovery, introspection).">
-  <span class="prop-name">protectedResourceAllowPrivateIP</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">ProtectedResourceAllowPrivateIP allows protected resource endpoint on private IP addresses.
-Note: at runtime, if either ProtectedResourceAllowPrivateIP or JWKSAllowPrivateIP
-is true, private IPs are allowed for all OIDC HTTP requests (JWKS, discovery, introspection).
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<details class="prop" data-prop-row data-path="spec.kubernetesServiceAccount" data-path-key="|spec|kubernetesServiceAccount|" data-parent-path="spec" data-name="kubernetesServiceAccount" data-text="KubernetesServiceAccount configures OIDC for Kubernetes service account token validation.
-Only used when Type is &#34;kubernetesServiceAccount&#34;.">
-<summary>
-  <span class="prop-name">kubernetesServiceAccount</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">KubernetesServiceAccount configures OIDC for Kubernetes service account token validation.
-Only used when Type is &#34;kubernetesServiceAccount&#34;.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.kubernetesServiceAccount.introspectionUrl" data-path-key="|spec|kubernetesServiceAccount|introspectionUrl|" data-parent-path="spec.kubernetesServiceAccount" data-name="introspectionUrl" data-text="IntrospectionURL is the URL for token introspection endpoint.
-If empty, OIDC discovery will be used to automatically determine the introspection URL.">
-  <span class="prop-name">introspectionUrl</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">IntrospectionURL is the URL for token introspection endpoint.
-If empty, OIDC discovery will be used to automatically determine the introspection URL.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.kubernetesServiceAccount.issuer" data-path-key="|spec|kubernetesServiceAccount|issuer|" data-parent-path="spec.kubernetesServiceAccount" data-name="issuer" data-text="Issuer is the OIDC issuer URL.">
-  <span class="prop-name">issuer</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Issuer is the OIDC issuer URL.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.kubernetesServiceAccount.jwksUrl" data-path-key="|spec|kubernetesServiceAccount|jwksUrl|" data-parent-path="spec.kubernetesServiceAccount" data-name="jwksUrl" data-text="JWKSURL is the URL to fetch the JWKS from.
-If empty, OIDC discovery will be used to automatically determine the JWKS URL.">
-  <span class="prop-name">jwksUrl</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">JWKSURL is the URL to fetch the JWKS from.
-If empty, OIDC discovery will be used to automatically determine the JWKS URL.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.kubernetesServiceAccount.namespace" data-path-key="|spec|kubernetesServiceAccount|namespace|" data-parent-path="spec.kubernetesServiceAccount" data-name="namespace" data-text="Namespace is the namespace of the service account.
-If empty, uses the MCPServer&#39;s namespace.">
-  <span class="prop-name">namespace</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Namespace is the namespace of the service account.
-If empty, uses the MCPServer&#39;s namespace.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.kubernetesServiceAccount.serviceAccount" data-path-key="|spec|kubernetesServiceAccount|serviceAccount|" data-parent-path="spec.kubernetesServiceAccount" data-name="serviceAccount" data-text="ServiceAccount is the name of the service account to validate tokens for.
-If empty, uses the pod&#39;s service account.">
-  <span class="prop-name">serviceAccount</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ServiceAccount is the name of the service account to validate tokens for.
-If empty, uses the pod&#39;s service account.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.kubernetesServiceAccount.useClusterAuth" data-path-key="|spec|kubernetesServiceAccount|useClusterAuth|" data-parent-path="spec.kubernetesServiceAccount" data-name="useClusterAuth" data-text="UseClusterAuth enables using the Kubernetes cluster&#39;s CA bundle and service account token.
-When true, uses /var/run/secrets/kubernetes.io/serviceaccount/ca.crt for TLS verification
-and /var/run/secrets/kubernetes.io/serviceaccount/token for bearer token authentication.
-Defaults to true if not specified.">
-  <span class="prop-name">useClusterAuth</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">UseClusterAuth enables using the Kubernetes cluster&#39;s CA bundle and service account token.
-When true, uses /var/run/secrets/kubernetes.io/serviceaccount/ca.crt for TLS verification
-and /var/run/secrets/kubernetes.io/serviceaccount/token for bearer token authentication.
-Defaults to true if not specified.
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.type" data-path-key="|spec|type|" data-parent-path="spec" data-name="type" data-text="Type is the type of OIDC configuration source enum: kubernetesServiceAccount, inline">
+<div class="prop-leaf" data-prop-row data-path="spec.type" data-path-key="|spec|type|" data-parent-path="spec" data-name="type" data-text="Type identifies the authorizer backend (e.g., &#34;cedarv1&#34;, &#34;httpv1&#34;).
+Must match a registered authorizer type in the factory registry. minLength: 1">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Type is the type of OIDC configuration source<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: kubernetesServiceAccount, inline"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">kubernetesServiceAccount, inline</code></div></div>
+  <div class="leaf-desc">Type identifies the authorizer backend (e.g., &#34;cedarv1&#34;, &#34;httpv1&#34;).
+Must match a registered authorizer type in the factory registry.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="MCPOIDCConfigStatus defines the observed state of MCPOIDCConfig">
+<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="MCPAuthzConfigStatus defines the observed state of MCPAuthzConfig">
 <summary>
   <span class="prop-name">status</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">MCPOIDCConfigStatus defines the observed state of MCPOIDCConfig</div>
+<div class="prop-content"><div class="prop-desc">MCPAuthzConfigStatus defines the observed state of MCPAuthzConfig</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions represent the latest available observations of the MCPOIDCConfig&#39;s state">
+<details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions represent the latest available observations of the MCPAuthzConfig&#39;s state">
 <summary>
   <span class="prop-name">conditions</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Conditions represent the latest available observations of the MCPOIDCConfig&#39;s state</div>
+<div class="prop-content"><div class="prop-desc">Conditions represent the latest available observations of the MCPAuthzConfig&#39;s state</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="status.conditions[].lastTransitionTime" data-path-key="|status|conditions[]|lastTransitionTime|" data-parent-path="status.conditions" data-name="lastTransitionTime" data-text="lastTransitionTime is the last time the condition transitioned from one status to another.
 This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable. format: date-time">
@@ -720,10 +530,10 @@ This field may not be empty.<div class="leaf-constraints">
   <div class="leaf-desc">ConfigHash is a hash of the current configuration for change detection
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="ObservedGeneration is the most recent generation observed for this MCPOIDCConfig. format: int64">
+<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="ObservedGeneration is the most recent generation observed for this MCPAuthzConfig. format: int64">
   <span class="prop-name">observedGeneration</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">ObservedGeneration is the most recent generation observed for this MCPOIDCConfig.<div class="leaf-constraints">
+  <div class="leaf-desc">ObservedGeneration is the most recent generation observed for this MCPAuthzConfig.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
@@ -734,7 +544,7 @@ This field may not be empty.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
-<details class="prop" data-prop-row data-path="status.referencingWorkloads" data-path-key="|status|referencingWorkloads|" data-parent-path="status" data-name="referencingWorkloads" data-text="ReferencingWorkloads is a list of workload resources that reference this MCPOIDCConfig.
+<details class="prop" data-prop-row data-path="status.referencingWorkloads" data-path-key="|status|referencingWorkloads|" data-parent-path="status" data-name="referencingWorkloads" data-text="ReferencingWorkloads is a list of workload resources that reference this MCPAuthzConfig.
 Each entry identifies the workload by kind and name. The map key is the
 (kind, name) pair so two workloads of different kinds that share a name
 (e.g., an MCPServer &#34;foo&#34; and a VirtualMCPServer &#34;foo&#34;) are distinct
@@ -743,7 +553,7 @@ entries rather than colliding under merge-patch semantics.">
   <span class="prop-name">referencingWorkloads</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">ReferencingWorkloads is a list of workload resources that reference this MCPOIDCConfig.
+<div class="prop-content"><div class="prop-desc">ReferencingWorkloads is a list of workload resources that reference this MCPAuthzConfig.
 Each entry identifies the workload by kind and name. The map key is the
 (kind, name) pair so two workloads of different kinds that share a name
 (e.g., an MCPServer &#34;foo&#34; and a VirtualMCPServer &#34;foo&#34;) are distinct
@@ -770,7 +580,7 @@ entries rather than colliding under merge-patch semantics.</div>
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.inline for an exact path">No matches. Try .spec.inline for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.config for an exact path">No matches. Try .spec.config for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

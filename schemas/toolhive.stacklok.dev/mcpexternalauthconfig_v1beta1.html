@@ -723,6 +723,32 @@ accepts client_id values that were registered via DCR.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.disableUpstreamTokenInjection" data-path-key="|spec|embeddedAuthServer|disableUpstreamTokenInjection|" data-parent-path="spec.embeddedAuthServer" data-name="disableUpstreamTokenInjection" data-text="DisableUpstreamTokenInjection prevents the embedded auth server from injecting
+upstream IdP tokens into requests forwarded to the backend MCP server.
+When true, the embedded auth server still handles OAuth flows for clients,
+but instead of swapping ToolHive JWTs for upstream tokens the proxy STRIPS
+the client&#39;s credential headers (Authorization, Cookie, Proxy-Authorization)
+after validating the JWT — the backend receives an unauthenticated request.
+Use headerForward to attach static credentials (e.g. an API key) if the
+backend needs them. Cannot be combined with token exchange or AWS STS,
+which would re-add credentials after the strip.
+This is useful when the backend MCP server does not require authentication
+(e.g., public documentation servers) but you still want client authentication.">
+  <span class="prop-name">disableUpstreamTokenInjection</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">DisableUpstreamTokenInjection prevents the embedded auth server from injecting
+upstream IdP tokens into requests forwarded to the backend MCP server.
+When true, the embedded auth server still handles OAuth flows for clients,
+but instead of swapping ToolHive JWTs for upstream tokens the proxy STRIPS
+the client&#39;s credential headers (Authorization, Cookie, Proxy-Authorization)
+after validating the JWT — the backend receives an unauthenticated request.
+Use headerForward to attach static credentials (e.g. an API key) if the
+backend needs them. Cannot be combined with token exchange or AWS STS,
+which would re-add credentials after the strip.
+This is useful when the backend MCP server does not require authentication
+(e.g., public documentation servers) but you still want client authentication.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.embeddedAuthServer.hmacSecretRefs" data-path-key="|spec|embeddedAuthServer|hmacSecretRefs|" data-parent-path="spec.embeddedAuthServer" data-name="hmacSecretRefs" data-text="HMACSecretRefs references Kubernetes Secrets containing symmetric secrets for signing
 authorization codes and refresh tokens (opaque tokens).
 Current secret must be at least 32 bytes and cryptographically random.
@@ -1868,20 +1894,223 @@ Only used when Type is &#34;headerInjection&#34;</div>
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.obo" data-path-key="|spec|obo|" data-parent-path="spec" data-name="obo" data-text="OBO configures On-Behalf-Of (OBO) authentication.
-Only used when Type is &#34;obo&#34;. The inner schema is intentionally empty in
-this revision; sub-fields land in a follow-up. Setting this field on an
-upstream-only build will cause the MCPExternalAuthConfig to transition to
-status.conditions[Valid] = False with Reason: EnterpriseRequired.">
+<details class="prop" data-prop-row data-path="spec.obo" data-path-key="|spec|obo|" data-parent-path="spec" data-name="obo" data-text="OBO configures On-Behalf-Of (OBO) authentication.
+Only used when Type is &#34;obo&#34;. Setting this field on an upstream-only build
+causes the MCPExternalAuthConfig to transition to
+status.conditions[Valid] = False with Reason: EnterpriseRequired, because
+no OBO handler is registered. See OBOConfig for the field-to-runtime
+contract mapping.">
+<summary>
   <span class="prop-name">obo</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">OBO configures On-Behalf-Of (OBO) authentication.
-Only used when Type is &#34;obo&#34;. The inner schema is intentionally empty in
-this revision; sub-fields land in a follow-up. Setting this field on an
-upstream-only build will cause the MCPExternalAuthConfig to transition to
-status.conditions[Valid] = False with Reason: EnterpriseRequired.
+</summary>
+<div class="prop-content"><div class="prop-desc">OBO configures On-Behalf-Of (OBO) authentication.
+Only used when Type is &#34;obo&#34;. Setting this field on an upstream-only build
+causes the MCPExternalAuthConfig to transition to
+status.conditions[Valid] = False with Reason: EnterpriseRequired, because
+no OBO handler is registered. See OBOConfig for the field-to-runtime
+contract mapping.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.obo.audience" data-path-key="|spec|obo|audience|" data-parent-path="spec.obo" data-name="audience" data-text="Audience is the backend target identifier requested in the exchanged
+token. Used as the exchange target when Scopes is empty. At least one of
+audience or scopes must be set; the operator enforces that at reconcile
+(it is not an admission-time rule — see the type doc).">
+  <span class="prop-name">audience</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Audience is the backend target identifier requested in the exchanged
+token. Used as the exchange target when Scopes is empty. At least one of
+audience or scopes must be set; the operator enforces that at reconcile
+(it is not an admission-time rule — see the type doc).
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.obo.authority" data-path-key="|spec|obo|authority|" data-parent-path="spec.obo" data-name="authority" data-text="Authority overrides the default Entra login host
+(https://login.microsoftonline.com) for sovereign or national clouds, e.g.
+https://login.microsoftonline.us (US Gov) or
+https://login.partner.microsoftonline.cn (China). When set, the operator
+builds the token endpoint by joining &lt;authority&gt;, &lt;tenantId&gt;, and the
+v2.0 token path. Must be an HTTPS URL with no userinfo, query, fragment,
+or trailing slash; a path IS permitted and is prefixed before the tenant
+segment, as some sovereign / B2C / CIAM endpoints require. The OBO exchange
+POSTs the client secret and the end-user assertion to this host, so it is a
+credential trust boundary: HTTPS is required and userinfo (user@host) is
+rejected to prevent host confusion (per RFC 3986 the real host follows the
+&#34;@&#34;, so https://login.microsoftonline.com@attacker.example targets
+attacker.example). This is intentionally stricter than the downstream
+exchanger&#39;s validateHTTPSURL, which also accepts http for loopback hosts
+and tolerates a trailing slash — rejecting those at admission is the safe
+direction. pattern: ^https://[^\s?#@]&#43;[^/\s?#@]$">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the default Entra login host
+(https://login.microsoftonline.com) for sovereign or national clouds, e.g.
+https://login.microsoftonline.us (US Gov) or
+https://login.partner.microsoftonline.cn (China). When set, the operator
+builds the token endpoint by joining &lt;authority&gt;, &lt;tenantId&gt;, and the
+v2.0 token path. Must be an HTTPS URL with no userinfo, query, fragment,
+or trailing slash; a path IS permitted and is prefixed before the tenant
+segment, as some sovereign / B2C / CIAM endpoints require. The OBO exchange
+POSTs the client secret and the end-user assertion to this host, so it is a
+credential trust boundary: HTTPS is required and userinfo (user@host) is
+rejected to prevent host confusion (per RFC 3986 the real host follows the
+&#34;@&#34;, so https://login.microsoftonline.com@attacker.example targets
+attacker.example). This is intentionally stricter than the downstream
+exchanger&#39;s validateHTTPSURL, which also accepts http for loopback hosts
+and tolerates a trailing slash — rejecting those at admission is the safe
+direction.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https://[^\s?#@]&#43;[^/\s?#@]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https://[^\s?#@]&#43;[^/\s?#@]$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.obo.cacheSkew" data-path-key="|spec|obo|cacheSkew|" data-parent-path="spec.obo" data-name="cacheSkew" data-text="CacheSkew overrides the OBO token cache&#39;s default expiry skew (the margin
+by which a cached token is treated as expired before its real expiry),
+e.g. &#34;30s&#34;. The operator converts it to the runtime contract&#39;s
+integer-seconds cacheSkewSeconds. Should not be negative, but the schema
+does not enforce that — metav1.Duration carries no numeric minimum — and
+upstream builds do not reject it. A negative value is rejected only by an
+enterprise build&#39;s OBO handler once that handler validates the converted
+parameters; it is not enforced at admission or in upstream-only builds.
+When omitted, the cache default applies.">
+  <span class="prop-name">cacheSkew</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CacheSkew overrides the OBO token cache&#39;s default expiry skew (the margin
+by which a cached token is treated as expired before its real expiry),
+e.g. &#34;30s&#34;. The operator converts it to the runtime contract&#39;s
+integer-seconds cacheSkewSeconds. Should not be negative, but the schema
+does not enforce that — metav1.Duration carries no numeric minimum — and
+upstream builds do not reject it. A negative value is rejected only by an
+enterprise build&#39;s OBO handler once that handler validates the converted
+parameters; it is not enforced at admission or in upstream-only builds.
+When omitted, the cache default applies.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.obo.clientId" data-path-key="|spec|obo|clientId|" data-parent-path="spec.obo" data-name="clientId" data-text="ClientID is the confidential client&#39;s application (client) ID registered
+in Entra. Emitted verbatim as the runtime contract&#39;s clientId.
+Optional at the CRD level so future client-authentication methods (e.g.
+certificate or workload-identity credentials, planned fast-follows) can be
+added without a breaking schema change. The operator enforces that clientId
+and clientSecretRef are both present for the v1 shared-secret flow.">
+  <span class="prop-name">clientId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ClientID is the confidential client&#39;s application (client) ID registered
+in Entra. Emitted verbatim as the runtime contract&#39;s clientId.
+Optional at the CRD level so future client-authentication methods (e.g.
+certificate or workload-identity credentials, planned fast-follows) can be
+added without a breaking schema change. The operator enforces that clientId
+and clientSecretRef are both present for the v1 shared-secret flow.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.obo.clientSecretRef" data-path-key="|spec|obo|clientSecretRef|" data-parent-path="spec.obo" data-name="clientSecretRef" data-text="ClientSecretRef references a Kubernetes Secret containing the confidential
+client&#39;s secret. v1 supports a shared client secret only. The operator
+injects the resolved value into the proxyrunner pod as an environment
+variable and emits only that variable&#39;s name in the runtime contract, as
+clientSecretEnvVar — the secret value never travels in the contract.
+Optional at the CRD level for the same forward-compatibility reason as
+clientId (a certificate/workload-identity flow needs no client secret);
+the operator enforces presence for the v1 shared-secret flow.">
+<summary>
+  <span class="prop-name">clientSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ClientSecretRef references a Kubernetes Secret containing the confidential
+client&#39;s secret. v1 supports a shared client secret only. The operator
+injects the resolved value into the proxyrunner pod as an environment
+variable and emits only that variable&#39;s name in the runtime contract, as
+clientSecretEnvVar — the secret value never travels in the contract.
+Optional at the CRD level for the same forward-compatibility reason as
+clientId (a certificate/workload-identity flow needs no client secret);
+the operator enforces presence for the v1 shared-secret flow.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.obo.clientSecretRef.key" data-path-key="|spec|obo|clientSecretRef|key|" data-parent-path="spec.obo.clientSecretRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.obo.clientSecretRef.name" data-path-key="|spec|obo|clientSecretRef|name|" data-parent-path="spec.obo.clientSecretRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.obo.scopes" data-path-key="|spec|obo|scopes|" data-parent-path="spec.obo" data-name="scopes" data-text="Scopes are the delegated scopes to request for the exchanged token, e.g.
+[&#34;api://&lt;backend&gt;/.default&#34;]. When non-empty they take precedence over
+Audience. At least one of audience or scopes must be set; the operator
+enforces that at reconcile. The MaxItems and per-item length caps are
+defensive bounds on an otherwise unbounded list. maxItems: 20">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Scopes are the delegated scopes to request for the exchanged token, e.g.
+[&#34;api://&lt;backend&gt;/.default&#34;]. When non-empty they take precedence over
+Audience. At least one of audience or scopes must be set; the operator
+enforces that at reconcile. The MaxItems and per-item length caps are
+defensive bounds on an otherwise unbounded list.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 20"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">20</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.obo.subjectTokenProviderName" data-path-key="|spec|obo|subjectTokenProviderName|" data-parent-path="spec.obo" data-name="subjectTokenProviderName" data-text="SubjectTokenProviderName selects the source of the OBO subject (assertion)
+token from the request&#39;s authenticated Identity:
+  - Omitted: use the inbound end-user token the client presented
+    (Identity.Token) — the deployment with no embedded auth server, where
+    the client holds an Entra token directly.
+  - Set: use the named upstream provider&#39;s token
+    (Identity.UpstreamTokens[&lt;name&gt;]) — the embedded-auth-server
+    deployment, where the inbound token is the proxy&#39;s own session token.
+    The value must match a configured upstream provider name.
+The subject is always sourced from the authenticated Identity, never from
+an inbound request header, so the upstream auth middleware must run first. pattern: ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$ minLength: 1 maxLength: 63">
+  <span class="prop-name">subjectTokenProviderName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubjectTokenProviderName selects the source of the OBO subject (assertion)
+token from the request&#39;s authenticated Identity:
+  - Omitted: use the inbound end-user token the client presented
+    (Identity.Token) — the deployment with no embedded auth server, where
+    the client holds an Entra token directly.
+  - Set: use the named upstream provider&#39;s token
+    (Identity.UpstreamTokens[&lt;name&gt;]) — the embedded-auth-server
+    deployment, where the inbound token is the proxy&#39;s own session token.
+    The value must match a configured upstream provider name.
+The subject is always sourced from the authenticated Identity, never from
+an inbound request header, so the upstream auth middleware must run first.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([a-z0-9-]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 63"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">63</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.obo.tenantId" data-path-key="|spec|obo|tenantId|" data-parent-path="spec.obo" data-name="tenantId" data-text="TenantID is the Microsoft Entra (Azure AD) directory (tenant) identifier.
+Optional at the CRD level (see the type doc); the operator enforces its
+presence, since an OBO confidential-client exchange must target a specific
+tenant. When set, it must be one of the two forms the Entra v2.0 token
+endpoint addresses: a directory GUID, or a verified domain name (e.g.
+contoso.onmicrosoft.com). Well-known aliases such as &#34;common&#34;,
+&#34;organizations&#34;, and &#34;consumers&#34; are NOT accepted. The operator
+interpolates it into the token endpoint
+(&lt;authority&gt;/&lt;tenantId&gt;/oauth2/v2.0/token), so the value is constrained to
+the GUID/domain shape (no path metacharacters); the pattern and 253-char
+cap mirror the enterprise exchanger&#39;s validateTenant, so any tenantId
+admitted here is one the runtime can consume. pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)&#43;[a-zA-Z]{2,})$ maxLength: 253">
+  <span class="prop-name">tenantId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TenantID is the Microsoft Entra (Azure AD) directory (tenant) identifier.
+Optional at the CRD level (see the type doc); the operator enforces its
+presence, since an OBO confidential-client exchange must target a specific
+tenant. When set, it must be one of the two forms the Entra v2.0 token
+endpoint addresses: a directory GUID, or a verified domain name (e.g.
+contoso.onmicrosoft.com). Well-known aliases such as &#34;common&#34;,
+&#34;organizations&#34;, and &#34;consumers&#34; are NOT accepted. The operator
+interpolates it into the token endpoint
+(&lt;authority&gt;/&lt;tenantId&gt;/oauth2/v2.0/token), so the value is constrained to
+the GUID/domain shape (no path metacharacters); the pattern and 253-char
+cap mirror the enterprise exchanger&#39;s validateTenant, so any tenantId
+admitted here is one the runtime can consume.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)&#43;[a-zA-Z]{2,})$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)&#43;[a-zA-Z]{2,})$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.tokenExchange" data-path-key="|spec|tokenExchange|" data-parent-path="spec" data-name="tokenExchange" data-text="TokenExchange configures RFC-8693 OAuth 2.0 Token Exchange
 Only used when Type is &#34;tokenExchange&#34;">
 <summary>
@@ -2128,13 +2357,19 @@ It corresponds to the MCPExternalAuthConfig&#39;s generation, which is updated o
   </div>
 </div>
 <details class="prop" data-prop-row data-path="status.referencingWorkloads" data-path-key="|status|referencingWorkloads|" data-parent-path="status" data-name="referencingWorkloads" data-text="ReferencingWorkloads is a list of workload resources that reference this MCPExternalAuthConfig.
-Each entry identifies the workload by kind and name.">
+Each entry identifies the workload by kind and name. The map key is the
+(kind, name) pair so two workloads of different kinds that share a name
+(e.g., an MCPServer &#34;foo&#34; and a VirtualMCPServer &#34;foo&#34;) are distinct
+entries rather than colliding under merge-patch semantics.">
 <summary>
   <span class="prop-name">referencingWorkloads</span>
   <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">ReferencingWorkloads is a list of workload resources that reference this MCPExternalAuthConfig.
-Each entry identifies the workload by kind and name.</div>
+Each entry identifies the workload by kind and name. The map key is the
+(kind, name) pair so two workloads of different kinds that share a name
+(e.g., an MCPServer &#34;foo&#34; and a VirtualMCPServer &#34;foo&#34;) are distinct
+entries rather than colliding under merge-patch semantics.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="status.referencingWorkloads[].kind" data-path-key="|status|referencingWorkloads[]|kind|" data-parent-path="status.referencingWorkloads" data-name="kind" data-text="Kind is the type of workload resource enum: MCPServer, VirtualMCPServer, MCPRemoteProxy">
   <span class="prop-name">kind</span>
