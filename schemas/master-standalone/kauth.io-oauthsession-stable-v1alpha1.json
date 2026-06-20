@@ -69,6 +69,16 @@
             "null"
           ]
         },
+        "groups": {
+          "description": "User's group memberships from OIDC at login time",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "phase": {
           "description": "Lifecycle phase of the session (Pending, Active, Revoked, Expired)",
           "enum": [
@@ -99,6 +109,13 @@
         },
         "username": {
           "description": "Authenticated user's preferred username",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "webhookToken": {
+          "description": "Encrypted webhook credential for Kubernetes exec plugin",
           "type": [
             "string",
             "null"
