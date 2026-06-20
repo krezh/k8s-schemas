@@ -435,11 +435,19 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content"><div class="prop-desc">Hardware specifies hardware acceleration preferences</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.hardware.accelerator" data-path-key="|spec|hardware|accelerator|" data-parent-path="spec.hardware" data-name="accelerator" data-text="Accelerator specifies the type of hardware acceleration enum: cpu, metal, cuda, rocm, intel">
+<div class="prop-leaf" data-prop-row data-path="spec.hardware.accelerator" data-path-key="|spec|hardware|accelerator|" data-parent-path="spec.hardware" data-name="accelerator" data-text="Accelerator specifies the type of hardware acceleration.
+&#34;vulkan&#34; covers AMD and Intel GPUs using the Vulkan runtime
+(gpu.vendor: amd/intel &#43; gpu.runtime: vulkan). When set to
+&#34;vulkan&#34; the readiness-check path uses devic.es/dri-render as
+the GPU resource name instead of amd.com/gpu or nvidia.com/gpu. enum: cpu, metal, cuda, rocm, intel, vulkan">
   <span class="prop-name">accelerator</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Accelerator specifies the type of hardware acceleration<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: cpu, metal, cuda, rocm, intel"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">cpu, metal, cuda, rocm, intel</code></div></div>
+  <div class="leaf-desc">Accelerator specifies the type of hardware acceleration.
+&#34;vulkan&#34; covers AMD and Intel GPUs using the Vulkan runtime
+(gpu.vendor: amd/intel &#43; gpu.runtime: vulkan). When set to
+&#34;vulkan&#34; the readiness-check path uses devic.es/dri-render as
+the GPU resource name instead of amd.com/gpu or nvidia.com/gpu.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: cpu, metal, cuda, rocm, intel, vulkan"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">cpu, metal, cuda, rocm, intel, vulkan</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.hardware.gpu" data-path-key="|spec|hardware|gpu|" data-parent-path="spec.hardware" data-name="gpu" data-text="GPU specifies GPU device requirements">
@@ -484,6 +492,99 @@ Format: number of layers to offload to GPU (e.g., 32 for full offload on 7B mode
   <div class="leaf-desc">Memory specifies minimum GPU memory required per GPU (e.g., &#34;8Gi&#34;, &#34;16Gi&#34;)
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.hardware.gpu.resourceClaims" data-path-key="|spec|hardware|gpu|resourceClaims|" data-parent-path="spec.hardware.gpu" data-name="resourceClaims" data-text="ResourceClaims defines DRA (Dynamic Resource Allocation) claims for GPU devices.
+Uses resource.k8s.io/v1 PodResourceClaim format. Each claim must have exactly
+one of resourceClaimName or resourceClaimTemplateName set.
+Mutually exclusive with resourceName. maxItems: 16">
+<summary>
+  <span class="prop-name">resourceClaims</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ResourceClaims defines DRA (Dynamic Resource Allocation) claims for GPU devices.
+Uses resource.k8s.io/v1 PodResourceClaim format. Each claim must have exactly
+one of resourceClaimName or resourceClaimTemplateName set.
+Mutually exclusive with resourceName.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.hardware.gpu.resourceClaims[].name" data-path-key="|spec|hardware|gpu|resourceClaims[]|name|" data-parent-path="spec.hardware.gpu.resourceClaims" data-name="name" data-text="Name uniquely identifies this resource claim inside the pod.
+This must be a DNS_LABEL.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name uniquely identifies this resource claim inside the pod.
+This must be a DNS_LABEL.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.hardware.gpu.resourceClaims[].resourceClaimName" data-path-key="|spec|hardware|gpu|resourceClaims[]|resourceClaimName|" data-parent-path="spec.hardware.gpu.resourceClaims" data-name="resourceClaimName" data-text="ResourceClaimName is the name of a ResourceClaim object in the same
+namespace as this pod.
+
+Exactly one of ResourceClaimName and ResourceClaimTemplateName must
+be set.">
+  <span class="prop-name">resourceClaimName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ResourceClaimName is the name of a ResourceClaim object in the same
+namespace as this pod.
+
+Exactly one of ResourceClaimName and ResourceClaimTemplateName must
+be set.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.hardware.gpu.resourceClaims[].resourceClaimTemplateName" data-path-key="|spec|hardware|gpu|resourceClaims[]|resourceClaimTemplateName|" data-parent-path="spec.hardware.gpu.resourceClaims" data-name="resourceClaimTemplateName" data-text="ResourceClaimTemplateName is the name of a ResourceClaimTemplate
+object in the same namespace as this pod.
+
+The template will be used to create a new ResourceClaim, which will
+be bound to this pod. When this pod is deleted, the ResourceClaim
+will also be deleted. The pod name and resource name, along with a
+generated component, will be used to form a unique name for the
+ResourceClaim, which will be recorded in pod.status.resourceClaimStatuses.
+
+When the DRAWorkloadResourceClaims feature gate is enabled and the pod
+belongs to a PodGroup that defines a PodGroupResourceClaim with the same
+Name and ResourceClaimTemplateName, this PodResourceClaim resolves to the
+ResourceClaim generated for the PodGroup. All pods in the group that
+define an equivalent PodResourceClaim matching the
+PodGroupResourceClaim&#39;s Name and ResourceClaimTemplateName share the same
+generated ResourceClaim. ResourceClaims generated for a PodGroup are
+owned by the PodGroup and their lifecycles are tied to the PodGroup
+instead of any individual pod.
+
+This field is immutable and no changes will be made to the
+corresponding ResourceClaim by the control plane after creating the
+ResourceClaim.
+
+Exactly one of ResourceClaimName and ResourceClaimTemplateName must
+be set.">
+  <span class="prop-name">resourceClaimTemplateName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ResourceClaimTemplateName is the name of a ResourceClaimTemplate
+object in the same namespace as this pod.
+
+The template will be used to create a new ResourceClaim, which will
+be bound to this pod. When this pod is deleted, the ResourceClaim
+will also be deleted. The pod name and resource name, along with a
+generated component, will be used to form a unique name for the
+ResourceClaim, which will be recorded in pod.status.resourceClaimStatuses.
+
+When the DRAWorkloadResourceClaims feature gate is enabled and the pod
+belongs to a PodGroup that defines a PodGroupResourceClaim with the same
+Name and ResourceClaimTemplateName, this PodResourceClaim resolves to the
+ResourceClaim generated for the PodGroup. All pods in the group that
+define an equivalent PodResourceClaim matching the
+PodGroupResourceClaim&#39;s Name and ResourceClaimTemplateName share the same
+generated ResourceClaim. ResourceClaims generated for a PodGroup are
+owned by the PodGroup and their lifecycles are tied to the PodGroup
+instead of any individual pod.
+
+This field is immutable and no changes will be made to the
+corresponding ResourceClaim by the control plane after creating the
+ResourceClaim.
+
+Exactly one of ResourceClaimName and ResourceClaimTemplateName must
+be set.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.hardware.gpu.resourceName" data-path-key="|spec|hardware|gpu|resourceName|" data-parent-path="spec.hardware.gpu" data-name="resourceName" data-text="ResourceName overrides the extended resource the operator requests for
 this Model&#39;s pods. Defaults are derived from Vendor:
   nvidia -&gt; nvidia.com/gpu

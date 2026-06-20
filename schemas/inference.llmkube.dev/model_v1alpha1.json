@@ -46,13 +46,14 @@
           "properties": {
             "accelerator": {
               "default": "cpu",
-              "description": "Accelerator specifies the type of hardware acceleration",
+              "description": "Accelerator specifies the type of hardware acceleration.\n\"vulkan\" covers AMD and Intel GPUs using the Vulkan runtime\n(gpu.vendor: amd/intel + gpu.runtime: vulkan). When set to\n\"vulkan\" the readiness-check path uses devic.es/dri-render as\nthe GPU resource name instead of amd.com/gpu or nvidia.com/gpu.",
               "enum": [
                 "cpu",
                 "metal",
                 "cuda",
                 "rocm",
-                "intel"
+                "intel",
+                "vulkan"
               ],
               "type": [
                 "string",
@@ -94,6 +95,48 @@
                   "type": [
                     "string",
                     "null"
+                  ]
+                },
+                "resourceClaims": {
+                  "description": "ResourceClaims defines DRA (Dynamic Resource Allocation) claims for GPU devices.\nUses resource.k8s.io/v1 PodResourceClaim format. Each claim must have exactly\none of resourceClaimName or resourceClaimTemplateName set.\nMutually exclusive with resourceName.",
+                  "items": {
+                    "additionalProperties": false,
+                    "description": "PodResourceClaim references exactly one ResourceClaim, either directly\nor by naming a ResourceClaimTemplate which is then turned into a ResourceClaim\nfor the pod.\n\nIt adds a name to it that uniquely identifies the ResourceClaim inside the Pod.\nContainers that need access to the ResourceClaim reference it with this name.\n\nWhen the DRAWorkloadResourceClaims feature gate is enabled and this Pod\nbelongs to a PodGroup, a PodResourceClaim is matched to a\nPodGroupResourceClaim if all of their fields are equal (Name,\nResourceClaimName, and ResourceClaimTemplateName). A matched claim references\na single ResourceClaim shared across all Pods in the PodGroup, reserved for\nthe PodGroup in ResourceClaimStatus.ReservedFor rather than for individual\nPods.",
+                    "properties": {
+                      "name": {
+                        "description": "Name uniquely identifies this resource claim inside the pod.\nThis must be a DNS_LABEL.",
+                        "type": "string"
+                      },
+                      "resourceClaimName": {
+                        "description": "ResourceClaimName is the name of a ResourceClaim object in the same\nnamespace as this pod.\n\nExactly one of ResourceClaimName and ResourceClaimTemplateName must\nbe set.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "resourceClaimTemplateName": {
+                        "description": "ResourceClaimTemplateName is the name of a ResourceClaimTemplate\nobject in the same namespace as this pod.\n\nThe template will be used to create a new ResourceClaim, which will\nbe bound to this pod. When this pod is deleted, the ResourceClaim\nwill also be deleted. The pod name and resource name, along with a\ngenerated component, will be used to form a unique name for the\nResourceClaim, which will be recorded in pod.status.resourceClaimStatuses.\n\nWhen the DRAWorkloadResourceClaims feature gate is enabled and the pod\nbelongs to a PodGroup that defines a PodGroupResourceClaim with the same\nName and ResourceClaimTemplateName, this PodResourceClaim resolves to the\nResourceClaim generated for the PodGroup. All pods in the group that\ndefine an equivalent PodResourceClaim matching the\nPodGroupResourceClaim's Name and ResourceClaimTemplateName share the same\ngenerated ResourceClaim. ResourceClaims generated for a PodGroup are\nowned by the PodGroup and their lifecycles are tied to the PodGroup\ninstead of any individual pod.\n\nThis field is immutable and no changes will be made to the\ncorresponding ResourceClaim by the control plane after creating the\nResourceClaim.\n\nExactly one of ResourceClaimName and ResourceClaimTemplateName must\nbe set.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
+                  "maxItems": 16,
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "each claim must have exactly one of resourceClaimName or resourceClaimTemplateName",
+                      "rule": "self.size() == 0 || self.all(c, (has(c.resourceClaimName) \u0026\u0026 !has(c.resourceClaimTemplateName)) || (!has(c.resourceClaimName) \u0026\u0026 has(c.resourceClaimTemplateName)))"
+                    }
                   ]
                 },
                 "resourceName": {
@@ -175,6 +218,12 @@
               "type": [
                 "object",
                 "null"
+              ],
+              "x-kubernetes-validations": [
+                {
+                  "message": "resourceClaims and resourceName are mutually exclusive: use one or the other for GPU scheduling",
+                  "rule": "!(has(self.resourceName) \u0026\u0026 has(self.resourceClaims) \u0026\u0026 self.resourceClaims.size() \u003e 0)"
+                }
               ]
             },
             "memoryBudget": {

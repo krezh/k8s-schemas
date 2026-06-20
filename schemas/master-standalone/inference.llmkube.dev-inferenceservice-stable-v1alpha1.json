@@ -251,6 +251,16 @@
                 "null"
               ]
             },
+            "nodePort": {
+              "description": "NodePort is the specific NodePort to pin when endpoint.type is NodePort.\nIf set, the Service will use this exact port instead of auto-assigning\nfrom the 30000-32767 range. This provides a stable external endpoint\nacross redeployments.",
+              "format": "int32",
+              "maximum": 32767,
+              "minimum": 30000,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
             "path": {
               "default": "/v1/chat/completions",
               "description": "Path is the HTTP path for the inference endpoint",
