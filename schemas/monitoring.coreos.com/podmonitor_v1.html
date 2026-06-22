@@ -434,7 +434,11 @@ It requires Prometheus &gt;= v2.35.0.</div>
 targets.
 
 The Prometheus service account must have the `list` and `watch`
-permissions on the `Nodes` objects.">
+permissions on the `Nodes` objects.
+
+Node metadata labels are not automatically added to scraped metrics. They are
+exposed as `__meta_kubernetes_node_*` labels and can be copied to timeseries
+with relabeling configuration.">
   <span class="prop-name">node</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">node when set to true, Prometheus attaches node metadata to the discovered
@@ -442,6 +446,10 @@ targets.
 
 The Prometheus service account must have the `list` and `watch`
 permissions on the `Nodes` objects.
+
+Node metadata labels are not automatically added to scraped metrics. They are
+exposed as `__meta_kubernetes_node_*` labels and can be copied to timeseries
+with relabeling configuration.
   </div>
 </div>
   </div>
@@ -1416,11 +1424,11 @@ It requires Prometheus &gt;= v2.35.0 or Thanos &gt;= v0.28.0.<div class="leaf-co
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.podMetricsEndpoints[].oauth2.tokenUrl" data-path-key="|spec|podMetricsEndpoints[]|oauth2|tokenUrl|" data-parent-path="spec.podMetricsEndpoints[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. minLength: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.podMetricsEndpoints[].oauth2.tokenUrl" data-path-key="|spec|podMetricsEndpoints[]|oauth2|tokenUrl|" data-parent-path="spec.podMetricsEndpoints[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. pattern: ^(http|https)://.&#43;$">
   <span class="prop-name">tokenUrl</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">tokenUrl defines the URL to fetch the token from.<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+<div class="schema-constraint" title="pattern: ^(http|https)://.&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(http|https)://.&#43;$</code></div></div>
   </div>
 </div>
   </div>

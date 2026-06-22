@@ -3389,14 +3389,12 @@ Note that this field cannot be set when spec.os.name is windows.
 <div class="prop-leaf" data-prop-row data-path="spec.containers[].securityContext.procMount" data-path-key="|spec|containers[]|securityContext|procMount|" data-parent-path="spec.containers[].securityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">procMount</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.
   </div>
 </div>
@@ -6216,14 +6214,12 @@ Note that this field cannot be set when spec.os.name is windows.
 <div class="prop-leaf" data-prop-row data-path="spec.initContainers[].securityContext.procMount" data-path-key="|spec|initContainers[]|securityContext|procMount|" data-parent-path="spec.initContainers[].securityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">procMount</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.
   </div>
 </div>
@@ -8143,11 +8139,11 @@ It requires Prometheus &gt;= v2.35.0 or Thanos &gt;= v0.28.0.<div class="leaf-co
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].oauth2.tokenUrl" data-path-key="|spec|remoteWrite[]|oauth2|tokenUrl|" data-parent-path="spec.remoteWrite[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. minLength: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].oauth2.tokenUrl" data-path-key="|spec|remoteWrite[]|oauth2|tokenUrl|" data-parent-path="spec.remoteWrite[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. pattern: ^(http|https)://.&#43;$">
   <span class="prop-name">tokenUrl</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">tokenUrl defines the URL to fetch the token from.<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+<div class="schema-constraint" title="pattern: ^(http|https)://.&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(http|https)://.&#43;$</code></div></div>
   </div>
 </div>
   </div>
@@ -12588,7 +12584,7 @@ The volume gets re-resolved if the pod gets deleted and recreated, which means t
 A failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.
 The types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.
 The OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.
-The volume will be mounted read-only (ro) and non-executable files (noexec).
+The volume will be mounted read-only (ro).
 Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.
 The field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.">
 <summary>
@@ -12606,7 +12602,7 @@ The volume gets re-resolved if the pod gets deleted and recreated, which means t
 A failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.
 The types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.
 The OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.
-The volume will be mounted read-only (ro) and non-executable files (noexec).
+The volume will be mounted read-only (ro).
 Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.
 The field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.</div>
   <div class="prop-children">
@@ -12868,16 +12864,14 @@ Ex. &#34;ext4&#34;, &#34;xfs&#34;, &#34;ntfs&#34;. Implicitly inferred to be &#3
 </details>
 <details class="prop" data-prop-row data-path="spec.volumes[].portworxVolume" data-path-key="|spec|volumes[]|portworxVolume|" data-parent-path="spec.volumes" data-name="portworxVolume" data-text="portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
 Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type
-are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate
-is on.">
+are redirected to the pxd.portworx.com CSI driver.">
 <summary>
   <span class="prop-name">portworxVolume</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
 Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type
-are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate
-is on.</div>
+are redirected to the pxd.portworx.com CSI driver.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.volumes[].portworxVolume.fsType" data-path-key="|spec|volumes[]|portworxVolume|fsType|" data-parent-path="spec.volumes[].portworxVolume" data-name="fsType" data-text="fSType represents the filesystem type to mount
 Must be a filesystem type supported by the host operating system.

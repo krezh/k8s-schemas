@@ -436,7 +436,11 @@ It requires Prometheus &gt;= v2.37.0.</div>
 targets.
 
 The Prometheus service account must have the `list` and `watch`
-permissions on the `Nodes` objects.">
+permissions on the `Nodes` objects.
+
+Node metadata labels are not automatically added to scraped metrics. They are
+exposed as `__meta_kubernetes_node_*` labels and can be copied to timeseries
+with relabeling configuration.">
   <span class="prop-name">node</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">node when set to true, Prometheus attaches node metadata to the discovered
@@ -444,6 +448,10 @@ targets.
 
 The Prometheus service account must have the `list` and `watch`
 permissions on the `Nodes` objects.
+
+Node metadata labels are not automatically added to scraped metrics. They are
+exposed as `__meta_kubernetes_node_*` labels and can be copied to timeseries
+with relabeling configuration.
   </div>
 </div>
   </div>
@@ -1303,11 +1311,11 @@ It requires Prometheus &gt;= v2.35.0 or Thanos &gt;= v0.28.0.<div class="leaf-co
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].oauth2.tokenUrl" data-path-key="|spec|endpoints[]|oauth2|tokenUrl|" data-parent-path="spec.endpoints[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. minLength: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].oauth2.tokenUrl" data-path-key="|spec|endpoints[]|oauth2|tokenUrl|" data-parent-path="spec.endpoints[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. pattern: ^(http|https)://.&#43;$">
   <span class="prop-name">tokenUrl</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">tokenUrl defines the URL to fetch the token from.<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+<div class="schema-constraint" title="pattern: ^(http|https)://.&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(http|https)://.&#43;$</code></div></div>
   </div>
 </div>
   </div>
@@ -1329,12 +1337,14 @@ If empty, Prometheus uses the default value (e.g. `/metrics`).">
 If empty, Prometheus uses the default value (e.g. `/metrics`).
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].port" data-path-key="|spec|endpoints[]|port|" data-parent-path="spec.endpoints" data-name="port" data-text="port defines the name of the Service port which this endpoint refers to.
+<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].port" data-path-key="|spec|endpoints[]|port|" data-parent-path="spec.endpoints" data-name="port" data-text="port defines the name of the Service port which this endpoint refers to
+(e.g. `.spec.ports[].name`).
 
 It takes precedence over `targetPort`.">
   <span class="prop-name">port</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">port defines the name of the Service port which this endpoint refers to.
+  <div class="leaf-desc">port defines the name of the Service port which this endpoint refers to
+(e.g. `.spec.ports[].name`).
 
 It takes precedence over `targetPort`.
   </div>
@@ -1495,12 +1505,16 @@ The value cannot be greater than the scrape interval otherwise the operator will
 <div class="schema-constraint" title="pattern: ^(0|(([0-9]&#43;)y)?(([0-9]&#43;)w)?(([0-9]&#43;)d)?(([0-9]&#43;)h)?(([0-9]&#43;)m)?(([0-9]&#43;)s)?(([0-9]&#43;)ms)?)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(0|(([0-9]&#43;)y)?(([0-9]&#43;)w)?(([0-9]&#43;)d)?(([0-9]&#43;)h)?(([0-9]&#43;)m)?(([0-9]&#43;)s)?(([0-9]&#43;)ms)?)$</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].targetPort" data-path-key="|spec|endpoints[]|targetPort|" data-parent-path="spec.endpoints" data-name="targetPort" data-text="targetPort defines the name or number of the target port of the `Pod` object behind the
-Service. The port must be specified with the container&#39;s port property.">
+<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].targetPort" data-path-key="|spec|endpoints[]|targetPort|" data-parent-path="spec.endpoints" data-name="targetPort" data-text="targetPort defines the name or number of a container port on Pods selected
+by the Service.
+If a name, it matches against `.spec.containers[].ports[].name` of the Pods.
+If a number, it matches against `.spec.containers[].ports[].containerPort` of the Pods.">
   <span class="prop-name">targetPort</span>
   <span class="type-badge">string | integer</span>
-  <div class="leaf-desc">targetPort defines the name or number of the target port of the `Pod` object behind the
-Service. The port must be specified with the container&#39;s port property.
+  <div class="leaf-desc">targetPort defines the name or number of a container port on Pods selected
+by the Service.
+If a name, it matches against `.spec.containers[].ports[].name` of the Pods.
+If a number, it matches against `.spec.containers[].ports[].containerPort` of the Pods.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.endpoints[].tlsConfig" data-path-key="|spec|endpoints[]|tlsConfig|" data-parent-path="spec.endpoints" data-name="tlsConfig" data-text="tlsConfig defines TLS configuration used by the client.">

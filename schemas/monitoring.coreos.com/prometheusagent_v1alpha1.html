@@ -3889,14 +3889,12 @@ Note that this field cannot be set when spec.os.name is windows.
 <div class="prop-leaf" data-prop-row data-path="spec.containers[].securityContext.procMount" data-path-key="|spec|containers[]|securityContext|procMount|" data-parent-path="spec.containers[].securityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">procMount</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.
   </div>
 </div>
@@ -6754,14 +6752,12 @@ Note that this field cannot be set when spec.os.name is windows.
 <div class="prop-leaf" data-prop-row data-path="spec.initContainers[].securityContext.procMount" data-path-key="|spec|initContainers[]|securityContext|procMount|" data-parent-path="spec.initContainers[].securityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">procMount</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.
   </div>
 </div>
@@ -7613,6 +7609,42 @@ It requires Prometheus &gt;= v3.1.0.">
 resource attributes to the `target_info` metric, on top of converting them into the `instance` and `job` labels.
 
 It requires Prometheus &gt;= v3.1.0.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.otlp.labelNamePreserveMultipleUnderscores" data-path-key="|spec|otlp|labelNamePreserveMultipleUnderscores|" data-parent-path="spec.otlp" data-name="labelNamePreserveMultipleUnderscores" data-text="labelNamePreserveMultipleUnderscores enables preserving of multiple consecutive underscores in label names when translation_strategy uses
+underscore escaping.
+When true (default), multiple consecutive underscores are preserved during label name sanitization.
+
+Notice: This one has no impact if `nameEscapingScheme` is `AllowUTF8`.
+
+It requires Prometheus &gt;= v3.8.0.">
+  <span class="prop-name">labelNamePreserveMultipleUnderscores</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">labelNamePreserveMultipleUnderscores enables preserving of multiple consecutive underscores in label names when translation_strategy uses
+underscore escaping.
+When true (default), multiple consecutive underscores are preserved during label name sanitization.
+
+Notice: This one has no impact if `nameEscapingScheme` is `AllowUTF8`.
+
+It requires Prometheus &gt;= v3.8.0.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.otlp.labelNameUnderscoreSanitization" data-path-key="|spec|otlp|labelNameUnderscoreSanitization|" data-parent-path="spec.otlp" data-name="labelNameUnderscoreSanitization" data-text="labelNameUnderscoreSanitization controls whether to enable prepending of &#39;key_&#39; to labels starting with &#39;_&#39;.
+Reserved labels starting with &#39;__&#39; are not modified.
+This is only relevant when translation_strategy uses underscore escaping (e.g., &#34;UnderscoreEscapingWithSuffixes&#34; or &#34;UnderscoreEscapingWithoutSuffixes&#34;).
+
+Notice: This one has no impact if `nameEscapingScheme` is `AllowUTF8`.
+
+It requires Prometheus &gt;= v3.8.0.">
+  <span class="prop-name">labelNameUnderscoreSanitization</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">labelNameUnderscoreSanitization controls whether to enable prepending of &#39;key_&#39; to labels starting with &#39;_&#39;.
+Reserved labels starting with &#39;__&#39; are not modified.
+This is only relevant when translation_strategy uses underscore escaping (e.g., &#34;UnderscoreEscapingWithSuffixes&#34; or &#34;UnderscoreEscapingWithoutSuffixes&#34;).
+
+Notice: This one has no impact if `nameEscapingScheme` is `AllowUTF8`.
+
+It requires Prometheus &gt;= v3.8.0.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.otlp.promoteAllResourceAttributes" data-path-key="|spec|otlp|promoteAllResourceAttributes|" data-parent-path="spec.otlp" data-name="promoteAllResourceAttributes" data-text="promoteAllResourceAttributes promotes all resource attributes to metric labels except the ones defined in `ignoreResourceAttributes`.
@@ -9078,11 +9110,11 @@ It requires Prometheus &gt;= v2.35.0 or Thanos &gt;= v0.28.0.<div class="leaf-co
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].oauth2.tokenUrl" data-path-key="|spec|remoteWrite[]|oauth2|tokenUrl|" data-parent-path="spec.remoteWrite[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. minLength: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].oauth2.tokenUrl" data-path-key="|spec|remoteWrite[]|oauth2|tokenUrl|" data-parent-path="spec.remoteWrite[].oauth2" data-name="tokenUrl" data-text="tokenUrl defines the URL to fetch the token from. pattern: ^(http|https)://.&#43;$">
   <span class="prop-name">tokenUrl</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">tokenUrl defines the URL to fetch the token from.<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+<div class="schema-constraint" title="pattern: ^(http|https)://.&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(http|https)://.&#43;$</code></div></div>
   </div>
 </div>
   </div>
@@ -9964,7 +9996,11 @@ precedence over the scrape class configuration.</div>
 targets.
 
 The Prometheus service account must have the `list` and `watch`
-permissions on the `Nodes` objects.">
+permissions on the `Nodes` objects.
+
+Node metadata labels are not automatically added to scraped metrics. They are
+exposed as `__meta_kubernetes_node_*` labels and can be copied to timeseries
+with relabeling configuration.">
   <span class="prop-name">node</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">node when set to true, Prometheus attaches node metadata to the discovered
@@ -9972,6 +10008,10 @@ targets.
 
 The Prometheus service account must have the `list` and `watch`
 permissions on the `Nodes` objects.
+
+Node metadata labels are not automatically added to scraped metrics. They are
+exposed as `__meta_kubernetes_node_*` labels and can be copied to timeseries
+with relabeling configuration.
   </div>
 </div>
   </div>
@@ -13301,6 +13341,37 @@ It requires Prometheus &gt;= v2.39.0 or PrometheusAgent &gt;= v2.54.0.<div class
 <div class="schema-constraint" title="pattern: ^(0|(([0-9]&#43;)y)?(([0-9]&#43;)w)?(([0-9]&#43;)d)?(([0-9]&#43;)h)?(([0-9]&#43;)m)?(([0-9]&#43;)s)?(([0-9]&#43;)ms)?)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(0|(([0-9]&#43;)y)?(([0-9]&#43;)w)?(([0-9]&#43;)d)?(([0-9]&#43;)h)?(([0-9]&#43;)m)?(([0-9]&#43;)s)?(([0-9]&#43;)ms)?)$</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.tsdb.staleSeriesCompactionThreshold" data-path-key="|spec|tsdb|staleSeriesCompactionThreshold|" data-parent-path="spec.tsdb" data-name="staleSeriesCompactionThreshold" data-text="staleSeriesCompactionThreshold configures the trigger point for compacting
+stale series from memory into persistent blocks and removing those stale
+series from memory.
+
+The threshold is a number between 0.0 and 1.0. It represents the ratio of
+stale series in memory to the total series in memory. The stale series
+compaction is triggered when this ratio crosses the configured threshold.
+It may not trigger the stale series compaction if the usual head compaction
+is about to happen soon.
+
+If set to 0, stale series compaction is disabled.
+
+It requires Prometheus &gt;= v3.10.0. string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$">
+  <span class="prop-name">staleSeriesCompactionThreshold</span>
+  <span class="type-badge">string | integer</span>
+  <div class="leaf-desc">staleSeriesCompactionThreshold configures the trigger point for compacting
+stale series from memory into persistent blocks and removing those stale
+series from memory.
+
+The threshold is a number between 0.0 and 1.0. It represents the ratio of
+stale series in memory to the total series in memory. The stale series
+compaction is triggered when this ratio crosses the configured threshold.
+It may not trigger the stale series compaction if the usual head compaction
+is about to happen soon.
+
+If set to 0, stale series compaction is disabled.
+
+It requires Prometheus &gt;= v3.10.0.<div class="leaf-constraints">
+<div class="schema-constraint" title="string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$"><span class="schema-constraint-label">string pattern:</span> <code class="schema-constraint-value">^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -14890,7 +14961,7 @@ The volume gets re-resolved if the pod gets deleted and recreated, which means t
 A failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.
 The types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.
 The OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.
-The volume will be mounted read-only (ro) and non-executable files (noexec).
+The volume will be mounted read-only (ro).
 Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.
 The field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.">
 <summary>
@@ -14908,7 +14979,7 @@ The volume gets re-resolved if the pod gets deleted and recreated, which means t
 A failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.
 The types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.
 The OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.
-The volume will be mounted read-only (ro) and non-executable files (noexec).
+The volume will be mounted read-only (ro).
 Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.
 The field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.</div>
   <div class="prop-children">
@@ -15170,16 +15241,14 @@ Ex. &#34;ext4&#34;, &#34;xfs&#34;, &#34;ntfs&#34;. Implicitly inferred to be &#3
 </details>
 <details class="prop" data-prop-row data-path="spec.volumes[].portworxVolume" data-path-key="|spec|volumes[]|portworxVolume|" data-parent-path="spec.volumes" data-name="portworxVolume" data-text="portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
 Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type
-are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate
-is on.">
+are redirected to the pxd.portworx.com CSI driver.">
 <summary>
   <span class="prop-name">portworxVolume</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
 Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type
-are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate
-is on.</div>
+are redirected to the pxd.portworx.com CSI driver.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.volumes[].portworxVolume.fsType" data-path-key="|spec|volumes[]|portworxVolume|fsType|" data-parent-path="spec.volumes[].portworxVolume" data-name="fsType" data-text="fSType represents the filesystem type to mount
 Must be a filesystem type supported by the host operating system.
