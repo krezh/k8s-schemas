@@ -140,7 +140,7 @@
                   ]
                 },
                 "resourceName": {
-                  "description": "ResourceName overrides the extended resource the operator requests for\nthis Model's pods. Defaults are derived from Vendor:\n  nvidia -\u003e nvidia.com/gpu\n  amd    -\u003e amd.com/gpu\n  intel  -\u003e gpu.intel.com/i915\nSet this for non-default device plugins (e.g. squat/generic-device-plugin\nadvertising `squat.ai/dri-render`, NVIDIA MIG slices, or DRA-backed\nresources). When set, this value also drives the GPU toleration unless\nTolerationKey is provided explicitly.",
+                  "description": "ResourceName overrides the extended resource the operator requests for\nthis Model's pods. Defaults are derived from Vendor:\n  nvidia -\u003e nvidia.com/gpu\n  amd    -\u003e amd.com/gpu\n  intel  -\u003e gpu.intel.com/i915\nSet this for non-default device plugins (e.g. squat/generic-device-plugin\nadvertising `squat.ai/dri-render`, NVIDIA MIG slices). When set, this\nvalue also drives the GPU toleration unless TolerationKey is provided\nexplicitly.",
                   "pattern": "^[a-z0-9.\\-]+/[a-z0-9._\\-]+$",
                   "type": [
                     "string",

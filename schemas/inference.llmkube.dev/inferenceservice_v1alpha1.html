@@ -604,6 +604,56 @@ user&#39;s responsibility to size via spec.resources.memory or hostMemory.<div c
 <div class="schema-constraint" title="maximum: 2.097152e&#43;06"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">2.097152e&#43;06</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.disruption" data-path-key="|spec|disruption|" data-parent-path="spec" data-name="disruption" data-text="Disruption controls how the operator manages node-disruption annotations
+on inference pods during the vulnerable startup window (model download &#43;
+load). When ProtectStartup is true (the default), the operator sets
+karpenter.sh/do-not-disrupt: &#34;true&#34; on the pod template while the
+InferenceService is not yet Ready, then removes it once the service
+reaches the Ready phase. Set ProtectAlways to true to keep the annotation
+permanently (equivalent to setting it via podAnnotations). User-provided
+podAnnotations always win on collision.">
+<summary>
+  <span class="prop-name">disruption</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Disruption controls how the operator manages node-disruption annotations
+on inference pods during the vulnerable startup window (model download &#43;
+load). When ProtectStartup is true (the default), the operator sets
+karpenter.sh/do-not-disrupt: &#34;true&#34; on the pod template while the
+InferenceService is not yet Ready, then removes it once the service
+reaches the Ready phase. Set ProtectAlways to true to keep the annotation
+permanently (equivalent to setting it via podAnnotations). User-provided
+podAnnotations always win on collision.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.disruption.protectAlways" data-path-key="|spec|disruption|protectAlways|" data-parent-path="spec.disruption" data-name="protectAlways" data-text="ProtectAlways keeps the disruption-protection annotation on the pod
+template permanently, regardless of the InferenceService phase. This is
+equivalent to setting karpenter.sh/do-not-disrupt: &#34;true&#34; via
+podAnnotations, but managed by the operator. Defaults to false.">
+  <span class="prop-name">protectAlways</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">ProtectAlways keeps the disruption-protection annotation on the pod
+template permanently, regardless of the InferenceService phase. This is
+equivalent to setting karpenter.sh/do-not-disrupt: &#34;true&#34; via
+podAnnotations, but managed by the operator. Defaults to false.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.disruption.protectStartup" data-path-key="|spec|disruption|protectStartup|" data-parent-path="spec.disruption" data-name="protectStartup" data-text="ProtectStartup prevents node disruption (e.g., Karpenter consolidation,
+Cluster Autoscaler scale-down) while the InferenceService is starting up.
+When true, the operator sets karpenter.sh/do-not-disrupt: &#34;true&#34; on the
+pod template until the InferenceService reaches the Ready phase, then
+removes it. Defaults to true.">
+  <span class="prop-name">protectStartup</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">ProtectStartup prevents node disruption (e.g., Karpenter consolidation,
+Cluster Autoscaler scale-down) while the InferenceService is starting up.
+When true, the operator sets karpenter.sh/do-not-disrupt: &#34;true&#34; on the
+pod template until the InferenceService reaches the Ready phase, then
+removes it. Defaults to true.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.endpoint" data-path-key="|spec|endpoint|" data-parent-path="spec" data-name="endpoint" data-text="Endpoint defines the service endpoint configuration">
 <summary>
   <span class="prop-name">endpoint</span>

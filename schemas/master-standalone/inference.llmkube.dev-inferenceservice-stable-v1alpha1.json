@@ -199,6 +199,31 @@
             "null"
           ]
         },
+        "disruption": {
+          "additionalProperties": false,
+          "description": "Disruption controls how the operator manages node-disruption annotations\non inference pods during the vulnerable startup window (model download +\nload). When ProtectStartup is true (the default), the operator sets\nkarpenter.sh/do-not-disrupt: \"true\" on the pod template while the\nInferenceService is not yet Ready, then removes it once the service\nreaches the Ready phase. Set ProtectAlways to true to keep the annotation\npermanently (equivalent to setting it via podAnnotations). User-provided\npodAnnotations always win on collision.",
+          "properties": {
+            "protectAlways": {
+              "description": "ProtectAlways keeps the disruption-protection annotation on the pod\ntemplate permanently, regardless of the InferenceService phase. This is\nequivalent to setting karpenter.sh/do-not-disrupt: \"true\" via\npodAnnotations, but managed by the operator. Defaults to false.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "protectStartup": {
+              "default": true,
+              "description": "ProtectStartup prevents node disruption (e.g., Karpenter consolidation,\nCluster Autoscaler scale-down) while the InferenceService is starting up.\nWhen true, the operator sets karpenter.sh/do-not-disrupt: \"true\" on the\npod template until the InferenceService reaches the Ready phase, then\nremoves it. Defaults to true.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "endpoint": {
           "additionalProperties": false,
           "description": "Endpoint defines the service endpoint configuration",

@@ -591,9 +591,9 @@ this Model&#39;s pods. Defaults are derived from Vendor:
   amd    -&gt; amd.com/gpu
   intel  -&gt; gpu.intel.com/i915
 Set this for non-default device plugins (e.g. squat/generic-device-plugin
-advertising `squat.ai/dri-render`, NVIDIA MIG slices, or DRA-backed
-resources). When set, this value also drives the GPU toleration unless
-TolerationKey is provided explicitly. pattern: ^[a-z0-9.\-]&#43;/[a-z0-9._\-]&#43;$">
+advertising `squat.ai/dri-render`, NVIDIA MIG slices). When set, this
+value also drives the GPU toleration unless TolerationKey is provided
+explicitly. pattern: ^[a-z0-9.\-]&#43;/[a-z0-9._\-]&#43;$">
   <span class="prop-name">resourceName</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">ResourceName overrides the extended resource the operator requests for
@@ -602,9 +602,9 @@ this Model&#39;s pods. Defaults are derived from Vendor:
   amd    -&gt; amd.com/gpu
   intel  -&gt; gpu.intel.com/i915
 Set this for non-default device plugins (e.g. squat/generic-device-plugin
-advertising `squat.ai/dri-render`, NVIDIA MIG slices, or DRA-backed
-resources). When set, this value also drives the GPU toleration unless
-TolerationKey is provided explicitly.<div class="leaf-constraints">
+advertising `squat.ai/dri-render`, NVIDIA MIG slices). When set, this
+value also drives the GPU toleration unless TolerationKey is provided
+explicitly.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^[a-z0-9.\-]&#43;/[a-z0-9._\-]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9.\-]&#43;/[a-z0-9._\-]&#43;$</code></div></div>
   </div>
 </div>
