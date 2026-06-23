@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.args for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.affinity for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -417,6 +417,1161 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content"><div class="prop-desc">spec defines the desired state of InferenceService</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity" data-path-key="|spec|affinity|" data-parent-path="spec" data-name="affinity" data-text="Affinity constrains inference Pod placement (node/pod affinity and
+anti-affinity). Passthrough to the Pod spec, for finer control than
+NodeSelector — e.g. preferring or avoiding nodes already running other
+GPU workloads.">
+<summary>
+  <span class="prop-name">affinity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Affinity constrains inference Pod placement (node/pod affinity and
+anti-affinity). Passthrough to the Pod spec, for finer control than
+NodeSelector — e.g. preferring or avoiding nodes already running other
+GPU workloads.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity" data-path-key="|spec|affinity|nodeAffinity|" data-parent-path="spec.affinity" data-name="nodeAffinity" data-text="Describes node affinity scheduling rules for the pod.">
+<summary>
+  <span class="prop-name">nodeAffinity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Describes node affinity scheduling rules for the pod.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution|" data-parent-path="spec.affinity.nodeAffinity" data-name="preferredDuringSchedulingIgnoredDuringExecution" data-text="The scheduler will prefer to schedule pods to nodes that satisfy
+the affinity expressions specified by this field, but it may choose
+a node that violates one or more of the expressions. The node that is
+most preferred is the one with the greatest sum of weights, i.e.
+for each node that meets all of the scheduling requirements (resource
+request, requiredDuringScheduling affinity expressions, etc.),
+compute a sum by iterating through the elements of this field and adding
+&#34;weight&#34; to the sum if the node matches the corresponding matchExpressions; the
+node(s) with the highest sum are the most preferred.">
+<summary>
+  <span class="prop-name">preferredDuringSchedulingIgnoredDuringExecution</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The scheduler will prefer to schedule pods to nodes that satisfy
+the affinity expressions specified by this field, but it may choose
+a node that violates one or more of the expressions. The node that is
+most preferred is the one with the greatest sum of weights, i.e.
+for each node that meets all of the scheduling requirements (resource
+request, requiredDuringScheduling affinity expressions, etc.),
+compute a sum by iterating through the elements of this field and adding
+&#34;weight&#34; to the sum if the node matches the corresponding matchExpressions; the
+node(s) with the highest sum are the most preferred.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-name="preference" data-text="A node selector term, associated with the corresponding weight.">
+<summary>
+  <span class="prop-name">preference</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A node selector term, associated with the corresponding weight.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchExpressions|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference" data-name="matchExpressions" data-text="A list of node selector requirements by node&#39;s labels.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A list of node selector requirements by node&#39;s labels.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions[].key" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchExpressions[]|key|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions" data-name="key" data-text="The label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions[].operator" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchExpressions[]|operator|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions" data-name="operator" data-text="Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions[].values" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchExpressions[]|values|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchExpressions" data-name="values" data-text="An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchFields|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference" data-name="matchFields" data-text="A list of node selector requirements by node&#39;s fields.">
+<summary>
+  <span class="prop-name">matchFields</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A list of node selector requirements by node&#39;s fields.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields[].key" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchFields[]|key|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields" data-name="key" data-text="The label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields[].operator" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchFields[]|operator|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields" data-name="operator" data-text="Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields[].values" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|preference|matchFields[]|values|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].preference.matchFields" data-name="values" data-text="An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[].weight" data-path-key="|spec|affinity|nodeAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|weight|" data-parent-path="spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-name="weight" data-text="Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100. format: int32">
+  <span class="prop-name">weight</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|" data-parent-path="spec.affinity.nodeAffinity" data-name="requiredDuringSchedulingIgnoredDuringExecution" data-text="If the affinity requirements specified by this field are not met at
+scheduling time, the pod will not be scheduled onto the node.
+If the affinity requirements specified by this field cease to be met
+at some point during pod execution (e.g. due to an update), the system
+may or may not try to eventually evict the pod from its node.">
+<summary>
+  <span class="prop-name">requiredDuringSchedulingIgnoredDuringExecution</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">If the affinity requirements specified by this field are not met at
+scheduling time, the pod will not be scheduled onto the node.
+If the affinity requirements specified by this field cease to be met
+at some point during pod execution (e.g. due to an update), the system
+may or may not try to eventually evict the pod from its node.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="nodeSelectorTerms" data-text="Required. A list of node selector terms. The terms are ORed.">
+<summary>
+  <span class="prop-name">nodeSelectorTerms</span>
+  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Required. A list of node selector terms. The terms are ORed.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchExpressions|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms" data-name="matchExpressions" data-text="A list of node selector requirements by node&#39;s labels.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A list of node selector requirements by node&#39;s labels.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions[].key" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchExpressions[]|key|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions" data-name="key" data-text="The label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions[].operator" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchExpressions[]|operator|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions" data-name="operator" data-text="Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions[].values" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchExpressions[]|values|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchExpressions" data-name="values" data-text="An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchFields|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms" data-name="matchFields" data-text="A list of node selector requirements by node&#39;s fields.">
+<summary>
+  <span class="prop-name">matchFields</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A list of node selector requirements by node&#39;s fields.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields[].key" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchFields[]|key|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields" data-name="key" data-text="The label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields[].operator" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchFields[]|operator|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields" data-name="operator" data-text="Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields[].values" data-path-key="|spec|affinity|nodeAffinity|requiredDuringSchedulingIgnoredDuringExecution|nodeSelectorTerms[]|matchFields[]|values|" data-parent-path="spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[].matchFields" data-name="values" data-text="An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">An array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. If the operator is Gt or Lt, the values
+array must have a single element, which will be interpreted as an integer.
+This array is replaced during a strategic merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity" data-path-key="|spec|affinity|podAffinity|" data-parent-path="spec.affinity" data-name="podAffinity" data-text="Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).">
+<summary>
+  <span class="prop-name">podAffinity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution|" data-parent-path="spec.affinity.podAffinity" data-name="preferredDuringSchedulingIgnoredDuringExecution" data-text="The scheduler will prefer to schedule pods to nodes that satisfy
+the affinity expressions specified by this field, but it may choose
+a node that violates one or more of the expressions. The node that is
+most preferred is the one with the greatest sum of weights, i.e.
+for each node that meets all of the scheduling requirements (resource
+request, requiredDuringScheduling affinity expressions, etc.),
+compute a sum by iterating through the elements of this field and adding
+&#34;weight&#34; to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+node(s) with the highest sum are the most preferred.">
+<summary>
+  <span class="prop-name">preferredDuringSchedulingIgnoredDuringExecution</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The scheduler will prefer to schedule pods to nodes that satisfy
+the affinity expressions specified by this field, but it may choose
+a node that violates one or more of the expressions. The node that is
+most preferred is the one with the greatest sum of weights, i.e.
+for each node that meets all of the scheduling requirements (resource
+request, requiredDuringScheduling affinity expressions, etc.),
+compute a sum by iterating through the elements of this field and adding
+&#34;weight&#34; to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+node(s) with the highest sum are the most preferred.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-name="podAffinityTerm" data-text="Required. A pod affinity term, associated with the corresponding weight.">
+<summary>
+  <span class="prop-name">podAffinityTerm</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Required. A pod affinity term, associated with the corresponding weight.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="labelSelector" data-text="A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.">
+<summary>
+  <span class="prop-name">labelSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchLabels" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchLabels|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.matchLabelKeys" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|matchLabelKeys|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="matchLabelKeys" data-text="MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">matchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.mismatchLabelKeys" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|mismatchLabelKeys|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">mismatchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.">
+<summary>
+  <span class="prop-name">namespaceSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchLabels" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchLabels|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaces" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaces|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="namespaces" data-text="namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.">
+  <span class="prop-name">namespaces</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.topologyKey" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|topologyKey|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="topologyKey" data-text="This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.">
+  <span class="prop-name">topologyKey</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].weight" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|weight|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-name="weight" data-text="weight associated with matching the corresponding podAffinityTerm,
+in the range 1-100. format: int32">
+  <span class="prop-name">weight</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">weight associated with matching the corresponding podAffinityTerm,
+in the range 1-100.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution|" data-parent-path="spec.affinity.podAffinity" data-name="requiredDuringSchedulingIgnoredDuringExecution" data-text="If the affinity requirements specified by this field are not met at
+scheduling time, the pod will not be scheduled onto the node.
+If the affinity requirements specified by this field cease to be met
+at some point during pod execution (e.g. due to a pod label update), the
+system may or may not try to eventually evict the pod from its node.
+When there are multiple elements, the lists of nodes corresponding to each
+podAffinityTerm are intersected, i.e. all terms must be satisfied.">
+<summary>
+  <span class="prop-name">requiredDuringSchedulingIgnoredDuringExecution</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">If the affinity requirements specified by this field are not met at
+scheduling time, the pod will not be scheduled onto the node.
+If the affinity requirements specified by this field cease to be met
+at some point during pod execution (e.g. due to a pod label update), the
+system may or may not try to eventually evict the pod from its node.
+When there are multiple elements, the lists of nodes corresponding to each
+podAffinityTerm are intersected, i.e. all terms must be satisfied.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="labelSelector" data-text="A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.">
+<summary>
+  <span class="prop-name">labelSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchLabels" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchLabels|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].matchLabelKeys" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|matchLabelKeys|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="matchLabelKeys" data-text="MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">matchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].mismatchLabelKeys" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|mismatchLabelKeys|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">mismatchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.">
+<summary>
+  <span class="prop-name">namespaceSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchLabels" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchLabels|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaces" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaces|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="namespaces" data-text="namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.">
+  <span class="prop-name">namespaces</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].topologyKey" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|topologyKey|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="topologyKey" data-text="This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.">
+  <span class="prop-name">topologyKey</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity" data-path-key="|spec|affinity|podAntiAffinity|" data-parent-path="spec.affinity" data-name="podAntiAffinity" data-text="Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).">
+<summary>
+  <span class="prop-name">podAntiAffinity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution|" data-parent-path="spec.affinity.podAntiAffinity" data-name="preferredDuringSchedulingIgnoredDuringExecution" data-text="The scheduler will prefer to schedule pods to nodes that satisfy
+the anti-affinity expressions specified by this field, but it may choose
+a node that violates one or more of the expressions. The node that is
+most preferred is the one with the greatest sum of weights, i.e.
+for each node that meets all of the scheduling requirements (resource
+request, requiredDuringScheduling anti-affinity expressions, etc.),
+compute a sum by iterating through the elements of this field and subtracting
+&#34;weight&#34; from the sum if the node has pods which matches the corresponding podAffinityTerm; the
+node(s) with the highest sum are the most preferred.">
+<summary>
+  <span class="prop-name">preferredDuringSchedulingIgnoredDuringExecution</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The scheduler will prefer to schedule pods to nodes that satisfy
+the anti-affinity expressions specified by this field, but it may choose
+a node that violates one or more of the expressions. The node that is
+most preferred is the one with the greatest sum of weights, i.e.
+for each node that meets all of the scheduling requirements (resource
+request, requiredDuringScheduling anti-affinity expressions, etc.),
+compute a sum by iterating through the elements of this field and subtracting
+&#34;weight&#34; from the sum if the node has pods which matches the corresponding podAffinityTerm; the
+node(s) with the highest sum are the most preferred.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-name="podAffinityTerm" data-text="Required. A pod affinity term, associated with the corresponding weight.">
+<summary>
+  <span class="prop-name">podAffinityTerm</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Required. A pod affinity term, associated with the corresponding weight.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="labelSelector" data-text="A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.">
+<summary>
+  <span class="prop-name">labelSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector.matchLabels" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|labelSelector|matchLabels|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.labelSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.matchLabelKeys" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|matchLabelKeys|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="matchLabelKeys" data-text="MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">matchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.mismatchLabelKeys" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|mismatchLabelKeys|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">mismatchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.">
+<summary>
+  <span class="prop-name">namespaceSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector.matchLabels" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|matchLabels|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaces" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaces|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="namespaces" data-text="namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.">
+  <span class="prop-name">namespaces</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.topologyKey" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|topologyKey|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="topologyKey" data-text="This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.">
+  <span class="prop-name">topologyKey</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].weight" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|weight|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-name="weight" data-text="weight associated with matching the corresponding podAffinityTerm,
+in the range 1-100. format: int32">
+  <span class="prop-name">weight</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">weight associated with matching the corresponding podAffinityTerm,
+in the range 1-100.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution|" data-parent-path="spec.affinity.podAntiAffinity" data-name="requiredDuringSchedulingIgnoredDuringExecution" data-text="If the anti-affinity requirements specified by this field are not met at
+scheduling time, the pod will not be scheduled onto the node.
+If the anti-affinity requirements specified by this field cease to be met
+at some point during pod execution (e.g. due to a pod label update), the
+system may or may not try to eventually evict the pod from its node.
+When there are multiple elements, the lists of nodes corresponding to each
+podAffinityTerm are intersected, i.e. all terms must be satisfied.">
+<summary>
+  <span class="prop-name">requiredDuringSchedulingIgnoredDuringExecution</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">If the anti-affinity requirements specified by this field are not met at
+scheduling time, the pod will not be scheduled onto the node.
+If the anti-affinity requirements specified by this field cease to be met
+at some point during pod execution (e.g. due to a pod label update), the
+system may or may not try to eventually evict the pod from its node.
+When there are multiple elements, the lists of nodes corresponding to each
+podAffinityTerm are intersected, i.e. all terms must be satisfied.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="labelSelector" data-text="A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.">
+<summary>
+  <span class="prop-name">labelSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over a set of resources, in this case pods.
+If it&#39;s null, this PodAffinityTerm matches with no Pods.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector.matchLabels" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|labelSelector|matchLabels|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].labelSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].matchLabelKeys" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|matchLabelKeys|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="matchLabelKeys" data-text="MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">matchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].mismatchLabelKeys" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|mismatchLabelKeys|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
+  <span class="prop-name">mismatchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
+be taken into consideration. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+to select the group of existing pods which pods will be taken into consideration
+for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
+pod labels will be ignored. The default value is empty.
+The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.">
+<summary>
+  <span class="prop-name">namespaceSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A label query over the set of namespaces that the term applies to.
+The term is applied to the union of the namespaces selected by this field
+and the ones listed in the namespaces field.
+null selector and null or empty namespaces list means &#34;this pod&#39;s namespace&#34;.
+An empty selector ({}) matches all namespaces.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[].key" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions[]|key|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[].operator" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions[]|operator|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions[].values" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchExpressions[]|values|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector.matchLabels" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|matchLabels|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaces" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaces|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="namespaces" data-text="namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.">
+  <span class="prop-name">namespaces</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">namespaces specifies a static list of namespace names that the term applies to.
+The term is applied to the union of the namespaces listed in this field
+and the ones selected by namespaceSelector.
+null or empty namespaces list and null namespaceSelector means &#34;this pod&#39;s namespace&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].topologyKey" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|topologyKey|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="topologyKey" data-text="This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.">
+  <span class="prop-name">topologyKey</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+the labelSelector in the specified namespaces, where co-located is defined as running on a node
+whose value of the label with key topologyKey matches that of any node on which any of the
+selected pods is running.
+Empty topologyKey is not allowed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.args" data-path-key="|spec|args|" data-parent-path="spec" data-name="args" data-text="Args overrides the container arguments entirely.
 Only used when Runtime is &#34;generic&#34;. For llamacpp, use ExtraArgs instead.">
   <span class="prop-name">args</span>
@@ -2490,6 +3645,18 @@ which can lead to OOM kills after model load.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.revisionHistoryLimit" data-path-key="|spec|revisionHistoryLimit|" data-parent-path="spec" data-name="revisionHistoryLimit" data-text="RevisionHistoryLimit caps how many old ReplicaSets the inference
+Deployment keeps for rollback. Unset uses the Kubernetes default (10);
+0 keeps none. format: int32 minimum: 0">
+  <span class="prop-name">revisionHistoryLimit</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">RevisionHistoryLimit caps how many old ReplicaSets the inference
+Deployment keeps for rollback. Unset uses the Kubernetes default (10);
+0 keeps none.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.ropeScaling" data-path-key="|spec|ropeScaling|" data-parent-path="spec" data-name="ropeScaling" data-text="RopeScaling configures RoPE-based context extension so a model can be
 served past its native trained context (e.g. 128K served at 256K via
 YaRN). For the llamacpp runtime this maps to --rope-scaling /
@@ -3054,6 +4221,286 @@ If the operator is Exists, the value should be empty, otherwise just a regular s
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.topologySpreadConstraints" data-path-key="|spec|topologySpreadConstraints|" data-parent-path="spec" data-name="topologySpreadConstraints" data-text="TopologySpreadConstraints control how inference Pods are spread across
+topology domains (e.g. one model server per GPU node). Passthrough to the
+Pod spec; combine with PodLabels so the constraint&#39;s labelSelector can
+match sibling GPU workloads for a soft, cross-app spread.">
+<summary>
+  <span class="prop-name">topologySpreadConstraints</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TopologySpreadConstraints control how inference Pods are spread across
+topology domains (e.g. one model server per GPU node). Passthrough to the
+Pod spec; combine with PodLabels so the constraint&#39;s labelSelector can
+match sibling GPU workloads for a soft, cross-app spread.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.topologySpreadConstraints[].labelSelector" data-path-key="|spec|topologySpreadConstraints[]|labelSelector|" data-parent-path="spec.topologySpreadConstraints" data-name="labelSelector" data-text="LabelSelector is used to find matching pods.
+Pods that match this label selector are counted to determine the number of pods
+in their corresponding topology domain.">
+<summary>
+  <span class="prop-name">labelSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">LabelSelector is used to find matching pods.
+Pods that match this label selector are counted to determine the number of pods
+in their corresponding topology domain.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.topologySpreadConstraints[].labelSelector.matchExpressions" data-path-key="|spec|topologySpreadConstraints[]|labelSelector|matchExpressions|" data-parent-path="spec.topologySpreadConstraints[].labelSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].labelSelector.matchExpressions[].key" data-path-key="|spec|topologySpreadConstraints[]|labelSelector|matchExpressions[]|key|" data-parent-path="spec.topologySpreadConstraints[].labelSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].labelSelector.matchExpressions[].operator" data-path-key="|spec|topologySpreadConstraints[]|labelSelector|matchExpressions[]|operator|" data-parent-path="spec.topologySpreadConstraints[].labelSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].labelSelector.matchExpressions[].values" data-path-key="|spec|topologySpreadConstraints[]|labelSelector|matchExpressions[]|values|" data-parent-path="spec.topologySpreadConstraints[].labelSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].labelSelector.matchLabels" data-path-key="|spec|topologySpreadConstraints[]|labelSelector|matchLabels|" data-parent-path="spec.topologySpreadConstraints[].labelSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].matchLabelKeys" data-path-key="|spec|topologySpreadConstraints[]|matchLabelKeys|" data-parent-path="spec.topologySpreadConstraints" data-name="matchLabelKeys" data-text="MatchLabelKeys is a set of pod label keys to select the pods over which
+spreading will be calculated. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are ANDed with labelSelector
+to select the group of existing pods over which spreading will be calculated
+for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector.
+MatchLabelKeys cannot be set when LabelSelector isn&#39;t set.
+Keys that don&#39;t exist in the incoming pod labels will
+be ignored. A null or empty list means only match against labelSelector.
+
+This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default).">
+  <span class="prop-name">matchLabelKeys</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select the pods over which
+spreading will be calculated. The keys are used to lookup values from the
+incoming pod labels, those key-value labels are ANDed with labelSelector
+to select the group of existing pods over which spreading will be calculated
+for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector.
+MatchLabelKeys cannot be set when LabelSelector isn&#39;t set.
+Keys that don&#39;t exist in the incoming pod labels will
+be ignored. A null or empty list means only match against labelSelector.
+
+This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].maxSkew" data-path-key="|spec|topologySpreadConstraints[]|maxSkew|" data-parent-path="spec.topologySpreadConstraints" data-name="maxSkew" data-text="MaxSkew describes the degree to which pods may be unevenly distributed.
+When `whenUnsatisfiable=DoNotSchedule`, it is the maximum permitted difference
+between the number of matching pods in the target topology and the global minimum.
+The global minimum is the minimum number of matching pods in an eligible domain
+or zero if the number of eligible domains is less than MinDomains.
+For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same
+labelSelector spread as 2/2/1:
+In this case, the global minimum is 1.
+| zone1 | zone2 | zone3 |
+|  P P  |  P P  |   P   |
+- if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2;
+scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2)
+violate MaxSkew(1).
+- if MaxSkew is 2, incoming pod can be scheduled onto any zone.
+When `whenUnsatisfiable=ScheduleAnyway`, it is used to give higher precedence
+to topologies that satisfy it.
+It&#39;s a required field. Default value is 1 and 0 is not allowed. format: int32">
+  <span class="prop-name">maxSkew</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">MaxSkew describes the degree to which pods may be unevenly distributed.
+When `whenUnsatisfiable=DoNotSchedule`, it is the maximum permitted difference
+between the number of matching pods in the target topology and the global minimum.
+The global minimum is the minimum number of matching pods in an eligible domain
+or zero if the number of eligible domains is less than MinDomains.
+For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same
+labelSelector spread as 2/2/1:
+In this case, the global minimum is 1.
+| zone1 | zone2 | zone3 |
+|  P P  |  P P  |   P   |
+- if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2;
+scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2)
+violate MaxSkew(1).
+- if MaxSkew is 2, incoming pod can be scheduled onto any zone.
+When `whenUnsatisfiable=ScheduleAnyway`, it is used to give higher precedence
+to topologies that satisfy it.
+It&#39;s a required field. Default value is 1 and 0 is not allowed.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].minDomains" data-path-key="|spec|topologySpreadConstraints[]|minDomains|" data-parent-path="spec.topologySpreadConstraints" data-name="minDomains" data-text="MinDomains indicates a minimum number of eligible domains.
+When the number of eligible domains with matching topology keys is less than minDomains,
+Pod Topology Spread treats &#34;global minimum&#34; as 0, and then the calculation of Skew is performed.
+And when the number of eligible domains with matching topology keys equals or greater than minDomains,
+this value has no effect on scheduling.
+As a result, when the number of eligible domains is less than minDomains,
+scheduler won&#39;t schedule more than maxSkew Pods to those domains.
+If value is nil, the constraint behaves as if MinDomains is equal to 1.
+Valid values are integers greater than 0.
+When value is not nil, WhenUnsatisfiable must be DoNotSchedule.
+
+For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same
+labelSelector spread as 2/2/2:
+| zone1 | zone2 | zone3 |
+|  P P  |  P P  |  P P  |
+The number of domains is less than 5(MinDomains), so &#34;global minimum&#34; is treated as 0.
+In this situation, new pod with the same labelSelector cannot be scheduled,
+because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones,
+it will violate MaxSkew. format: int32">
+  <span class="prop-name">minDomains</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">MinDomains indicates a minimum number of eligible domains.
+When the number of eligible domains with matching topology keys is less than minDomains,
+Pod Topology Spread treats &#34;global minimum&#34; as 0, and then the calculation of Skew is performed.
+And when the number of eligible domains with matching topology keys equals or greater than minDomains,
+this value has no effect on scheduling.
+As a result, when the number of eligible domains is less than minDomains,
+scheduler won&#39;t schedule more than maxSkew Pods to those domains.
+If value is nil, the constraint behaves as if MinDomains is equal to 1.
+Valid values are integers greater than 0.
+When value is not nil, WhenUnsatisfiable must be DoNotSchedule.
+
+For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same
+labelSelector spread as 2/2/2:
+| zone1 | zone2 | zone3 |
+|  P P  |  P P  |  P P  |
+The number of domains is less than 5(MinDomains), so &#34;global minimum&#34; is treated as 0.
+In this situation, new pod with the same labelSelector cannot be scheduled,
+because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones,
+it will violate MaxSkew.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].nodeAffinityPolicy" data-path-key="|spec|topologySpreadConstraints[]|nodeAffinityPolicy|" data-parent-path="spec.topologySpreadConstraints" data-name="nodeAffinityPolicy" data-text="NodeAffinityPolicy indicates how we will treat Pod&#39;s nodeAffinity/nodeSelector
+when calculating pod topology spread skew. Options are:
+- Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations.
+- Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.
+
+If this value is nil, the behavior is equivalent to the Honor policy.">
+  <span class="prop-name">nodeAffinityPolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">NodeAffinityPolicy indicates how we will treat Pod&#39;s nodeAffinity/nodeSelector
+when calculating pod topology spread skew. Options are:
+- Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations.
+- Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.
+
+If this value is nil, the behavior is equivalent to the Honor policy.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].nodeTaintsPolicy" data-path-key="|spec|topologySpreadConstraints[]|nodeTaintsPolicy|" data-parent-path="spec.topologySpreadConstraints" data-name="nodeTaintsPolicy" data-text="NodeTaintsPolicy indicates how we will treat node taints when calculating
+pod topology spread skew. Options are:
+- Honor: nodes without taints, along with tainted nodes for which the incoming pod
+has a toleration, are included.
+- Ignore: node taints are ignored. All nodes are included.
+
+If this value is nil, the behavior is equivalent to the Ignore policy.">
+  <span class="prop-name">nodeTaintsPolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">NodeTaintsPolicy indicates how we will treat node taints when calculating
+pod topology spread skew. Options are:
+- Honor: nodes without taints, along with tainted nodes for which the incoming pod
+has a toleration, are included.
+- Ignore: node taints are ignored. All nodes are included.
+
+If this value is nil, the behavior is equivalent to the Ignore policy.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].topologyKey" data-path-key="|spec|topologySpreadConstraints[]|topologyKey|" data-parent-path="spec.topologySpreadConstraints" data-name="topologyKey" data-text="TopologyKey is the key of node labels. Nodes that have a label with this key
+and identical values are considered to be in the same topology.
+We consider each &lt;key, value&gt; as a &#34;bucket&#34;, and try to put balanced number
+of pods into each bucket.
+We define a domain as a particular instance of a topology.
+Also, we define an eligible domain as a domain whose nodes meet the requirements of
+nodeAffinityPolicy and nodeTaintsPolicy.
+e.g. If TopologyKey is &#34;kubernetes.io/hostname&#34;, each Node is a domain of that topology.
+And, if TopologyKey is &#34;topology.kubernetes.io/zone&#34;, each zone is a domain of that topology.
+It&#39;s a required field.">
+  <span class="prop-name">topologyKey</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TopologyKey is the key of node labels. Nodes that have a label with this key
+and identical values are considered to be in the same topology.
+We consider each &lt;key, value&gt; as a &#34;bucket&#34;, and try to put balanced number
+of pods into each bucket.
+We define a domain as a particular instance of a topology.
+Also, we define an eligible domain as a domain whose nodes meet the requirements of
+nodeAffinityPolicy and nodeTaintsPolicy.
+e.g. If TopologyKey is &#34;kubernetes.io/hostname&#34;, each Node is a domain of that topology.
+And, if TopologyKey is &#34;topology.kubernetes.io/zone&#34;, each zone is a domain of that topology.
+It&#39;s a required field.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].whenUnsatisfiable" data-path-key="|spec|topologySpreadConstraints[]|whenUnsatisfiable|" data-parent-path="spec.topologySpreadConstraints" data-name="whenUnsatisfiable" data-text="WhenUnsatisfiable indicates how to deal with a pod if it doesn&#39;t satisfy
+the spread constraint.
+- DoNotSchedule (default) tells the scheduler not to schedule it.
+- ScheduleAnyway tells the scheduler to schedule the pod in any location,
+  but giving higher precedence to topologies that would help reduce the
+  skew.
+A constraint is considered &#34;Unsatisfiable&#34; for an incoming pod
+if and only if every possible node assignment for that pod would violate
+&#34;MaxSkew&#34; on some topology.
+For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same
+labelSelector spread as 3/1/1:
+| zone1 | zone2 | zone3 |
+| P P P |   P   |   P   |
+If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled
+to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies
+MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler
+won&#39;t make it *more* imbalanced.
+It&#39;s a required field.">
+  <span class="prop-name">whenUnsatisfiable</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">WhenUnsatisfiable indicates how to deal with a pod if it doesn&#39;t satisfy
+the spread constraint.
+- DoNotSchedule (default) tells the scheduler not to schedule it.
+- ScheduleAnyway tells the scheduler to schedule the pod in any location,
+  but giving higher precedence to topologies that would help reduce the
+  skew.
+A constraint is considered &#34;Unsatisfiable&#34; for an incoming pod
+if and only if every possible node assignment for that pod would violate
+&#34;MaxSkew&#34; on some topology.
+For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same
+labelSelector spread as 3/1/1:
+| zone1 | zone2 | zone3 |
+| P P P |   P   |   P   |
+If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled
+to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies
+MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler
+won&#39;t make it *more* imbalanced.
+It&#39;s a required field.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.uBatchSize" data-path-key="|spec|uBatchSize|" data-parent-path="spec" data-name="uBatchSize" data-text="UBatchSize sets the micro-batch size for decoding.
 Smaller micro-batches reduce memory usage during generation.
 Maps to llama.cpp --ubatch-size flag. format: int32 minimum: 1">
@@ -3584,7 +5031,7 @@ intentionally took the service offline; this is not an error).<div class="leaf-c
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.args for an exact path">No matches. Try .spec.args for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.affinity for an exact path">No matches. Try .spec.affinity for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

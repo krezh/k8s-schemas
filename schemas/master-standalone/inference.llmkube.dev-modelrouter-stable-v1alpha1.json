@@ -239,6 +239,18 @@
             "null"
           ]
         },
+        "defaultRouteStrategy": {
+          "default": "Static",
+          "description": "DefaultRouteStrategy decides what happens when no rule matches.\n\"Static\" (default) routes to DefaultRoute. \"BackendNameMatch\" first\ntries to match the request's model to a backend Name, falling back to\nDefaultRoute only if none matches. BackendNameMatch makes every backend,\nincluding cloud-tier ones, directly addressable by name; sensitive-data\nprotection still relies on a matching failClosed rule, which is evaluated\nfirst and therefore continues to gate before any name match.",
+          "enum": [
+            "Static",
+            "BackendNameMatch"
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "endpoint": {
           "additionalProperties": false,
           "description": "Endpoint defines the Kubernetes Service the router-proxy is exposed\nthrough. Mirrors the shape used by InferenceService.",
@@ -762,6 +774,15 @@
                 "string",
                 "null"
               ]
+            },
+            "revisionHistoryLimit": {
+              "description": "RevisionHistoryLimit caps how many old ReplicaSets the proxy Deployment\nkeeps for rollback. Unset uses the Kubernetes default (10); 0 keeps none.\nUseful to bound ReplicaSet buildup, since the proxy re-rolls on every\nconfig change.",
+              "format": "int32",
+              "minimum": 0,
+              "type": [
+                "integer",
+                "null"
+              ]
             }
           },
           "type": [
@@ -770,7 +791,7 @@
           ]
         },
         "rules": {
-          "description": "Rules are evaluated in declaration order. The first matching rule wins.\nIf no rule matches, DefaultRoute is used. If neither a matching rule\nnor DefaultRoute is set, the request is rejected with HTTP 503.",
+          "description": "Rules are evaluated in declaration order. The first matching rule wins.\nIf no rule matches, the fallback is governed by DefaultRouteStrategy,\nending at DefaultRoute. If nothing resolves, the request is rejected\nwith HTTP 503.",
           "items": {
             "additionalProperties": false,
             "description": "RouterRule pairs a match expression with a routing action.",

@@ -690,6 +690,25 @@ Must reference the Name of an entry in Backends.">
 Must reference the Name of an entry in Backends.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.defaultRouteStrategy" data-path-key="|spec|defaultRouteStrategy|" data-parent-path="spec" data-name="defaultRouteStrategy" data-text="DefaultRouteStrategy decides what happens when no rule matches.
+&#34;Static&#34; (default) routes to DefaultRoute. &#34;BackendNameMatch&#34; first
+tries to match the request&#39;s model to a backend Name, falling back to
+DefaultRoute only if none matches. BackendNameMatch makes every backend,
+including cloud-tier ones, directly addressable by name; sensitive-data
+protection still relies on a matching failClosed rule, which is evaluated
+first and therefore continues to gate before any name match. enum: Static, BackendNameMatch">
+  <span class="prop-name">defaultRouteStrategy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">DefaultRouteStrategy decides what happens when no rule matches.
+&#34;Static&#34; (default) routes to DefaultRoute. &#34;BackendNameMatch&#34; first
+tries to match the request&#39;s model to a backend Name, falling back to
+DefaultRoute only if none matches. BackendNameMatch makes every backend,
+including cloud-tier ones, directly addressable by name; sensitive-data
+protection still relies on a matching failClosed rule, which is evaluated
+first and therefore continues to gate before any name match.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Static, BackendNameMatch"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Static, BackendNameMatch</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.endpoint" data-path-key="|spec|endpoint|" data-parent-path="spec" data-name="endpoint" data-text="Endpoint defines the Kubernetes Service the router-proxy is exposed
 through. Mirrors the shape used by InferenceService.">
 <summary>
@@ -1359,19 +1378,35 @@ and RouterBackend.Timeout) tighten this on a per-request basis
 but cannot extend it beyond this cap.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.proxy.revisionHistoryLimit" data-path-key="|spec|proxy|revisionHistoryLimit|" data-parent-path="spec.proxy" data-name="revisionHistoryLimit" data-text="RevisionHistoryLimit caps how many old ReplicaSets the proxy Deployment
+keeps for rollback. Unset uses the Kubernetes default (10); 0 keeps none.
+Useful to bound ReplicaSet buildup, since the proxy re-rolls on every
+config change. format: int32 minimum: 0">
+  <span class="prop-name">revisionHistoryLimit</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">RevisionHistoryLimit caps how many old ReplicaSets the proxy Deployment
+keeps for rollback. Unset uses the Kubernetes default (10); 0 keeps none.
+Useful to bound ReplicaSet buildup, since the proxy re-rolls on every
+config change.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.rules" data-path-key="|spec|rules|" data-parent-path="spec" data-name="rules" data-text="Rules are evaluated in declaration order. The first matching rule wins.
-If no rule matches, DefaultRoute is used. If neither a matching rule
-nor DefaultRoute is set, the request is rejected with HTTP 503.">
+If no rule matches, the fallback is governed by DefaultRouteStrategy,
+ending at DefaultRoute. If nothing resolves, the request is rejected
+with HTTP 503.">
 <summary>
   <span class="prop-name">rules</span>
   <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Rules are evaluated in declaration order. The first matching rule wins.
-If no rule matches, DefaultRoute is used. If neither a matching rule
-nor DefaultRoute is set, the request is rejected with HTTP 503.</div>
+If no rule matches, the fallback is governed by DefaultRouteStrategy,
+ending at DefaultRoute. If nothing resolves, the request is rejected
+with HTTP 503.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.rules[].failClosed" data-path-key="|spec|rules[]|failClosed|" data-parent-path="spec.rules" data-name="failClosed" data-text="FailClosed: when true, if no backend in Route.Backends is healthy
 or otherwise eligible, the router rejects the request with HTTP 503
