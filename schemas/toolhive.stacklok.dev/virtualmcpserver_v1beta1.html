@@ -1564,6 +1564,68 @@ mechanisms (e.g., Google&#39;s access_type=offline), set explicit scopes to avoi
 sending both offline_access and the provider-specific parameter.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.subjectClaim" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|subjectClaim|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="subjectClaim" data-text="SubjectClaim names the validated ID-token claim to use as the upstream
+subject. Defaults to &#34;sub&#34; when empty. Set it for IdPs where &#34;sub&#34; isn&#39;t
+stable per user — e.g. Entra/Azure AD, whose &#34;sub&#34; rotates per application
+and whose stable identifier is &#34;oid&#34;.
+
+The value is looked up verbatim as a top-level claim name, so it is
+constrained to a claim-name shape: it must start with a letter or
+underscore and contain only letters, digits, and underscores. This rejects
+dotted, colon-namespaced, or whitespace-containing values at admission
+rather than letting a typo silently miss the claim at login, and keeps the
+field aligned with the directory service&#39;s per-issuer bindingClaim.
+
+Changing this on a live deployment re-keys existing users (the value
+resolves to the internal user ID), so treat it as immutable once users
+exist.
+
+Per-IdP notes:
+  - Entra/Azure AD: use &#34;oid&#34;; it is only emitted when the upstream scopes
+    include &#34;profile&#34;. &#34;oid&#34; is unique within a single tenant — multi-tenant
+    apps need oid&#43;tid, which this single-claim field cannot express.
+  - Okta: the org auth server already puts the stable id in &#34;sub&#34; (default
+    works). A custom auth server&#39;s &#34;sub&#34; is the mutable login/email and the
+    stable &#34;uid&#34; lives only in the access token, not the ID token — map a
+    custom ID-token claim and point subjectClaim at it.
+The pattern matches the claim-name shape and allows empty (defaults to
+&#34;sub&#34;). Using Pattern rather than a CEL XValidation rule keeps this off the
+CRD&#39;s CEL cost budget — a single-field format check via CEL is rejected by
+the apiserver as too expensive once multiplied across the upstreams list. pattern: ^([a-zA-Z_][a-zA-Z0-9_]*)?$ maxLength: 128">
+  <span class="prop-name">subjectClaim</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubjectClaim names the validated ID-token claim to use as the upstream
+subject. Defaults to &#34;sub&#34; when empty. Set it for IdPs where &#34;sub&#34; isn&#39;t
+stable per user — e.g. Entra/Azure AD, whose &#34;sub&#34; rotates per application
+and whose stable identifier is &#34;oid&#34;.
+
+The value is looked up verbatim as a top-level claim name, so it is
+constrained to a claim-name shape: it must start with a letter or
+underscore and contain only letters, digits, and underscores. This rejects
+dotted, colon-namespaced, or whitespace-containing values at admission
+rather than letting a typo silently miss the claim at login, and keeps the
+field aligned with the directory service&#39;s per-issuer bindingClaim.
+
+Changing this on a live deployment re-keys existing users (the value
+resolves to the internal user ID), so treat it as immutable once users
+exist.
+
+Per-IdP notes:
+  - Entra/Azure AD: use &#34;oid&#34;; it is only emitted when the upstream scopes
+    include &#34;profile&#34;. &#34;oid&#34; is unique within a single tenant — multi-tenant
+    apps need oid&#43;tid, which this single-claim field cannot express.
+  - Okta: the org auth server already puts the stable id in &#34;sub&#34; (default
+    works). A custom auth server&#39;s &#34;sub&#34; is the mutable login/email and the
+    stable &#34;uid&#34; lives only in the access token, not the ID token — map a
+    custom ID-token claim and point subjectClaim at it.
+The pattern matches the claim-name shape and allows empty (defaults to
+&#34;sub&#34;). Using Pattern rather than a CEL XValidation rule keeps this off the
+CRD&#39;s CEL cost budget — a single-field format check via CEL is rejected by
+the apiserver as too expensive once multiplied across the upstreams list.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([a-zA-Z_][a-zA-Z0-9_]*)?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([a-zA-Z_][a-zA-Z0-9_]*)?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 128"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">128</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.userInfoOverride" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|userInfoOverride|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="userInfoOverride" data-text="UserInfoOverride allows customizing UserInfo fetching behavior for OIDC providers.
 By default, the UserInfo endpoint is discovered automatically via OIDC discovery.
 Use this to override the endpoint URL, HTTP method, or field mappings for providers
@@ -3701,13 +3763,9 @@ overridden by this field if both are set.<div class="leaf-constraints">
 The referenced MCPAuthzConfig must exist in the same namespace as this VirtualMCPServer.
 Mutually exclusive with authzConfig.
 
-resolve AuthzConfigRef into a runtime authz config.
-
-NOTE: this field is consumed by workload controllers in a follow-up PR.
-Until that lands, AuthzConfigRef is reference-tracked by the
-MCPAuthzConfig controller (deletion protection, status.referenceCount)
-but does NOT apply authorization to this VirtualMCPServer. Use the
-inline AuthzConfig field in the meantime.">
+Only cedarv1 MCPAuthzConfig resources are supported for VirtualMCPServer
+today; referencing a non-Cedar config fails reconciliation with a clear
+error because the vMCP runtime authz middleware is Cedar-only.">
 <summary>
   <span class="prop-name">authzConfigRef</span>
   <span class="type-badge">object</span>
@@ -3716,13 +3774,9 @@ inline AuthzConfig field in the meantime.">
 The referenced MCPAuthzConfig must exist in the same namespace as this VirtualMCPServer.
 Mutually exclusive with authzConfig.
 
-resolve AuthzConfigRef into a runtime authz config.
-
-NOTE: this field is consumed by workload controllers in a follow-up PR.
-Until that lands, AuthzConfigRef is reference-tracked by the
-MCPAuthzConfig controller (deletion protection, status.referenceCount)
-but does NOT apply authorization to this VirtualMCPServer. Use the
-inline AuthzConfig field in the meantime.</div>
+Only cedarv1 MCPAuthzConfig resources are supported for VirtualMCPServer
+today; referencing a non-Cedar config fails reconciliation with a clear
+error because the vMCP runtime authz middleware is Cedar-only.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.incomingAuth.authzConfigRef.name" data-path-key="|spec|incomingAuth|authzConfigRef|name|" data-parent-path="spec.incomingAuth.authzConfigRef" data-name="name" data-text="Name is the name of the MCPAuthzConfig resource in the same namespace. minLength: 1">
   <span class="prop-name">name</span>
@@ -4045,6 +4099,14 @@ If empty, defaults to the server name with &#34;thv-&#34; prefix at runtime.
 </summary>
 <div class="prop-content"><div class="prop-desc">VirtualMCPServerStatus defines the observed state of VirtualMCPServer</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.authzConfigHash" data-path-key="|status|authzConfigHash|" data-parent-path="status" data-name="authzConfigHash" data-text="AuthzConfigHash is the hash of the referenced MCPAuthzConfig spec for change detection.
+Only populated when IncomingAuth.AuthzConfigRef is set.">
+  <span class="prop-name">authzConfigHash</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">AuthzConfigHash is the hash of the referenced MCPAuthzConfig spec for change detection.
+Only populated when IncomingAuth.AuthzConfigRef is set.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.backendCount" data-path-key="|status|backendCount|" data-parent-path="status" data-name="backendCount" data-text="BackendCount is the number of routable backends (ready &#43; unauthenticated).
 Excludes unavailable, degraded, and unknown backends. format: int32">
   <span class="prop-name">backendCount</span>

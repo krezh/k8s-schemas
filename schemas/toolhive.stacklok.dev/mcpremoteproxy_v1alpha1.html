@@ -624,30 +624,14 @@ overridden by this field if both are set.<div class="leaf-constraints">
 </details>
 <details class="prop" data-prop-row data-path="spec.authzConfigRef" data-path-key="|spec|authzConfigRef|" data-parent-path="spec" data-name="authzConfigRef" data-text="AuthzConfigRef references a shared MCPAuthzConfig resource for authorization.
 The referenced MCPAuthzConfig must exist in the same namespace as this MCPRemoteProxy.
-Mutually exclusive with authzConfig.
-
-resolve AuthzConfigRef into a runtime authz config.
-
-NOTE: this field is consumed by workload controllers in a follow-up PR.
-Until that lands, AuthzConfigRef is reference-tracked by the
-MCPAuthzConfig controller (deletion protection, status.referenceCount)
-but does NOT apply authorization to this MCPRemoteProxy. Use the
-inline AuthzConfig field in the meantime.">
+Mutually exclusive with authzConfig.">
 <summary>
   <span class="prop-name">authzConfigRef</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">AuthzConfigRef references a shared MCPAuthzConfig resource for authorization.
 The referenced MCPAuthzConfig must exist in the same namespace as this MCPRemoteProxy.
-Mutually exclusive with authzConfig.
-
-resolve AuthzConfigRef into a runtime authz config.
-
-NOTE: this field is consumed by workload controllers in a follow-up PR.
-Until that lands, AuthzConfigRef is reference-tracked by the
-MCPAuthzConfig controller (deletion protection, status.referenceCount)
-but does NOT apply authorization to this MCPRemoteProxy. Use the
-inline AuthzConfig field in the meantime.</div>
+Mutually exclusive with authzConfig.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.authzConfigRef.name" data-path-key="|spec|authzConfigRef|name|" data-parent-path="spec.authzConfigRef" data-name="name" data-text="Name is the name of the MCPAuthzConfig resource in the same namespace. minLength: 1">
   <span class="prop-name">name</span>
@@ -1267,6 +1251,12 @@ used to detect configuration changes and trigger reconciliation.">
   <span class="type-badge">string</span>
   <div class="leaf-desc">AuthServerConfigHash is the hash of the referenced authServerRef spec,
 used to detect configuration changes and trigger reconciliation.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.authzConfigHash" data-path-key="|status|authzConfigHash|" data-parent-path="status" data-name="authzConfigHash" data-text="AuthzConfigHash is the hash of the referenced MCPAuthzConfig spec for change detection">
+  <span class="prop-name">authzConfigHash</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">AuthzConfigHash is the hash of the referenced MCPAuthzConfig spec for change detection
   </div>
 </div>
 <details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions represent the latest available observations of the MCPRemoteProxy&#39;s state">
