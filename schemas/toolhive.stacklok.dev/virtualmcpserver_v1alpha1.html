@@ -2027,6 +2027,62 @@ for container/proxy backends. Entry backends connect directly to remote MCP serv
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.config.codeMode" data-path-key="|spec|config|codeMode|" data-parent-path="spec.config" data-name="codeMode" data-text="CodeMode configures vMCP code mode: server-side execution of Starlark scripts that
+orchestrate multiple backend tool calls in a single request via the execute_tool_script
+virtual tool. When enabled, execute_tool_script is advertised alongside the backend
+tools; a script&#39;s inner tool calls are authorized individually, so a script can only
+reach tools the caller is already permitted to use. Disabled by default.">
+<summary>
+  <span class="prop-name">codeMode</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CodeMode configures vMCP code mode: server-side execution of Starlark scripts that
+orchestrate multiple backend tool calls in a single request via the execute_tool_script
+virtual tool. When enabled, execute_tool_script is advertised alongside the backend
+tools; a script&#39;s inner tool calls are authorized individually, so a script can only
+reach tools the caller is already permitted to use. Disabled by default.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.config.codeMode.enabled" data-path-key="|spec|config|codeMode|enabled|" data-parent-path="spec.config.codeMode" data-name="enabled" data-text="Enabled turns code mode on. When false (the default), execute_tool_script is not
+advertised in tools/list and scripts cannot be executed.">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Enabled turns code mode on. When false (the default), execute_tool_script is not
+advertised in tools/list and scripts cannot be executed.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.codeMode.parallelMaxConcurrency" data-path-key="|spec|config|codeMode|parallelMaxConcurrency|" data-parent-path="spec.config.codeMode" data-name="parallelMaxConcurrency" data-text="ParallelMaxConcurrency caps the number of goroutines a script&#39;s parallel() builtin
+may run concurrently. Defaults to 10 if unset or zero. minimum: 1">
+  <span class="prop-name">parallelMaxConcurrency</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">ParallelMaxConcurrency caps the number of goroutines a script&#39;s parallel() builtin
+may run concurrently. Defaults to 10 if unset or zero.<div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.codeMode.stepLimit" data-path-key="|spec|config|codeMode|stepLimit|" data-parent-path="spec.config.codeMode" data-name="stepLimit" data-text="StepLimit is the maximum number of Starlark execution steps per script. It bounds
+runaway loops and computation. Defaults to 100000 if unset or zero. format: int64 minimum: 1">
+  <span class="prop-name">stepLimit</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">StepLimit is the maximum number of Starlark execution steps per script. It bounds
+runaway loops and computation. Defaults to 100000 if unset or zero.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.codeMode.toolCallTimeout" data-path-key="|spec|config|codeMode|toolCallTimeout|" data-parent-path="spec.config.codeMode" data-name="toolCallTimeout" data-text="ToolCallTimeout bounds each individual backend tool call made from within a script.
+A call exceeding it is cancelled and surfaces a timeout error to the script.
+Defaults to 30s if unset. pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$">
+  <span class="prop-name">toolCallTimeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ToolCallTimeout bounds each individual backend tool call made from within a script.
+A call exceeding it is cancelled and surfaces a timeout error to the script.
+Defaults to 30s if unset.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.config.compositeToolRefs" data-path-key="|spec|config|compositeToolRefs|" data-parent-path="spec.config" data-name="compositeToolRefs" data-text="CompositeToolRefs references VirtualMCPCompositeToolDefinition resources
 for complex, reusable workflows. Only applicable when running in Kubernetes.
 Referenced resources must be in the same namespace as the VirtualMCPServer.">
