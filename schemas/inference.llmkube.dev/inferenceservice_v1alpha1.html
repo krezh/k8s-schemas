@@ -4074,6 +4074,45 @@ Use when the model is baked into the image or downloaded by the
 container itself (e.g., via HF_TOKEN).
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.speculativeDecoding" data-path-key="|spec|speculativeDecoding|" data-parent-path="spec" data-name="speculativeDecoding" data-text="SpeculativeDecoding configures speculative decoding for the llama.cpp
+runtime using MTP (Multi-Token Prediction) or draft-model decoding.
+Maps to llama.cpp --spec-type and --draft-n-max flags. Only the
+&#34;llamacpp&#34; runtime supports this field; other runtimes must not set it.">
+<summary>
+  <span class="prop-name">speculativeDecoding</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SpeculativeDecoding configures speculative decoding for the llama.cpp
+runtime using MTP (Multi-Token Prediction) or draft-model decoding.
+Maps to llama.cpp --spec-type and --draft-n-max flags. Only the
+&#34;llamacpp&#34; runtime supports this field; other runtimes must not set it.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.nDraftMax" data-path-key="|spec|speculativeDecoding|nDraftMax|" data-parent-path="spec.speculativeDecoding" data-name="nDraftMax" data-text="NDraftMax is the maximum number of draft tokens to propose per step
+(--draft-n-max). Only emitted when set; llama.cpp uses its own default
+otherwise. format: int32 minimum: 1">
+  <span class="prop-name">nDraftMax</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">NDraftMax is the maximum number of draft tokens to propose per step
+(--draft-n-max). Only emitted when set; llama.cpp uses its own default
+otherwise.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.type" data-path-key="|spec|speculativeDecoding|type|" data-parent-path="spec.speculativeDecoding" data-name="type" data-text="Type is the speculative decoding method (--spec-type). &#34;mtp&#34; maps to
+draft-mtp, &#34;draft&#34; maps to draft, and &#34;disabled&#34; (or omitting the
+entire SpeculativeDecoding block) means no speculative decoding. enum: mtp, draft, disabled">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type is the speculative decoding method (--spec-type). &#34;mtp&#34; maps to
+draft-mtp, &#34;draft&#34; maps to draft, and &#34;disabled&#34; (or omitting the
+entire SpeculativeDecoding block) means no speculative decoding.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: mtp, draft, disabled"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">mtp, draft, disabled</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.tensorOverrides" data-path-key="|spec|tensorOverrides|" data-parent-path="spec" data-name="tensorOverrides" data-text="TensorOverrides provides fine-grained tensor placement overrides for power users.
 Each entry specifies a tensor name and target device (e.g., &#34;exps=CPU&#34;, &#34;token_embd=CUDA0&#34;).
 Maps to llama.cpp --override-tensor flag (one flag per entry).">

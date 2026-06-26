@@ -669,6 +669,259 @@ see docs for details: https://docs.docker.com/registry/spec/auth/scope/
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|" data-parent-path="spec.generator" data-name="beyondtrustWorkloadCredentialsDynamicSecretSpec" data-text="BeyondtrustWorkloadCredentialsDynamicSecretSpec defines the desired spec for BeyondtrustWorkloadCredentials dynamic generator.
+This generator enables obtaining temporary, short-lived credentials from BeyondTrust Workload Credentials.
+For more information, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api">
+<summary>
+  <span class="prop-name">beyondtrustWorkloadCredentialsDynamicSecretSpec</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">BeyondtrustWorkloadCredentialsDynamicSecretSpec defines the desired spec for BeyondtrustWorkloadCredentials dynamic generator.
+This generator enables obtaining temporary, short-lived credentials from BeyondTrust Workload Credentials.
+For more information, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.controller" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|controller|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec" data-name="controller" data-text="Controller selects the controller that should handle this generator.
+Leave empty to use the default controller.">
+  <span class="prop-name">controller</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Controller selects the controller that should handle this generator.
+Leave empty to use the default controller.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec" data-name="provider" data-text="Provider contains the BeyondtrustWorkloadCredentials provider configuration including authentication,
+server connection details, and the folder path to the dynamic secret definition.
+The folderPath should point to a dynamic secret definition that has been created in
+BeyondTrust Workload Credentials (e.g., &#34;production/aws-temp&#34;).
+For setup details, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api">
+<summary>
+  <span class="prop-name">provider</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Provider contains the BeyondtrustWorkloadCredentials provider configuration including authentication,
+server connection details, and the folder path to the dynamic secret definition.
+The folderPath should point to a dynamic secret definition that has been created in
+BeyondTrust Workload Credentials (e.g., &#34;production/aws-temp&#34;).
+For setup details, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|auth|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider" data-name="auth" data-text="Auth configures how the Operator authenticates with the BeyondTrust Workload Credentials API.
+Currently supports API key authentication via Kubernetes secret reference.
+For authentication setup, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#authentication">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Auth configures how the Operator authenticates with the BeyondTrust Workload Credentials API.
+Currently supports API key authentication via Kubernetes secret reference.
+For authentication setup, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#authentication</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|auth|apikey|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth" data-name="apikey" data-text="APIKey configures API token authentication for BeyondTrust Workload Credentials.
+The token is retrieved from a Kubernetes secret and used as a Bearer token for API requests.">
+<summary>
+  <span class="prop-name">apikey</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">APIKey configures API token authentication for BeyondTrust Workload Credentials.
+The token is retrieved from a Kubernetes secret and used as a Bearer token for API requests.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey.token" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|auth|apikey|token|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey" data-name="token" data-text="Token references the Kubernetes secret containing the BeyondTrust Workload Credentials API token.
+The secret should contain the API key used to authenticate with BeyondTrust Workload Credentials.
+Create an API token in your BeyondTrust Workload Credentials console and store it in a Kubernetes secret.
+For details on creating API tokens, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#authentication">
+<summary>
+  <span class="prop-name">token</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Token references the Kubernetes secret containing the BeyondTrust Workload Credentials API token.
+The secret should contain the API key used to authenticate with BeyondTrust Workload Credentials.
+Create an API token in your BeyondTrust Workload Credentials console and store it in a Kubernetes secret.
+For details on creating API tokens, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#authentication</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey.token.key" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|auth|apikey|token|key|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey.token" data-name="key" data-text="A key in the referenced Secret.
+Some instances of this field may be defaulted, in others it may be required. pattern: ^[-._a-zA-Z0-9]&#43;$ minLength: 1 maxLength: 253">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">A key in the referenced Secret.
+Some instances of this field may be defaulted, in others it may be required.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[-._a-zA-Z0-9]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[-._a-zA-Z0-9]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey.token.name" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|auth|apikey|token|name|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey.token" data-name="name" data-text="The name of the Secret resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The name of the Secret resource being referred to.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey.token.namespace" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|auth|apikey|token|namespace|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.auth.apikey.token" data-name="namespace" data-text="The namespace of the Secret resource being referred to.
+Ignored if referent is not cluster-scoped, otherwise defaults to the namespace of the referent. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ minLength: 1 maxLength: 63">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The namespace of the Secret resource being referred to.
+Ignored if referent is not cluster-scoped, otherwise defaults to the namespace of the referent.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 63"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">63</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caBundle" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|caBundle|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider" data-name="caBundle" data-text="CABundle is a base64-encoded CA certificate used to validate the BeyondTrust Workload Credentials API TLS certificate.
+Use this when your BeyondTrust instance uses a self-signed certificate or internal CA.
+If not set, the system&#39;s trusted root certificates are used. format: byte">
+  <span class="prop-name">caBundle</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CABundle is a base64-encoded CA certificate used to validate the BeyondTrust Workload Credentials API TLS certificate.
+Use this when your BeyondTrust instance uses a self-signed certificate or internal CA.
+If not set, the system&#39;s trusted root certificates are used.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|caProvider|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider" data-name="caProvider" data-text="CAProvider points to a Secret or ConfigMap containing a PEM-encoded CA certificate.
+This is used to validate the BeyondTrust Workload Credentials API TLS certificate.
+Use this as an alternative to CABundle when you want to reference an existing Kubernetes resource.">
+<summary>
+  <span class="prop-name">caProvider</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CAProvider points to a Secret or ConfigMap containing a PEM-encoded CA certificate.
+This is used to validate the BeyondTrust Workload Credentials API TLS certificate.
+Use this as an alternative to CABundle when you want to reference an existing Kubernetes resource.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider.key" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|caProvider|key|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider" data-name="key" data-text="The key where the CA certificate can be found in the Secret or ConfigMap. pattern: ^[-._a-zA-Z0-9]&#43;$ minLength: 1 maxLength: 253">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The key where the CA certificate can be found in the Secret or ConfigMap.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[-._a-zA-Z0-9]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[-._a-zA-Z0-9]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider.name" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|caProvider|name|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider" data-name="name" data-text="The name of the object located at the provider type. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The name of the object located at the provider type.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider.namespace" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|caProvider|namespace|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider" data-name="namespace" data-text="The namespace the Provider type is in.
+Can only be defined when used in a ClusterSecretStore. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ minLength: 1 maxLength: 63">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The namespace the Provider type is in.
+Can only be defined when used in a ClusterSecretStore.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 63"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">63</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider.type" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|caProvider|type|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.caProvider" data-name="type" data-text="The type of provider to use such as &#34;Secret&#34;, or &#34;ConfigMap&#34;. enum: Secret, ConfigMap">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The type of provider to use such as &#34;Secret&#34;, or &#34;ConfigMap&#34;.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Secret, ConfigMap"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Secret, ConfigMap</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.folderPath" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|folderPath|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider" data-name="folderPath" data-text="FolderPath specifies the default folder path for secret retrieval.
+Secrets will be fetched from this folder unless overridden in the ExternalSecret spec.
+Example: &#34;production/database&#34; or &#34;dev/api-keys&#34;
+Leave empty to retrieve secrets from the root folder.
+For folder organization, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#folders">
+  <span class="prop-name">folderPath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">FolderPath specifies the default folder path for secret retrieval.
+Secrets will be fetched from this folder unless overridden in the ExternalSecret spec.
+Example: &#34;production/database&#34; or &#34;dev/api-keys&#34;
+Leave empty to retrieve secrets from the root folder.
+For folder organization, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#folders
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.server" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|server|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider" data-name="server" data-text="Server configures the BeyondTrust Workload Credentials server connection details.
+Includes the API URL and Site ID for your BeyondTrust instance.
+For API reference, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api">
+<summary>
+  <span class="prop-name">server</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Server configures the BeyondTrust Workload Credentials server connection details.
+Includes the API URL and Site ID for your BeyondTrust instance.
+For API reference, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.server.apiUrl" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|server|apiUrl|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.server" data-name="apiUrl" data-text="APIURL is the base URL of your BeyondTrust Workload Credentials API server.
+This should be the full URL to your BeyondTrust instance.
+Example: https://api.beyondtrust.io/siie
+For more information, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#base-url">
+  <span class="prop-name">apiUrl</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">APIURL is the base URL of your BeyondTrust Workload Credentials API server.
+This should be the full URL to your BeyondTrust instance.
+Example: https://api.beyondtrust.io/siie
+For more information, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api#base-url
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.server.siteId" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|provider|server|siteId|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.provider.server" data-name="siteId" data-text="SiteID is your BeyondTrust Workload Credentials site identifier (UUID format).
+This identifier is unique to your BeyondTrust Workload Credentials instance.
+You can find your Site ID in the BeyondTrust Workload Credentials admin console.
+Example: a1b2c3d4-e5f6-4890-abcd-ef1234567890
+For more information, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api">
+  <span class="prop-name">siteId</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">SiteID is your BeyondTrust Workload Credentials site identifier (UUID format).
+This identifier is unique to your BeyondTrust Workload Credentials instance.
+You can find your Site ID in the BeyondTrust Workload Credentials admin console.
+Example: a1b2c3d4-e5f6-4890-abcd-ef1234567890
+For more information, see: https://docs.beyondtrust.com/bt-docs/docs/secrets-api
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.retrySettings" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|retrySettings|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec" data-name="retrySettings" data-text="RetrySettings configures exponential backoff for failed API requests.
+If not specified, uses the default retry settings.">
+<summary>
+  <span class="prop-name">retrySettings</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RetrySettings configures exponential backoff for failed API requests.
+If not specified, uses the default retry settings.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.retrySettings.maxRetries" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|retrySettings|maxRetries|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.retrySettings" data-name="maxRetries" data-text="format: int32">
+  <span class="prop-name">maxRetries</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.retrySettings.retryInterval" data-path-key="|spec|generator|beyondtrustWorkloadCredentialsDynamicSecretSpec|retrySettings|retryInterval|" data-parent-path="spec.generator.beyondtrustWorkloadCredentialsDynamicSecretSpec.retrySettings" data-name="retryInterval" data-text="">
+  <span class="prop-name">retryInterval</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.generator.cloudsmithAccessTokenSpec" data-path-key="|spec|generator|cloudsmithAccessTokenSpec|" data-parent-path="spec.generator" data-name="cloudsmithAccessTokenSpec" data-text="CloudsmithAccessTokenSpec defines the configuration for generating a Cloudsmith access token using OIDC authentication.">
 <summary>
   <span class="prop-name">cloudsmithAccessTokenSpec</span>
@@ -3873,13 +4126,13 @@ These secrets will be passed to the templating function as key value pairs under
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.kind" data-path-key="|spec|kind|" data-parent-path="spec" data-name="kind" data-text="Kind the kind of this generator. enum: ACRAccessToken, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana">
+<div class="prop-leaf" data-prop-row data-path="spec.kind" data-path-key="|spec|kind|" data-parent-path="spec" data-name="kind" data-text="Kind the kind of this generator. enum: ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA">
   <span class="prop-name">kind</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Kind the kind of this generator.<div class="leaf-constraints">
-<details class="schema-constraint schema-constraint-long" title="enum: ACRAccessToken, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana">
-  <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">ACRAccessToken, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, ...</code></summary>
-  <code class="schema-constraint-value schema-constraint-full">ACRAccessToken, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana</code>
+<details class="schema-constraint schema-constraint-long" title="enum: ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA">
+  <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAcce...</code></summary>
+  <code class="schema-constraint-value schema-constraint-full">ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA</code>
 </details></div>
   </div>
 </div>

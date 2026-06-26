@@ -467,6 +467,22 @@ in USD.<div class="leaf-constraints">
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.backends[].displayName" data-path-key="|spec|backends[]|displayName|" data-parent-path="spec.backends" data-name="displayName" data-text="DisplayName is an optional freeform label published as the model id
+on /v1/models and used by BackendNameMatch to resolve a request&#39;s
+model field to a backend. When unset, Name is used for both
+purposes (current behavior). This lets the k8s-safe Name differ
+from the user-facing model identifier (e.g. Name &#34;claude-opus-4&#34;
+with DisplayName &#34;claude-opus-4-20250514&#34;).">
+  <span class="prop-name">displayName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">DisplayName is an optional freeform label published as the model id
+on /v1/models and used by BackendNameMatch to resolve a request&#39;s
+model field to a backend. When unset, Name is used for both
+purposes (current behavior). This lets the k8s-safe Name differ
+from the user-facing model identifier (e.g. Name &#34;claude-opus-4&#34;
+with DisplayName &#34;claude-opus-4-20250514&#34;).
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.backends[].external" data-path-key="|spec|backends[]|external|" data-parent-path="spec.backends" data-name="external" data-text="External describes an out-of-cluster provider (Anthropic, OpenAI,
 or a LiteLLM proxy). Mutually exclusive with InferenceServiceRef.">
 <summary>
