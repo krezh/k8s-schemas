@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.format for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.files for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -417,6 +417,16 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content"><div class="prop-desc">spec defines the desired state of Model</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.files" data-path-key="|spec|files|" data-parent-path="spec" data-name="files" data-text="Files lists model weight artifacts to stage from Source. Entries are
+repo-relative for repository sources. The first entry is the primary model
+file passed to the runtime.">
+  <span class="prop-name">files</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Files lists model weight artifacts to stage from Source. Entries are
+repo-relative for repository sources. The first entry is the primary model
+file passed to the runtime.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.format" data-path-key="|spec|format|" data-parent-path="spec" data-name="format" data-text="Format specifies the model file format.
 &#34;gguf&#34; is used with the llama-server runtime; &#34;mlx&#34; is used with the oMLX runtime;
 &#34;safetensors&#34;, &#34;pytorch&#34;, and &#34;custom&#34; are used with the generic runtime. enum: gguf, mlx, safetensors, pytorch, custom">
@@ -734,6 +744,14 @@ agent-level --memory-fraction flag but not MemoryBudget.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.mmproj" data-path-key="|spec|mmproj|" data-parent-path="spec" data-name="mmproj" data-text="Mmproj is an optional multimodal projector file to stage from Source and
+pass to runtimes that support projector arguments.">
+  <span class="prop-name">mmproj</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Mmproj is an optional multimodal projector file to stage from Source and
+pass to runtimes that support projector arguments.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.quantization" data-path-key="|spec|quantization|" data-parent-path="spec" data-name="quantization" data-text="Quantization describes the quantization level (e.g., Q4_0, Q5_K_M, F16)">
   <span class="prop-name">quantization</span>
   <span class="type-badge">string</span>
@@ -819,7 +837,7 @@ controller and will fail to fetch. The controller marks the Model
 Failed and backs off to a 5-minute requeue rather than retrying
 tightly (#405). Workaround: pre-stage on a pvc://, or use the
 equivalent https://huggingface.co/.../&lt;filename&gt;.gguf URL which
-the runtime/init container resolves at deploy time. pattern: ^(https?|file|pvc)://.*|^/[^\s]&#43;$|^[a-zA-Z0-9][\w\-\.\/]&#43;$">
+the runtime/init container resolves at deploy time. pattern: ^(https?|file|pvc|hf)://.*|^/[^\s]&#43;$|^[a-zA-Z0-9][\w\-\.\/]&#43;$">
   <span class="prop-name">source</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Source defines where to obtain the model.
@@ -842,7 +860,7 @@ Failed and backs off to a 5-minute requeue rather than retrying
 tightly (#405). Workaround: pre-stage on a pvc://, or use the
 equivalent https://huggingface.co/.../&lt;filename&gt;.gguf URL which
 the runtime/init container resolves at deploy time.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^(https?|file|pvc)://.*|^/[^\s]&#43;$|^[a-zA-Z0-9][\w\-\.\/]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(https?|file|pvc)://.*|^/[^\s]&#43;$|^[a-zA-Z0-9][\w\-\.\/]&#43;$</code></div></div>
+<div class="schema-constraint" title="pattern: ^(https?|file|pvc|hf)://.*|^/[^\s]&#43;$|^[a-zA-Z0-9][\w\-\.\/]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(https?|file|pvc|hf)://.*|^/[^\s]&#43;$|^[a-zA-Z0-9][\w\-\.\/]&#43;$</code></div></div>
   </div>
 </div>
   </div>
@@ -1105,11 +1123,19 @@ revalidation. Used to detect upstream changes for http/https sources
 (HuggingFace serves the blob SHA as the ETag, so a moved branch is caught).
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.stagedFiles" data-path-key="|status|stagedFiles|" data-parent-path="status" data-name="stagedFiles" data-text="StagedFiles lists the repo-relative paths staged in the model cache.
+Populated when spec.files or spec.mmproj are set.">
+  <span class="prop-name">stagedFiles</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">StagedFiles lists the repo-relative paths staged in the model cache.
+Populated when spec.files or spec.mmproj are set.
+  </div>
+</div>
   </div>
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.format for an exact path">No matches. Try .spec.format for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.files for an exact path">No matches. Try .spec.files for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>
