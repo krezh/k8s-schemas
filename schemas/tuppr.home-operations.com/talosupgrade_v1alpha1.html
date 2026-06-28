@@ -7546,6 +7546,16 @@ soft: preferred avoidance (job prefers to avoid but can run on target node)<div 
 <div class="schema-constraint" title="pattern: ^([0-9]&#43;[smh])&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;[smh])&#43;$</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.policy.waitForVolumeDetach" data-path-key="|spec|policy|waitForVolumeDetach|" data-parent-path="spec.policy" data-name="waitForVolumeDetach" data-text="WaitForVolumeDetach makes tuppr drain the node and wait for its CSI volumes to
+detach before the Talos reboot (upgrading with Talos drain disabled), avoiding a
+Multi-Attach error when a fast reboot orphans a mount. No-op on single-node.">
+  <span class="prop-name">waitForVolumeDetach</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">WaitForVolumeDetach makes tuppr drain the node and wait for its CSI volumes to
+detach before the Talos reboot (upgrading with Talos drain disabled), avoiding a
+Multi-Attach error when a fast reboot orphans a mount. No-op on single-node.
+  </div>
+</div>
   </div>
 </div>
 </details>
