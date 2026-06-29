@@ -2277,6 +2277,25 @@ Each entry is passed as a separate --override-kv flag. Format: key=type:value
 Maps to llama.cpp --override-kv flag (one flag per entry).
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.mode" data-path-key="|spec|mode|" data-parent-path="spec" data-name="mode" data-text="Mode selects how the model is served: &#34;chat&#34; (default) for
+chat/completion, &#34;embedding&#34; for /v1/embeddings, &#34;rerank&#34; for /v1/rerank.
+For the llamacpp runtime it auto-appends the required flags (embedding -&gt;
+--embedding --pooling last; rerank -&gt; --reranking --embedding --pooling
+rank); any flag already set in spec.extraArgs wins. When unset, the mode is
+inferred from spec.extraArgs / spec.endpoint.path. The resolved value is
+always reported in status.mode. enum: chat, embedding, rerank">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Mode selects how the model is served: &#34;chat&#34; (default) for
+chat/completion, &#34;embedding&#34; for /v1/embeddings, &#34;rerank&#34; for /v1/rerank.
+For the llamacpp runtime it auto-appends the required flags (embedding -&gt;
+--embedding --pooling last; rerank -&gt; --reranking --embedding --pooling
+rank); any flag already set in spec.extraArgs wins. When unset, the mode is
+inferred from spec.extraArgs / spec.endpoint.path. The resolved value is
+always reported in status.mode.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: chat, embedding, rerank"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">chat, embedding, rerank</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.modelRef" data-path-key="|spec|modelRef|" data-parent-path="spec" data-name="modelRef" data-text="ModelRef references the Model CR that contains the model to serve">
   <span class="prop-name">modelRef</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
@@ -5002,6 +5021,14 @@ AIServiceBackend) were reconciled successfully against the gateway.
   <span class="type-badge">string</span>
   <div class="leaf-desc">LastUpdated is the timestamp of the last status update<div class="leaf-constraints">
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.mode" data-path-key="|status|mode|" data-parent-path="status" data-name="mode" data-text="Mode is the resolved serving mode (chat, embedding, or rerank): spec.mode
+when set, otherwise inferred from the runtime flags and endpoint path.">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Mode is the resolved serving mode (chat, embedding, or rerank): spec.mode
+when set, otherwise inferred from the runtime flags and endpoint path.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.modelReady" data-path-key="|status|modelReady|" data-parent-path="status" data-name="modelReady" data-text="ModelReady indicates if the referenced Model is in Ready state">

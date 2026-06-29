@@ -1576,6 +1576,18 @@
             "null"
           ]
         },
+        "mode": {
+          "description": "Mode selects how the model is served: \"chat\" (default) for\nchat/completion, \"embedding\" for /v1/embeddings, \"rerank\" for /v1/rerank.\nFor the llamacpp runtime it auto-appends the required flags (embedding -\u003e\n--embedding --pooling last; rerank -\u003e --reranking --embedding --pooling\nrank); any flag already set in spec.extraArgs wins. When unset, the mode is\ninferred from spec.extraArgs / spec.endpoint.path. The resolved value is\nalways reported in status.mode.",
+          "enum": [
+            "chat",
+            "embedding",
+            "rerank"
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "modelRef": {
           "description": "ModelRef references the Model CR that contains the model to serve",
           "type": "string"
@@ -3617,6 +3629,13 @@
         "lastUpdated": {
           "description": "LastUpdated is the timestamp of the last status update",
           "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mode": {
+          "description": "Mode is the resolved serving mode (chat, embedding, or rerank): spec.mode\nwhen set, otherwise inferred from the runtime flags and endpoint path.",
           "type": [
             "string",
             "null"
