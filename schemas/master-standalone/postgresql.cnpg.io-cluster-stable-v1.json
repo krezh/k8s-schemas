@@ -1213,10 +1213,11 @@
                       ]
                     },
                     "compression": {
-                      "description": "Compress a backup file (a tar file per tablespace) while streaming it\nto the object store. Available options are empty string (no\ncompression, default), `gzip`, `bzip2`, and `snappy`.",
+                      "description": "Compress a backup file (a tar file per tablespace) while streaming it\nto the object store. Available options are empty string (no\ncompression, default), `gzip`, `bzip2`, `lz4`, and `snappy`.",
                       "enum": [
                         "bzip2",
                         "gzip",
+                        "lz4",
                         "snappy"
                       ],
                       "type": [
@@ -3233,10 +3234,11 @@
                         ]
                       },
                       "compression": {
-                        "description": "Compress a backup file (a tar file per tablespace) while streaming it\nto the object store. Available options are empty string (no\ncompression, default), `gzip`, `bzip2`, and `snappy`.",
+                        "description": "Compress a backup file (a tar file per tablespace) while streaming it\nto the object store. Available options are empty string (no\ncompression, default), `gzip`, `bzip2`, `lz4`, and `snappy`.",
                         "enum": [
                           "bzip2",
                           "gzip",
+                          "lz4",
                           "snappy"
                         ],
                         "type": [
@@ -3968,7 +3970,7 @@
                     ]
                   },
                   "inRoles": {
-                    "description": "List of one or more existing roles to which this role will be\nimmediately added as a new member. Default empty.",
+                    "description": "List of one or more existing roles to which this role will be\nimmediately added as a new member. Default empty.\nChanges to the list are applied to an existing role through\n`GRANT` and `REVOKE` statements, not only at role creation.",
                     "items": {
                       "type": "string"
                     },
@@ -3979,7 +3981,7 @@
                   },
                   "inherit": {
                     "default": true,
-                    "description": "Whether a role \"inherits\" the privileges of roles it is a member of.\nDefaults is `true`.",
+                    "description": "Whether a role \"inherits\" the privileges of roles it is a member of.\nDefault is `true`.",
                     "type": [
                       "boolean",
                       "null"
@@ -3998,7 +4000,7 @@
                   },
                   "passwordSecret": {
                     "additionalProperties": false,
-                    "description": "Secret containing the password of the role (if present)\nIf null, the password will be ignored unless DisablePassword is set",
+                    "description": "Secret containing the password of the role (if present).\nIf null, the password will be ignored unless DisablePassword is set.\nWhen set, the secret must follow the `kubernetes.io/basic-auth` format\nand contain both a `username` and a `password` field.",
                     "properties": {
                       "name": {
                         "description": "Name of the referent.",
@@ -5241,7 +5243,8 @@
                     ]
                   },
                   "name": {
-                    "description": "The name of the extension, required",
+                    "description": "The name of the extension, required. The limit of 59 characters\nleaves room for the prefix the operator adds when deriving the\nextension's Kubernetes Volume name (capped at 63 characters).",
+                    "maxLength": 59,
                     "minLength": 1,
                     "pattern": "^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$",
                     "type": "string"
@@ -5554,6 +5557,56 @@
                   "message": "dataDurability set to 'preferred' requires empty 'standbyNamesPre' and empty 'standbyNamesPost'",
                   "rule": "self.dataDurability!='preferred' || ((!has(self.standbyNamesPre) || self.standbyNamesPre.size()==0) \u0026\u0026 (!has(self.standbyNamesPost) || self.standbyNamesPost.size()==0))"
                 }
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "primaryLease": {
+          "additionalProperties": false,
+          "description": "Configuration of the Kubernetes `Lease` used to coordinate safe primary\nelection within the cluster. When omitted, the operator applies built-in\ndefaults; tune these values only if you understand the consequences for\nfailover timing.",
+          "properties": {
+            "leaseDurationSeconds": {
+              "default": 15,
+              "description": "How long, in seconds, the primary lease is considered valid before it\nexpires and another instance may acquire it. It must be greater than\n`renewDeadlineSeconds`.\nDefaults to 15.",
+              "format": "int32",
+              "minimum": 1,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "releasedLeaseDurationSeconds": {
+              "default": 1,
+              "description": "The TTL, in seconds, written when the primary explicitly releases the\nlease on a clean shutdown, allowing a replica to promote without waiting\nfor the full lease duration to expire.\nDefaults to 1.",
+              "format": "int32",
+              "minimum": 1,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "renewDeadlineSeconds": {
+              "default": 10,
+              "description": "How long, in seconds, the current primary keeps retrying to renew the\nlease before giving up and stopping. It must be smaller than\n`leaseDurationSeconds`.\nDefaults to 10.",
+              "format": "int32",
+              "minimum": 1,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "retryPeriodSeconds": {
+              "default": 2,
+              "description": "How frequently, in seconds, a non-holder instance retries acquiring or\nrenewing the lease.\nDefaults to 2.",
+              "format": "int32",
+              "minimum": 1,
+              "type": [
+                "integer",
+                "null"
               ]
             }
           },
@@ -8219,7 +8272,7 @@
           ]
         },
         "latestGeneratedNode": {
-          "description": "ID of the latest generated node (used to avoid node name clashing)",
+          "description": "ID of the latest generated node (used to avoid node name clashing)\n\nDeprecated: this field is not set anymore",
           "type": [
             "integer",
             "null"
@@ -8249,7 +8302,7 @@
                 },
                 "type": "array"
               },
-              "description": "CannotReconcile lists roles that cannot be reconciled in PostgreSQL,\nwith an explanation of the cause",
+              "description": "CannotReconcile lists roles that cannot be reconciled, with an\nexplanation of the cause. Failures may originate in PostgreSQL\n(e.g. dropping a role that owns objects) or in Kubernetes (e.g.\nthe referenced password Secret cannot be fetched).",
               "type": [
                 "object",
                 "null"
@@ -8294,6 +8347,13 @@
           "description": "OnlineUpdateEnabled shows if the online upgrade is enabled inside the cluster",
           "type": [
             "boolean",
+            "null"
+          ]
+        },
+        "operatorCertificateFingerprint": {
+          "description": "OperatorCertificateFingerprint is the SHA256 fingerprint of the operator's\nin-memory client certificate public key. The instance manager pins this\nfingerprint to authenticate requests from the operator.",
+          "type": [
+            "string",
             "null"
           ]
         },
@@ -8405,7 +8465,8 @@
                     ]
                   },
                   "name": {
-                    "description": "The name of the extension, required",
+                    "description": "The name of the extension, required. The limit of 59 characters\nleaves room for the prefix the operator adds when deriving the\nextension's Kubernetes Volume name (capped at 63 characters).",
+                    "maxLength": 59,
                     "minLength": 1,
                     "pattern": "^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$",
                     "type": "string"
@@ -8728,6 +8789,13 @@
             "null"
           ]
         },
+        "selector": {
+          "description": "Selector is the serialized form of the label selector that identifies\nthe pods managed by this cluster. Populated by the operator and exposed\nthrough the scale sub-resource so an autoscaler (such as HPA or VPA)\ncan discover the managed instance pods.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "switchReplicaClusterStatus": {
           "additionalProperties": false,
           "description": "SwitchReplicaClusterStatus is the status of the switch to replica cluster",
@@ -8789,6 +8857,149 @@
           },
           "type": [
             "array",
+            "null"
+          ]
+        },
+        "targetPgDataImageInfo": {
+          "additionalProperties": false,
+          "description": "TargetPGDataImageInfo contains the details of the target image for an\nin-progress major upgrade. It is set before the upgrade Job is created,\nand cleared on successful completion or when the upgrade is rolled back.",
+          "properties": {
+            "extensions": {
+              "description": "Extensions contains the container image extensions available for the current Image",
+              "items": {
+                "additionalProperties": false,
+                "description": "ExtensionConfiguration is the configuration used to add\nPostgreSQL extensions to the Cluster.",
+                "properties": {
+                  "bin_path": {
+                    "description": "A list of directories within the image to be appended to the\nPostgreSQL process's `PATH` environment variable.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": [
+                      "array",
+                      "null"
+                    ]
+                  },
+                  "dynamic_library_path": {
+                    "description": "The list of directories inside the image which should be added to dynamic_library_path.\nIf not defined, defaults to \"/lib\".",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": [
+                      "array",
+                      "null"
+                    ]
+                  },
+                  "env": {
+                    "description": "Env is a list of custom environment variables to be set in the\nPostgreSQL process for this extension. It is the responsibility of the\ncluster administrator to ensure the variables are correct for the\nspecific extension. Note that changes to these variables require\na manual cluster restart to take effect.",
+                    "items": {
+                      "additionalProperties": false,
+                      "description": "ExtensionEnvVar defines an environment variable for a specific extension\nimage volume.",
+                      "properties": {
+                        "name": {
+                          "description": "Name of the environment variable to be injected into the\nPostgreSQL process.",
+                          "minLength": 1,
+                          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "Value of the environment variable. CloudNativePG performs a direct\nreplacement of this value, with support for placeholder expansion.\nThe ${`image_root`} placeholder resolves to the absolute mount path\nof the extension's volume (e.g., `/extensions/my-extension`). This\nis particularly useful for allowing applications or libraries to\nlocate specific directories within the mounted image.\nUnrecognized placeholders are rejected. To include a literal ${...}\nin the value, escape it as $${...}.",
+                          "minLength": 1,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "x-kubernetes-list-map-keys": [
+                      "name"
+                    ],
+                    "x-kubernetes-list-type": "map"
+                  },
+                  "extension_control_path": {
+                    "description": "The list of directories inside the image which should be added to extension_control_path.\nIf not defined, defaults to \"/share\".",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": [
+                      "array",
+                      "null"
+                    ]
+                  },
+                  "image": {
+                    "additionalProperties": false,
+                    "description": "The image containing the extension.",
+                    "properties": {
+                      "pullPolicy": {
+                        "description": "Policy for pulling OCI objects. Possible values are:\nAlways: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\nNever: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\nIfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\nDefaults to Always if :latest tag is specified, or IfNotPresent otherwise.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "reference": {
+                        "description": "Required: Image or artifact reference to be used.\nBehaves in the same way as pod.spec.containers[*].image.\nPull secrets will be assembled in the same way as for the container image by looking up node credentials, SA image pull secrets, and pod spec image pull secrets.\nMore info: https://kubernetes.io/docs/concepts/containers/images\nThis field is optional to allow higher level config management to default or override\ncontainer images in workload controllers like Deployments and StatefulSets.",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  },
+                  "ld_library_path": {
+                    "description": "The list of directories inside the image which should be added to ld_library_path.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": [
+                      "array",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "description": "The name of the extension, required. The limit of 59 characters\nleaves room for the prefix the operator adds when deriving the\nextension's Kubernetes Volume name (capped at 63 characters).",
+                    "maxLength": 59,
+                    "minLength": 1,
+                    "pattern": "^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              },
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "image": {
+              "description": "Image is the image name",
+              "type": "string"
+            },
+            "majorVersion": {
+              "description": "MajorVersion is the major version of the image",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "image",
+            "majorVersion"
+          ],
+          "type": [
+            "object",
             "null"
           ]
         },

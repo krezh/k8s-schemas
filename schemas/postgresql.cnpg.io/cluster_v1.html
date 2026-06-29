@@ -1856,13 +1856,13 @@ behavior during execution.
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.backup.barmanObjectStore.data.compression" data-path-key="|spec|backup|barmanObjectStore|data|compression|" data-parent-path="spec.backup.barmanObjectStore.data" data-name="compression" data-text="Compress a backup file (a tar file per tablespace) while streaming it
 to the object store. Available options are empty string (no
-compression, default), `gzip`, `bzip2`, and `snappy`. enum: bzip2, gzip, snappy">
+compression, default), `gzip`, `bzip2`, `lz4`, and `snappy`. enum: bzip2, gzip, lz4, snappy">
   <span class="prop-name">compression</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Compress a backup file (a tar file per tablespace) while streaming it
 to the object store. Available options are empty string (no
-compression, default), `gzip`, `bzip2`, and `snappy`.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: bzip2, gzip, snappy"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">bzip2, gzip, snappy</code></div></div>
+compression, default), `gzip`, `bzip2`, `lz4`, and `snappy`.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: bzip2, gzip, lz4, snappy"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">bzip2, gzip, lz4, snappy</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.backup.barmanObjectStore.data.encryption" data-path-key="|spec|backup|barmanObjectStore|data|encryption|" data-parent-path="spec.backup.barmanObjectStore.data" data-name="encryption" data-text="Whenever to force the encryption of files (if the bucket is
@@ -4236,13 +4236,13 @@ behavior during execution.
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.externalClusters[].barmanObjectStore.data.compression" data-path-key="|spec|externalClusters[]|barmanObjectStore|data|compression|" data-parent-path="spec.externalClusters[].barmanObjectStore.data" data-name="compression" data-text="Compress a backup file (a tar file per tablespace) while streaming it
 to the object store. Available options are empty string (no
-compression, default), `gzip`, `bzip2`, and `snappy`. enum: bzip2, gzip, snappy">
+compression, default), `gzip`, `bzip2`, `lz4`, and `snappy`. enum: bzip2, gzip, lz4, snappy">
   <span class="prop-name">compression</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Compress a backup file (a tar file per tablespace) while streaming it
 to the object store. Available options are empty string (no
-compression, default), `gzip`, `bzip2`, and `snappy`.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: bzip2, gzip, snappy"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">bzip2, gzip, snappy</code></div></div>
+compression, default), `gzip`, `bzip2`, `lz4`, and `snappy`.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: bzip2, gzip, lz4, snappy"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">bzip2, gzip, lz4, snappy</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.externalClusters[].barmanObjectStore.data.encryption" data-path-key="|spec|externalClusters[]|barmanObjectStore|data|encryption|" data-parent-path="spec.externalClusters[].barmanObjectStore.data" data-name="encryption" data-text="Whenever to force the encryption of files (if the bucket is
@@ -5042,19 +5042,23 @@ other roles. Default is `false`.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.managed.roles[].inRoles" data-path-key="|spec|managed|roles[]|inRoles|" data-parent-path="spec.managed.roles" data-name="inRoles" data-text="List of one or more existing roles to which this role will be
-immediately added as a new member. Default empty.">
+immediately added as a new member. Default empty.
+Changes to the list are applied to an existing role through
+`GRANT` and `REVOKE` statements, not only at role creation.">
   <span class="prop-name">inRoles</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">List of one or more existing roles to which this role will be
 immediately added as a new member. Default empty.
+Changes to the list are applied to an existing role through
+`GRANT` and `REVOKE` statements, not only at role creation.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.managed.roles[].inherit" data-path-key="|spec|managed|roles[]|inherit|" data-parent-path="spec.managed.roles" data-name="inherit" data-text="Whether a role &#34;inherits&#34; the privileges of roles it is a member of.
-Defaults is `true`.">
+Default is `true`.">
   <span class="prop-name">inherit</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">Whether a role &#34;inherits&#34; the privileges of roles it is a member of.
-Defaults is `true`.
+Default is `true`.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.managed.roles[].login" data-path-key="|spec|managed|roles[]|login|" data-parent-path="spec.managed.roles" data-name="login" data-text="Whether the role is allowed to log in. A role having the `login`
@@ -5075,14 +5079,18 @@ the usual sense of the word. Default is `false`.
   <div class="leaf-desc">Name of the role
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.managed.roles[].passwordSecret" data-path-key="|spec|managed|roles[]|passwordSecret|" data-parent-path="spec.managed.roles" data-name="passwordSecret" data-text="Secret containing the password of the role (if present)
-If null, the password will be ignored unless DisablePassword is set">
+<details class="prop" data-prop-row data-path="spec.managed.roles[].passwordSecret" data-path-key="|spec|managed|roles[]|passwordSecret|" data-parent-path="spec.managed.roles" data-name="passwordSecret" data-text="Secret containing the password of the role (if present).
+If null, the password will be ignored unless DisablePassword is set.
+When set, the secret must follow the `kubernetes.io/basic-auth` format
+and contain both a `username` and a `password` field.">
 <summary>
   <span class="prop-name">passwordSecret</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Secret containing the password of the role (if present)
-If null, the password will be ignored unless DisablePassword is set</div>
+<div class="prop-content"><div class="prop-desc">Secret containing the password of the role (if present).
+If null, the password will be ignored unless DisablePassword is set.
+When set, the secret must follow the `kubernetes.io/basic-auth` format
+and contain both a `username` and a `password` field.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.managed.roles[].passwordSecret.name" data-path-key="|spec|managed|roles[]|passwordSecret|name|" data-parent-path="spec.managed.roles[].passwordSecret" data-name="name" data-text="Name of the referent.">
   <span class="prop-name">name</span>
@@ -6838,12 +6846,17 @@ container images in workload controllers like Deployments and StatefulSets.
   <div class="leaf-desc">The list of directories inside the image which should be added to ld_library_path.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.postgresql.extensions[].name" data-path-key="|spec|postgresql|extensions[]|name|" data-parent-path="spec.postgresql.extensions" data-name="name" data-text="The name of the extension, required pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$ minLength: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.postgresql.extensions[].name" data-path-key="|spec|postgresql|extensions[]|name|" data-parent-path="spec.postgresql.extensions" data-name="name" data-text="The name of the extension, required. The limit of 59 characters
+leaves room for the prefix the operator adds when deriving the
+extension&#39;s Kubernetes Volume name (capped at 63 characters). pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$ minLength: 1 maxLength: 59">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The name of the extension, required<div class="leaf-constraints">
+  <div class="leaf-desc">The name of the extension, required. The limit of 59 characters
+leaves room for the prefix the operator adds when deriving the
+extension&#39;s Kubernetes Volume name (capped at 63 characters).<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 59"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">59</code></div></div>
   </div>
 </div>
   </div>
@@ -7133,6 +7146,76 @@ only useful for priority-based synchronous replication).
   </div>
 </div>
 </details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.primaryLease" data-path-key="|spec|primaryLease|" data-parent-path="spec" data-name="primaryLease" data-text="Configuration of the Kubernetes `Lease` used to coordinate safe primary
+election within the cluster. When omitted, the operator applies built-in
+defaults; tune these values only if you understand the consequences for
+failover timing.">
+<summary>
+  <span class="prop-name">primaryLease</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Configuration of the Kubernetes `Lease` used to coordinate safe primary
+election within the cluster. When omitted, the operator applies built-in
+defaults; tune these values only if you understand the consequences for
+failover timing.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.primaryLease.leaseDurationSeconds" data-path-key="|spec|primaryLease|leaseDurationSeconds|" data-parent-path="spec.primaryLease" data-name="leaseDurationSeconds" data-text="How long, in seconds, the primary lease is considered valid before it
+expires and another instance may acquire it. It must be greater than
+`renewDeadlineSeconds`.
+Defaults to 15. format: int32 minimum: 1">
+  <span class="prop-name">leaseDurationSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">How long, in seconds, the primary lease is considered valid before it
+expires and another instance may acquire it. It must be greater than
+`renewDeadlineSeconds`.
+Defaults to 15.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.primaryLease.releasedLeaseDurationSeconds" data-path-key="|spec|primaryLease|releasedLeaseDurationSeconds|" data-parent-path="spec.primaryLease" data-name="releasedLeaseDurationSeconds" data-text="The TTL, in seconds, written when the primary explicitly releases the
+lease on a clean shutdown, allowing a replica to promote without waiting
+for the full lease duration to expire.
+Defaults to 1. format: int32 minimum: 1">
+  <span class="prop-name">releasedLeaseDurationSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The TTL, in seconds, written when the primary explicitly releases the
+lease on a clean shutdown, allowing a replica to promote without waiting
+for the full lease duration to expire.
+Defaults to 1.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.primaryLease.renewDeadlineSeconds" data-path-key="|spec|primaryLease|renewDeadlineSeconds|" data-parent-path="spec.primaryLease" data-name="renewDeadlineSeconds" data-text="How long, in seconds, the current primary keeps retrying to renew the
+lease before giving up and stopping. It must be smaller than
+`leaseDurationSeconds`.
+Defaults to 10. format: int32 minimum: 1">
+  <span class="prop-name">renewDeadlineSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">How long, in seconds, the current primary keeps retrying to renew the
+lease before giving up and stopping. It must be smaller than
+`leaseDurationSeconds`.
+Defaults to 10.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.primaryLease.retryPeriodSeconds" data-path-key="|spec|primaryLease|retryPeriodSeconds|" data-parent-path="spec.primaryLease" data-name="retryPeriodSeconds" data-text="How frequently, in seconds, a non-holder instance retries acquiring or
+renewing the lease.
+Defaults to 2. format: int32 minimum: 1">
+  <span class="prop-name">retryPeriodSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">How frequently, in seconds, a non-holder instance retries acquiring or
+renewing the lease.
+Defaults to 2.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -10645,10 +10728,14 @@ Deprecated: the field is not set for backup plugins.">
 Deprecated: the field is not set for backup plugins.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.latestGeneratedNode" data-path-key="|status|latestGeneratedNode|" data-parent-path="status" data-name="latestGeneratedNode" data-text="ID of the latest generated node (used to avoid node name clashing)">
+<div class="prop-leaf" data-prop-row data-path="status.latestGeneratedNode" data-path-key="|status|latestGeneratedNode|" data-parent-path="status" data-name="latestGeneratedNode" data-text="ID of the latest generated node (used to avoid node name clashing)
+
+Deprecated: this field is not set anymore">
   <span class="prop-name">latestGeneratedNode</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">ID of the latest generated node (used to avoid node name clashing)
+
+Deprecated: this field is not set anymore
   </div>
 </div>
 <details class="prop" data-prop-row data-path="status.managedRolesStatus" data-path-key="|status|managedRolesStatus|" data-parent-path="status" data-name="managedRolesStatus" data-text="ManagedRolesStatus reports the state of the managed roles in the cluster">
@@ -10664,12 +10751,16 @@ Deprecated: the field is not set for backup plugins.
   <div class="leaf-desc">ByStatus gives the list of roles in each state
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.managedRolesStatus.cannotReconcile" data-path-key="|status|managedRolesStatus|cannotReconcile|" data-parent-path="status.managedRolesStatus" data-name="cannotReconcile" data-text="CannotReconcile lists roles that cannot be reconciled in PostgreSQL,
-with an explanation of the cause">
+<div class="prop-leaf" data-prop-row data-path="status.managedRolesStatus.cannotReconcile" data-path-key="|status|managedRolesStatus|cannotReconcile|" data-parent-path="status.managedRolesStatus" data-name="cannotReconcile" data-text="CannotReconcile lists roles that cannot be reconciled, with an
+explanation of the cause. Failures may originate in PostgreSQL
+(e.g. dropping a role that owns objects) or in Kubernetes (e.g.
+the referenced password Secret cannot be fetched).">
   <span class="prop-name">cannotReconcile</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">CannotReconcile lists roles that cannot be reconciled in PostgreSQL,
-with an explanation of the cause
+  <div class="leaf-desc">CannotReconcile lists roles that cannot be reconciled, with an
+explanation of the cause. Failures may originate in PostgreSQL
+(e.g. dropping a role that owns objects) or in Kubernetes (e.g.
+the referenced password Secret cannot be fetched).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.managedRolesStatus.passwordStatus" data-path-key="|status|managedRolesStatus|passwordStatus|" data-parent-path="status.managedRolesStatus" data-name="passwordStatus" data-text="PasswordStatus gives the last transaction id and password secret version for each managed role">
@@ -10685,6 +10776,16 @@ with an explanation of the cause
   <span class="prop-name">onlineUpdateEnabled</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">OnlineUpdateEnabled shows if the online upgrade is enabled inside the cluster
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.operatorCertificateFingerprint" data-path-key="|status|operatorCertificateFingerprint|" data-parent-path="status" data-name="operatorCertificateFingerprint" data-text="OperatorCertificateFingerprint is the SHA256 fingerprint of the operator&#39;s
+in-memory client certificate public key. The instance manager pins this
+fingerprint to authenticate requests from the operator.">
+  <span class="prop-name">operatorCertificateFingerprint</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">OperatorCertificateFingerprint is the SHA256 fingerprint of the operator&#39;s
+in-memory client certificate public key. The instance manager pins this
+fingerprint to authenticate requests from the operator.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="status.pgDataImageInfo" data-path-key="|status|pgDataImageInfo|" data-parent-path="status" data-name="pgDataImageInfo" data-text="PGDataImageInfo contains the details of the latest image that has run on the current data directory.">
@@ -10820,12 +10921,17 @@ container images in workload controllers like Deployments and StatefulSets.
   <div class="leaf-desc">The list of directories inside the image which should be added to ld_library_path.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.pgDataImageInfo.extensions[].name" data-path-key="|status|pgDataImageInfo|extensions[]|name|" data-parent-path="status.pgDataImageInfo.extensions" data-name="name" data-text="The name of the extension, required pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$ minLength: 1">
+<div class="prop-leaf" data-prop-row data-path="status.pgDataImageInfo.extensions[].name" data-path-key="|status|pgDataImageInfo|extensions[]|name|" data-parent-path="status.pgDataImageInfo.extensions" data-name="name" data-text="The name of the extension, required. The limit of 59 characters
+leaves room for the prefix the operator adds when deriving the
+extension&#39;s Kubernetes Volume name (capped at 63 characters). pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$ minLength: 1 maxLength: 59">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The name of the extension, required<div class="leaf-constraints">
+  <div class="leaf-desc">The name of the extension, required. The limit of 59 characters
+leaves room for the prefix the operator adds when deriving the
+extension&#39;s Kubernetes Volume name (capped at 63 characters).<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 59"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">59</code></div></div>
   </div>
 </div>
   </div>
@@ -11089,6 +11195,18 @@ Map keys are the secret names, map values are the versions
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="status.selector" data-path-key="|status|selector|" data-parent-path="status" data-name="selector" data-text="Selector is the serialized form of the label selector that identifies
+the pods managed by this cluster. Populated by the operator and exposed
+through the scale sub-resource so an autoscaler (such as HPA or VPA)
+can discover the managed instance pods.">
+  <span class="prop-name">selector</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Selector is the serialized form of the label selector that identifies
+the pods managed by this cluster. Populated by the operator and exposed
+through the scale sub-resource so an autoscaler (such as HPA or VPA)
+can discover the managed instance pods.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="status.switchReplicaClusterStatus" data-path-key="|status|switchReplicaClusterStatus|" data-parent-path="status" data-name="switchReplicaClusterStatus" data-text="SwitchReplicaClusterStatus is the status of the switch to replica cluster">
 <summary>
   <span class="prop-name">switchReplicaClusterStatus</span>
@@ -11140,6 +11258,174 @@ Map keys are the secret names, map values are the versions
   <span class="prop-name">state</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">State is the latest reconciliation state
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="status.targetPgDataImageInfo" data-path-key="|status|targetPgDataImageInfo|" data-parent-path="status" data-name="targetPgDataImageInfo" data-text="TargetPGDataImageInfo contains the details of the target image for an
+in-progress major upgrade. It is set before the upgrade Job is created,
+and cleared on successful completion or when the upgrade is rolled back.">
+<summary>
+  <span class="prop-name">targetPgDataImageInfo</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TargetPGDataImageInfo contains the details of the target image for an
+in-progress major upgrade. It is set before the upgrade Job is created,
+and cleared on successful completion or when the upgrade is rolled back.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.targetPgDataImageInfo.extensions" data-path-key="|status|targetPgDataImageInfo|extensions|" data-parent-path="status.targetPgDataImageInfo" data-name="extensions" data-text="Extensions contains the container image extensions available for the current Image">
+<summary>
+  <span class="prop-name">extensions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Extensions contains the container image extensions available for the current Image</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].bin_path" data-path-key="|status|targetPgDataImageInfo|extensions[]|bin_path|" data-parent-path="status.targetPgDataImageInfo.extensions" data-name="bin_path" data-text="A list of directories within the image to be appended to the
+PostgreSQL process&#39;s `PATH` environment variable.">
+  <span class="prop-name">bin_path</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">A list of directories within the image to be appended to the
+PostgreSQL process&#39;s `PATH` environment variable.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].dynamic_library_path" data-path-key="|status|targetPgDataImageInfo|extensions[]|dynamic_library_path|" data-parent-path="status.targetPgDataImageInfo.extensions" data-name="dynamic_library_path" data-text="The list of directories inside the image which should be added to dynamic_library_path.
+If not defined, defaults to &#34;/lib&#34;.">
+  <span class="prop-name">dynamic_library_path</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">The list of directories inside the image which should be added to dynamic_library_path.
+If not defined, defaults to &#34;/lib&#34;.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].env" data-path-key="|status|targetPgDataImageInfo|extensions[]|env|" data-parent-path="status.targetPgDataImageInfo.extensions" data-name="env" data-text="Env is a list of custom environment variables to be set in the
+PostgreSQL process for this extension. It is the responsibility of the
+cluster administrator to ensure the variables are correct for the
+specific extension. Note that changes to these variables require
+a manual cluster restart to take effect.">
+<summary>
+  <span class="prop-name">env</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Env is a list of custom environment variables to be set in the
+PostgreSQL process for this extension. It is the responsibility of the
+cluster administrator to ensure the variables are correct for the
+specific extension. Note that changes to these variables require
+a manual cluster restart to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].env[].name" data-path-key="|status|targetPgDataImageInfo|extensions[]|env[]|name|" data-parent-path="status.targetPgDataImageInfo.extensions[].env" data-name="name" data-text="Name of the environment variable to be injected into the
+PostgreSQL process. pattern: ^[a-zA-Z_][a-zA-Z0-9_]*$ minLength: 1">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the environment variable to be injected into the
+PostgreSQL process.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-zA-Z_][a-zA-Z0-9_]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-zA-Z_][a-zA-Z0-9_]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].env[].value" data-path-key="|status|targetPgDataImageInfo|extensions[]|env[]|value|" data-parent-path="status.targetPgDataImageInfo.extensions[].env" data-name="value" data-text="Value of the environment variable. CloudNativePG performs a direct
+replacement of this value, with support for placeholder expansion.
+The ${`image_root`} placeholder resolves to the absolute mount path
+of the extension&#39;s volume (e.g., `/extensions/my-extension`). This
+is particularly useful for allowing applications or libraries to
+locate specific directories within the mounted image.
+Unrecognized placeholders are rejected. To include a literal ${...}
+in the value, escape it as $${...}. minLength: 1">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Value of the environment variable. CloudNativePG performs a direct
+replacement of this value, with support for placeholder expansion.
+The ${`image_root`} placeholder resolves to the absolute mount path
+of the extension&#39;s volume (e.g., `/extensions/my-extension`). This
+is particularly useful for allowing applications or libraries to
+locate specific directories within the mounted image.
+Unrecognized placeholders are rejected. To include a literal ${...}
+in the value, escape it as $${...}.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].extension_control_path" data-path-key="|status|targetPgDataImageInfo|extensions[]|extension_control_path|" data-parent-path="status.targetPgDataImageInfo.extensions" data-name="extension_control_path" data-text="The list of directories inside the image which should be added to extension_control_path.
+If not defined, defaults to &#34;/share&#34;.">
+  <span class="prop-name">extension_control_path</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">The list of directories inside the image which should be added to extension_control_path.
+If not defined, defaults to &#34;/share&#34;.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].image" data-path-key="|status|targetPgDataImageInfo|extensions[]|image|" data-parent-path="status.targetPgDataImageInfo.extensions" data-name="image" data-text="The image containing the extension.">
+<summary>
+  <span class="prop-name">image</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The image containing the extension.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].image.pullPolicy" data-path-key="|status|targetPgDataImageInfo|extensions[]|image|pullPolicy|" data-parent-path="status.targetPgDataImageInfo.extensions[].image" data-name="pullPolicy" data-text="Policy for pulling OCI objects. Possible values are:
+Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.
+Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn&#39;t present.
+IfNotPresent: the kubelet pulls if the reference isn&#39;t already present on disk. Container creation will fail if the reference isn&#39;t present and the pull fails.
+Defaults to Always if :latest tag is specified, or IfNotPresent otherwise.">
+  <span class="prop-name">pullPolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Policy for pulling OCI objects. Possible values are:
+Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.
+Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn&#39;t present.
+IfNotPresent: the kubelet pulls if the reference isn&#39;t already present on disk. Container creation will fail if the reference isn&#39;t present and the pull fails.
+Defaults to Always if :latest tag is specified, or IfNotPresent otherwise.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].image.reference" data-path-key="|status|targetPgDataImageInfo|extensions[]|image|reference|" data-parent-path="status.targetPgDataImageInfo.extensions[].image" data-name="reference" data-text="Required: Image or artifact reference to be used.
+Behaves in the same way as pod.spec.containers[*].image.
+Pull secrets will be assembled in the same way as for the container image by looking up node credentials, SA image pull secrets, and pod spec image pull secrets.
+More info: https://kubernetes.io/docs/concepts/containers/images
+This field is optional to allow higher level config management to default or override
+container images in workload controllers like Deployments and StatefulSets.">
+  <span class="prop-name">reference</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Required: Image or artifact reference to be used.
+Behaves in the same way as pod.spec.containers[*].image.
+Pull secrets will be assembled in the same way as for the container image by looking up node credentials, SA image pull secrets, and pod spec image pull secrets.
+More info: https://kubernetes.io/docs/concepts/containers/images
+This field is optional to allow higher level config management to default or override
+container images in workload controllers like Deployments and StatefulSets.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].ld_library_path" data-path-key="|status|targetPgDataImageInfo|extensions[]|ld_library_path|" data-parent-path="status.targetPgDataImageInfo.extensions" data-name="ld_library_path" data-text="The list of directories inside the image which should be added to ld_library_path.">
+  <span class="prop-name">ld_library_path</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">The list of directories inside the image which should be added to ld_library_path.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.extensions[].name" data-path-key="|status|targetPgDataImageInfo|extensions[]|name|" data-parent-path="status.targetPgDataImageInfo.extensions" data-name="name" data-text="The name of the extension, required. The limit of 59 characters
+leaves room for the prefix the operator adds when deriving the
+extension&#39;s Kubernetes Volume name (capped at 63 characters). pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$ minLength: 1 maxLength: 59">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The name of the extension, required. The limit of 59 characters
+leaves room for the prefix the operator adds when deriving the
+extension&#39;s Kubernetes Volume name (capped at 63 characters).<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9_]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 59"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">59</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.image" data-path-key="|status|targetPgDataImageInfo|image|" data-parent-path="status.targetPgDataImageInfo" data-name="image" data-text="Image is the image name">
+  <span class="prop-name">image</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Image is the image name
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.targetPgDataImageInfo.majorVersion" data-path-key="|status|targetPgDataImageInfo|majorVersion|" data-parent-path="status.targetPgDataImageInfo" data-name="majorVersion" data-text="MajorVersion is the major version of the image">
+  <span class="prop-name">majorVersion</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">MajorVersion is the major version of the image
   </div>
 </div>
   </div>

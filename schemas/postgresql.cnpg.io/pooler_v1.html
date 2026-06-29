@@ -522,31 +522,37 @@ least 70% of desired pods.
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.monitoring" data-path-key="|spec|monitoring|" data-parent-path="spec" data-name="monitoring" data-text="The configuration of the monitoring infrastructure of this pooler.
-
-Deprecated: This feature will be removed in an upcoming release. If
-you need this functionality, you can create a PodMonitor manually.">
+<details class="prop" data-prop-row data-path="spec.monitoring" data-path-key="|spec|monitoring|" data-parent-path="spec" data-name="monitoring" data-text="The configuration of the monitoring infrastructure of this pooler.">
 <summary>
   <span class="prop-name">monitoring</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">The configuration of the monitoring infrastructure of this pooler.
+<div class="prop-content"><div class="prop-desc">The configuration of the monitoring infrastructure of this pooler.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.monitoring.enablePodMonitor" data-path-key="|spec|monitoring|enablePodMonitor|" data-parent-path="spec.monitoring" data-name="enablePodMonitor" data-text="Enable or disable the `PodMonitor`
 
 Deprecated: This feature will be removed in an upcoming release. If
-you need this functionality, you can create a PodMonitor manually.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.monitoring.enablePodMonitor" data-path-key="|spec|monitoring|enablePodMonitor|" data-parent-path="spec.monitoring" data-name="enablePodMonitor" data-text="Enable or disable the `PodMonitor`">
+you need this functionality, you can create a PodMonitor manually.">
   <span class="prop-name">enablePodMonitor</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">Enable or disable the `PodMonitor`
+
+Deprecated: This feature will be removed in an upcoming release. If
+you need this functionality, you can create a PodMonitor manually.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.monitoring.podMonitorMetricRelabelings" data-path-key="|spec|monitoring|podMonitorMetricRelabelings|" data-parent-path="spec.monitoring" data-name="podMonitorMetricRelabelings" data-text="The list of metric relabelings for the `PodMonitor`. Applied to samples before ingestion.">
+<details class="prop" data-prop-row data-path="spec.monitoring.podMonitorMetricRelabelings" data-path-key="|spec|monitoring|podMonitorMetricRelabelings|" data-parent-path="spec.monitoring" data-name="podMonitorMetricRelabelings" data-text="The list of metric relabelings for the `PodMonitor`. Applied to samples before ingestion.
+
+Deprecated: This feature will be removed in an upcoming release. If
+you need this functionality, you can create a PodMonitor manually.">
 <summary>
   <span class="prop-name">podMonitorMetricRelabelings</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">The list of metric relabelings for the `PodMonitor`. Applied to samples before ingestion.</div>
+<div class="prop-content"><div class="prop-desc">The list of metric relabelings for the `PodMonitor`. Applied to samples before ingestion.
+
+Deprecated: This feature will be removed in an upcoming release. If
+you need this functionality, you can create a PodMonitor manually.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.monitoring.podMonitorMetricRelabelings[].action" data-path-key="|spec|monitoring|podMonitorMetricRelabelings[]|action|" data-parent-path="spec.monitoring.podMonitorMetricRelabelings" data-name="action" data-text="action to perform based on the regex matching.
 
@@ -632,12 +638,18 @@ Regex capture groups are available.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.monitoring.podMonitorRelabelings" data-path-key="|spec|monitoring|podMonitorRelabelings|" data-parent-path="spec.monitoring" data-name="podMonitorRelabelings" data-text="The list of relabelings for the `PodMonitor`. Applied to samples before scraping.">
+<details class="prop" data-prop-row data-path="spec.monitoring.podMonitorRelabelings" data-path-key="|spec|monitoring|podMonitorRelabelings|" data-parent-path="spec.monitoring" data-name="podMonitorRelabelings" data-text="The list of relabelings for the `PodMonitor`. Applied to samples before scraping.
+
+Deprecated: This feature will be removed in an upcoming release. If
+you need this functionality, you can create a PodMonitor manually.">
 <summary>
   <span class="prop-name">podMonitorRelabelings</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">The list of relabelings for the `PodMonitor`. Applied to samples before scraping.</div>
+<div class="prop-content"><div class="prop-desc">The list of relabelings for the `PodMonitor`. Applied to samples before scraping.
+
+Deprecated: This feature will be removed in an upcoming release. If
+you need this functionality, you can create a PodMonitor manually.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.monitoring.podMonitorRelabelings[].action" data-path-key="|spec|monitoring|podMonitorRelabelings[]|action|" data-parent-path="spec.monitoring.podMonitorRelabelings" data-name="action" data-text="action to perform based on the regex matching.
 
@@ -723,6 +735,26 @@ Regex capture groups are available.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.monitoring.tls" data-path-key="|spec|monitoring|tls|" data-parent-path="spec.monitoring" data-name="tls" data-text="Configure TLS communication for the metrics endpoint.
+Changing tls.enabled option will force a rollout of all instances.">
+<summary>
+  <span class="prop-name">tls</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Configure TLS communication for the metrics endpoint.
+Changing tls.enabled option will force a rollout of all instances.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.monitoring.tls.enabled" data-path-key="|spec|monitoring|tls|enabled|" data-parent-path="spec.monitoring.tls" data-name="enabled" data-text="Enable TLS for the monitoring endpoint.
+Changing this option will force a rollout of all instances.">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Enable TLS for the monitoring endpoint.
+Changing this option will force a rollout of all instances.
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -802,6 +834,58 @@ and client_tls_cert_file (certificate) used to accept client connections</div>
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Name of the referent.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.pgbouncer.image" data-path-key="|spec|pgbouncer|image|" data-parent-path="spec.pgbouncer" data-name="image" data-text="Image is the pgbouncer container image to use. When set, it takes
+precedence over ImageCatalogRef and the operator default, but is
+overridden by an explicit image set in the pod template.">
+  <span class="prop-name">image</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Image is the pgbouncer container image to use. When set, it takes
+precedence over ImageCatalogRef and the operator default, but is
+overridden by an explicit image set in the pod template.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.pgbouncer.imageCatalogRef" data-path-key="|spec|pgbouncer|imageCatalogRef|" data-parent-path="spec.pgbouncer" data-name="imageCatalogRef" data-text="ImageCatalogRef points to an entry in an ImageCatalog or ClusterImageCatalog.
+Mutually exclusive with Image.">
+<summary>
+  <span class="prop-name">imageCatalogRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ImageCatalogRef points to an entry in an ImageCatalog or ClusterImageCatalog.
+Mutually exclusive with Image.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.pgbouncer.imageCatalogRef.apiGroup" data-path-key="|spec|pgbouncer|imageCatalogRef|apiGroup|" data-parent-path="spec.pgbouncer.imageCatalogRef" data-name="apiGroup" data-text="APIGroup is the group for the resource being referenced.
+If APIGroup is not specified, the specified Kind must be in the core API group.
+For any other third-party types, APIGroup is required.">
+  <span class="prop-name">apiGroup</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">APIGroup is the group for the resource being referenced.
+If APIGroup is not specified, the specified Kind must be in the core API group.
+For any other third-party types, APIGroup is required.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.pgbouncer.imageCatalogRef.key" data-path-key="|spec|pgbouncer|imageCatalogRef|key|" data-parent-path="spec.pgbouncer.imageCatalogRef" data-name="key" data-text="Key identifies the entry within the catalog&#39;s componentImages list. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ maxLength: 63">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key identifies the entry within the catalog&#39;s componentImages list.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 63"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">63</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.pgbouncer.imageCatalogRef.kind" data-path-key="|spec|pgbouncer|imageCatalogRef|kind|" data-parent-path="spec.pgbouncer.imageCatalogRef" data-name="kind" data-text="Kind is the type of resource being referenced">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Kind is the type of resource being referenced
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.pgbouncer.imageCatalogRef.name" data-path-key="|spec|pgbouncer|imageCatalogRef|name|" data-parent-path="spec.pgbouncer.imageCatalogRef" data-name="name" data-text="Name is the name of resource being referenced">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of resource being referenced
   </div>
 </div>
   </div>
@@ -13961,11 +14045,46 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 date. Populated by the system. Read-only.
 More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.error" data-path-key="|status|error|" data-parent-path="status" data-name="error" data-text="Error is the latest admission validation error">
+  <span class="prop-name">error</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Error is the latest admission validation error
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.image" data-path-key="|status|image|" data-parent-path="status" data-name="image" data-text="Image is the resolved pgbouncer container image that the operator is
+using for this Pooler, including any override coming from spec.template.
+While Phase is Active or Paused this field reflects what the Deployment
+actually runs; while Phase is Inactive or Failed it may carry the last
+successfully resolved value (or be empty if the Pooler has never reconciled
+successfully).">
+  <span class="prop-name">image</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Image is the resolved pgbouncer container image that the operator is
+using for this Pooler, including any override coming from spec.template.
+While Phase is Active or Paused this field reflects what the Deployment
+actually runs; while Phase is Inactive or Failed it may carry the last
+successfully resolved value (or be empty if the Pooler has never reconciled
+successfully).
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.instances" data-path-key="|status|instances|" data-parent-path="status" data-name="instances" data-text="The number of pods trying to be scheduled format: int32">
   <span class="prop-name">instances</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">The number of pods trying to be scheduled<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Phase summarizes the overall lifecycle state of the Pooler. enum: active, paused, inactive, failed">
+  <span class="prop-name">phase</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Phase summarizes the overall lifecycle state of the Pooler.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: active, paused, inactive, failed"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">active, paused, inactive, failed</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.phaseReason" data-path-key="|status|phaseReason|" data-parent-path="status" data-name="phaseReason" data-text="PhaseReason is a human-readable explanation of the current Phase.">
+  <span class="prop-name">phaseReason</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PhaseReason is a human-readable explanation of the current Phase.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="status.secrets" data-path-key="|status|secrets|" data-parent-path="status" data-name="secrets" data-text="The resource version of the config object">
