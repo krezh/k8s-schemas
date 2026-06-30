@@ -432,10 +432,115 @@ e.g. &#39;push&#39; for GitHub or &#39;Push Hook&#39; for GitLab.
 <div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.oidcProviders" data-path-key="|spec|oidcProviders|" data-parent-path="spec" data-name="oidcProviders" data-text="OIDCProviders specifies the OIDC providers used to authenticate incoming
+requests when Type is &#39;generic-oidc&#39;. The provider whose IssuerURL matches
+the token&#39;s &#39;iss&#39; claim is used to verify the token signature, expiration
+and audience, and to evaluate the configured CEL validations against the
+token claims.">
+<summary>
+  <span class="prop-name">oidcProviders</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OIDCProviders specifies the OIDC providers used to authenticate incoming
+requests when Type is &#39;generic-oidc&#39;. The provider whose IssuerURL matches
+the token&#39;s &#39;iss&#39; claim is used to verify the token signature, expiration
+and audience, and to evaluate the configured CEL validations against the
+token claims.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.oidcProviders[].audience" data-path-key="|spec|oidcProviders[]|audience|" data-parent-path="spec.oidcProviders" data-name="audience" data-text="Audience is the expected audience (&#39;aud&#39; claim) for tokens issued by
+this provider. Defaults to &#39;notification-controller&#39;.">
+  <span class="prop-name">audience</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Audience is the expected audience (&#39;aud&#39; claim) for tokens issued by
+this provider. Defaults to &#39;notification-controller&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.oidcProviders[].issuerURL" data-path-key="|spec|oidcProviders[]|issuerURL|" data-parent-path="spec.oidcProviders" data-name="issuerURL" data-text="IssuerURL is the OIDC issuer URL used for provider discovery. It must
+match the &#39;iss&#39; claim of tokens issued by this provider. pattern: ^https?://">
+  <span class="prop-name">issuerURL</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">IssuerURL is the OIDC issuer URL used for provider discovery. It must
+match the &#39;iss&#39; claim of tokens issued by this provider.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https?://"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.oidcProviders[].validations" data-path-key="|spec|oidcProviders[]|validations|" data-parent-path="spec.oidcProviders" data-name="validations" data-text="Validations is the list of CEL boolean expressions evaluated against the
+token claims and the variables. The request is accepted only if all of
+them evaluate to true; the message of each failing expression is returned
+to the caller.
+
+At least one validation is required. A valid signature alone does not
+authorize a request: public issuers issue tokens to any caller on the
+platform, so the validations must constrain the caller&#39;s identity claims
+(e.g. &#39;repository_owner&#39; for GitHub Actions). minItems: 1">
+<summary>
+  <span class="prop-name">validations</span>
+  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Validations is the list of CEL boolean expressions evaluated against the
+token claims and the variables. The request is accepted only if all of
+them evaluate to true; the message of each failing expression is returned
+to the caller.
+
+At least one validation is required. A valid signature alone does not
+authorize a request: public issuers issue tokens to any caller on the
+platform, so the validations must constrain the caller&#39;s identity claims
+(e.g. &#39;repository_owner&#39; for GitHub Actions).</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.oidcProviders[].validations[].expression" data-path-key="|spec|oidcProviders[]|validations[]|expression|" data-parent-path="spec.oidcProviders[].validations" data-name="expression" data-text="Expression is the CEL boolean expression to evaluate.">
+  <span class="prop-name">expression</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Expression is the CEL boolean expression to evaluate.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.oidcProviders[].validations[].message" data-path-key="|spec|oidcProviders[]|validations[]|message|" data-parent-path="spec.oidcProviders[].validations" data-name="message" data-text="Message is returned to the caller when the expression evaluates to false.">
+  <span class="prop-name">message</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Message is returned to the caller when the expression evaluates to false.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.oidcProviders[].variables" data-path-key="|spec|oidcProviders[]|variables|" data-parent-path="spec.oidcProviders" data-name="variables" data-text="Variables is an optional list of named CEL expressions, evaluated in order
+and exposed as &#39;vars.&lt;name&gt;&#39;. Each expression can read the token claims
+via &#39;claims&#39; and any variable defined before it. Use it to share
+sub-expressions across validations.">
+<summary>
+  <span class="prop-name">variables</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Variables is an optional list of named CEL expressions, evaluated in order
+and exposed as &#39;vars.&lt;name&gt;&#39;. Each expression can read the token claims
+via &#39;claims&#39; and any variable defined before it. Use it to share
+sub-expressions across validations.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.oidcProviders[].variables[].expression" data-path-key="|spec|oidcProviders[]|variables[]|expression|" data-parent-path="spec.oidcProviders[].variables" data-name="expression" data-text="Expression is the CEL expression that defines the variable value.">
+  <span class="prop-name">expression</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Expression is the CEL expression that defines the variable value.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.oidcProviders[].variables[].name" data-path-key="|spec|oidcProviders[]|variables[]|name|" data-parent-path="spec.oidcProviders[].variables" data-name="name" data-text="Name is the variable name; it must be a valid CEL identifier.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the variable name; it must be a valid CEL identifier.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.resourceFilter" data-path-key="|spec|resourceFilter|" data-parent-path="spec" data-name="resourceFilter" data-text="ResourceFilter is a CEL expression expected to return a boolean that is
 evaluated for each resource referenced in the Resources field when a
 webhook is received. If the expression returns false then the controller
 will not request a reconciliation for the resource.
+The expression can read the resource metadata via &#39;res&#39; and the webhook
+request body via &#39;req&#39;. For generic-oidc receivers, the verified OIDC
+token claims are also available via &#39;claims&#39;.
 When the expression is specified the controller will parse it and mark
 the object as terminally failed if the expression is invalid or does not
 return a boolean.">
@@ -445,6 +550,9 @@ return a boolean.">
 evaluated for each resource referenced in the Resources field when a
 webhook is received. If the expression returns false then the controller
 will not request a reconciliation for the resource.
+The expression can read the resource metadata via &#39;res&#39; and the webhook
+request body via &#39;req&#39;. For generic-oidc receivers, the verified OIDC
+token claims are also available via &#39;claims&#39;.
 When the expression is specified the controller will parse it and mark
 the object as terminally failed if the expression is invalid or does not
 return a boolean.
@@ -461,6 +569,30 @@ return a boolean.
   <span class="prop-name">apiVersion</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">API version of the referent
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.resources[].filter" data-path-key="|spec|resources[]|filter|" data-parent-path="spec.resources" data-name="filter" data-text="Filter is a CEL expression expected to return a boolean that is evaluated
+for each resource matched by this reference when a webhook is received,
+in addition to the top-level resourceFilter. A reconciliation is requested
+only when both expressions (when set) return true.
+The expression can read the resource metadata via &#39;res&#39; and the webhook
+request body via &#39;req&#39;. For generic-oidc receivers, the verified OIDC
+token claims are also available via &#39;claims&#39;.
+When the expression is specified the controller will parse it and mark
+the object as terminally failed if the expression is invalid or does not
+return a boolean.">
+  <span class="prop-name">filter</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Filter is a CEL expression expected to return a boolean that is evaluated
+for each resource matched by this reference when a webhook is received,
+in addition to the top-level resourceFilter. A reconciliation is requested
+only when both expressions (when set) return true.
+The expression can read the resource metadata via &#39;res&#39; and the webhook
+request body via &#39;req&#39;. For generic-oidc receivers, the verified OIDC
+token claims are also available via &#39;claims&#39;.
+When the expression is specified the controller will parse it and mark
+the object as terminally failed if the expression is invalid or does not
+return a boolean.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.resources[].kind" data-path-key="|spec|resources[]|kind|" data-parent-path="spec.resources" data-name="kind" data-text="Kind of the referent enum: Bucket, GitRepository, Kustomization, HelmRelease, HelmChart, HelmRepository, ImageRepository, ImagePolicy, ImageUpdateAutomation, OCIRepository, ArtifactGenerator, ExternalArtifact, FluxInstance, ResourceSet, ResourceSetInputProvider">
@@ -510,16 +642,22 @@ If multiple resources are targeted `*` may be set.<div class="leaf-constraints">
 to validate the payload authenticity. The Secret must contain a &#39;token&#39;
 key. For GCR receivers, the Secret must also contain an &#39;email&#39; key
 with the IAM service account email configured on the Pub/Sub push
-subscription, and an &#39;audience&#39; key with the expected OIDC token audience.">
+subscription, and an &#39;audience&#39; key with the expected OIDC token audience.
+
+Required for all receiver types except &#39;generic-oidc&#39;, which authenticates
+requests using the OIDC token instead and must not set this field.">
 <summary>
   <span class="prop-name">secretRef</span>
-  <span class="type-badge">object</span> <span class="required-badge">required</span>
+  <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">SecretRef specifies the Secret containing the token used
 to validate the payload authenticity. The Secret must contain a &#39;token&#39;
 key. For GCR receivers, the Secret must also contain an &#39;email&#39; key
 with the IAM service account email configured on the Pub/Sub push
-subscription, and an &#39;audience&#39; key with the expected OIDC token audience.</div>
+subscription, and an &#39;audience&#39; key with the expected OIDC token audience.
+
+Required for all receiver types except &#39;generic-oidc&#39;, which authenticates
+requests using the OIDC token instead and must not set this field.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.secretRef.name" data-path-key="|spec|secretRef|name|" data-parent-path="spec.secretRef" data-name="name" data-text="Name of the referent.">
   <span class="prop-name">name</span>
@@ -539,12 +677,12 @@ events handling for this receiver.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.type" data-path-key="|spec|type|" data-parent-path="spec" data-name="type" data-text="Type of webhook sender, used to determine
-the validation procedure and payload deserialization. enum: generic, generic-hmac, github, gitlab, bitbucket, harbor, dockerhub, quay, gcr, nexus, acr, cdevents">
+the validation procedure and payload deserialization. enum: generic, generic-hmac, generic-oidc, github, gitlab, bitbucket, harbor, dockerhub, quay, gcr, nexus, acr, cdevents">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Type of webhook sender, used to determine
 the validation procedure and payload deserialization.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: generic, generic-hmac, github, gitlab, bitbucket, harbor, dockerhub, quay, gcr, nexus, acr, cdevents"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">generic, generic-hmac, github, gitlab, bitbucket, harbor, dockerhub, quay, gcr, nexus, acr, cdevents</code></div></div>
+<div class="schema-constraint" title="enum: generic, generic-hmac, generic-oidc, github, gitlab, bitbucket, harbor, dockerhub, quay, gcr, nexus, acr, cdevents"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">generic, generic-hmac, generic-oidc, github, gitlab, bitbucket, harbor, dockerhub, quay, gcr, nexus, acr, cdevents</code></div></div>
   </div>
 </div>
   </div>

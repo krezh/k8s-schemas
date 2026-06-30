@@ -486,13 +486,13 @@ efficient use of resources.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.provider" data-path-key="|spec|provider|" data-parent-path="spec" data-name="provider" data-text="Provider used for authentication, can be &#39;azure&#39;, &#39;github&#39;, &#39;generic&#39;.
-When not specified, defaults to &#39;generic&#39;. enum: generic, azure, github">
+<div class="prop-leaf" data-prop-row data-path="spec.provider" data-path-key="|spec|provider|" data-parent-path="spec" data-name="provider" data-text="Provider used for authentication, can be &#39;aws&#39;, &#39;azure&#39;, &#39;github&#39;, &#39;generic&#39;.
+When not specified, defaults to &#39;generic&#39;. enum: generic, aws, azure, github">
   <span class="prop-name">provider</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Provider used for authentication, can be &#39;azure&#39;, &#39;github&#39;, &#39;generic&#39;.
+  <div class="leaf-desc">Provider used for authentication, can be &#39;aws&#39;, &#39;azure&#39;, &#39;github&#39;, &#39;generic&#39;.
 When not specified, defaults to &#39;generic&#39;.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: generic, azure, github"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">generic, azure, github</code></div></div>
+<div class="schema-constraint" title="enum: generic, aws, azure, github"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">generic, aws, azure, github</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.proxySecretRef" data-path-key="|spec|proxySecretRef|" data-parent-path="spec" data-name="proxySecretRef" data-text="ProxySecretRef specifies the Secret containing the proxy configuration
@@ -602,11 +602,11 @@ and &#39;known_hosts&#39; fields.</div>
 </div>
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.serviceAccountName" data-path-key="|spec|serviceAccountName|" data-parent-path="spec" data-name="serviceAccountName" data-text="ServiceAccountName is the name of the Kubernetes ServiceAccount used to
-authenticate to the GitRepository. This field is only supported for &#39;azure&#39; provider.">
+authenticate to the GitRepository. This field is only supported for &#39;azure&#39; and &#39;aws&#39; providers.">
   <span class="prop-name">serviceAccountName</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">ServiceAccountName is the name of the Kubernetes ServiceAccount used to
-authenticate to the GitRepository. This field is only supported for &#39;azure&#39; provider.
+authenticate to the GitRepository. This field is only supported for &#39;azure&#39; and &#39;aws&#39; providers.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.sparseCheckout" data-path-key="|spec|sparseCheckout|" data-parent-path="spec" data-name="sparseCheckout" data-text="SparseCheckout specifies a list of directories to checkout when cloning
@@ -666,13 +666,15 @@ the commit that the HEAD of the Git repository points to. The variant
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.verify.secretRef" data-path-key="|spec|verify|secretRef|" data-parent-path="spec.verify" data-name="secretRef" data-text="SecretRef specifies the Secret containing the public keys of trusted Git
-authors.">
+authors. PGP public keys must be stored under keys with the .asc suffix,
+and SSH public keys must be stored under keys with the .sshpub suffix.">
 <summary>
   <span class="prop-name">secretRef</span>
   <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">SecretRef specifies the Secret containing the public keys of trusted Git
-authors.</div>
+authors. PGP public keys must be stored under keys with the .asc suffix,
+and SSH public keys must be stored under keys with the .sshpub suffix.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.verify.secretRef.name" data-path-key="|spec|verify|secretRef|name|" data-parent-path="spec.verify.secretRef" data-name="name" data-text="Name of the referent.">
   <span class="prop-name">name</span>

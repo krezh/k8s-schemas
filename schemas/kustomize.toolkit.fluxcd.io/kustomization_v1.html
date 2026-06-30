@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.commonMetadata for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.buildMetadata for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -419,6 +419,18 @@ from a Source using Kustomize.">
 <div class="prop-content"><div class="prop-desc">KustomizationSpec defines the configuration to calculate the desired state
 from a Source using Kustomize.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.buildMetadata" data-path-key="|spec|buildMetadata|" data-parent-path="spec" data-name="buildMetadata" data-text="BuildMetadata specifies which kustomize build metadata should be added
+to the built resources. The allowed values are &#39;originAnnotations&#39; to
+annotate resources with their source origin, and &#39;transformerAnnotations&#39;
+to annotate resources with the transformers that produced them.">
+  <span class="prop-name">buildMetadata</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">BuildMetadata specifies which kustomize build metadata should be added
+to the built resources. The allowed values are &#39;originAnnotations&#39; to
+annotate resources with their source origin, and &#39;transformerAnnotations&#39;
+to annotate resources with the transformers that produced them.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.commonMetadata" data-path-key="|spec|commonMetadata|" data-parent-path="spec" data-name="commonMetadata" data-text="CommonMetadata specifies the common labels and annotations that are
 applied to all resources. Any existing label or annotation will be
 overridden if its key matches a common one.">
@@ -534,12 +546,12 @@ Kustomization can be reconciled.</div>
   <div class="leaf-desc">Name of the referent.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.dependsOn[].namespace" data-path-key="|spec|dependsOn[]|namespace|" data-parent-path="spec.dependsOn" data-name="namespace" data-text="Namespace of the referent, defaults to the namespace of the Kustomization
-resource object that contains the reference.">
+<div class="prop-leaf" data-prop-row data-path="spec.dependsOn[].namespace" data-path-key="|spec|dependsOn[]|namespace|" data-parent-path="spec.dependsOn" data-name="namespace" data-text="Namespace of the referent, defaults to the namespace of the resource
+object that contains the reference.">
   <span class="prop-name">namespace</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Namespace of the referent, defaults to the namespace of the Kustomization
-resource object that contains the reference.
+  <div class="leaf-desc">Namespace of the referent, defaults to the namespace of the resource
+object that contains the reference.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.dependsOn[].readyExpr" data-path-key="|spec|dependsOn[]|readyExpr|" data-parent-path="spec.dependsOn" data-name="readyExpr" data-text="ReadyExpr is a CEL expression that can be used to assess the readiness
@@ -610,7 +622,7 @@ of the custom resource has not yet reached the desired state.
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.healthCheckExprs[].kind" data-path-key="|spec|healthCheckExprs[]|kind|" data-parent-path="spec.healthCheckExprs" data-name="kind" data-text="Kind of the custom resource under evaluation.">
   <span class="prop-name">kind</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <span class="type-badge">string</span>
   <div class="leaf-desc">Kind of the custom resource under evaluation.
   </div>
 </div>
@@ -648,6 +660,110 @@ of the custom resource has not yet reached the desired state.
   <div class="leaf-desc">Namespace of the referent, when not specified it acts as LocalObjectReference.
   </div>
 </div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.ignore" data-path-key="|spec|ignore|" data-parent-path="spec" data-name="ignore" data-text="Ignore is a list of rules for specifying which changes to ignore
+during drift detection. These rules are applied to the resources managed
+by the Kustomization and are used to exclude specific JSON pointer paths
+from the drift detection and apply process.">
+<summary>
+  <span class="prop-name">ignore</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Ignore is a list of rules for specifying which changes to ignore
+during drift detection. These rules are applied to the resources managed
+by the Kustomization and are used to exclude specific JSON pointer paths
+from the drift detection and apply process.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].paths" data-path-key="|spec|ignore[]|paths|" data-parent-path="spec.ignore" data-name="paths" data-text="Paths is a list of JSON Pointer (RFC 6901) paths to be excluded from
+consideration in a Kubernetes object.">
+  <span class="prop-name">paths</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Paths is a list of JSON Pointer (RFC 6901) paths to be excluded from
+consideration in a Kubernetes object.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.ignore[].target" data-path-key="|spec|ignore[]|target|" data-parent-path="spec.ignore" data-name="target" data-text="Target is a selector for specifying Kubernetes objects to which this
+rule applies.
+If Target is not set, the Paths will be ignored for all Kubernetes
+objects within the manifest of the Kustomization.">
+<summary>
+  <span class="prop-name">target</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Target is a selector for specifying Kubernetes objects to which this
+rule applies.
+If Target is not set, the Paths will be ignored for all Kubernetes
+objects within the manifest of the Kustomization.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].target.annotationSelector" data-path-key="|spec|ignore[]|target|annotationSelector|" data-parent-path="spec.ignore[].target" data-name="annotationSelector" data-text="AnnotationSelector is a string that follows the label selection expression
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#api
+It matches with the resource annotations.">
+  <span class="prop-name">annotationSelector</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">AnnotationSelector is a string that follows the label selection expression
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#api
+It matches with the resource annotations.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].target.group" data-path-key="|spec|ignore[]|target|group|" data-parent-path="spec.ignore[].target" data-name="group" data-text="Group is the API group to select resources from.
+Together with Version and Kind it is capable of unambiguously identifying and/or selecting resources.
+https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md">
+  <span class="prop-name">group</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Group is the API group to select resources from.
+Together with Version and Kind it is capable of unambiguously identifying and/or selecting resources.
+https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].target.kind" data-path-key="|spec|ignore[]|target|kind|" data-parent-path="spec.ignore[].target" data-name="kind" data-text="Kind of the API Group to select resources from.
+Together with Group and Version it is capable of unambiguously
+identifying and/or selecting resources.
+https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Kind of the API Group to select resources from.
+Together with Group and Version it is capable of unambiguously
+identifying and/or selecting resources.
+https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].target.labelSelector" data-path-key="|spec|ignore[]|target|labelSelector|" data-parent-path="spec.ignore[].target" data-name="labelSelector" data-text="LabelSelector is a string that follows the label selection expression
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#api
+It matches with the resource labels.">
+  <span class="prop-name">labelSelector</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LabelSelector is a string that follows the label selection expression
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#api
+It matches with the resource labels.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].target.name" data-path-key="|spec|ignore[]|target|name|" data-parent-path="spec.ignore[].target" data-name="name" data-text="Name to match resources with.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name to match resources with.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].target.namespace" data-path-key="|spec|ignore[]|target|namespace|" data-parent-path="spec.ignore[].target" data-name="namespace" data-text="Namespace to select resources from.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace to select resources from.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.ignore[].target.version" data-path-key="|spec|ignore[]|target|version|" data-parent-path="spec.ignore[].target" data-name="version" data-text="Version of the API Group to select resources from.
+Together with Group and Kind it is capable of unambiguously identifying and/or selecting resources.
+https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md">
+  <span class="prop-name">version</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Version of the API Group to select resources from.
+Together with Group and Kind it is capable of unambiguously identifying and/or selecting resources.
+https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -1030,6 +1146,25 @@ as if the resource was present but empty, without any variables defined.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.postBuild.substituteStrategy" data-path-key="|spec|postBuild|substituteStrategy|" data-parent-path="spec.postBuild" data-name="substituteStrategy" data-text="SubstituteStrategy defines the strategy for substituting variables in the YAML manifests.
+Valid values are:
+
+ - WithVariables (the default): require at least one variable to be defined,
+   either through the inline map or through the resolved references to ConfigMaps
+   and Secrets.
+ - Always: perform the substitution even if no variables are defined. enum: WithVariables, Always">
+  <span class="prop-name">substituteStrategy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubstituteStrategy defines the strategy for substituting variables in the YAML manifests.
+Valid values are:
+
+ - WithVariables (the default): require at least one variable to be defined,
+   either through the inline map or through the resolved references to ConfigMaps
+   and Secrets.
+ - Always: perform the substitution even if no variables are defined.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: WithVariables, Always"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">WithVariables, Always</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -1354,7 +1489,7 @@ can be detected.
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.commonMetadata for an exact path">No matches. Try .spec.commonMetadata for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.buildMetadata for an exact path">No matches. Try .spec.buildMetadata for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

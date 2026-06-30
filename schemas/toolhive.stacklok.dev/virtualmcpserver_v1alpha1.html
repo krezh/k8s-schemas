@@ -440,7 +440,8 @@ in the OAuth discovery document. When set, the discovery document will advertise
 All other endpoints (token, registration, JWKS) remain derived from the issuer.
 This is useful when the browser-facing authorization endpoint needs to be on a
 different host than the issuer used for backend-to-backend calls.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash. pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts
+when insecureAllowHTTP is true) without query, fragment, or trailing slash. pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
   <span class="prop-name">authorizationEndpointBaseUrl</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">AuthorizationEndpointBaseURL overrides the base URL used for the authorization_endpoint
@@ -449,7 +450,8 @@ in the OAuth discovery document. When set, the discovery document will advertise
 All other endpoints (token, registration, JWKS) remain derived from the issuer.
 This is useful when the browser-facing authorization endpoint needs to be on a
 different host than the issuer used for backend-to-backend calls.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash.<div class="leaf-constraints">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts
+when insecureAllowHTTP is true) without query, fragment, or trailing slash.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^https?://[^\s?#]&#43;[^/\s?#]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^\s?#]&#43;[^/\s?#]$</code></div></div>
   </div>
 </div>
@@ -590,14 +592,44 @@ auth codes and refresh tokens will be invalid after restart).</div>
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.insecureAllowHTTP" data-path-key="|spec|authServerConfig|insecureAllowHTTP|" data-parent-path="spec.authServerConfig" data-name="insecureAllowHTTP" data-text="InsecureAllowHTTP permits an http:// issuer URL for non-localhost hosts.
+Only set this for in-cluster Kubernetes deployments where traffic between
+pods traverses a trusted network (e.g. the in-cluster service mesh).
+Production deployments reachable outside the cluster MUST use https://.
+
+On VirtualMCPServer: when false (the default), http:// issuers for non-localhost
+hosts are rejected at reconcile time with an AuthServerConfigValidated=False condition.
+
+On MCPServer and MCPRemoteProxy (via MCPExternalAuthConfig): this field is
+structurally present but enforcement is deferred to pod startup via Config.Validate();
+a misconfigured issuer will cause the pod to crash at startup rather than surface
+as an operator condition.">
+  <span class="prop-name">insecureAllowHTTP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureAllowHTTP permits an http:// issuer URL for non-localhost hosts.
+Only set this for in-cluster Kubernetes deployments where traffic between
+pods traverses a trusted network (e.g. the in-cluster service mesh).
+Production deployments reachable outside the cluster MUST use https://.
+
+On VirtualMCPServer: when false (the default), http:// issuers for non-localhost
+hosts are rejected at reconcile time with an AuthServerConfigValidated=False condition.
+
+On MCPServer and MCPRemoteProxy (via MCPExternalAuthConfig): this field is
+structurally present but enforcement is deferred to pod startup via Config.Validate();
+a misconfigured issuer will cause the pod to crash at startup rather than surface
+as an operator condition.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.issuer" data-path-key="|spec|authServerConfig|issuer|" data-parent-path="spec.authServerConfig" data-name="issuer" data-text="Issuer is the issuer identifier for this authorization server.
 This will be included in the &#34;iss&#34; claim of issued tokens.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash (per RFC 8414). pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts when
+insecureAllowHTTP is true) without query, fragment, or trailing slash (per RFC 8414). pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
   <span class="prop-name">issuer</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Issuer is the issuer identifier for this authorization server.
 This will be included in the &#34;iss&#34; claim of issued tokens.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash (per RFC 8414).<div class="leaf-constraints">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts when
+insecureAllowHTTP is true) without query, fragment, or trailing slash (per RFC 8414).<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^https?://[^\s?#]&#43;[^/\s?#]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^\s?#]&#43;[^/\s?#]$</code></div></div>
   </div>
 </div>
@@ -2796,6 +2828,51 @@ When enabled, vMCP exposes only find_tool and call_tool operations to clients
 instead of all backend tools directly. This reduces token usage by allowing
 LLMs to discover relevant tools on demand rather than receiving all tool definitions.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.config.optimizer.embeddingModel" data-path-key="|spec|config|optimizer|embeddingModel|" data-parent-path="spec.config.optimizer" data-name="embeddingModel" data-text="EmbeddingModel is the model name requested from the embedding service
+(e.g. &#34;text-embedding-3-small&#34;). Required when EmbeddingProvider is
+&#34;openai&#34;. Ignored for the &#34;tei&#34; provider, where the model is fixed by the
+running TEI container.
+
+The API key for an OpenAI-compatible service is not configured here: it is
+read from the OPENAI_API_KEY environment variable so the secret never
+lands in a CRD spec or ConfigMap. An empty key omits the Authorization
+header, which supports keyless in-cluster gateways.">
+  <span class="prop-name">embeddingModel</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">EmbeddingModel is the model name requested from the embedding service
+(e.g. &#34;text-embedding-3-small&#34;). Required when EmbeddingProvider is
+&#34;openai&#34;. Ignored for the &#34;tei&#34; provider, where the model is fixed by the
+running TEI container.
+
+The API key for an OpenAI-compatible service is not configured here: it is
+read from the OPENAI_API_KEY environment variable so the secret never
+lands in a CRD spec or ConfigMap. An empty key omits the Authorization
+header, which supports keyless in-cluster gateways.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.optimizer.embeddingProvider" data-path-key="|spec|config|optimizer|embeddingProvider|" data-parent-path="spec.config.optimizer" data-name="embeddingProvider" data-text="EmbeddingProvider selects the wire protocol used to talk to the embedding
+service. &#34;tei&#34; speaks the HuggingFace Text Embeddings Inference API;
+&#34;openai&#34; speaks the OpenAI-compatible /embeddings API, which lets the
+optimizer use OpenAI, Azure OpenAI, or another OpenAI-compatible gateway.
+Defaults to &#34;tei&#34; when empty.
+
+The &#34;openai&#34; provider reads EmbeddingService directly and cannot be combined
+with EmbeddingServerRef, which provisions a managed TEI server; the operator
+rejects that combination at admission. enum: tei, openai">
+  <span class="prop-name">embeddingProvider</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">EmbeddingProvider selects the wire protocol used to talk to the embedding
+service. &#34;tei&#34; speaks the HuggingFace Text Embeddings Inference API;
+&#34;openai&#34; speaks the OpenAI-compatible /embeddings API, which lets the
+optimizer use OpenAI, Azure OpenAI, or another OpenAI-compatible gateway.
+Defaults to &#34;tei&#34; when empty.
+
+The &#34;openai&#34; provider reads EmbeddingService directly and cannot be combined
+with EmbeddingServerRef, which provisions a managed TEI server; the operator
+rejects that combination at admission.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: tei, openai"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">tei, openai</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.optimizer.embeddingService" data-path-key="|spec|config|optimizer|embeddingService|" data-parent-path="spec.config.optimizer" data-name="embeddingService" data-text="EmbeddingService is the full base URL of the embedding service endpoint
 (e.g., http://my-embedding.default.svc.cluster.local:8080) for semantic
 tool discovery.
@@ -3037,6 +3114,87 @@ Either HeaderValue or HeaderValueEnv should be set, not both.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.config.outgoingAuth.default.obo" data-path-key="|spec|config|outgoingAuth|default|obo|" data-parent-path="spec.config.outgoingAuth.default" data-name="obo" data-text="OBO contains configuration for on-behalf-of (OBO) auth strategy.
+Used when Type = &#34;obo&#34;. The default upstream build returns ErrEnterpriseRequired;
+an out-of-tree build registers a real strategy via auth.RegisterOBOStrategy.">
+<summary>
+  <span class="prop-name">obo</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OBO contains configuration for on-behalf-of (OBO) auth strategy.
+Used when Type = &#34;obo&#34;. The default upstream build returns ErrEnterpriseRequired;
+an out-of-tree build registers a real strategy via auth.RegisterOBOStrategy.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.audience" data-path-key="|spec|config|outgoingAuth|default|obo|audience|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="audience" data-text="Audience is the target audience (resource URI) for the exchanged token.">
+  <span class="prop-name">audience</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Audience is the target audience (resource URI) for the exchanged token.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.cacheSkewSeconds" data-path-key="|spec|config|outgoingAuth|default|obo|cacheSkewSeconds|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="cacheSkewSeconds" data-text="CacheSkewSeconds is the number of seconds to subtract from a cached token&#39;s
+expiry when deciding whether to refresh it. Defaults to zero (no skew).
+The operator CRD stores this as CacheSkew *metav1.Duration and converts it
+to an integer-seconds value for the vMCP runtime contract. format: int32">
+  <span class="prop-name">cacheSkewSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">CacheSkewSeconds is the number of seconds to subtract from a cached token&#39;s
+expiry when deciding whether to refresh it. Defaults to zero (no skew).
+The operator CRD stores this as CacheSkew *metav1.Duration and converts it
+to an integer-seconds value for the vMCP runtime contract.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.clientId" data-path-key="|spec|config|outgoingAuth|default|obo|clientId|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="clientId" data-text="ClientID is the OAuth client ID for the OBO request.">
+  <span class="prop-name">clientId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ClientID is the OAuth client ID for the OBO request.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.clientSecret" data-path-key="|spec|config|outgoingAuth|default|obo|clientSecret|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="clientSecret" data-text="ClientSecret is the OAuth client secret (use ClientSecretEnv for security).">
+  <span class="prop-name">clientSecret</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ClientSecret is the OAuth client secret (use ClientSecretEnv for security).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.clientSecretEnv" data-path-key="|spec|config|outgoingAuth|default|obo|clientSecretEnv|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="clientSecretEnv" data-text="ClientSecretEnv is the environment variable name containing the client secret.
+The value will be resolved at runtime from this environment variable.">
+  <span class="prop-name">clientSecretEnv</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ClientSecretEnv is the environment variable name containing the client secret.
+The value will be resolved at runtime from this environment variable.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.scopes" data-path-key="|spec|config|outgoingAuth|default|obo|scopes|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="scopes" data-text="Scopes are the requested scopes for the exchanged token.">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Scopes are the requested scopes for the exchanged token.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.subjectTokenProviderName" data-path-key="|spec|config|outgoingAuth|default|obo|subjectTokenProviderName|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="subjectTokenProviderName" data-text="SubjectTokenProviderName selects which upstream provider&#39;s token to use as the
+subject (assertion) token for the OBO exchange. When set, the token is looked
+up from Identity.UpstreamTokens[SubjectTokenProviderName]; when omitted, the
+inbound end-user token (Identity.Token) is used directly.
+Matches the operator CRD&#39;s SubjectTokenProviderName field; the enterprise OBO
+converter maps both to the runtime contract without renaming.">
+  <span class="prop-name">subjectTokenProviderName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubjectTokenProviderName selects which upstream provider&#39;s token to use as the
+subject (assertion) token for the OBO exchange. When set, the token is looked
+up from Identity.UpstreamTokens[SubjectTokenProviderName]; when omitted, the
+inbound end-user token (Identity.Token) is used directly.
+Matches the operator CRD&#39;s SubjectTokenProviderName field; the enterprise OBO
+converter maps both to the runtime contract without renaming.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.obo.tokenUrl" data-path-key="|spec|config|outgoingAuth|default|obo|tokenUrl|" data-parent-path="spec.config.outgoingAuth.default.obo" data-name="tokenUrl" data-text="TokenURL is the Entra token endpoint URL for the OBO exchange.">
+  <span class="prop-name">tokenUrl</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TokenURL is the Entra token endpoint URL for the OBO exchange.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.config.outgoingAuth.default.tokenExchange" data-path-key="|spec|config|outgoingAuth|default|tokenExchange|" data-parent-path="spec.config.outgoingAuth.default" data-name="tokenExchange" data-text="TokenExchange contains configuration for token exchange auth strategy.
 Used when Type = &#34;token_exchange&#34;.">
 <summary>
@@ -3113,10 +3271,10 @@ Defaults to &#34;urn:ietf:params:oauth:token-type:access_token&#34; if not speci
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.type" data-path-key="|spec|config|outgoingAuth|default|type|" data-parent-path="spec.config.outgoingAuth.default" data-name="type" data-text="Type is the auth strategy: &#34;unauthenticated&#34;, &#34;header_injection&#34;, &#34;token_exchange&#34;, &#34;upstream_inject&#34;, &#34;aws_sts&#34;, &#34;obo&#34;">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.type" data-path-key="|spec|config|outgoingAuth|default|type|" data-parent-path="spec.config.outgoingAuth.default" data-name="type" data-text="Type is the auth strategy: &#34;unauthenticated&#34;, &#34;header_injection&#34;, &#34;token_exchange&#34;, &#34;upstream_inject&#34;, &#34;aws_sts&#34;, &#34;obo&#34;, &#34;xaa&#34;">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Type is the auth strategy: &#34;unauthenticated&#34;, &#34;header_injection&#34;, &#34;token_exchange&#34;, &#34;upstream_inject&#34;, &#34;aws_sts&#34;, &#34;obo&#34;
+  <div class="leaf-desc">Type is the auth strategy: &#34;unauthenticated&#34;, &#34;header_injection&#34;, &#34;token_exchange&#34;, &#34;upstream_inject&#34;, &#34;aws_sts&#34;, &#34;obo&#34;, &#34;xaa&#34;
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.config.outgoingAuth.default.upstreamInject" data-path-key="|spec|config|outgoingAuth|default|upstreamInject|" data-parent-path="spec.config.outgoingAuth.default" data-name="upstreamInject" data-text="UpstreamInject contains configuration for upstream inject auth strategy.
@@ -3134,6 +3292,108 @@ embedded authorization server. Must match an entry in AuthServer.Upstreams.">
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">ProviderName is the name of the upstream provider configured in the
 embedded authorization server. Must match an entry in AuthServer.Upstreams.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.config.outgoingAuth.default.xaa" data-path-key="|spec|config|outgoingAuth|default|xaa|" data-parent-path="spec.config.outgoingAuth.default" data-name="xaa" data-text="XAA contains configuration for XAA (Cross-Application Access) auth strategy.
+Used when Type = &#34;xaa&#34;.">
+<summary>
+  <span class="prop-name">xaa</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">XAA contains configuration for XAA (Cross-Application Access) auth strategy.
+Used when Type = &#34;xaa&#34;.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientId" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientId|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientId" data-text="IDPClientID is the OAuth client ID at the IdP for Step A.">
+  <span class="prop-name">idpClientId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">IDPClientID is the OAuth client ID at the IdP for Step A.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientSecret" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientSecret|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientSecret" data-text="IDPClientSecret is the client secret at the IdP for Step A.">
+  <span class="prop-name">idpClientSecret</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">IDPClientSecret is the client secret at the IdP for Step A.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientSecretEnv" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientSecretEnv|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientSecretEnv" data-text="IDPClientSecretEnv is the env var containing the IdP client secret.">
+  <span class="prop-name">idpClientSecretEnv</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">IDPClientSecretEnv is the env var containing the IdP client secret.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|idpTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpTokenUrl" data-text="IDPTokenURL is the IdP token endpoint for Step A (RFC 8693 exchange).">
+  <span class="prop-name">idpTokenUrl</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">IDPTokenURL is the IdP token endpoint for Step A (RFC 8693 exchange).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.insecureTargetTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|insecureTargetTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="insecureTargetTokenUrl" data-text="InsecureTargetTokenURL allows plain HTTP for TargetTokenURL.
+WARNING: this is insecure and must only be set for in-cluster or
+development/testing endpoints — never in production.">
+  <span class="prop-name">insecureTargetTokenUrl</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureTargetTokenURL allows plain HTTP for TargetTokenURL.
+WARNING: this is insecure and must only be set for in-cluster or
+development/testing endpoints — never in production.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.scopes" data-path-key="|spec|config|outgoingAuth|default|xaa|scopes|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="scopes" data-text="Scopes are the requested scopes for Steps A and B.">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Scopes are the requested scopes for Steps A and B.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.subjectProviderName" data-path-key="|spec|config|outgoingAuth|default|xaa|subjectProviderName|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="subjectProviderName" data-text="SubjectProviderName selects which upstream provider&#39;s ID token to use.
+Auto-populated when embedded AS is active.">
+  <span class="prop-name">subjectProviderName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubjectProviderName selects which upstream provider&#39;s ID token to use.
+Auto-populated when embedded AS is active.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetAudience" data-path-key="|spec|config|outgoingAuth|default|xaa|targetAudience|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetAudience" data-text="TargetAudience is the resource AS URL for the ID-JAG audience claim (required).">
+  <span class="prop-name">targetAudience</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TargetAudience is the resource AS URL for the ID-JAG audience claim (required).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientId" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientId|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientId" data-text="TargetClientID is the OAuth client ID at the target AS for Step B.">
+  <span class="prop-name">targetClientId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TargetClientID is the OAuth client ID at the target AS for Step B.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientSecret" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientSecret|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientSecret" data-text="TargetClientSecret is the client secret at the target AS for Step B.">
+  <span class="prop-name">targetClientSecret</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TargetClientSecret is the client secret at the target AS for Step B.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientSecretEnv" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientSecretEnv|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientSecretEnv" data-text="TargetClientSecretEnv is the env var containing the target AS client secret.">
+  <span class="prop-name">targetClientSecretEnv</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TargetClientSecretEnv is the env var containing the target AS client secret.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetResource" data-path-key="|spec|config|outgoingAuth|default|xaa|targetResource|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetResource" data-text="TargetResource is the RFC 8707 resource indicator sent as the `resource`
+parameter in Step A&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
+identifies the target resource server — not the access-token audience, which
+is governed by TargetAudience. For MCP backends, set to the MCP server URL.">
+  <span class="prop-name">targetResource</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TargetResource is the RFC 8707 resource indicator sent as the `resource`
+parameter in Step A&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
+identifies the target resource server — not the access-token audience, which
+is governed by TargetAudience. For MCP backends, set to the MCP server URL.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|targetTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetTokenUrl" data-text="TargetTokenURL is the target AS token endpoint for Step B (JWT Bearer grant).">
+  <span class="prop-name">targetTokenUrl</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TargetTokenURL is the target AS token endpoint for Step B (JWT Bearer grant).
   </div>
 </div>
   </div>

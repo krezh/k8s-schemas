@@ -660,7 +660,7 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.resources" data-path-key="|spec|resources|" data-parent-path="spec" data-name="resources" data-text="Resources contains the list of Kubernetes resources to reconcile.">
   <span class="prop-name">resources</span>
-  <span class="type-badge">[]</span>
+  <span class="type-badge">[]object</span>
   <div class="leaf-desc">Resources contains the list of Kubernetes resources to reconcile.
   </div>
 </div>
@@ -686,6 +686,61 @@ when reconciling the generated resources.">
 when reconciling the generated resources.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.steps" data-path-key="|spec|steps|" data-parent-path="spec" data-name="steps" data-text="Steps contains an ordered list of named steps to reconcile in sequence.
+Each step&#39;s resources are applied and health-checked before the next
+step starts. Mutually exclusive with Resources and ResourcesTemplate. minItems: 1 maxItems: 20">
+<summary>
+  <span class="prop-name">steps</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Steps contains an ordered list of named steps to reconcile in sequence.
+Each step&#39;s resources are applied and health-checked before the next
+step starts. Mutually exclusive with Resources and ResourcesTemplate.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 20"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">20</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.steps[].name" data-path-key="|spec|steps[]|name|" data-parent-path="spec.steps" data-name="name" data-text="Name of the step, must be unique within the ResourceSet. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ maxLength: 63">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the step, must be unique within the ResourceSet.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 63"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">63</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.steps[].resources" data-path-key="|spec|steps[]|resources|" data-parent-path="spec.steps" data-name="resources" data-text="Resources contains the list of Kubernetes resources to reconcile.">
+  <span class="prop-name">resources</span>
+  <span class="type-badge">[]object</span>
+  <div class="leaf-desc">Resources contains the list of Kubernetes resources to reconcile.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.steps[].resourcesTemplate" data-path-key="|spec|steps[]|resourcesTemplate|" data-parent-path="spec.steps" data-name="resourcesTemplate" data-text="ResourcesTemplate is a Go template that generates the list of
+Kubernetes resources to reconcile. The template is rendered
+as multi-document YAML, the resources should be separated by &#39;---&#39;.
+When both Resources and ResourcesTemplate are set, the resulting
+objects are merged and deduplicated, with the ones from Resources taking precedence.">
+  <span class="prop-name">resourcesTemplate</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ResourcesTemplate is a Go template that generates the list of
+Kubernetes resources to reconcile. The template is rendered
+as multi-document YAML, the resources should be separated by &#39;---&#39;.
+When both Resources and ResourcesTemplate are set, the resulting
+objects are merged and deduplicated, with the ones from Resources taking precedence.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.steps[].timeout" data-path-key="|spec|steps[]|timeout|" data-parent-path="spec.steps" data-name="timeout" data-text="Timeout is the maximum time to wait for the step&#39;s resources to
+become ready. When not set, the ResourceSet reconciliation
+timeout is used. pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$">
+  <span class="prop-name">timeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Timeout is the maximum time to wait for the step&#39;s resources to
+become ready. When not set, the ResourceSet reconciliation
+timeout is used.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.wait" data-path-key="|spec|wait|" data-parent-path="spec" data-name="wait" data-text="Wait instructs the controller to check the health
 of all the reconciled resources.">
   <span class="prop-name">wait</span>

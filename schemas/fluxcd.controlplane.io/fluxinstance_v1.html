@@ -772,13 +772,13 @@ Defaults to true.
 <div class="prop-leaf" data-prop-row data-path="spec.sharding.storage" data-path-key="|spec|sharding|storage|" data-parent-path="spec.sharding" data-name="storage" data-text="Storage defines if the source-controller shards
 should use an emptyDir or a persistent volume claim for storage.
 Accepted values are &#39;ephemeral&#39; or &#39;persistent&#39;, defaults to &#39;ephemeral&#39;.
-For &#39;persistent&#39; to take effect, the &#39;.spec.storage&#39; field must be set. enum: ephemeral, persistent">
+When set to &#39;persistent&#39;, the &#39;.spec.storage&#39; field must be set. enum: ephemeral, persistent">
   <span class="prop-name">storage</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Storage defines if the source-controller shards
 should use an emptyDir or a persistent volume claim for storage.
 Accepted values are &#39;ephemeral&#39; or &#39;persistent&#39;, defaults to &#39;ephemeral&#39;.
-For &#39;persistent&#39; to take effect, the &#39;.spec.storage&#39; field must be set.<div class="leaf-constraints">
+When set to &#39;persistent&#39;, the &#39;.spec.storage&#39; field must be set.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: ephemeral, persistent"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">ephemeral, persistent</code></div></div>
   </div>
 </div>

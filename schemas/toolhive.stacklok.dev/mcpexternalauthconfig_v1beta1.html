@@ -631,7 +631,8 @@ in the OAuth discovery document. When set, the discovery document will advertise
 All other endpoints (token, registration, JWKS) remain derived from the issuer.
 This is useful when the browser-facing authorization endpoint needs to be on a
 different host than the issuer used for backend-to-backend calls.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash. pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts
+when insecureAllowHTTP is true) without query, fragment, or trailing slash. pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
   <span class="prop-name">authorizationEndpointBaseUrl</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">AuthorizationEndpointBaseURL overrides the base URL used for the authorization_endpoint
@@ -640,7 +641,8 @@ in the OAuth discovery document. When set, the discovery document will advertise
 All other endpoints (token, registration, JWKS) remain derived from the issuer.
 This is useful when the browser-facing authorization endpoint needs to be on a
 different host than the issuer used for backend-to-backend calls.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash.<div class="leaf-constraints">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts
+when insecureAllowHTTP is true) without query, fragment, or trailing slash.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^https?://[^\s?#]&#43;[^/\s?#]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^\s?#]&#43;[^/\s?#]$</code></div></div>
   </div>
 </div>
@@ -781,14 +783,44 @@ auth codes and refresh tokens will be invalid after restart).</div>
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.insecureAllowHTTP" data-path-key="|spec|embeddedAuthServer|insecureAllowHTTP|" data-parent-path="spec.embeddedAuthServer" data-name="insecureAllowHTTP" data-text="InsecureAllowHTTP permits an http:// issuer URL for non-localhost hosts.
+Only set this for in-cluster Kubernetes deployments where traffic between
+pods traverses a trusted network (e.g. the in-cluster service mesh).
+Production deployments reachable outside the cluster MUST use https://.
+
+On VirtualMCPServer: when false (the default), http:// issuers for non-localhost
+hosts are rejected at reconcile time with an AuthServerConfigValidated=False condition.
+
+On MCPServer and MCPRemoteProxy (via MCPExternalAuthConfig): this field is
+structurally present but enforcement is deferred to pod startup via Config.Validate();
+a misconfigured issuer will cause the pod to crash at startup rather than surface
+as an operator condition.">
+  <span class="prop-name">insecureAllowHTTP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureAllowHTTP permits an http:// issuer URL for non-localhost hosts.
+Only set this for in-cluster Kubernetes deployments where traffic between
+pods traverses a trusted network (e.g. the in-cluster service mesh).
+Production deployments reachable outside the cluster MUST use https://.
+
+On VirtualMCPServer: when false (the default), http:// issuers for non-localhost
+hosts are rejected at reconcile time with an AuthServerConfigValidated=False condition.
+
+On MCPServer and MCPRemoteProxy (via MCPExternalAuthConfig): this field is
+structurally present but enforcement is deferred to pod startup via Config.Validate();
+a misconfigured issuer will cause the pod to crash at startup rather than surface
+as an operator condition.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.issuer" data-path-key="|spec|embeddedAuthServer|issuer|" data-parent-path="spec.embeddedAuthServer" data-name="issuer" data-text="Issuer is the issuer identifier for this authorization server.
 This will be included in the &#34;iss&#34; claim of issued tokens.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash (per RFC 8414). pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts when
+insecureAllowHTTP is true) without query, fragment, or trailing slash (per RFC 8414). pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
   <span class="prop-name">issuer</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Issuer is the issuer identifier for this authorization server.
 This will be included in the &#34;iss&#34; claim of issued tokens.
-Must be a valid HTTPS URL (or HTTP for localhost) without query, fragment, or trailing slash (per RFC 8414).<div class="leaf-constraints">
+Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts when
+insecureAllowHTTP is true) without query, fragment, or trailing slash (per RFC 8414).<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^https?://[^\s?#]&#43;[^/\s?#]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^\s?#]&#43;[^/\s?#]$</code></div></div>
   </div>
 </div>

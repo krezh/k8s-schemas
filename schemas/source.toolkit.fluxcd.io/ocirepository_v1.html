@@ -708,6 +708,28 @@ trusted public keys.</div>
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.verify.trustedRootSecretRef" data-path-key="|spec|verify|trustedRootSecretRef|" data-parent-path="spec.verify" data-name="trustedRootSecretRef" data-text="TrustedRootSecretRef specifies the Kubernetes Secret containing a
+Sigstore trusted_root.json file. This enables verification against
+self-hosted Sigstore infrastructure (custom Fulcio CA, self-hosted
+Rekor instance). The Secret must contain a key named &#34;trusted_root.json&#34;.">
+<summary>
+  <span class="prop-name">trustedRootSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TrustedRootSecretRef specifies the Kubernetes Secret containing a
+Sigstore trusted_root.json file. This enables verification against
+self-hosted Sigstore infrastructure (custom Fulcio CA, self-hosted
+Rekor instance). The Secret must contain a key named &#34;trusted_root.json&#34;.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.verify.trustedRootSecretRef.name" data-path-key="|spec|verify|trustedRootSecretRef|name|" data-parent-path="spec.verify.trustedRootSecretRef" data-name="name" data-text="Name of the referent.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the referent.
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>

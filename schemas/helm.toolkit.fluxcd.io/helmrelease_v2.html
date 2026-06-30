@@ -697,12 +697,12 @@ can be reconciled.</div>
   <div class="leaf-desc">Name of the referent.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.dependsOn[].namespace" data-path-key="|spec|dependsOn[]|namespace|" data-parent-path="spec.dependsOn" data-name="namespace" data-text="Namespace of the referent, defaults to the namespace of the HelmRelease
-resource object that contains the reference.">
+<div class="prop-leaf" data-prop-row data-path="spec.dependsOn[].namespace" data-path-key="|spec|dependsOn[]|namespace|" data-parent-path="spec.dependsOn" data-name="namespace" data-text="Namespace of the referent, defaults to the namespace of the resource
+object that contains the reference.">
   <span class="prop-name">namespace</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Namespace of the referent, defaults to the namespace of the HelmRelease
-resource object that contains the reference.
+  <div class="leaf-desc">Namespace of the referent, defaults to the namespace of the resource
+object that contains the reference.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.dependsOn[].readyExpr" data-path-key="|spec|dependsOn[]|readyExpr|" data-parent-path="spec.dependsOn" data-name="readyExpr" data-text="ReadyExpr is a CEL expression that can be used to assess the readiness
@@ -894,7 +894,7 @@ of the custom resource has not yet reached the desired state.
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.healthCheckExprs[].kind" data-path-key="|spec|healthCheckExprs[]|kind|" data-parent-path="spec.healthCheckExprs" data-name="kind" data-text="Kind of the custom resource under evaluation.">
   <span class="prop-name">kind</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <span class="type-badge">string</span>
   <div class="leaf-desc">Kind of the custom resource under evaluation.
   </div>
 </div>
@@ -1284,6 +1284,21 @@ outside Helm&#39;s CRD lifecycle hooks, which are then not observed to be
 available by e.g. post-install hooks.
 
 If not set, it defaults to true.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.postRenderStrategy" data-path-key="|spec|postRenderStrategy|" data-parent-path="spec" data-name="postRenderStrategy" data-text="PostRenderStrategy defines the strategy for sending hooks to post-renderers.
+Valid values are &#39;nohooks&#39; (hooks not sent to post-renderers, Helm 3 behavior),
+&#39;combined&#39; (hooks and templates sent together, Helm 4 default), and &#39;separate&#39;
+(hooks and templates sent in separate streams, Helm 4.2 opt-in).
+Defaults to &#39;combined&#39;, or &#39;nohooks&#39; when the UseHelm3Defaults feature gate is enabled. enum: nohooks, combined, separate">
+  <span class="prop-name">postRenderStrategy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PostRenderStrategy defines the strategy for sending hooks to post-renderers.
+Valid values are &#39;nohooks&#39; (hooks not sent to post-renderers, Helm 3 behavior),
+&#39;combined&#39; (hooks and templates sent together, Helm 4 default), and &#39;separate&#39;
+(hooks and templates sent in separate streams, Helm 4.2 opt-in).
+Defaults to &#39;combined&#39;, or &#39;nohooks&#39; when the UseHelm3Defaults feature gate is enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: nohooks, combined, separate"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">nohooks, combined, separate</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.postRenderers" data-path-key="|spec|postRenderers|" data-parent-path="spec" data-name="postRenderers" data-text="PostRenderers holds an array of Helm PostRenderers, which will be applied in order
@@ -1717,6 +1732,23 @@ to &#39;HelmReleaseSpec.Timeout&#39;.<div class="leaf-constraints">
 </summary>
 <div class="prop-content"><div class="prop-desc">Upgrade holds the configuration for Helm upgrade actions for this HelmRelease.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.upgrade.chartNameChangeStrategy" data-path-key="|spec|upgrade|chartNameChangeStrategy|" data-parent-path="spec.upgrade" data-name="chartNameChangeStrategy" data-text="ChartNameChangeStrategy defines the strategy to use when a Helm chart name changes.
+Valid values are &#39;Reinstall&#39; or &#39;InPlaceUpdate&#39;. Defaults to &#39;Reinstall&#39; if omitted.
+
+Reinstall: Reinstall the Helm release, uninstalling the existing Helm release.
+
+InPlaceUpdate: Update the Helm release in place. enum: InPlaceUpdate, Reinstall">
+  <span class="prop-name">chartNameChangeStrategy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ChartNameChangeStrategy defines the strategy to use when a Helm chart name changes.
+Valid values are &#39;Reinstall&#39; or &#39;InPlaceUpdate&#39;. Defaults to &#39;Reinstall&#39; if omitted.
+
+Reinstall: Reinstall the Helm release, uninstalling the existing Helm release.
+
+InPlaceUpdate: Update the Helm release in place.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: InPlaceUpdate, Reinstall"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">InPlaceUpdate, Reinstall</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.upgrade.cleanupOnFail" data-path-key="|spec|upgrade|cleanupOnFail|" data-parent-path="spec.upgrade" data-name="cleanupOnFail" data-text="CleanupOnFail allows deletion of new resources created during the Helm
 upgrade action when it fails.">
   <span class="prop-name">cleanupOnFail</span>
@@ -1954,6 +1986,26 @@ and information about how they should be merged.</div>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Kind of the values referent, valid values are (&#39;Secret&#39;, &#39;ConfigMap&#39;).<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: Secret, ConfigMap"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Secret, ConfigMap</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.valuesFrom[].literal" data-path-key="|spec|valuesFrom[]|literal|" data-parent-path="spec.valuesFrom" data-name="literal" data-text="Literal marks this ValuesReference as a literal value. When set in
+combination with TargetPath, the referenced value is merged at the target
+path without interpreting Helm&#39;s `--set` syntax (commas, brackets, dots,
+equal signs, etc.), mirroring the behavior of `helm --set-literal`. This
+is the only safe way to inject arbitrary file content (config files, JSON
+blobs, multi-line strings containing special characters) through
+`valuesFrom`. Has no effect when TargetPath is empty: in that mode the
+referenced value is always YAML-merged at the root.">
+  <span class="prop-name">literal</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Literal marks this ValuesReference as a literal value. When set in
+combination with TargetPath, the referenced value is merged at the target
+path without interpreting Helm&#39;s `--set` syntax (commas, brackets, dots,
+equal signs, etc.), mirroring the behavior of `helm --set-literal`. This
+is the only safe way to inject arbitrary file content (config files, JSON
+blobs, multi-line strings containing special characters) through
+`valuesFrom`. Has no effect when TargetPath is empty: in that mode the
+referenced value is always YAML-merged at the root.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.valuesFrom[].name" data-path-key="|spec|valuesFrom[]|name|" data-parent-path="spec.valuesFrom" data-name="name" data-text="Name of the values referent. Should reside in the same namespace as the
