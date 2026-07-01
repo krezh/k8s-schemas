@@ -3676,6 +3676,59 @@ Deployment keeps for rollback. Unset uses the Kubernetes default (10);
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.rolloutPolicy" data-path-key="|spec|rolloutPolicy|" data-parent-path="spec" data-name="rolloutPolicy" data-text="RolloutPolicy controls how deployment updates are applied. When waitForIdle
+is true, the controller will check backend slot idleness before updating
+the Deployment pod-template. Requires llama.cpp server-compatible backends
+that expose a /slots endpoint.">
+<summary>
+  <span class="prop-name">rolloutPolicy</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RolloutPolicy controls how deployment updates are applied. When waitForIdle
+is true, the controller will check backend slot idleness before updating
+the Deployment pod-template. Requires llama.cpp server-compatible backends
+that expose a /slots endpoint.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.rolloutPolicy.force" data-path-key="|spec|rolloutPolicy|force|" data-parent-path="spec.rolloutPolicy" data-name="force" data-text="Force bypasses the idle check and proceeds with the rollout immediately.
+When true, WaitForIdle is ignored. Useful for emergency rollouts or when
+slots are stuck in a non-idle state.">
+  <span class="prop-name">force</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Force bypasses the idle check and proceeds with the rollout immediately.
+When true, WaitForIdle is ignored. Useful for emergency rollouts or when
+slots are stuck in a non-idle state.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.rolloutPolicy.idleTimeoutSeconds" data-path-key="|spec|rolloutPolicy|idleTimeoutSeconds|" data-parent-path="spec.rolloutPolicy" data-name="idleTimeoutSeconds" data-text="IdleTimeoutSeconds is the maximum time to wait for slots to become idle before
+proceeding with the rollout regardless of slot state. Defaults to 300 (5 minutes)
+when omitted or set to 0. minimum: 0">
+  <span class="prop-name">idleTimeoutSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">IdleTimeoutSeconds is the maximum time to wait for slots to become idle before
+proceeding with the rollout regardless of slot state. Defaults to 300 (5 minutes)
+when omitted or set to 0.<div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.rolloutPolicy.waitForIdle" data-path-key="|spec|rolloutPolicy|waitForIdle|" data-parent-path="spec.rolloutPolicy" data-name="waitForIdle" data-text="WaitForIdle indicates whether to wait for all backend slots to report idle
+before applying a Deployment pod-template update. When true, the controller
+polls the /slots endpoint on each replica and defers the rollout until all
+slots are idle or the idleTimeoutSeconds expires. Requires the backend to
+expose a llama.cpp-style /slots endpoint (llama.cpp enables it by default
+with --slots); other runtimes are tracked in #911.">
+  <span class="prop-name">waitForIdle</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">WaitForIdle indicates whether to wait for all backend slots to report idle
+before applying a Deployment pod-template update. When true, the controller
+polls the /slots endpoint on each replica and defers the rollout until all
+slots are idle or the idleTimeoutSeconds expires. Requires the backend to
+expose a llama.cpp-style /slots endpoint (llama.cpp enables it by default
+with --slots); other runtimes are tracked in #911.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.ropeScaling" data-path-key="|spec|ropeScaling|" data-parent-path="spec" data-name="ropeScaling" data-text="RopeScaling configures RoPE-based context extension so a model can be
 served past its native trained context (e.g. 128K served at 256K via
 YaRN). For the llamacpp runtime this maps to --rope-scaling /
@@ -4559,6 +4612,26 @@ It&#39;s a required field.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.turboQuantBits" data-path-key="|spec|turboQuantBits|" data-parent-path="spec" data-name="turboQuantBits" data-text="TurboQuantBits sets the KV cache quantization bit width for the oMLX
+runtime (3, 6, or 8). Maps to oMLX --kv-cache-quant. When set, the
+oMLX daemon uses TurboQuant to compress the KV cache, reducing memory
+usage by up to 67% with minimal speed impact (~7% overhead). Only
+meaningful for the omlx runtime; ignored by llamacpp and other runtimes.
+Requires oMLX v0.3.4&#43; (which introduced 3-bit TurboQuant) or a later
+dev build (6-bit and 8-bit options). enum: 3, 6, 8 format: int32">
+  <span class="prop-name">turboQuantBits</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">TurboQuantBits sets the KV cache quantization bit width for the oMLX
+runtime (3, 6, or 8). Maps to oMLX --kv-cache-quant. When set, the
+oMLX daemon uses TurboQuant to compress the KV cache, reducing memory
+usage by up to 67% with minimal speed impact (~7% overhead). Only
+meaningful for the omlx runtime; ignored by llamacpp and other runtimes.
+Requires oMLX v0.3.4&#43; (which introduced 3-bit TurboQuant) or a later
+dev build (6-bit and 8-bit options).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: 3, 6, 8"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">3, 6, 8</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.uBatchSize" data-path-key="|spec|uBatchSize|" data-parent-path="spec" data-name="uBatchSize" data-text="UBatchSize sets the micro-batch size for decoding.
 Smaller micro-batches reduce memory usage during generation.
 Maps to llama.cpp --ubatch-size flag. format: int32 minimum: 1">

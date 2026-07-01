@@ -493,42 +493,46 @@ Support: Core<div class="leaf-constraints">
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.apiKeyAuth.extractFrom" data-path-key="|spec|apiKeyAuth|extractFrom|" data-parent-path="spec.apiKeyAuth" data-name="extractFrom" data-text="ExtractFrom is where to fetch the key from the coming request.
-The value from the first source that has a key will be used.">
+The value from the first source that has a key will be used. minItems: 1">
 <summary>
   <span class="prop-name">extractFrom</span>
   <span class="type-badge">[]object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">ExtractFrom is where to fetch the key from the coming request.
-The value from the first source that has a key will be used.</div>
+The value from the first source that has a key will be used.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.apiKeyAuth.extractFrom[].cookies" data-path-key="|spec|apiKeyAuth|extractFrom[]|cookies|" data-parent-path="spec.apiKeyAuth.extractFrom" data-name="cookies" data-text="Cookies is the names of the cookie to fetch the key from.
 If multiple cookies are specified, envoy will look for the api key in the order of the list.
-This field is optional, but only one of headers, params or cookies is supposed to be specified.">
+This field is optional, but only one of headers, params or cookies must be specified. minItems: 1">
   <span class="prop-name">cookies</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Cookies is the names of the cookie to fetch the key from.
 If multiple cookies are specified, envoy will look for the api key in the order of the list.
-This field is optional, but only one of headers, params or cookies is supposed to be specified.
+This field is optional, but only one of headers, params or cookies must be specified.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.apiKeyAuth.extractFrom[].headers" data-path-key="|spec|apiKeyAuth|extractFrom[]|headers|" data-parent-path="spec.apiKeyAuth.extractFrom" data-name="headers" data-text="Headers is the names of the header to fetch the key from.
 If multiple headers are specified, envoy will look for the api key in the order of the list.
-This field is optional, but only one of headers, params or cookies is supposed to be specified.">
+This field is optional, but only one of headers, params or cookies must be specified. minItems: 1">
   <span class="prop-name">headers</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Headers is the names of the header to fetch the key from.
 If multiple headers are specified, envoy will look for the api key in the order of the list.
-This field is optional, but only one of headers, params or cookies is supposed to be specified.
+This field is optional, but only one of headers, params or cookies must be specified.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.apiKeyAuth.extractFrom[].params" data-path-key="|spec|apiKeyAuth|extractFrom[]|params|" data-parent-path="spec.apiKeyAuth.extractFrom" data-name="params" data-text="Params is the names of the query parameter to fetch the key from.
 If multiple params are specified, envoy will look for the api key in the order of the list.
-This field is optional, but only one of headers, params or cookies is supposed to be specified.">
+This field is optional, but only one of headers, params or cookies must be specified. minItems: 1">
   <span class="prop-name">params</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Params is the names of the query parameter to fetch the key from.
 If multiple params are specified, envoy will look for the api key in the order of the list.
-This field is optional, but only one of headers, params or cookies is supposed to be specified.
+This field is optional, but only one of headers, params or cookies must be specified.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
   </div>
