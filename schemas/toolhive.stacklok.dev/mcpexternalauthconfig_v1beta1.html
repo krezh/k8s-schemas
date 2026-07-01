@@ -1526,20 +1526,20 @@ The &#34;@upstreamjwt&#34; modifier performs no signature verification either.<d
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config.redirectUri" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oauth2Config|redirectUri|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config.redirectUri" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oauth2Config|redirectUri|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.">
   <span class="prop-name">redirectUri</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config.scopes" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oauth2Config|scopes|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IDP.">
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config.scopes" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oauth2Config|scopes|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IdP.">
   <span class="prop-name">scopes</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IDP.
+  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IdP.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config.tokenEndpoint" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oauth2Config|tokenEndpoint|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oauth2Config" data-name="tokenEndpoint" data-text="TokenEndpoint is the URL for the OAuth token endpoint. pattern: ^https?://.*$">
@@ -1724,10 +1724,10 @@ Framework-managed parameters (response_type, client_id, redirect_uri,
 scope, state, code_challenge, code_challenge_method, nonce) are not allowed.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig.clientId" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oidcConfig|clientId|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig" data-name="clientId" data-text="ClientID is the OAuth 2.0 client identifier registered with the upstream IDP.">
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig.clientId" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oidcConfig|clientId|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig" data-name="clientId" data-text="ClientID is the OAuth 2.0 client identifier registered with the upstream IdP.">
   <span class="prop-name">clientId</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">ClientID is the OAuth 2.0 client identifier registered with the upstream IDP.
+  <div class="leaf-desc">ClientID is the OAuth 2.0 client identifier registered with the upstream IdP.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig.clientSecretRef" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oidcConfig|clientSecretRef|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig" data-name="clientSecretRef" data-text="ClientSecretRef references a Kubernetes Secret containing the OAuth 2.0 client secret.
@@ -1763,24 +1763,24 @@ Must be a valid HTTPS URL.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^https://.*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https://.*$</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig.redirectUri" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oidcConfig|redirectUri|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig.redirectUri" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oidcConfig|redirectUri|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.">
   <span class="prop-name">redirectUri</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig.scopes" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oidcConfig|scopes|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IDP.
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig.scopes" data-path-key="|spec|embeddedAuthServer|upstreamProviders[]|oidcConfig|scopes|" data-parent-path="spec.embeddedAuthServer.upstreamProviders[].oidcConfig" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IdP.
 If not specified, defaults to [&#34;openid&#34;, &#34;offline_access&#34;].
 When using additionalAuthorizationParams with provider-specific refresh token
 mechanisms (e.g., Google&#39;s access_type=offline), set explicit scopes to avoid
 sending both offline_access and the provider-specific parameter.">
   <span class="prop-name">scopes</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IDP.
+  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IdP.
 If not specified, defaults to [&#34;openid&#34;, &#34;offline_access&#34;].
 When using additionalAuthorizationParams with provider-specific refresh token
 mechanisms (e.g., Google&#39;s access_type=offline), set explicit scopes to avoid
@@ -2314,7 +2314,7 @@ For Google Workload Identity Federation with OIDC providers (like Okta), use &#3
 When set to &#34;obo&#34;, the cluster must run a build that has registered an
 OBO handler via controllerutil.RegisterOBOHandler; upstream-only builds
 surface status.conditions[Valid] = False with Reason: EnterpriseRequired
-for obo-typed configs. enum: tokenExchange, headerInjection, bearerToken, unauthenticated, embeddedAuthServer, awsSts, upstreamInject, obo">
+for obo-typed configs. enum: tokenExchange, headerInjection, bearerToken, unauthenticated, embeddedAuthServer, awsSts, upstreamInject, obo, xaa">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Type is the type of external authentication to configure.
@@ -2322,7 +2322,7 @@ When set to &#34;obo&#34;, the cluster must run a build that has registered an
 OBO handler via controllerutil.RegisterOBOHandler; upstream-only builds
 surface status.conditions[Valid] = False with Reason: EnterpriseRequired
 for obo-typed configs.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: tokenExchange, headerInjection, bearerToken, unauthenticated, embeddedAuthServer, awsSts, upstreamInject, obo"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">tokenExchange, headerInjection, bearerToken, unauthenticated, embeddedAuthServer, awsSts, upstreamInject, obo</code></div></div>
+<div class="schema-constraint" title="enum: tokenExchange, headerInjection, bearerToken, unauthenticated, embeddedAuthServer, awsSts, upstreamInject, obo, xaa"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">tokenExchange, headerInjection, bearerToken, unauthenticated, embeddedAuthServer, awsSts, upstreamInject, obo, xaa</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.upstreamInject" data-path-key="|spec|upstreamInject|" data-parent-path="spec" data-name="upstreamInject" data-text="UpstreamInject configures upstream token injection for backend requests.
@@ -2334,13 +2334,165 @@ Only used when Type is &#34;upstreamInject&#34;.">
 <div class="prop-content"><div class="prop-desc">UpstreamInject configures upstream token injection for backend requests.
 Only used when Type is &#34;upstreamInject&#34;.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.upstreamInject.providerName" data-path-key="|spec|upstreamInject|providerName|" data-parent-path="spec.upstreamInject" data-name="providerName" data-text="ProviderName is the name of the upstream IDP provider whose access token
+<div class="prop-leaf" data-prop-row data-path="spec.upstreamInject.providerName" data-path-key="|spec|upstreamInject|providerName|" data-parent-path="spec.upstreamInject" data-name="providerName" data-text="ProviderName is the name of the upstream IdP provider whose access token
 should be injected as the Authorization: Bearer header. minLength: 1">
   <span class="prop-name">providerName</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">ProviderName is the name of the upstream IDP provider whose access token
+  <div class="leaf-desc">ProviderName is the name of the upstream IdP provider whose access token
 should be injected as the Authorization: Bearer header.<div class="leaf-constraints">
 <div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.xaa" data-path-key="|spec|xaa|" data-parent-path="spec" data-name="xaa" data-text="XAA configures XAA (Cross-Application Access) auth for backend requests.
+Only used when Type is &#34;xaa&#34;.">
+<summary>
+  <span class="prop-name">xaa</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">XAA configures XAA (Cross-Application Access) auth for backend requests.
+Only used when Type is &#34;xaa&#34;.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.idpClientId" data-path-key="|spec|xaa|idpClientId|" data-parent-path="spec.xaa" data-name="idpClientId" data-text="IDPClientID is the OAuth client ID at the IdP for Step A.">
+  <span class="prop-name">idpClientId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">IDPClientID is the OAuth client ID at the IdP for Step A.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.xaa.idpClientSecretRef" data-path-key="|spec|xaa|idpClientSecretRef|" data-parent-path="spec.xaa" data-name="idpClientSecretRef" data-text="IDPClientSecretRef references a Kubernetes Secret containing the IdP client secret.">
+<summary>
+  <span class="prop-name">idpClientSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">IDPClientSecretRef references a Kubernetes Secret containing the IdP client secret.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.idpClientSecretRef.key" data-path-key="|spec|xaa|idpClientSecretRef|key|" data-parent-path="spec.xaa.idpClientSecretRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.idpClientSecretRef.name" data-path-key="|spec|xaa|idpClientSecretRef|name|" data-parent-path="spec.xaa.idpClientSecretRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.idpTokenUrl" data-path-key="|spec|xaa|idpTokenUrl|" data-parent-path="spec.xaa" data-name="idpTokenUrl" data-text="IDPTokenURL is the IdP token endpoint for Step A (RFC 8693 exchange).
+Must be a valid HTTPS URL. pattern: ^https://.*$">
+  <span class="prop-name">idpTokenUrl</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">IDPTokenURL is the IdP token endpoint for Step A (RFC 8693 exchange).
+Must be a valid HTTPS URL.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https://.*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https://.*$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.insecureTargetTokenUrl" data-path-key="|spec|xaa|insecureTargetTokenUrl|" data-parent-path="spec.xaa" data-name="insecureTargetTokenUrl" data-text="InsecureTargetTokenURL allows plain HTTP for TargetTokenURL.
+WARNING: this is insecure and must only be set for in-cluster or
+development/testing endpoints — never in production.">
+  <span class="prop-name">insecureTargetTokenUrl</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureTargetTokenURL allows plain HTTP for TargetTokenURL.
+WARNING: this is insecure and must only be set for in-cluster or
+development/testing endpoints — never in production.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.scopes" data-path-key="|spec|xaa|scopes|" data-parent-path="spec.xaa" data-name="scopes" data-text="Scopes are the requested scopes for the XAA exchange (Steps A and B).">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Scopes are the requested scopes for the XAA exchange (Steps A and B).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.subjectProviderName" data-path-key="|spec|xaa|subjectProviderName|" data-parent-path="spec.xaa" data-name="subjectProviderName" data-text="SubjectProviderName selects which upstream provider&#39;s ID token to use.
+When left empty and an embedded authorization server is configured,
+the controller automatically populates this field with the first configured
+upstream provider name.">
+  <span class="prop-name">subjectProviderName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubjectProviderName selects which upstream provider&#39;s ID token to use.
+When left empty and an embedded authorization server is configured,
+the controller automatically populates this field with the first configured
+upstream provider name.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.subjectTokenType" data-path-key="|spec|xaa|subjectTokenType|" data-parent-path="spec.xaa" data-name="subjectTokenType" data-text="SubjectTokenType is the token-type URN of the upstream subject token
+used in Step A. Defaults to &#34;urn:ietf:params:oauth:token-type:id_token&#34;
+when empty. enum: urn:ietf:params:oauth:token-type:id_token">
+  <span class="prop-name">subjectTokenType</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubjectTokenType is the token-type URN of the upstream subject token
+used in Step A. Defaults to &#34;urn:ietf:params:oauth:token-type:id_token&#34;
+when empty.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: urn:ietf:params:oauth:token-type:id_token"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">urn:ietf:params:oauth:token-type:id_token</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.targetAudience" data-path-key="|spec|xaa|targetAudience|" data-parent-path="spec.xaa" data-name="targetAudience" data-text="TargetAudience is the resource AS URL for the ID-JAG audience claim.">
+  <span class="prop-name">targetAudience</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TargetAudience is the resource AS URL for the ID-JAG audience claim.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.targetClientId" data-path-key="|spec|xaa|targetClientId|" data-parent-path="spec.xaa" data-name="targetClientId" data-text="TargetClientID is the OAuth client ID at the target AS for Step B.
+ID-JAG draft §9.1 RECOMMENDS confidential clients for Step B; most
+conformant target authorization servers will reject an unauthenticated
+JWT-bearer grant per the §4.4.1 client_id continuity requirement.">
+  <span class="prop-name">targetClientId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TargetClientID is the OAuth client ID at the target AS for Step B.
+ID-JAG draft §9.1 RECOMMENDS confidential clients for Step B; most
+conformant target authorization servers will reject an unauthenticated
+JWT-bearer grant per the §4.4.1 client_id continuity requirement.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.xaa.targetClientSecretRef" data-path-key="|spec|xaa|targetClientSecretRef|" data-parent-path="spec.xaa" data-name="targetClientSecretRef" data-text="TargetClientSecretRef references a Kubernetes Secret for the target AS client secret.">
+<summary>
+  <span class="prop-name">targetClientSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TargetClientSecretRef references a Kubernetes Secret for the target AS client secret.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.targetClientSecretRef.key" data-path-key="|spec|xaa|targetClientSecretRef|key|" data-parent-path="spec.xaa.targetClientSecretRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.targetClientSecretRef.name" data-path-key="|spec|xaa|targetClientSecretRef|name|" data-parent-path="spec.xaa.targetClientSecretRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.targetResource" data-path-key="|spec|xaa|targetResource|" data-parent-path="spec.xaa" data-name="targetResource" data-text="TargetResource is the RFC 8707 resource indicator sent as the `resource`
+parameter in Step A&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
+identifies the target resource server — not the access-token audience, which
+is governed by TargetAudience. For MCP backends, set to the MCP server URL.
+Some authorization servers (e.g. Okta&#39;s early ID-JAG implementation) require
+this parameter in practice despite the draft marking it optional — set it
+when your IdP needs it.">
+  <span class="prop-name">targetResource</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TargetResource is the RFC 8707 resource indicator sent as the `resource`
+parameter in Step A&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
+identifies the target resource server — not the access-token audience, which
+is governed by TargetAudience. For MCP backends, set to the MCP server URL.
+Some authorization servers (e.g. Okta&#39;s early ID-JAG implementation) require
+this parameter in practice despite the draft marking it optional — set it
+when your IdP needs it.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.xaa.targetTokenUrl" data-path-key="|spec|xaa|targetTokenUrl|" data-parent-path="spec.xaa" data-name="targetTokenUrl" data-text="TargetTokenURL is the target AS token endpoint for Step B (JWT Bearer grant).">
+  <span class="prop-name">targetTokenUrl</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TargetTokenURL is the target AS token endpoint for Step B (JWT Bearer grant).
   </div>
 </div>
   </div>

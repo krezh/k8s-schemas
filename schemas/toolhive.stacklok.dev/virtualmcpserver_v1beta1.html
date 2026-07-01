@@ -1335,20 +1335,20 @@ The &#34;@upstreamjwt&#34; modifier performs no signature verification either.<d
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.redirectUri" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|redirectUri|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.redirectUri" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|redirectUri|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.">
   <span class="prop-name">redirectUri</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.scopes" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|scopes|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IDP.">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.scopes" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|scopes|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IdP.">
   <span class="prop-name">scopes</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IDP.
+  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IdP.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.tokenEndpoint" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|tokenEndpoint|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="tokenEndpoint" data-text="TokenEndpoint is the URL for the OAuth token endpoint. pattern: ^https?://.*$">
@@ -1533,10 +1533,10 @@ Framework-managed parameters (response_type, client_id, redirect_uri,
 scope, state, code_challenge, code_challenge_method, nonce) are not allowed.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.clientId" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|clientId|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="clientId" data-text="ClientID is the OAuth 2.0 client identifier registered with the upstream IDP.">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.clientId" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|clientId|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="clientId" data-text="ClientID is the OAuth 2.0 client identifier registered with the upstream IdP.">
   <span class="prop-name">clientId</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">ClientID is the OAuth 2.0 client identifier registered with the upstream IDP.
+  <div class="leaf-desc">ClientID is the OAuth 2.0 client identifier registered with the upstream IdP.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.clientSecretRef" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|clientSecretRef|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="clientSecretRef" data-text="ClientSecretRef references a Kubernetes Secret containing the OAuth 2.0 client secret.
@@ -1572,24 +1572,24 @@ Must be a valid HTTPS URL.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^https://.*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https://.*$</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.redirectUri" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|redirectUri|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.redirectUri" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|redirectUri|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.">
   <span class="prop-name">redirectUri</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IDP will redirect after authentication.
+  <div class="leaf-desc">RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.scopes" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|scopes|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IDP.
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.scopes" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|scopes|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IdP.
 If not specified, defaults to [&#34;openid&#34;, &#34;offline_access&#34;].
 When using additionalAuthorizationParams with provider-specific refresh token
 mechanisms (e.g., Google&#39;s access_type=offline), set explicit scopes to avoid
 sending both offline_access and the provider-specific parameter.">
   <span class="prop-name">scopes</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IDP.
+  <div class="leaf-desc">Scopes are the OAuth scopes to request from the upstream IdP.
 If not specified, defaults to [&#34;openid&#34;, &#34;offline_access&#34;].
 When using additionalAuthorizationParams with provider-specific refresh token
 mechanisms (e.g., Google&#39;s access_type=offline), set explicit scopes to avoid
@@ -3352,6 +3352,18 @@ Auto-populated when embedded AS is active.">
   <span class="type-badge">string</span>
   <div class="leaf-desc">SubjectProviderName selects which upstream provider&#39;s ID token to use.
 Auto-populated when embedded AS is active.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.subjectTokenType" data-path-key="|spec|config|outgoingAuth|default|xaa|subjectTokenType|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="subjectTokenType" data-text="SubjectTokenType is the token-type URN of the upstream subject token
+used in Step A. Defaults to TokenTypeIDToken when empty. Currently only
+urn:ietf:params:oauth:token-type:id_token is accepted; the field exists
+to allow future expansion to SAML upstreams without an API break.">
+  <span class="prop-name">subjectTokenType</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SubjectTokenType is the token-type URN of the upstream subject token
+used in Step A. Defaults to TokenTypeIDToken when empty. Currently only
+urn:ietf:params:oauth:token-type:id_token is accepted; the field exists
+to allow future expansion to SAML upstreams without an API break.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetAudience" data-path-key="|spec|config|outgoingAuth|default|xaa|targetAudience|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetAudience" data-text="TargetAudience is the resource AS URL for the ID-JAG audience claim (required).">
