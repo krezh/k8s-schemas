@@ -1588,6 +1588,25 @@
             "null"
           ]
         },
+        "modelCache": {
+          "additionalProperties": false,
+          "description": "ModelCache overrides where this InferenceService caches model weights:\nwhen claimName is set, the named user-owned PVC is mounted as the\nwritable model cache (prep + download init containers run against it)\ninstead of the operator's shared/perService cache PVC. When unset, the\noperator-global cache mode applies unchanged.",
+          "properties": {
+            "claimName": {
+              "description": "ClaimName names a pre-existing PersistentVolumeClaim in the\nInferenceService's namespace to use as the writable model cache volume.\nWeights land under the usual \u003ccacheKey\u003e/ subdirectory of the claim, so\nRefreshPolicy and cache-key semantics are unchanged and multiple models\ncan share one claim without colliding. The claim must already exist:\nwhen it is missing the InferenceService is marked Degraded rather than\nsilently falling back to the shared cache. Ignored for pvc:// model\nsources (already staged, read-only, no download). Node alignment of\nRWO/local claims (via nodeSelector) is the user's responsibility.",
+              "maxLength": 253,
+              "minLength": 1,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "modelRef": {
           "description": "ModelRef references the Model CR that contains the model to serve",
           "type": "string"
