@@ -2828,6 +2828,18 @@ When enabled, vMCP exposes only find_tool and call_tool operations to clients
 instead of all backend tools directly. This reduces token usage by allowing
 LLMs to discover relevant tools on demand rather than receiving all tool definitions.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.config.optimizer.embeddingHeaders" data-path-key="|spec|config|optimizer|embeddingHeaders|" data-parent-path="spec.config.optimizer" data-name="embeddingHeaders" data-text="EmbeddingHeaders holds additional HTTP headers sent with every embedding
+request. Only supported when EmbeddingProvider is &#34;openai&#34;. Values are
+stored in plain text and must not contain secrets; Authorization
+(derived from OPENAI_API_KEY) and Content-Type cannot be set.">
+  <span class="prop-name">embeddingHeaders</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">EmbeddingHeaders holds additional HTTP headers sent with every embedding
+request. Only supported when EmbeddingProvider is &#34;openai&#34;. Values are
+stored in plain text and must not contain secrets; Authorization
+(derived from OPENAI_API_KEY) and Content-Type cannot be set.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.optimizer.embeddingModel" data-path-key="|spec|config|optimizer|embeddingModel|" data-parent-path="spec.config.optimizer" data-name="embeddingModel" data-text="EmbeddingModel is the model name requested from the embedding service
 (e.g. &#34;text-embedding-3-small&#34;). Required when EmbeddingProvider is
 &#34;openai&#34;. Ignored for the &#34;tei&#34; provider, where the model is fixed by the
@@ -3306,16 +3318,16 @@ Used when Type = &#34;xaa&#34;.">
 <div class="prop-content"><div class="prop-desc">XAA contains configuration for XAA (Cross-Application Access) auth strategy.
 Used when Type = &#34;xaa&#34;.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientId" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientId|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientId" data-text="IDPClientID is the OAuth client ID at the IdP for Step A.">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientId" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientId|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientId" data-text="IDPClientID is the OAuth client ID at the IdP for IdP exchange.">
   <span class="prop-name">idpClientId</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">IDPClientID is the OAuth client ID at the IdP for Step A.
+  <div class="leaf-desc">IDPClientID is the OAuth client ID at the IdP for IdP exchange.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientSecret" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientSecret|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientSecret" data-text="IDPClientSecret is the client secret at the IdP for Step A.">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientSecret" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientSecret|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientSecret" data-text="IDPClientSecret is the client secret at the IdP for IdP exchange.">
   <span class="prop-name">idpClientSecret</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">IDPClientSecret is the client secret at the IdP for Step A.
+  <div class="leaf-desc">IDPClientSecret is the client secret at the IdP for IdP exchange.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpClientSecretEnv" data-path-key="|spec|config|outgoingAuth|default|xaa|idpClientSecretEnv|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpClientSecretEnv" data-text="IDPClientSecretEnv is the env var containing the IdP client secret.">
@@ -3324,10 +3336,10 @@ Used when Type = &#34;xaa&#34;.</div>
   <div class="leaf-desc">IDPClientSecretEnv is the env var containing the IdP client secret.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|idpTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpTokenUrl" data-text="IDPTokenURL is the IdP token endpoint for Step A (RFC 8693 exchange).">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.idpTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|idpTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="idpTokenUrl" data-text="IDPTokenURL is the IdP token endpoint for IdP exchange (RFC 8693 exchange).">
   <span class="prop-name">idpTokenUrl</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">IDPTokenURL is the IdP token endpoint for Step A (RFC 8693 exchange).
+  <div class="leaf-desc">IDPTokenURL is the IdP token endpoint for IdP exchange (RFC 8693 exchange).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.insecureTargetTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|insecureTargetTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="insecureTargetTokenUrl" data-text="InsecureTargetTokenURL allows plain HTTP for TargetTokenURL.
@@ -3340,10 +3352,10 @@ WARNING: this is insecure and must only be set for in-cluster or
 development/testing endpoints — never in production.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.scopes" data-path-key="|spec|config|outgoingAuth|default|xaa|scopes|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="scopes" data-text="Scopes are the requested scopes for Steps A and B.">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.scopes" data-path-key="|spec|config|outgoingAuth|default|xaa|scopes|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="scopes" data-text="Scopes are the requested scopes for IdP exchange and target grant.">
   <span class="prop-name">scopes</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Scopes are the requested scopes for Steps A and B.
+  <div class="leaf-desc">Scopes are the requested scopes for IdP exchange and target grant.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.subjectProviderName" data-path-key="|spec|config|outgoingAuth|default|xaa|subjectProviderName|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="subjectProviderName" data-text="SubjectProviderName selects which upstream provider&#39;s ID token to use.
@@ -3355,13 +3367,13 @@ Auto-populated when embedded AS is active.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.subjectTokenType" data-path-key="|spec|config|outgoingAuth|default|xaa|subjectTokenType|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="subjectTokenType" data-text="SubjectTokenType is the token-type URN of the upstream subject token
-used in Step A. Defaults to TokenTypeIDToken when empty. Currently only
+used in IdP exchange. Defaults to TokenTypeIDToken when empty. Currently only
 urn:ietf:params:oauth:token-type:id_token is accepted; the field exists
 to allow future expansion to SAML upstreams without an API break.">
   <span class="prop-name">subjectTokenType</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">SubjectTokenType is the token-type URN of the upstream subject token
-used in Step A. Defaults to TokenTypeIDToken when empty. Currently only
+used in IdP exchange. Defaults to TokenTypeIDToken when empty. Currently only
 urn:ietf:params:oauth:token-type:id_token is accepted; the field exists
 to allow future expansion to SAML upstreams without an API break.
   </div>
@@ -3372,16 +3384,16 @@ to allow future expansion to SAML upstreams without an API break.
   <div class="leaf-desc">TargetAudience is the resource AS URL for the ID-JAG audience claim (required).
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientId" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientId|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientId" data-text="TargetClientID is the OAuth client ID at the target AS for Step B.">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientId" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientId|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientId" data-text="TargetClientID is the OAuth client ID at the target AS for target grant.">
   <span class="prop-name">targetClientId</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">TargetClientID is the OAuth client ID at the target AS for Step B.
+  <div class="leaf-desc">TargetClientID is the OAuth client ID at the target AS for target grant.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientSecret" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientSecret|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientSecret" data-text="TargetClientSecret is the client secret at the target AS for Step B.">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientSecret" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientSecret|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientSecret" data-text="TargetClientSecret is the client secret at the target AS for target grant.">
   <span class="prop-name">targetClientSecret</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">TargetClientSecret is the client secret at the target AS for Step B.
+  <div class="leaf-desc">TargetClientSecret is the client secret at the target AS for target grant.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetClientSecretEnv" data-path-key="|spec|config|outgoingAuth|default|xaa|targetClientSecretEnv|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetClientSecretEnv" data-text="TargetClientSecretEnv is the env var containing the target AS client secret.">
@@ -3391,21 +3403,21 @@ to allow future expansion to SAML upstreams without an API break.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetResource" data-path-key="|spec|config|outgoingAuth|default|xaa|targetResource|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetResource" data-text="TargetResource is the RFC 8707 resource indicator sent as the `resource`
-parameter in Step A&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
+parameter in IdP exchange&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
 identifies the target resource server — not the access-token audience, which
 is governed by TargetAudience. For MCP backends, set to the MCP server URL.">
   <span class="prop-name">targetResource</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">TargetResource is the RFC 8707 resource indicator sent as the `resource`
-parameter in Step A&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
+parameter in IdP exchange&#39;s RFC 8693 token exchange (draft §4.3, OPTIONAL). It
 identifies the target resource server — not the access-token audience, which
 is governed by TargetAudience. For MCP backends, set to the MCP server URL.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|targetTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetTokenUrl" data-text="TargetTokenURL is the target AS token endpoint for Step B (JWT Bearer grant).">
+<div class="prop-leaf" data-prop-row data-path="spec.config.outgoingAuth.default.xaa.targetTokenUrl" data-path-key="|spec|config|outgoingAuth|default|xaa|targetTokenUrl|" data-parent-path="spec.config.outgoingAuth.default.xaa" data-name="targetTokenUrl" data-text="TargetTokenURL is the target AS token endpoint for target grant (JWT Bearer grant).">
   <span class="prop-name">targetTokenUrl</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">TargetTokenURL is the target AS token endpoint for Step B (JWT Bearer grant).
+  <div class="leaf-desc">TargetTokenURL is the target AS token endpoint for target grant (JWT Bearer grant).
   </div>
 </div>
   </div>

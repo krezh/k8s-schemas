@@ -4712,90 +4712,40 @@
             "enabled": {
               "type": "boolean"
             },
-            "forgejo": {
+            "sync": {
               "additionalProperties": false,
-              "description": "Forgejo-specific webhook configuration",
+              "description": "configuration for syncing webhooks onto the repositories discovered for this\njob.",
               "properties": {
-                "sync": {
+                "enabled": {
+                  "description": "Flag to enable the automatic repo webhook sync",
+                  "type": "boolean"
+                },
+                "secretRef": {
                   "additionalProperties": false,
-                  "description": "configuration for syncing webhooks to Forgejo repos by topic",
+                  "description": "Optional reference to a secret key holding the platform token used for\nwebhook management. When not set, the job's platform token\n(spec.secretRef or spec.githubAppReference) is used. If key is empty,\nthe common Renovate token key names are tried.",
                   "properties": {
-                    "authTokenSecretRef": {
-                      "additionalProperties": false,
-                      "description": "reference to a secret and key",
-                      "properties": {
-                        "key": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "name": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      },
-                      "type": [
-                        "object",
-                        "null"
-                      ]
-                    },
-                    "enabled": {
-                      "type": "boolean"
-                    },
-                    "events": {
-                      "items": {
-                        "type": "string"
-                      },
-                      "type": [
-                        "array",
-                        "null"
-                      ]
-                    },
-                    "tokenSecretRef": {
-                      "additionalProperties": false,
-                      "description": "reference to a secret and key",
-                      "properties": {
-                        "key": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "name": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      },
-                      "type": [
-                        "object",
-                        "null"
-                      ]
-                    },
-                    "topic": {
+                    "key": {
                       "type": [
                         "string",
                         "null"
                       ]
                     },
-                    "webhookURL": {
-                      "type": "string"
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     }
                   },
-                  "required": [
-                    "enabled",
-                    "webhookURL"
-                  ],
                   "type": [
                     "object",
                     "null"
                   ]
                 }
               },
+              "required": [
+                "enabled"
+              ],
               "type": [
                 "object",
                 "null"

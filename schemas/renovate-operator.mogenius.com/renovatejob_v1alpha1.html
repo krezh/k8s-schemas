@@ -6695,85 +6695,43 @@ It&#39;s a required field.
   <div class="leaf-desc">
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.webhook.forgejo" data-path-key="|spec|webhook|forgejo|" data-parent-path="spec.webhook" data-name="forgejo" data-text="Forgejo-specific webhook configuration">
-<summary>
-  <span class="prop-name">forgejo</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Forgejo-specific webhook configuration</div>
-  <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.webhook.forgejo.sync" data-path-key="|spec|webhook|forgejo|sync|" data-parent-path="spec.webhook.forgejo" data-name="sync" data-text="configuration for syncing webhooks to Forgejo repos by topic">
+<details class="prop" data-prop-row data-path="spec.webhook.sync" data-path-key="|spec|webhook|sync|" data-parent-path="spec.webhook" data-name="sync" data-text="configuration for syncing webhooks onto the repositories discovered for this
+job.">
 <summary>
   <span class="prop-name">sync</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">configuration for syncing webhooks to Forgejo repos by topic</div>
+<div class="prop-content"><div class="prop-desc">configuration for syncing webhooks onto the repositories discovered for this
+job.</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.webhook.forgejo.sync.authTokenSecretRef" data-path-key="|spec|webhook|forgejo|sync|authTokenSecretRef|" data-parent-path="spec.webhook.forgejo.sync" data-name="authTokenSecretRef" data-text="reference to a secret and key">
-<summary>
-  <span class="prop-name">authTokenSecretRef</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">reference to a secret and key</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.authTokenSecretRef.key" data-path-key="|spec|webhook|forgejo|sync|authTokenSecretRef|key|" data-parent-path="spec.webhook.forgejo.sync.authTokenSecretRef" data-name="key" data-text="">
-  <span class="prop-name">key</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.authTokenSecretRef.name" data-path-key="|spec|webhook|forgejo|sync|authTokenSecretRef|name|" data-parent-path="spec.webhook.forgejo.sync.authTokenSecretRef" data-name="name" data-text="">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.enabled" data-path-key="|spec|webhook|forgejo|sync|enabled|" data-parent-path="spec.webhook.forgejo.sync" data-name="enabled" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.webhook.sync.enabled" data-path-key="|spec|webhook|sync|enabled|" data-parent-path="spec.webhook.sync" data-name="enabled" data-text="Flag to enable the automatic repo webhook sync">
   <span class="prop-name">enabled</span>
   <span class="type-badge">boolean</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Flag to enable the automatic repo webhook sync
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.events" data-path-key="|spec|webhook|forgejo|sync|events|" data-parent-path="spec.webhook.forgejo.sync" data-name="events" data-text="">
-  <span class="prop-name">events</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.webhook.forgejo.sync.tokenSecretRef" data-path-key="|spec|webhook|forgejo|sync|tokenSecretRef|" data-parent-path="spec.webhook.forgejo.sync" data-name="tokenSecretRef" data-text="reference to a secret and key">
+<details class="prop" data-prop-row data-path="spec.webhook.sync.secretRef" data-path-key="|spec|webhook|sync|secretRef|" data-parent-path="spec.webhook.sync" data-name="secretRef" data-text="Optional reference to a secret key holding the platform token used for
+webhook management. When not set, the job&#39;s platform token
+(spec.secretRef or spec.githubAppReference) is used. If key is empty,
+the common Renovate token key names are tried.">
 <summary>
-  <span class="prop-name">tokenSecretRef</span>
+  <span class="prop-name">secretRef</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">reference to a secret and key</div>
+<div class="prop-content"><div class="prop-desc">Optional reference to a secret key holding the platform token used for
+webhook management. When not set, the job&#39;s platform token
+(spec.secretRef or spec.githubAppReference) is used. If key is empty,
+the common Renovate token key names are tried.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.tokenSecretRef.key" data-path-key="|spec|webhook|forgejo|sync|tokenSecretRef|key|" data-parent-path="spec.webhook.forgejo.sync.tokenSecretRef" data-name="key" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.webhook.sync.secretRef.key" data-path-key="|spec|webhook|sync|secretRef|key|" data-parent-path="spec.webhook.sync.secretRef" data-name="key" data-text="">
   <span class="prop-name">key</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.tokenSecretRef.name" data-path-key="|spec|webhook|forgejo|sync|tokenSecretRef|name|" data-parent-path="spec.webhook.forgejo.sync.tokenSecretRef" data-name="name" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.webhook.sync.secretRef.name" data-path-key="|spec|webhook|sync|secretRef|name|" data-parent-path="spec.webhook.sync.secretRef" data-name="name" data-text="">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.topic" data-path-key="|spec|webhook|forgejo|sync|topic|" data-parent-path="spec.webhook.forgejo.sync" data-name="topic" data-text="">
-  <span class="prop-name">topic</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.webhook.forgejo.sync.webhookURL" data-path-key="|spec|webhook|forgejo|sync|webhookURL|" data-parent-path="spec.webhook.forgejo.sync" data-name="webhookURL" data-text="">
-  <span class="prop-name">webhookURL</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">
   </div>
 </div>
