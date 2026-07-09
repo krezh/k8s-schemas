@@ -742,7 +742,12 @@ If provided, allowed values are:
 `LegacyDES`: Less secure algorithm. Use this option for maximal compatibility.
 `Modern2023`: Secure algorithm. Use this option in case you have to always use secure algorithms
 (e.g., because of company policy). Please note that the security of the algorithm is not that important
-in reality, because the unencrypted certificate and private key are also stored in the Secret. enum: LegacyRC2, LegacyDES, Modern2023">
+in reality, because the unencrypted certificate and private key are also stored in the Secret.
+`Modern2026`: Encodes PKCS#12 files using algorithms that are considered modern as of 2026.
+Private keys and certificates are encrypted using PBES2 with PBKDF2-HMAC-SHA-256 and AES-256-CBC.
+The MAC algorithm is PBMAC1 with PBKDF2-HMAC-SHA-256 and HMAC-SHA256.
+Files produced with this profile can be read by OpenSSL 3.4.0 and higher, Java 26 and higher,
+or with Java using compatible versions of Bouncy Castle. Meets FIPS 140-3 requirements. enum: LegacyRC2, LegacyDES, Modern2023, Modern2026">
   <span class="prop-name">profile</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Profile specifies the key and certificate encryption algorithms and the HMAC algorithm
@@ -753,8 +758,13 @@ If provided, allowed values are:
 `LegacyDES`: Less secure algorithm. Use this option for maximal compatibility.
 `Modern2023`: Secure algorithm. Use this option in case you have to always use secure algorithms
 (e.g., because of company policy). Please note that the security of the algorithm is not that important
-in reality, because the unencrypted certificate and private key are also stored in the Secret.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: LegacyRC2, LegacyDES, Modern2023"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">LegacyRC2, LegacyDES, Modern2023</code></div></div>
+in reality, because the unencrypted certificate and private key are also stored in the Secret.
+`Modern2026`: Encodes PKCS#12 files using algorithms that are considered modern as of 2026.
+Private keys and certificates are encrypted using PBES2 with PBKDF2-HMAC-SHA-256 and AES-256-CBC.
+The MAC algorithm is PBMAC1 with PBKDF2-HMAC-SHA-256 and HMAC-SHA256.
+Files produced with this profile can be read by OpenSSL 3.4.0 and higher, Java 26 and higher,
+or with Java using compatible versions of Bouncy Castle. Meets FIPS 140-3 requirements.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: LegacyRC2, LegacyDES, Modern2023, Modern2026"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">LegacyRC2, LegacyDES, Modern2023, Modern2026</code></div></div>
   </div>
 </div>
   </div>
@@ -1085,6 +1095,74 @@ Cannot be set if the `renewBefore` field is set.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.renewal" data-path-key="|spec|renewal|" data-parent-path="spec" data-name="renewal" data-text="`renewal` allows configuration of how your certificate is renewed. If the policy mentioned is
+`RenewBefore` then the controller respects `renewBefore` and `renewBeforePercentage`.">
+<summary>
+  <span class="prop-name">renewal</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">`renewal` allows configuration of how your certificate is renewed. If the policy mentioned is
+`RenewBefore` then the controller respects `renewBefore` and `renewBeforePercentage`.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.renewal.policy" data-path-key="|spec|renewal|policy|" data-parent-path="spec.renewal" data-name="policy" data-text="`policy` must be one of `Disabled`, `RenewBefore`. enum: RenewBefore, Disabled">
+  <span class="prop-name">policy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">`policy` must be one of `Disabled`, `RenewBefore`.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: RenewBefore, Disabled"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">RenewBefore, Disabled</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.renewal.windows" data-path-key="|spec|renewal|windows|" data-parent-path="spec.renewal" data-name="windows" data-text="`windows` mentions the behavior of when the renewal must happen.">
+<summary>
+  <span class="prop-name">windows</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">`windows` mentions the behavior of when the renewal must happen.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.renewal.windows[].cron" data-path-key="|spec|renewal|windows[]|cron|" data-parent-path="spec.renewal.windows" data-name="cron" data-text="`cron` is a cron compliant string to allow when the renewal should be allowed. Format is as shown below:
+* * * * *
+| | | | |
+| | | | day of the week (0–6) (Sunday to Saturday;
+| | | month (1–12)             7 is also Sunday on some systems)
+| | day of the month (1–31)
+| hour (0–23)
+minute (0–59) minLength: 1">
+  <span class="prop-name">cron</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">`cron` is a cron compliant string to allow when the renewal should be allowed. Format is as shown below:
+* * * * *
+| | | | |
+| | | | day of the week (0–6) (Sunday to Saturday;
+| | | month (1–12)             7 is also Sunday on some systems)
+| | day of the month (1–31)
+| hour (0–23)
+minute (0–59)<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.renewal.windows[].timezone" data-path-key="|spec|renewal|windows[]|timezone|" data-parent-path="spec.renewal.windows" data-name="timezone" data-text="`timezone` is IANA compliant timezone. For example America/Denver.
+If this field is not set, timezone is treated as UTC. minLength: 1">
+  <span class="prop-name">timezone</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">`timezone` is IANA compliant timezone. For example America/Denver.
+If this field is not set, timezone is treated as UTC.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.renewal.windows[].windowDuration" data-path-key="|spec|renewal|windows[]|windowDuration|" data-parent-path="spec.renewal.windows" data-name="windowDuration" data-text="`windowDuration` is how long the cron definition is active for.
+Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration. pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(s|m|h))&#43;$">
+  <span class="prop-name">windowDuration</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">`windowDuration` is how long the cron definition is active for.
+Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(s|m|h))&#43;$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.revisionHistoryLimit" data-path-key="|spec|revisionHistoryLimit|" data-parent-path="spec" data-name="revisionHistoryLimit" data-text="The maximum number of CertificateRequest revisions that are maintained in
 the Certificate&#39;s history. Each revision represents a single `CertificateRequest`
 created by this Certificate, either when it was created, renewed, or Spec
@@ -1265,6 +1343,80 @@ This is set and managed automatically.
 Read-only.
 More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.acme" data-path-key="|status|acme|" data-parent-path="status" data-name="acme" data-text="ACME stores information that is fetched from the ACME CA server.">
+<summary>
+  <span class="prop-name">acme</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ACME stores information that is fetched from the ACME CA server.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.acme.ari" data-path-key="|status|acme|ari|" data-parent-path="status.acme" data-name="ari" data-text="ARI stores the ACME Renewal Information that is fetched from the ACME server
+in accordance with RFC 9773. This is only populated if the ARI feature gate is enabled.">
+<summary>
+  <span class="prop-name">ari</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ARI stores the ACME Renewal Information that is fetched from the ACME server
+in accordance with RFC 9773. This is only populated if the ARI feature gate is enabled.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.acme.ari.explanationURL" data-path-key="|status|acme|ari|explanationURL|" data-parent-path="status.acme.ari" data-name="explanationURL" data-text="ExplanationURL is a human-readable URL that may explain why the suggested window
+has its current value.">
+  <span class="prop-name">explanationURL</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ExplanationURL is a human-readable URL that may explain why the suggested window
+has its current value.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.acme.ari.lastChecked" data-path-key="|status|acme|ari|lastChecked|" data-parent-path="status.acme.ari" data-name="lastChecked" data-text="LastChecked is the time at which the ACME server was last checked for renewal information. format: date-time">
+  <span class="prop-name">lastChecked</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LastChecked is the time at which the ACME server was last checked for renewal information.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.acme.ari.lastError" data-path-key="|status|acme|ari|lastError|" data-parent-path="status.acme.ari" data-name="lastError" data-text="LastError is the last error encountered when checking the ACME server for renewal information, if any.">
+  <span class="prop-name">lastError</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LastError is the last error encountered when checking the ACME server for renewal information, if any.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.acme.ari.nextCheck" data-path-key="|status|acme|ari|nextCheck|" data-parent-path="status.acme.ari" data-name="nextCheck" data-text="NextCheck is the time at which the ACME server will next be checked for renewal information. format: date-time">
+  <span class="prop-name">nextCheck</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">NextCheck is the time at which the ACME server will next be checked for renewal information.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.acme.ari.suggestedWindow" data-path-key="|status|acme|ari|suggestedWindow|" data-parent-path="status.acme.ari" data-name="suggestedWindow" data-text="SuggestedWindow is the suggested renewal window as returned by the ACME server in accordance with RFC 9773.">
+<summary>
+  <span class="prop-name">suggestedWindow</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SuggestedWindow is the suggested renewal window as returned by the ACME server in accordance with RFC 9773.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.acme.ari.suggestedWindow.end" data-path-key="|status|acme|ari|suggestedWindow|end|" data-parent-path="status.acme.ari.suggestedWindow" data-name="end" data-text="End is the end of the suggested renewal window. format: date-time">
+  <span class="prop-name">end</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">End is the end of the suggested renewal window.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.acme.ari.suggestedWindow.start" data-path-key="|status|acme|ari|suggestedWindow|start|" data-parent-path="status.acme.ari.suggestedWindow" data-name="start" data-text="Start is the start of the suggested renewal window. format: date-time">
+  <span class="prop-name">start</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Start is the start of the suggested renewal window.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="List of status conditions to indicate the status of certificates.
 Known condition types are `Ready` and `Issuing`.">
 <summary>

@@ -438,11 +438,11 @@ This field must match the corresponding field on the DER encoded CSR.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.duration" data-path-key="|spec|duration|" data-parent-path="spec" data-name="duration" data-text="Duration is the duration for the not after date for the requested certificate.
-this is set on order creation as pe the ACME spec.">
+This is set on order creation as per the ACME spec.">
   <span class="prop-name">duration</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Duration is the duration for the not after date for the requested certificate.
-this is set on order creation as pe the ACME spec.
+This is set on order creation as per the ACME spec.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.ipAddresses" data-path-key="|spec|ipAddresses|" data-parent-path="spec" data-name="ipAddresses" data-text="IPAddresses is a list of IP addresses that should be included as part of the Order
@@ -501,6 +501,22 @@ Supported profiles are listed by the server&#39;s ACME directory URL.">
   <span class="type-badge">string</span>
   <div class="leaf-desc">Profile allows requesting a certificate profile from the ACME server.
 Supported profiles are listed by the server&#39;s ACME directory URL.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.replaces" data-path-key="|spec|replaces|" data-parent-path="spec" data-name="replaces" data-text="Replaces is the ARI CertID (RFC 9773 §4.1) of the certificate that this
+Order is intended to replace. When set, cert-manager will include the
+&#34;replaces&#34; field on the newOrder request to the ACME server if and only
+if the server advertises ARI support in its directory. The CertID has
+the form &#34;base64url(AKI).base64url(serial)&#34; and is derived locally from
+the currently issued leaf certificate.">
+  <span class="prop-name">replaces</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Replaces is the ARI CertID (RFC 9773 §4.1) of the certificate that this
+Order is intended to replace. When set, cert-manager will include the
+&#34;replaces&#34; field on the newOrder request to the ACME server if and only
+if the server advertises ARI support in its directory. The CertID has
+the form &#34;base64url(AKI).base64url(serial)&#34; and is derived locally from
+the currently issued leaf certificate.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.request" data-path-key="|spec|request|" data-parent-path="spec" data-name="request" data-text="Certificate signing request bytes in DER encoding.

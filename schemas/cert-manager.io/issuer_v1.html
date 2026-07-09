@@ -5136,6 +5136,40 @@ this challenge solver will apply to.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.acme.solvers[].waitInsteadOfSelfCheck" data-path-key="|spec|acme|solvers[]|waitInsteadOfSelfCheck|" data-parent-path="spec.acme.solvers" data-name="waitInsteadOfSelfCheck" data-text="WaitInsteadOfSelfCheck, if set, skips cert-manager&#39;s self-check and
+instead waits this long after presentation before asking the ACME server
+to validate the challenge.
+
+This is an advanced escape hatch for environments where cert-manager&#39;s
+self-check cannot succeed from its own network or DNS viewpoint even
+though the ACME server can still validate successfully, for example due
+to split-horizon DNS or NAT hairpinning.
+
+A value of 0 skips the self-check and asks the ACME server to validate
+immediately after presentation, relying on the ACME server&#39;s own
+validation retries (RFC 8555 section 8.2) to succeed once the challenge
+has propagated. A negative duration is rejected.
+Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration,
+for example `30s` or `2m`.">
+  <span class="prop-name">waitInsteadOfSelfCheck</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">WaitInsteadOfSelfCheck, if set, skips cert-manager&#39;s self-check and
+instead waits this long after presentation before asking the ACME server
+to validate the challenge.
+
+This is an advanced escape hatch for environments where cert-manager&#39;s
+self-check cannot succeed from its own network or DNS viewpoint even
+though the ACME server can still validate successfully, for example due
+to split-horizon DNS or NAT hairpinning.
+
+A value of 0 skips the self-check and asks the ACME server to validate
+immediately after presentation, relying on the ACME server&#39;s own
+validation retries (RFC 8555 section 8.2) to succeed once the challenge
+has propagated. A negative duration is rejected.
+Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration,
+for example `30s` or `2m`.
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -5295,6 +5329,93 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
   </div>
 </div>
 </details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.vault.auth.aws" data-path-key="|spec|vault|auth|aws|" data-parent-path="spec.vault.auth" data-name="aws" data-text="AWS authenticates with Vault using AWS IAM authentication.
+This allows authentication using IAM roles for service accounts (IRSA),
+EKS Pod Identity (PIA), or ambient credentials (EC2 instance profiles, ECS task role).">
+<summary>
+  <span class="prop-name">aws</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">AWS authenticates with Vault using AWS IAM authentication.
+This allows authentication using IAM roles for service accounts (IRSA),
+EKS Pod Identity (PIA), or ambient credentials (EC2 instance profiles, ECS task role).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.vault.auth.aws.iamRoleArn" data-path-key="|spec|vault|auth|aws|iamRoleArn|" data-parent-path="spec.vault.auth.aws" data-name="iamRoleArn" data-text="The ARN of the AWS IAM role to assume using the Kubernetes service account
+token. Required when using IRSA (serviceAccountRef is set).
+This role must have a trust policy that allows the OIDC provider to assume it.">
+  <span class="prop-name">iamRoleArn</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The ARN of the AWS IAM role to assume using the Kubernetes service account
+token. Required when using IRSA (serviceAccountRef is set).
+This role must have a trust policy that allows the OIDC provider to assume it.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.vault.auth.aws.mountPath" data-path-key="|spec|vault|auth|aws|mountPath|" data-parent-path="spec.vault.auth.aws" data-name="mountPath" data-text="The Vault mountPath here is the mount path to use when authenticating with
+Vault. For example, setting a value to `/v1/auth/foo`, will use the path
+`/v1/auth/foo/login` to authenticate with Vault. If unspecified, the
+default value &#34;/v1/auth/aws&#34; will be used.">
+  <span class="prop-name">mountPath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The Vault mountPath here is the mount path to use when authenticating with
+Vault. For example, setting a value to `/v1/auth/foo`, will use the path
+`/v1/auth/foo/login` to authenticate with Vault. If unspecified, the
+default value &#34;/v1/auth/aws&#34; will be used.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.vault.auth.aws.region" data-path-key="|spec|vault|auth|aws|region|" data-parent-path="spec.vault.auth.aws" data-name="region" data-text="The AWS region to use for authentication. If not specified, the region
+will be determined from AWS_REGION or AWS_DEFAULT_REGION environment
+variables, falling back to &#34;us-east-1&#34; if not set.">
+  <span class="prop-name">region</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The AWS region to use for authentication. If not specified, the region
+will be determined from AWS_REGION or AWS_DEFAULT_REGION environment
+variables, falling back to &#34;us-east-1&#34; if not set.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.vault.auth.aws.role" data-path-key="|spec|vault|auth|aws|role|" data-parent-path="spec.vault.auth.aws" data-name="role" data-text="A required field containing the Vault Role to assume when authenticating. minLength: 1">
+  <span class="prop-name">role</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">A required field containing the Vault Role to assume when authenticating.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.vault.auth.aws.serviceAccountRef" data-path-key="|spec|vault|auth|aws|serviceAccountRef|" data-parent-path="spec.vault.auth.aws" data-name="serviceAccountRef" data-text="A reference to a service account that will be used to request a web identity
+token for IRSA (IAM Roles for Service Accounts) authentication.">
+<summary>
+  <span class="prop-name">serviceAccountRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A reference to a service account that will be used to request a web identity
+token for IRSA (IAM Roles for Service Accounts) authentication.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.vault.auth.aws.serviceAccountRef.audiences" data-path-key="|spec|vault|auth|aws|serviceAccountRef|audiences|" data-parent-path="spec.vault.auth.aws.serviceAccountRef" data-name="audiences" data-text="TokenAudiences is an optional list of extra audiences to include in the token passed to Vault.
+The default audiences are always included in the token.">
+  <span class="prop-name">audiences</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">TokenAudiences is an optional list of extra audiences to include in the token passed to Vault.
+The default audiences are always included in the token.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.vault.auth.aws.serviceAccountRef.name" data-path-key="|spec|vault|auth|aws|serviceAccountRef|name|" data-parent-path="spec.vault.auth.aws.serviceAccountRef" data-name="name" data-text="Name of the ServiceAccount used to request a token.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the ServiceAccount used to request a token.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.vault.auth.aws.vaultHeaderValue" data-path-key="|spec|vault|auth|aws|vaultHeaderValue|" data-parent-path="spec.vault.auth.aws" data-name="vaultHeaderValue" data-text="The Vault header value to include in the STS signing request.
+This is used to prevent replay attacks.">
+  <span class="prop-name">vaultHeaderValue</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The Vault header value to include in the STS signing request.
+This is used to prevent replay attacks.
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -5669,6 +5790,68 @@ Defaults to &#34;https://api.venafi.cloud/&#34;.">
   <span class="type-badge">string</span>
   <div class="leaf-desc">URL is the base URL for CyberArk Certificate Manager SaaS.
 Defaults to &#34;https://api.venafi.cloud/&#34;.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.venafi.ngts" data-path-key="|spec|venafi|ngts|" data-parent-path="spec.venafi" data-name="ngts" data-text="NGTS specifies Palo Alto Networks Next Generation Trust Services (NGTS) configuration
+using OAuth 2.0 Client Credentials. Only one of tpp, cloud, or ngts may be specified.">
+<summary>
+  <span class="prop-name">ngts</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">NGTS specifies Palo Alto Networks Next Generation Trust Services (NGTS) configuration
+using OAuth 2.0 Client Credentials. Only one of tpp, cloud, or ngts may be specified.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.venafi.ngts.credentialsRef" data-path-key="|spec|venafi|ngts|credentialsRef|" data-parent-path="spec.venafi.ngts" data-name="credentialsRef" data-text="CredentialsRef is a reference to a Kubernetes Secret containing the OAuth 2.0
+Client ID and Client Secret. The secret must contain the keys &#39;client-id&#39; and
+&#39;client-secret&#39;.">
+<summary>
+  <span class="prop-name">credentialsRef</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CredentialsRef is a reference to a Kubernetes Secret containing the OAuth 2.0
+Client ID and Client Secret. The secret must contain the keys &#39;client-id&#39; and
+&#39;client-secret&#39;.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.venafi.ngts.credentialsRef.name" data-path-key="|spec|venafi|ngts|credentialsRef|name|" data-parent-path="spec.venafi.ngts.credentialsRef" data-name="name" data-text="Name of the resource being referred to.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the resource being referred to.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.venafi.ngts.tokenEndpoint" data-path-key="|spec|venafi|ngts|tokenEndpoint|" data-parent-path="spec.venafi.ngts" data-name="tokenEndpoint" data-text="TokenEndpoint is the OAuth 2.0 token endpoint URL used to obtain access tokens,
+for example &#34;https://auth.apps.paloaltonetworks.com/oauth2/access_token&#34;.
+Defaults to &#34;https://auth.apps.paloaltonetworks.com/oauth2/access_token&#34; if not set.">
+  <span class="prop-name">tokenEndpoint</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TokenEndpoint is the OAuth 2.0 token endpoint URL used to obtain access tokens,
+for example &#34;https://auth.apps.paloaltonetworks.com/oauth2/access_token&#34;.
+Defaults to &#34;https://auth.apps.paloaltonetworks.com/oauth2/access_token&#34; if not set.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.venafi.ngts.tsgID" data-path-key="|spec|venafi|ngts|tsgID|" data-parent-path="spec.venafi.ngts" data-name="tsgID" data-text="TSGID is the Tenant Service Group ID used to scope the OAuth 2.0 access token,
+for example &#34;1234567890&#34;. The tsg_id: prefix is added automatically.
+This field is required.">
+  <span class="prop-name">tsgID</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TSGID is the Tenant Service Group ID used to scope the OAuth 2.0 access token,
+for example &#34;1234567890&#34;. The tsg_id: prefix is added automatically.
+This field is required.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.venafi.ngts.url" data-path-key="|spec|venafi|ngts|url|" data-parent-path="spec.venafi.ngts" data-name="url" data-text="URL is the base URL for the NGTS API endpoint.
+Defaults to &#34;https://api.strata.paloaltonetworks.com/ngts&#34; if not set.">
+  <span class="prop-name">url</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">URL is the base URL for the NGTS API endpoint.
+Defaults to &#34;https://api.strata.paloaltonetworks.com/ngts&#34; if not set.
   </div>
 </div>
   </div>
