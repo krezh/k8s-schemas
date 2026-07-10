@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.capabilities for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.accountRef for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -417,6 +417,31 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content"><div class="prop-desc">ObjectStoreUserSpec represent the spec of an Objectstoreuser</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.accountRef" data-path-key="|spec|accountRef|" data-parent-path="spec" data-name="accountRef" data-text="AccountRef is a reference to a CephObjectStoreAccount to associate this user with.
+The referenced account must be in the same namespace as the user.
+When set, the user is created as an account user with no default permissions,
+and resources created by this user are owned by the account.">
+<summary>
+  <span class="prop-name">accountRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">AccountRef is a reference to a CephObjectStoreAccount to associate this user with.
+The referenced account must be in the same namespace as the user.
+When set, the user is created as an account user with no default permissions,
+and resources created by this user are owned by the account.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.accountRef.name" data-path-key="|spec|accountRef|name|" data-parent-path="spec.accountRef" data-name="name" data-text="Name of the CephObjectStoreAccount CR pattern: ^[a-zA-Z0-9 ._-]&#43;$ minLength: 1 maxLength: 2048">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the CephObjectStoreAccount CR<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-zA-Z0-9 ._-]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-zA-Z0-9 ._-]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.capabilities" data-path-key="|spec|capabilities|" data-parent-path="spec" data-name="capabilities" data-text="Additional admin-level capabilities for the Ceph object store user">
 <summary>
   <span class="prop-name">capabilities</span>
@@ -752,7 +777,7 @@ intent and helps make sure that UIDs and names do not get conflated.
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.capabilities for an exact path">No matches. Try .spec.capabilities for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.accountRef for an exact path">No matches. Try .spec.accountRef for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

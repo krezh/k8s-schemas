@@ -573,6 +573,16 @@ as dataChunks so be aware that the larger the number of data chunks, the higher 
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.dataPool.erasureCoded.stripeUnit" data-path-key="|spec|dataPool|erasureCoded|stripeUnit|" data-parent-path="spec.dataPool.erasureCoded" data-name="stripeUnit" data-text="Erasure code stripe size in bytes. Ceph default is 4096 bytes (4 KiB).
+Value must be a multiple of 4096 (4Ki). enum: 4Ki, 16Ki, 64Ki, 256Ki, 1Mi string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$">
+  <span class="prop-name">stripeUnit</span>
+  <span class="type-badge">string | integer</span>
+  <div class="leaf-desc">Erasure code stripe size in bytes. Ceph default is 4096 bytes (4 KiB).
+Value must be a multiple of 4096 (4Ki).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: 4Ki, 16Ki, 64Ki, 256Ki, 1Mi"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">4Ki, 16Ki, 64Ki, 256Ki, 1Mi</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$"><span class="schema-constraint-label">string pattern:</span> <code class="schema-constraint-value">^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -3250,6 +3260,16 @@ as dataChunks so be aware that the larger the number of data chunks, the higher 
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.metadataPool.erasureCoded.stripeUnit" data-path-key="|spec|metadataPool|erasureCoded|stripeUnit|" data-parent-path="spec.metadataPool.erasureCoded" data-name="stripeUnit" data-text="Erasure code stripe size in bytes. Ceph default is 4096 bytes (4 KiB).
+Value must be a multiple of 4096 (4Ki). enum: 4Ki, 16Ki, 64Ki, 256Ki, 1Mi string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$">
+  <span class="prop-name">stripeUnit</span>
+  <span class="type-badge">string | integer</span>
+  <div class="leaf-desc">Erasure code stripe size in bytes. Ceph default is 4096 bytes (4 KiB).
+Value must be a multiple of 4096 (4Ki).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: 4Ki, 16Ki, 64Ki, 256Ki, 1Mi"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">4Ki, 16Ki, 64Ki, 256Ki, 1Mi</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$"><span class="schema-constraint-label">string pattern:</span> <code class="schema-constraint-value">^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -3560,6 +3580,30 @@ Whether to enable S3. This defaults to true (even if protocols.s3 is not present
 </summary>
 <div class="prop-content"><div class="prop-desc">Security represents security settings</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.security.cipherSuites" data-path-key="|spec|security|cipherSuites|" data-parent-path="spec.security" data-name="cipherSuites" data-text="CipherSuites specifies the cipher suites used during the TLS handshake for TLS v1.3.
+Each value must be a valid OpenSSL cipher suite name.
+See https://docs.openssl.org/master/man1/openssl-ciphers/ minItems: 0 maxItems: 1000">
+  <span class="prop-name">cipherSuites</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">CipherSuites specifies the cipher suites used during the TLS handshake for TLS v1.3.
+Each value must be a valid OpenSSL cipher suite name.
+See https://docs.openssl.org/master/man1/openssl-ciphers/<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 0"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 1000"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1000</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.ciphers" data-path-key="|spec|security|ciphers|" data-parent-path="spec.security" data-name="ciphers" data-text="Ciphers specifies the cipher suites used during the TLS handshake for TLS v1.2 and below.
+Each value must be a valid OpenSSL cipher suite name.
+See https://docs.openssl.org/master/man1/openssl-ciphers/ minItems: 0 maxItems: 1000">
+  <span class="prop-name">ciphers</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Ciphers specifies the cipher suites used during the TLS handshake for TLS v1.2 and below.
+Each value must be a valid OpenSSL cipher suite name.
+See https://docs.openssl.org/master/man1/openssl-ciphers/<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 0"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 1000"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1000</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.security.keyRotation" data-path-key="|spec|security|keyRotation|" data-parent-path="spec.security" data-name="keyRotation" data-text="KeyRotation defines options for Key Rotation.">
 <summary>
   <span class="prop-name">keyRotation</span>
@@ -3626,6 +3670,80 @@ Whether to enable S3. This defaults to true (even if protocols.s3 is not present
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.security.sslOptions" data-path-key="|spec|security|sslOptions|" data-parent-path="spec.security" data-name="sslOptions" data-text="SslOptions sets the SSL context options for the Ceph RGW beast frontend.
+See https://docs.ceph.com/en/latest/radosgw/frontends/#options">
+<summary>
+  <span class="prop-name">sslOptions</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SslOptions sets the SSL context options for the Ceph RGW beast frontend.
+See https://docs.ceph.com/en/latest/radosgw/frontends/#options</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.defaultWorkarounds" data-path-key="|spec|security|sslOptions|defaultWorkarounds|" data-parent-path="spec.security.sslOptions" data-name="defaultWorkarounds" data-text="defaultWorkarounds implements various bug workaround when true, or disables it when false. Default disabled.">
+  <span class="prop-name">defaultWorkarounds</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">defaultWorkarounds implements various bug workaround when true, or disables it when false. Default disabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.noCompression" data-path-key="|spec|security|sslOptions|noCompression|" data-parent-path="spec.security.sslOptions" data-name="noCompression" data-text="noCompression disables compression when true, or disables it when false. Default disabled.">
+  <span class="prop-name">noCompression</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">noCompression disables compression when true, or disables it when false. Default disabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.singleDiffieHellmanUse" data-path-key="|spec|security|sslOptions|singleDiffieHellmanUse|" data-parent-path="spec.security.sslOptions" data-name="singleDiffieHellmanUse" data-text="SingleDiffieHellmanUse always creates a new key when using tmp_dh parameters when true, or disables it when false. Default disabled.">
+  <span class="prop-name">singleDiffieHellmanUse</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">SingleDiffieHellmanUse always creates a new key when using tmp_dh parameters when true, or disables it when false. Default disabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.sslv2" data-path-key="|spec|security|sslOptions|sslv2|" data-parent-path="spec.security.sslOptions" data-name="sslv2" data-text="sslv2 enables SSL v2 when true, or disables it when false. Default disabled.">
+  <span class="prop-name">sslv2</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">sslv2 enables SSL v2 when true, or disables it when false. Default disabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.sslv3" data-path-key="|spec|security|sslOptions|sslv3|" data-parent-path="spec.security.sslOptions" data-name="sslv3" data-text="sslv3 enables SSL v3 when true, or disables it when false. Default disabled.">
+  <span class="prop-name">sslv3</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">sslv3 enables SSL v3 when true, or disables it when false. Default disabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.tlsv1_0" data-path-key="|spec|security|sslOptions|tlsv1_0|" data-parent-path="spec.security.sslOptions" data-name="tlsv1_0" data-text="tlsv1_0 enables TLS v1.0 when true, or disables it when false. Default disabled.">
+  <span class="prop-name">tlsv1_0</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">tlsv1_0 enables TLS v1.0 when true, or disables it when false. Default disabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.tlsv1_1" data-path-key="|spec|security|sslOptions|tlsv1_1|" data-parent-path="spec.security.sslOptions" data-name="tlsv1_1" data-text="tlsv1_1 enables TLS v1.1 when true, or disables it when false. Default disabled.">
+  <span class="prop-name">tlsv1_1</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">tlsv1_1 enables TLS v1.1 when true, or disables it when false. Default disabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.sslOptions.tlsv1_2" data-path-key="|spec|security|sslOptions|tlsv1_2|" data-parent-path="spec.security.sslOptions" data-name="tlsv1_2" data-text="tlsv1_2 enables TLS v1.2 when true, or disables it when false. Default enabled.">
+  <span class="prop-name">tlsv1_2</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">tlsv1_2 enables TLS v1.2 when true, or disables it when false. Default enabled.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.security.tlsGroups" data-path-key="|spec|security|tlsGroups|" data-parent-path="spec.security" data-name="tlsGroups" data-text="TlsGroups specifies one or more TLS Group strings separated by colons.
+Multiple suites are supported with &#39;:&#39; colon-separated.
+The pseudo group name DEFAULT can be used to select the OpenSSL built-in default list of groups.
+Other valid group names will depend on OpenSSL version
+See https://docs.openssl.org/master/man3/SSL_CTX_set1_curves/#description">
+  <span class="prop-name">tlsGroups</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">TlsGroups specifies one or more TLS Group strings separated by colons.
+Multiple suites are supported with &#39;:&#39; colon-separated.
+The pseudo group name DEFAULT can be used to select the OpenSSL built-in default list of groups.
+Other valid group names will depend on OpenSSL version
+See https://docs.openssl.org/master/man3/SSL_CTX_set1_curves/#description
+  </div>
+</div>
   </div>
 </div>
 </details>

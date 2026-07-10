@@ -1625,6 +1625,22 @@ Empty topologyKey is not allowed.
   <div class="leaf-desc">Pod&#39;s annotations
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.driverSpecDefaults.controllerPlugin.containerExtraArgs" data-path-key="|spec|driverSpecDefaults|controllerPlugin|containerExtraArgs|" data-parent-path="spec.driverSpecDefaults.controllerPlugin" data-name="containerExtraArgs" data-text="Extra arguments for containers in the controller plugin deployment.
+The key is the container name, the value is a list of CLI arguments.
+The operator will not override the default CLI argument values it&#39;s setting.
+This is more for customizing what comes as default with cephcsi.
+Examples of container names: csi-rbdplugin, csi-provisioner, csi-attacher,
+csi-resizer, csi-snapshotter, csi-omap-generator, liveness-prometheus, etc.">
+  <span class="prop-name">containerExtraArgs</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Extra arguments for containers in the controller plugin deployment.
+The key is the container name, the value is a list of CLI arguments.
+The operator will not override the default CLI argument values it&#39;s setting.
+This is more for customizing what comes as default with cephcsi.
+Examples of container names: csi-rbdplugin, csi-provisioner, csi-attacher,
+csi-resizer, csi-snapshotter, csi-omap-generator, liveness-prometheus, etc.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.driverSpecDefaults.controllerPlugin.deploymentStrategy" data-path-key="|spec|driverSpecDefaults|controllerPlugin|deploymentStrategy|" data-parent-path="spec.driverSpecDefaults.controllerPlugin" data-name="deploymentStrategy" data-text="DeploymentStrategy describes how to replace existing pods with new ones
 Default value is Recreate">
 <summary>
@@ -1739,10 +1755,16 @@ Some platforms require controller plugin to run privileged,
 For example, OpenShift with SELinux restrictions requires the pod to be privileged to write to hostPath.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.driverSpecDefaults.controllerPlugin.replicas" data-path-key="|spec|driverSpecDefaults|controllerPlugin|replicas|" data-parent-path="spec.driverSpecDefaults.controllerPlugin" data-name="replicas" data-text="Set replicas for controller plugin&#39;s deployment. Defaults to 2 format: int32 minimum: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.driverSpecDefaults.controllerPlugin.replicas" data-path-key="|spec|driverSpecDefaults|controllerPlugin|replicas|" data-parent-path="spec.driverSpecDefaults.controllerPlugin" data-name="replicas" data-text="Set replicas for controller plugin&#39;s deployment.
+If not set, defaults to 2 or to the number of available nodes
+on single-node clusters. When OperatorConfig specifies a replica
+count, it is used as the default for all drivers. format: int32 minimum: 1">
   <span class="prop-name">replicas</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">Set replicas for controller plugin&#39;s deployment. Defaults to 2<div class="leaf-constraints">
+  <div class="leaf-desc">Set replicas for controller plugin&#39;s deployment.
+If not set, defaults to 2 or to the number of available nodes
+on single-node clusters. When OperatorConfig specifies a replica
+count, it is used as the default for all drivers.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
@@ -5530,14 +5552,10 @@ Fencing is a feature that allows the driver to fence a node when it is tainted w
 Fencing is a feature that allows the driver to fence a node when it is tainted with node.kubernetes.io/out-of-service.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.driverSpecDefaults.enableMetadata" data-path-key="|spec|driverSpecDefaults|enableMetadata|" data-parent-path="spec.driverSpecDefaults" data-name="enableMetadata" data-text="Set to true to enable adding volume metadata on the CephFS subvolumes and RBD images.
-Not all users might be interested in getting volume/snapshot details as metadata on CephFS subvolume and RBD images.
-Hence enable metadata is false by default.">
+<div class="prop-leaf" data-prop-row data-path="spec.driverSpecDefaults.enableMetadata" data-path-key="|spec|driverSpecDefaults|enableMetadata|" data-parent-path="spec.driverSpecDefaults" data-name="enableMetadata" data-text="Deprecated: This field is no longer used by the ceph-csi driver and will be ignored.">
   <span class="prop-name">enableMetadata</span>
   <span class="type-badge">boolean</span>
-  <div class="leaf-desc">Set to true to enable adding volume metadata on the CephFS subvolumes and RBD images.
-Not all users might be interested in getting volume/snapshot details as metadata on CephFS subvolume and RBD images.
-Hence enable metadata is false by default.
+  <div class="leaf-desc">Deprecated: This field is no longer used by the ceph-csi driver and will be ignored.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.driverSpecDefaults.encryption" data-path-key="|spec|driverSpecDefaults|encryption|" data-parent-path="spec.driverSpecDefaults" data-name="encryption" data-text="Driver&#39;s encryption settings">
@@ -6922,6 +6940,22 @@ Empty topologyKey is not allowed.
   <span class="prop-name">annotations</span>
   <span class="type-badge">object</span>
   <div class="leaf-desc">Pod&#39;s annotations
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.driverSpecDefaults.nodePlugin.containerExtraArgs" data-path-key="|spec|driverSpecDefaults|nodePlugin|containerExtraArgs|" data-parent-path="spec.driverSpecDefaults.nodePlugin" data-name="containerExtraArgs" data-text="Extra arguments for containers in the node plugin daemonset.
+The key is the container name, the value is a list of CLI arguments.
+The operator will not override the default CLI argument values it&#39;s setting.
+This is more for customizing what comes as default with cephcsi.
+Examples of container names: csi-rbdplugin, driver-registrar, csi-addons,
+liveness-prometheus, etc.">
+  <span class="prop-name">containerExtraArgs</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Extra arguments for containers in the node plugin daemonset.
+The key is the container name, the value is a list of CLI arguments.
+The operator will not override the default CLI argument values it&#39;s setting.
+This is more for customizing what comes as default with cephcsi.
+Examples of container names: csi-rbdplugin, driver-registrar, csi-addons,
+liveness-prometheus, etc.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.driverSpecDefaults.nodePlugin.enableSeLinuxHostMount" data-path-key="|spec|driverSpecDefaults|nodePlugin|enableSeLinuxHostMount|" data-parent-path="spec.driverSpecDefaults.nodePlugin" data-name="enableSeLinuxHostMount" data-text="Control the host mount of /etc/selinux for csi plugin pods. Defaults to false">
