@@ -3826,7 +3826,8 @@ for extending context (e.g. 128K to 256K).<div class="leaf-constraints">
 &#34;generic&#34;: user-provided container with custom command, args, env, and probes.
 &#34;personaplex&#34;: NVIDIA PersonaPlex (Moshi) speech-to-speech server.
 &#34;vllm&#34;: vLLM OpenAI-compatible server with PagedAttention.
-&#34;tgi&#34;: HuggingFace Text Generation Inference server. enum: llamacpp, personaplex, vllm, tgi, generic">
+&#34;tgi&#34;: HuggingFace Text Generation Inference server.
+&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching. enum: llamacpp, personaplex, vllm, tgi, sglang, generic">
   <span class="prop-name">runtime</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Runtime selects the inference server backend.
@@ -3834,8 +3835,9 @@ for extending context (e.g. 128K to 256K).<div class="leaf-constraints">
 &#34;generic&#34;: user-provided container with custom command, args, env, and probes.
 &#34;personaplex&#34;: NVIDIA PersonaPlex (Moshi) speech-to-speech server.
 &#34;vllm&#34;: vLLM OpenAI-compatible server with PagedAttention.
-&#34;tgi&#34;: HuggingFace Text Generation Inference server.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: llamacpp, personaplex, vllm, tgi, generic"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llamacpp, personaplex, vllm, tgi, generic</code></div></div>
+&#34;tgi&#34;: HuggingFace Text Generation Inference server.
+&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: llamacpp, personaplex, vllm, tgi, sglang, generic"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llamacpp, personaplex, vllm, tgi, sglang, generic</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.runtimeClassName" data-path-key="|spec|runtimeClassName|" data-parent-path="spec" data-name="runtimeClassName" data-text="RuntimeClassName selects a Kubernetes RuntimeClass for the inference Pod.
@@ -4175,6 +4177,313 @@ PodSecurityContext, the value specified in SecurityContext takes precedence.
   </div>
 </div>
 </details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.sglangConfig" data-path-key="|spec|sglangConfig|" data-parent-path="spec" data-name="sglangConfig" data-text="SGLangConfig holds configuration for the SGLang runtime.
+Only used when Runtime is &#34;sglang&#34;.">
+<summary>
+  <span class="prop-name">sglangConfig</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SGLangConfig holds configuration for the SGLang runtime.
+Only used when Runtime is &#34;sglang&#34;.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.attentionBackend" data-path-key="|spec|sglangConfig|attentionBackend|" data-parent-path="spec.sglangConfig" data-name="attentionBackend" data-text="Attention
+AttentionBackend selects the attention implementation. flashinfer is
+fastest on recent NVIDIA GPUs; flash_attn is portable; torch_native is
+the fallback. Maps to SGLang --attention-backend flag. enum: flashinfer, flash_attn, torch_native">
+  <span class="prop-name">attentionBackend</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Attention
+AttentionBackend selects the attention implementation. flashinfer is
+fastest on recent NVIDIA GPUs; flash_attn is portable; torch_native is
+the fallback. Maps to SGLang --attention-backend flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: flashinfer, flash_attn, torch_native"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">flashinfer, flash_attn, torch_native</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.chatTemplate" data-path-key="|spec|sglangConfig|chatTemplate|" data-parent-path="spec.sglangConfig" data-name="chatTemplate" data-text="ChatTemplate overrides the model&#39;s bundled chat template. Maps to
+SGLang --chat-template flag.">
+  <span class="prop-name">chatTemplate</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ChatTemplate overrides the model&#39;s bundled chat template. Maps to
+SGLang --chat-template flag.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.chunkedPrefillSize" data-path-key="|spec|sglangConfig|chunkedPrefillSize|" data-parent-path="spec.sglangConfig" data-name="chunkedPrefillSize" data-text="Batching
+ChunkedPrefillSize sets the chunk size for chunked prefill (tokens).
+Maps to SGLang --chunked-prefill-size flag. format: int32 minimum: 512">
+  <span class="prop-name">chunkedPrefillSize</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Batching
+ChunkedPrefillSize sets the chunk size for chunked prefill (tokens).
+Maps to SGLang --chunked-prefill-size flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 512"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">512</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.contextLength" data-path-key="|spec|sglangConfig|contextLength|" data-parent-path="spec.sglangConfig" data-name="contextLength" data-text="Memory &amp; context
+ContextLength sets the maximum model context length.
+Maps to SGLang --context-length flag. format: int32 minimum: 128">
+  <span class="prop-name">contextLength</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Memory &amp; context
+ContextLength sets the maximum model context length.
+Maps to SGLang --context-length flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 128"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">128</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.dataParallelSize" data-path-key="|spec|sglangConfig|dataParallelSize|" data-parent-path="spec.sglangConfig" data-name="dataParallelSize" data-text="DataParallelSize sets the number of data-parallel replicas (SGLang-side controller).
+Maps to SGLang --dp flag. Not auto-derived; set explicitly. format: int32 minimum: 1">
+  <span class="prop-name">dataParallelSize</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">DataParallelSize sets the number of data-parallel replicas (SGLang-side controller).
+Maps to SGLang --dp flag. Not auto-derived; set explicitly.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.enablePrefixCaching" data-path-key="|spec|sglangConfig|enablePrefixCaching|" data-parent-path="spec.sglangConfig" data-name="enablePrefixCaching" data-text="EnablePrefixCaching turns on RadixAttention automatic prefix caching.
+Headline feature for agentic workloads with shared system-prompt &#43;
+tool-definition &#43; repo-context prefixes. Maps to SGLang --enable-prefix-caching.">
+  <span class="prop-name">enablePrefixCaching</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">EnablePrefixCaching turns on RadixAttention automatic prefix caching.
+Headline feature for agentic workloads with shared system-prompt &#43;
+tool-definition &#43; repo-context prefixes. Maps to SGLang --enable-prefix-caching.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.expertParallelSize" data-path-key="|spec|sglangConfig|expertParallelSize|" data-parent-path="spec.sglangConfig" data-name="expertParallelSize" data-text="ExpertParallelSize sets the number of GPUs for expert parallelism (MoE models).
+Maps to SGLang --ep flag. Not auto-derived; set explicitly. format: int32 minimum: 1">
+  <span class="prop-name">expertParallelSize</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">ExpertParallelSize sets the number of GPUs for expert parallelism (MoE models).
+Maps to SGLang --ep flag. Not auto-derived; set explicitly.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.sglangConfig.hfTokenSecretRef" data-path-key="|spec|sglangConfig|hfTokenSecretRef|" data-parent-path="spec.sglangConfig" data-name="hfTokenSecretRef" data-text="HFTokenSecretRef references a Secret containing the HuggingFace token.
+Injected as HF_TOKEN env var.">
+<summary>
+  <span class="prop-name">hfTokenSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HFTokenSecretRef references a Secret containing the HuggingFace token.
+Injected as HF_TOKEN env var.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.hfTokenSecretRef.key" data-path-key="|spec|sglangConfig|hfTokenSecretRef|key|" data-parent-path="spec.sglangConfig.hfTokenSecretRef" data-name="key" data-text="The key of the secret to select from.  Must be a valid secret key.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key of the secret to select from.  Must be a valid secret key.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.hfTokenSecretRef.name" data-path-key="|spec|sglangConfig|hfTokenSecretRef|name|" data-parent-path="spec.sglangConfig.hfTokenSecretRef" data-name="name" data-text="Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.hfTokenSecretRef.optional" data-path-key="|spec|sglangConfig|hfTokenSecretRef|optional|" data-parent-path="spec.sglangConfig.hfTokenSecretRef" data-name="optional" data-text="Specify whether the Secret or its key must be defined">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the Secret or its key must be defined
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.kvCacheCustomDtype" data-path-key="|spec|sglangConfig|kvCacheCustomDtype|" data-parent-path="spec.sglangConfig" data-name="kvCacheCustomDtype" data-text="KVCacheCustomDtype sets a custom SGLang KV cache type not in the standard
+enum. Maps to SGLang --kv-cache-dtype flag. Takes precedence over
+KVCacheDtype when both are set. LLMKube does not validate the string.">
+  <span class="prop-name">kvCacheCustomDtype</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">KVCacheCustomDtype sets a custom SGLang KV cache type not in the standard
+enum. Maps to SGLang --kv-cache-dtype flag. Takes precedence over
+KVCacheDtype when both are set. LLMKube does not validate the string.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.kvCacheDtype" data-path-key="|spec|sglangConfig|kvCacheDtype|" data-parent-path="spec.sglangConfig" data-name="kvCacheDtype" data-text="KVCacheDtype selects the KV cache element type. auto follows dtype.
+fp8_e5m2 / fp8_e4m3 cut KV memory roughly in half. Custom values not
+in the enum (e.g., TurboQuant) go in KVCacheCustomDtype.
+Maps to SGLang --kv-cache-dtype flag. enum: auto, fp8_e5m2, fp8_e4m3">
+  <span class="prop-name">kvCacheDtype</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">KVCacheDtype selects the KV cache element type. auto follows dtype.
+fp8_e5m2 / fp8_e4m3 cut KV memory roughly in half. Custom values not
+in the enum (e.g., TurboQuant) go in KVCacheCustomDtype.
+Maps to SGLang --kv-cache-dtype flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: auto, fp8_e5m2, fp8_e4m3"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">auto, fp8_e5m2, fp8_e4m3</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.loraModules" data-path-key="|spec|sglangConfig|loraModules|" data-parent-path="spec.sglangConfig" data-name="loraModules" data-text="LoRA (basic)
+LoraModules is a JSON array of LoRA specs (model_id -&gt; path). Maps to
+SGLang --lora-modules flag.">
+  <span class="prop-name">loraModules</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">LoRA (basic)
+LoraModules is a JSON array of LoRA specs (model_id -&gt; path). Maps to
+SGLang --lora-modules flag.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.loraTargetModules" data-path-key="|spec|sglangConfig|loraTargetModules|" data-parent-path="spec.sglangConfig" data-name="loraTargetModules" data-text="LoraTargetModules lists the modules LoRA adapters may target (e.g.,
+&#34;q_proj&#34;, &#34;k_proj&#34;). Maps to SGLang --lora-target-modules flag.">
+  <span class="prop-name">loraTargetModules</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">LoraTargetModules lists the modules LoRA adapters may target (e.g.,
+&#34;q_proj&#34;, &#34;k_proj&#34;). Maps to SGLang --lora-target-modules flag.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.maxLoraRank" data-path-key="|spec|sglangConfig|maxLoraRank|" data-parent-path="spec.sglangConfig" data-name="maxLoraRank" data-text="MaxLoraRank sets the maximum LoRA rank accepted at load time. Maps to
+SGLang --max-lora-rank flag. format: int32 minimum: 1">
+  <span class="prop-name">maxLoraRank</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">MaxLoraRank sets the maximum LoRA rank accepted at load time. Maps to
+SGLang --max-lora-rank flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.maxRunningRequests" data-path-key="|spec|sglangConfig|maxRunningRequests|" data-parent-path="spec.sglangConfig" data-name="maxRunningRequests" data-text="MaxRunningRequests caps concurrent in-flight requests. Maps to SGLang
+--max-running-requests flag. Spec.parallelSlots on the llama.cpp runtime
+is the analog; SGLang uses its own name. format: int32 minimum: 1">
+  <span class="prop-name">maxRunningRequests</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">MaxRunningRequests caps concurrent in-flight requests. Maps to SGLang
+--max-running-requests flag. Spec.parallelSlots on the llama.cpp runtime
+is the analog; SGLang uses its own name.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.memFractionStatic" data-path-key="|spec|sglangConfig|memFractionStatic|" data-parent-path="spec.sglangConfig" data-name="memFractionStatic" data-text="MemFractionStatic sets the fraction of GPU memory used for static state
+(model weights &#43; KV cache). Range 0.1-0.99. Requires GPU.
+Maps to SGLang --mem-fraction-static flag. minimum: 0.1 maximum: 0.99">
+  <span class="prop-name">memFractionStatic</span>
+  <span class="type-badge">number</span>
+  <div class="leaf-desc">MemFractionStatic sets the fraction of GPU memory used for static state
+(model weights &#43; KV cache). Range 0.1-0.99. Requires GPU.
+Maps to SGLang --mem-fraction-static flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0.1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0.1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 0.99"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">0.99</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.quantization" data-path-key="|spec|sglangConfig|quantization|" data-parent-path="spec.sglangConfig" data-name="quantization" data-text="Quantization &amp; KV cache
+Quantization sets the quantization method. SGLang accepts fp8/awq/gptq/modelopt.
+Maps to SGLang --quantization flag.">
+  <span class="prop-name">quantization</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Quantization &amp; KV cache
+Quantization sets the quantization method. SGLang accepts fp8/awq/gptq/modelopt.
+Maps to SGLang --quantization flag.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.reasoningParser" data-path-key="|spec|sglangConfig|reasoningParser|" data-parent-path="spec.sglangConfig" data-name="reasoningParser" data-text="ReasoningParser selects the reasoning-content extraction format. For
+thinking models (qwen3, deepseek-r1). Maps to SGLang --reasoning-parser. enum: qwen3, deepseek-r1">
+  <span class="prop-name">reasoningParser</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReasoningParser selects the reasoning-content extraction format. For
+thinking models (qwen3, deepseek-r1). Maps to SGLang --reasoning-parser.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: qwen3, deepseek-r1"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">qwen3, deepseek-r1</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.sglangConfig.speculative" data-path-key="|spec|sglangConfig|speculative|" data-parent-path="spec.sglangConfig" data-name="speculative" data-text="Speculative configures speculative decoding (EAGLE / EAGLE3 / Medusa).">
+<summary>
+  <span class="prop-name">speculative</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Speculative configures speculative decoding (EAGLE / EAGLE3 / Medusa).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.algorithm" data-path-key="|spec|sglangConfig|speculative|algorithm|" data-parent-path="spec.sglangConfig.speculative" data-name="algorithm" data-text="Algorithm selects the speculative algorithm (EAGLE, EAGLE3, Medusa).
+Maps to SGLang --speculative-algorithm flag. enum: EAGLE, EAGLE3, Medusa">
+  <span class="prop-name">algorithm</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Algorithm selects the speculative algorithm (EAGLE, EAGLE3, Medusa).
+Maps to SGLang --speculative-algorithm flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: EAGLE, EAGLE3, Medusa"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">EAGLE, EAGLE3, Medusa</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.draftModelPath" data-path-key="|spec|sglangConfig|speculative|draftModelPath|" data-parent-path="spec.sglangConfig.speculative" data-name="draftModelPath" data-text="DraftModelPath is the path to the draft model weights (for EAGLE).
+Maps to SGLang --speculative-draft-model-path flag. Required when Enabled.">
+  <span class="prop-name">draftModelPath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">DraftModelPath is the path to the draft model weights (for EAGLE).
+Maps to SGLang --speculative-draft-model-path flag. Required when Enabled.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.eagleTopK" data-path-key="|spec|sglangConfig|speculative|eagleTopK|" data-parent-path="spec.sglangConfig.speculative" data-name="eagleTopK" data-text="EagleTopK is the top-k sampling for EAGLE draft tokens.
+Maps to SGLang --speculative-eagle-topk flag. format: int32 minimum: 1">
+  <span class="prop-name">eagleTopK</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">EagleTopK is the top-k sampling for EAGLE draft tokens.
+Maps to SGLang --speculative-eagle-topk flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.enabled" data-path-key="|spec|sglangConfig|speculative|enabled|" data-parent-path="spec.sglangConfig.speculative" data-name="enabled" data-text="Enabled toggles speculative decoding on. When false or nil, no flags
+are emitted regardless of other fields.">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Enabled toggles speculative decoding on. When false or nil, no flags
+are emitted regardless of other fields.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.numDraftTokens" data-path-key="|spec|sglangConfig|speculative|numDraftTokens|" data-parent-path="spec.sglangConfig.speculative" data-name="numDraftTokens" data-text="NumDraftTokens is the number of draft tokens proposed per step.
+Maps to SGLang --speculative-num-draft-tokens flag. format: int32 minimum: 1">
+  <span class="prop-name">numDraftTokens</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">NumDraftTokens is the number of draft tokens proposed per step.
+Maps to SGLang --speculative-num-draft-tokens flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.numSteps" data-path-key="|spec|sglangConfig|speculative|numSteps|" data-parent-path="spec.sglangConfig.speculative" data-name="numSteps" data-text="NumSteps is the number of draft steps per forward pass.
+Maps to SGLang --speculative-num-steps flag. format: int32 minimum: 1">
+  <span class="prop-name">numSteps</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">NumSteps is the number of draft steps per forward pass.
+Maps to SGLang --speculative-num-steps flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.tensorParallelSize" data-path-key="|spec|sglangConfig|tensorParallelSize|" data-parent-path="spec.sglangConfig" data-name="tensorParallelSize" data-text="Sharding
+TensorParallelSize sets the number of GPUs for tensor parallelism.
+Maps to SGLang --tp flag. format: int32 minimum: 1">
+  <span class="prop-name">tensorParallelSize</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Sharding
+TensorParallelSize sets the number of GPUs for tensor parallelism.
+Maps to SGLang --tp flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.toolCallParser" data-path-key="|spec|sglangConfig|toolCallParser|" data-parent-path="spec.sglangConfig" data-name="toolCallParser" data-text="Agentic glue
+ToolCallParser selects the tool-call extraction format. For foreman
+tool-loop workloads. Maps to SGLang --tool-call-parser flag. enum: llama3, qwen3, qwen25, hermes, functionary, mistral">
+  <span class="prop-name">toolCallParser</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Agentic glue
+ToolCallParser selects the tool-call extraction format. For foreman
+tool-loop workloads. Maps to SGLang --tool-call-parser flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: llama3, qwen3, qwen25, hermes, functionary, mistral"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llama3, qwen3, qwen25, hermes, functionary, mistral</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
