@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HelmChart v1 — source.toolkit.fluxcd.io</title>
+<title>SnapshotSchedule v1alpha1 — kopiur.home-operations.com</title>
 <link rel="icon" type="image/svg+xml" href="/k8s-schemas/favicon.svg">
 <style>
   :root {
@@ -352,11 +352,11 @@
   <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Light mode" aria-pressed="false">☀/☾</button>
 </nav>
 <header>
-  <h1 class="schema-title">HelmChart</h1>
-  <p class="schema-title-group">source.toolkit.fluxcd.io / v1</p>
+  <h1 class="schema-title">SnapshotSchedule</h1>
+  <p class="schema-title-group">kopiur.home-operations.com / v1alpha1</p>
 </header>
-<div class="yaml-block">apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmChart
+<div class="yaml-block">apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
 metadata:
   name: example</div>
 <div class="search-row">
@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.chart for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.failedJobsHistoryLimit for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -373,439 +373,369 @@ metadata:
     <button id="collapse-all">Collapse all</button>
   </div>
   <div class="toolbar-left">
-    <a href="/k8s-schemas/source.toolkit.fluxcd.io/helmchart_v1.json" target="_blank">View raw schema</a>
-    <button id="copy-url" data-url="/k8s-schemas/source.toolkit.fluxcd.io/helmchart_v1.json">Copy schema URL</button>
+    <a href="/k8s-schemas/kopiur.home-operations.com/snapshotschedule_v1alpha1.json" target="_blank">View raw schema</a>
+    <button id="copy-url" data-url="/k8s-schemas/kopiur.home-operations.com/snapshotschedule_v1alpha1.json">Copy schema URL</button>
   </div>
 </div>
 <div id="properties">
-<div class="prop-leaf" data-prop-row data-path="apiVersion" data-path-key="|apiVersion|" data-parent-path="" data-name="apiVersion" data-text="APIVersion defines the versioned schema of this representation of an object.
-Servers should convert recognized schemas to the latest internal value, and
-may reject unrecognized values.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources">
-  <span class="prop-name">apiVersion</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIVersion defines the versioned schema of this representation of an object.
-Servers should convert recognized schemas to the latest internal value, and
-may reject unrecognized values.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="kind" data-path-key="|kind|" data-parent-path="" data-name="kind" data-text="Kind is a string value representing the REST resource this object represents.
-Servers may infer this from the endpoint the client submits requests to.
-Cannot be updated.
-In CamelCase.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds">
-  <span class="prop-name">kind</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Kind is a string value representing the REST resource this object represents.
-Servers may infer this from the endpoint the client submits requests to.
-Cannot be updated.
-In CamelCase.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="metadata" data-path-key="|metadata|" data-parent-path="" data-name="metadata" data-text="">
-  <span class="prop-name">metadata</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="HelmChartSpec specifies the desired state of a Helm chart.">
+<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="Cron schedule that fires `Snapshot` CRs from a `SnapshotPolicy`.">
 <summary>
   <span class="prop-name">spec</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">HelmChartSpec specifies the desired state of a Helm chart.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.chart" data-path-key="|spec|chart|" data-parent-path="spec" data-name="chart" data-text="Chart is the name or path the Helm chart is available at in the
-SourceRef.">
-  <span class="prop-name">chart</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Chart is the name or path the Helm chart is available at in the
-SourceRef.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.ignoreMissingValuesFiles" data-path-key="|spec|ignoreMissingValuesFiles|" data-parent-path="spec" data-name="ignoreMissingValuesFiles" data-text="IgnoreMissingValuesFiles controls whether to silently ignore missing values
-files rather than failing.">
-  <span class="prop-name">ignoreMissingValuesFiles</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">IgnoreMissingValuesFiles controls whether to silently ignore missing values
-files rather than failing.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.interval" data-path-key="|spec|interval|" data-parent-path="spec" data-name="interval" data-text="Interval at which the HelmChart SourceRef is checked for updates.
-This interval is approximate and may be subject to jitter to ensure
-efficient use of resources. pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$">
-  <span class="prop-name">interval</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Interval at which the HelmChart SourceRef is checked for updates.
-This interval is approximate and may be subject to jitter to ensure
-efficient use of resources.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ms|s|m|h))&#43;$</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.reconcileStrategy" data-path-key="|spec|reconcileStrategy|" data-parent-path="spec" data-name="reconcileStrategy" data-text="ReconcileStrategy determines what enables the creation of a new artifact.
-Valid values are (&#39;ChartVersion&#39;, &#39;Revision&#39;).
-See the documentation of the values for an explanation on their behavior.
-Defaults to ChartVersion when omitted. enum: ChartVersion, Revision">
-  <span class="prop-name">reconcileStrategy</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ReconcileStrategy determines what enables the creation of a new artifact.
-Valid values are (&#39;ChartVersion&#39;, &#39;Revision&#39;).
-See the documentation of the values for an explanation on their behavior.
-Defaults to ChartVersion when omitted.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: ChartVersion, Revision"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">ChartVersion, Revision</code></div></div>
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.sourceRef" data-path-key="|spec|sourceRef|" data-parent-path="spec" data-name="sourceRef" data-text="SourceRef is the reference to the Source the chart is available at.">
-<summary>
-  <span class="prop-name">sourceRef</span>
   <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">SourceRef is the reference to the Source the chart is available at.</div>
+<div class="prop-content"><div class="prop-desc">Cron schedule that fires `Snapshot` CRs from a `SnapshotPolicy`.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.sourceRef.apiVersion" data-path-key="|spec|sourceRef|apiVersion|" data-parent-path="spec.sourceRef" data-name="apiVersion" data-text="APIVersion of the referent.">
-  <span class="prop-name">apiVersion</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIVersion of the referent.
+<div class="prop-leaf" data-prop-row data-path="spec.failedJobsHistoryLimit" data-path-key="|spec|failedJobsHistoryLimit|" data-parent-path="spec" data-name="failedJobsHistoryLimit" data-text="Maximum number of failed `Snapshot` CRs from this schedule to retain
+(default `10`; `0` keeps none). format: uint32 minimum: 0">
+  <span class="prop-name">failedJobsHistoryLimit</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Maximum number of failed `Snapshot` CRs from this schedule to retain
+(default `10`; `0` keeps none).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.sourceRef.kind" data-path-key="|spec|sourceRef|kind|" data-parent-path="spec.sourceRef" data-name="kind" data-text="Kind of the referent, valid values are (&#39;HelmRepository&#39;, &#39;GitRepository&#39;,
-&#39;Bucket&#39;). enum: HelmRepository, GitRepository, Bucket">
-  <span class="prop-name">kind</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Kind of the referent, valid values are (&#39;HelmRepository&#39;, &#39;GitRepository&#39;,
-&#39;Bucket&#39;).<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: HelmRepository, GitRepository, Bucket"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">HelmRepository, GitRepository, Bucket</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.sourceRef.name" data-path-key="|spec|sourceRef|name|" data-parent-path="spec.sourceRef" data-name="name" data-text="Name of the referent.">
+<details class="prop" data-prop-row data-path="spec.policyRef" data-path-key="|spec|policyRef|" data-parent-path="spec" data-name="policyRef" data-text="The single `SnapshotPolicy` this schedule invokes; mutually exclusive with `policySelector`.">
+<summary>
+  <span class="prop-name">policyRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The single `SnapshotPolicy` this schedule invokes; mutually exclusive with `policySelector`.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.policyRef.name" data-path-key="|spec|policyRef|name|" data-parent-path="spec.policyRef" data-name="name" data-text="Name of the referenced `SnapshotPolicy`.">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name of the referent.
+  <div class="leaf-desc">Name of the referenced `SnapshotPolicy`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.policyRef.namespace" data-path-key="|spec|policyRef|namespace|" data-parent-path="spec.policyRef" data-name="namespace" data-text="Namespace of the `SnapshotPolicy`; absent = same namespace as the referrer.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `SnapshotPolicy`; absent = same namespace as the referrer.
   </div>
 </div>
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.suspend" data-path-key="|spec|suspend|" data-parent-path="spec" data-name="suspend" data-text="Suspend tells the controller to suspend the reconciliation of this
-source.">
-  <span class="prop-name">suspend</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">Suspend tells the controller to suspend the reconciliation of this
-source.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.valuesFiles" data-path-key="|spec|valuesFiles|" data-parent-path="spec" data-name="valuesFiles" data-text="ValuesFiles is an alternative list of values files to use as the chart
-values (values.yaml is not included by default), expected to be a
-relative path in the SourceRef.
-Values files are merged in the order of this list with the last file
-overriding the first. Ignored when omitted.">
-  <span class="prop-name">valuesFiles</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">ValuesFiles is an alternative list of values files to use as the chart
-values (values.yaml is not included by default), expected to be a
-relative path in the SourceRef.
-Values files are merged in the order of this list with the last file
-overriding the first. Ignored when omitted.
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.verify" data-path-key="|spec|verify|" data-parent-path="spec" data-name="verify" data-text="Verify contains the secret name containing the trusted public keys
-used to verify the signature and specifies which provider to use to check
-whether OCI image is authentic.
-This field is only supported when using HelmRepository source with spec.type &#39;oci&#39;.
-Chart dependencies, which are not bundled in the umbrella chart artifact, are not verified.">
+<details class="prop" data-prop-row data-path="spec.policySelector" data-path-key="|spec|policySelector|" data-parent-path="spec" data-name="policySelector" data-text="Label selector fanning out over `SnapshotPolicy` objects; mutually exclusive with `policyRef`.">
 <summary>
-  <span class="prop-name">verify</span>
+  <span class="prop-name">policySelector</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Verify contains the secret name containing the trusted public keys
-used to verify the signature and specifies which provider to use to check
-whether OCI image is authentic.
-This field is only supported when using HelmRepository source with spec.type &#39;oci&#39;.
-Chart dependencies, which are not bundled in the umbrella chart artifact, are not verified.</div>
+<div class="prop-content"><div class="prop-desc">Label selector fanning out over `SnapshotPolicy` objects; mutually exclusive with `policyRef`.</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.verify.matchOIDCIdentity" data-path-key="|spec|verify|matchOIDCIdentity|" data-parent-path="spec.verify" data-name="matchOIDCIdentity" data-text="MatchOIDCIdentity specifies the identity matching criteria to use
-while verifying an OCI artifact which was signed using Cosign keyless
-signing. The artifact&#39;s identity is deemed to be verified if any of the
-specified matchers match against the identity.">
+<details class="prop" data-prop-row data-path="spec.policySelector.matchExpressions" data-path-key="|spec|policySelector|matchExpressions|" data-parent-path="spec.policySelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
 <summary>
-  <span class="prop-name">matchOIDCIdentity</span>
+  <span class="prop-name">matchExpressions</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">MatchOIDCIdentity specifies the identity matching criteria to use
-while verifying an OCI artifact which was signed using Cosign keyless
-signing. The artifact&#39;s identity is deemed to be verified if any of the
-specified matchers match against the identity.</div>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.verify.matchOIDCIdentity[].issuer" data-path-key="|spec|verify|matchOIDCIdentity[]|issuer|" data-parent-path="spec.verify.matchOIDCIdentity" data-name="issuer" data-text="Issuer specifies the regex pattern to match against to verify
-the OIDC issuer in the Fulcio certificate. The pattern must be a
-valid Go regular expression.">
-  <span class="prop-name">issuer</span>
+<div class="prop-leaf" data-prop-row data-path="spec.policySelector.matchExpressions[].key" data-path-key="|spec|policySelector|matchExpressions[]|key|" data-parent-path="spec.policySelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Issuer specifies the regex pattern to match against to verify
-the OIDC issuer in the Fulcio certificate. The pattern must be a
-valid Go regular expression.
+  <div class="leaf-desc">key is the label key that the selector applies to.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.verify.matchOIDCIdentity[].subject" data-path-key="|spec|verify|matchOIDCIdentity[]|subject|" data-parent-path="spec.verify.matchOIDCIdentity" data-name="subject" data-text="Subject specifies the regex pattern to match against to verify
-the identity subject in the Fulcio certificate. The pattern must
-be a valid Go regular expression.">
-  <span class="prop-name">subject</span>
+<div class="prop-leaf" data-prop-row data-path="spec.policySelector.matchExpressions[].operator" data-path-key="|spec|policySelector|matchExpressions[]|operator|" data-parent-path="spec.policySelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Subject specifies the regex pattern to match against to verify
-the identity subject in the Fulcio certificate. The pattern must
-be a valid Go regular expression.
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.policySelector.matchExpressions[].values" data-path-key="|spec|policySelector|matchExpressions[]|values|" data-parent-path="spec.policySelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
   </div>
 </div>
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.verify.provider" data-path-key="|spec|verify|provider|" data-parent-path="spec.verify" data-name="provider" data-text="Provider specifies the technology used to sign the OCI Artifact. enum: cosign, notation">
-  <span class="prop-name">provider</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Provider specifies the technology used to sign the OCI Artifact.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: cosign, notation"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">cosign, notation</code></div></div>
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.verify.secretRef" data-path-key="|spec|verify|secretRef|" data-parent-path="spec.verify" data-name="secretRef" data-text="SecretRef specifies the Kubernetes Secret containing the
-trusted public keys.">
-<summary>
-  <span class="prop-name">secretRef</span>
+<div class="prop-leaf" data-prop-row data-path="spec.policySelector.matchLabels" data-path-key="|spec|policySelector|matchLabels|" data-parent-path="spec.policySelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
   <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.schedule" data-path-key="|spec|schedule|" data-parent-path="spec" data-name="schedule" data-text="Cron, jitter, timezone, and concurrency for the firing cadence.">
+<summary>
+  <span class="prop-name">schedule</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">SecretRef specifies the Kubernetes Secret containing the
-trusted public keys.</div>
+<div class="prop-content"><div class="prop-desc">Cron, jitter, timezone, and concurrency for the firing cadence.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.verify.secretRef.name" data-path-key="|spec|verify|secretRef|name|" data-parent-path="spec.verify.secretRef" data-name="name" data-text="Name of the referent.">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name of the referent.
-  </div>
-</div>
-  </div>
-</div>
-</details>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.version" data-path-key="|spec|version|" data-parent-path="spec" data-name="version" data-text="Version is the chart version semver expression, ignored for charts from
-GitRepository and Bucket sources. Defaults to latest when omitted.">
-  <span class="prop-name">version</span>
+<div class="prop-leaf" data-prop-row data-path="spec.schedule.concurrencyPolicy" data-path-key="|spec|schedule|concurrencyPolicy|" data-parent-path="spec.schedule" data-name="concurrencyPolicy" data-text="How to handle a firing while a prior run is still in flight (default `Forbid`). enum: Forbid, Allow, Replace">
+  <span class="prop-name">concurrencyPolicy</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Version is the chart version semver expression, ignored for charts from
-GitRepository and Bucket sources. Defaults to latest when omitted.
+  <div class="leaf-desc">How to handle a firing while a prior run is still in flight (default `Forbid`).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Forbid, Allow, Replace"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Forbid, Allow, Replace</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.schedule.cron" data-path-key="|spec|schedule|cron|" data-parent-path="spec.schedule" data-name="cron" data-text="Cron expression with Jenkins-style `H` substitution.">
+  <span class="prop-name">cron</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Cron expression with Jenkins-style `H` substitution.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.schedule.jitter" data-path-key="|spec|schedule|jitter|" data-parent-path="spec.schedule" data-name="jitter" data-text="Deterministic jitter (Go-style duration), derived from `(scheduleUID, slot)`.">
+  <span class="prop-name">jitter</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Deterministic jitter (Go-style duration), derived from `(scheduleUID, slot)`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.schedule.runOnCreate" data-path-key="|spec|schedule|runOnCreate|" data-parent-path="spec.schedule" data-name="runOnCreate" data-text="Whether to fire immediately on create (default `false`).">
+  <span class="prop-name">runOnCreate</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Whether to fire immediately on create (default `false`).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.schedule.startingDeadlineSeconds" data-path-key="|spec|schedule|startingDeadlineSeconds|" data-parent-path="spec.schedule" data-name="startingDeadlineSeconds" data-text="If a slot is missed by more than this many seconds, skip it instead of firing late. format: int64">
+  <span class="prop-name">startingDeadlineSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">If a slot is missed by more than this many seconds, skip it instead of firing late.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.schedule.suspend" data-path-key="|spec|schedule|suspend|" data-parent-path="spec.schedule" data-name="suspend" data-text="Skip future firings while true.">
+  <span class="prop-name">suspend</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Skip future firings while true.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.schedule.timezone" data-path-key="|spec|schedule|timezone|" data-parent-path="spec.schedule" data-name="timezone" data-text="IANA timezone the cron is evaluated in; absent uses the controller&#39;s default.">
+  <span class="prop-name">timezone</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">IANA timezone the cron is evaluated in; absent uses the controller&#39;s default.
   </div>
 </div>
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="HelmChartStatus records the observed state of the HelmChart.">
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="Observed state of a `SnapshotSchedule`: pinned firing slots and failure run.">
 <summary>
   <span class="prop-name">status</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">HelmChartStatus records the observed state of the HelmChart.</div>
+<div class="prop-content"><div class="prop-desc">Observed state of a `SnapshotSchedule`: pinned firing slots and failure run.</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="status.artifact" data-path-key="|status|artifact|" data-parent-path="status" data-name="artifact" data-text="Artifact represents the output of the last successful reconciliation.">
-<summary>
-  <span class="prop-name">artifact</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Artifact represents the output of the last successful reconciliation.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.artifact.digest" data-path-key="|status|artifact|digest|" data-parent-path="status.artifact" data-name="digest" data-text="Digest is the digest of the file in the form of &#39;&lt;algorithm&gt;:&lt;checksum&gt;&#39;. pattern: ^[a-z0-9]&#43;(?:[.&#43;_-][a-z0-9]&#43;)*:[a-zA-Z0-9=_-]&#43;$">
-  <span class="prop-name">digest</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Digest is the digest of the file in the form of &#39;&lt;algorithm&gt;:&lt;checksum&gt;&#39;.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^[a-z0-9]&#43;(?:[.&#43;_-][a-z0-9]&#43;)*:[a-zA-Z0-9=_-]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]&#43;(?:[.&#43;_-][a-z0-9]&#43;)*:[a-zA-Z0-9=_-]&#43;$</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.artifact.lastUpdateTime" data-path-key="|status|artifact|lastUpdateTime|" data-parent-path="status.artifact" data-name="lastUpdateTime" data-text="LastUpdateTime is the timestamp corresponding to the last update of the
-Artifact. format: date-time">
-  <span class="prop-name">lastUpdateTime</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">LastUpdateTime is the timestamp corresponding to the last update of the
-Artifact.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.artifact.metadata" data-path-key="|status|artifact|metadata|" data-parent-path="status.artifact" data-name="metadata" data-text="Metadata holds upstream information such as OCI annotations.">
-  <span class="prop-name">metadata</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">Metadata holds upstream information such as OCI annotations.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.artifact.path" data-path-key="|status|artifact|path|" data-parent-path="status.artifact" data-name="path" data-text="Path is the relative file path of the Artifact. It can be used to locate
-the file in the root of the Artifact storage on the local file system of
-the controller managing the Source.">
-  <span class="prop-name">path</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Path is the relative file path of the Artifact. It can be used to locate
-the file in the root of the Artifact storage on the local file system of
-the controller managing the Source.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.artifact.revision" data-path-key="|status|artifact|revision|" data-parent-path="status.artifact" data-name="revision" data-text="Revision is a human-readable identifier traceable in the origin source
-system. It can be a Git commit SHA, Git tag, a Helm chart version, etc.">
-  <span class="prop-name">revision</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Revision is a human-readable identifier traceable in the origin source
-system. It can be a Git commit SHA, Git tag, a Helm chart version, etc.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.artifact.size" data-path-key="|status|artifact|size|" data-parent-path="status.artifact" data-name="size" data-text="Size is the number of bytes in the file. format: int64">
-  <span class="prop-name">size</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">Size is the number of bytes in the file.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.artifact.url" data-path-key="|status|artifact|url|" data-parent-path="status.artifact" data-name="url" data-text="URL is the HTTP address of the Artifact as exposed by the controller
-managing the Source. It can be used to retrieve the Artifact for
-consumption, e.g. by another controller applying the Artifact contents.">
-  <span class="prop-name">url</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">URL is the HTTP address of the Artifact as exposed by the controller
-managing the Source. It can be used to retrieve the Artifact for
-consumption, e.g. by another controller applying the Artifact contents.
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions holds the conditions for the HelmChart.">
+<details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Standard Kubernetes conditions surfacing schedule health.">
 <summary>
   <span class="prop-name">conditions</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Conditions holds the conditions for the HelmChart.</div>
+<div class="prop-content"><div class="prop-desc">Standard Kubernetes conditions surfacing schedule health.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.conditions[].lastTransitionTime" data-path-key="|status|conditions[]|lastTransitionTime|" data-parent-path="status.conditions" data-name="lastTransitionTime" data-text="lastTransitionTime is the last time the condition transitioned from one status to another.
-This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable. format: date-time">
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].lastTransitionTime" data-path-key="|status|conditions[]|lastTransitionTime|" data-parent-path="status.conditions" data-name="lastTransitionTime" data-text="lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable. format: date-time">
   <span class="prop-name">lastTransitionTime</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">lastTransitionTime is the last time the condition transitioned from one status to another.
-This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.<div class="leaf-constraints">
+  <div class="leaf-desc">lastTransitionTime is the last time the condition transitioned from one status to another. This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.conditions[].message" data-path-key="|status|conditions[]|message|" data-parent-path="status.conditions" data-name="message" data-text="message is a human readable message indicating details about the transition.
-This may be an empty string. maxLength: 32768">
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].message" data-path-key="|status|conditions[]|message|" data-parent-path="status.conditions" data-name="message" data-text="message is a human readable message indicating details about the transition. This may be an empty string.">
   <span class="prop-name">message</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">message is a human readable message indicating details about the transition.
-This may be an empty string.<div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 32768"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">32768</code></div></div>
+  <div class="leaf-desc">message is a human readable message indicating details about the transition. This may be an empty string.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.conditions[].observedGeneration" data-path-key="|status|conditions[]|observedGeneration|" data-parent-path="status.conditions" data-name="observedGeneration" data-text="observedGeneration represents the .metadata.generation that the condition was set based upon.
-For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
-with respect to the current state of the instance. format: int64 minimum: 0">
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].observedGeneration" data-path-key="|status|conditions[]|observedGeneration|" data-parent-path="status.conditions" data-name="observedGeneration" data-text="observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance. format: int64">
   <span class="prop-name">observedGeneration</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">observedGeneration represents the .metadata.generation that the condition was set based upon.
-For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
-with respect to the current state of the instance.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.conditions[].reason" data-path-key="|status|conditions[]|reason|" data-parent-path="status.conditions" data-name="reason" data-text="reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition.
-Producers of specific condition types may define expected values and meanings for this field,
-and whether the values are considered a guaranteed API.
-The value should be a CamelCase string.
-This field may not be empty. pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$ minLength: 1 maxLength: 1024">
-  <span class="prop-name">reason</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition.
-Producers of specific condition types may define expected values and meanings for this field,
-and whether the values are considered a guaranteed API.
-The value should be a CamelCase string.
-This field may not be empty.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.conditions[].status" data-path-key="|status|conditions[]|status|" data-parent-path="status.conditions" data-name="status" data-text="status of the condition, one of True, False, Unknown. enum: True, False, Unknown">
-  <span class="prop-name">status</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">status of the condition, one of True, False, Unknown.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: True, False, Unknown"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">True, False, Unknown</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.conditions[].type" data-path-key="|status|conditions[]|type|" data-parent-path="status.conditions" data-name="type" data-text="type of condition in CamelCase or in foo.example.com/CamelCase. pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$ maxLength: 316">
-  <span class="prop-name">type</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">type of condition in CamelCase or in foo.example.com/CamelCase.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 316"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">316</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="status.lastHandledReconcileAt" data-path-key="|status|lastHandledReconcileAt|" data-parent-path="status" data-name="lastHandledReconcileAt" data-text="LastHandledReconcileAt holds the value of the most recent
-reconcile request value, so a change of the annotation value
-can be detected.">
-  <span class="prop-name">lastHandledReconcileAt</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">LastHandledReconcileAt holds the value of the most recent
-reconcile request value, so a change of the annotation value
-can be detected.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.observedChartName" data-path-key="|status|observedChartName|" data-parent-path="status" data-name="observedChartName" data-text="ObservedChartName is the last observed chart name as specified by the
-resolved chart reference.">
-  <span class="prop-name">observedChartName</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ObservedChartName is the last observed chart name as specified by the
-resolved chart reference.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="ObservedGeneration is the last observed generation of the HelmChart
-object. format: int64">
-  <span class="prop-name">observedGeneration</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">ObservedGeneration is the last observed generation of the HelmChart
-object.<div class="leaf-constraints">
+  <div class="leaf-desc">observedGeneration represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date with respect to the current state of the instance.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.observedSourceArtifactRevision" data-path-key="|status|observedSourceArtifactRevision|" data-parent-path="status" data-name="observedSourceArtifactRevision" data-text="ObservedSourceArtifactRevision is the last observed Artifact.Revision
-of the HelmChartSpec.SourceRef.">
-  <span class="prop-name">observedSourceArtifactRevision</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ObservedSourceArtifactRevision is the last observed Artifact.Revision
-of the HelmChartSpec.SourceRef.
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].reason" data-path-key="|status|conditions[]|reason|" data-parent-path="status.conditions" data-name="reason" data-text="reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.">
+  <span class="prop-name">reason</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition. Producers of specific condition types may define expected values and meanings for this field, and whether the values are considered a guaranteed API. The value should be a CamelCase string. This field may not be empty.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.observedValuesFiles" data-path-key="|status|observedValuesFiles|" data-parent-path="status" data-name="observedValuesFiles" data-text="ObservedValuesFiles are the observed value files of the last successful
-reconciliation.
-It matches the chart in the last successfully reconciled artifact.">
-  <span class="prop-name">observedValuesFiles</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">ObservedValuesFiles are the observed value files of the last successful
-reconciliation.
-It matches the chart in the last successfully reconciled artifact.
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].status" data-path-key="|status|conditions[]|status|" data-parent-path="status.conditions" data-name="status" data-text="status of the condition, one of True, False, Unknown.">
+  <span class="prop-name">status</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">status of the condition, one of True, False, Unknown.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.url" data-path-key="|status|url|" data-parent-path="status" data-name="url" data-text="URL is the dynamic fetch link for the latest Artifact.
-It is provided on a &#34;best effort&#34; basis, and using the precise
-HelmChartStatus.Artifact data is recommended.">
-  <span class="prop-name">url</span>
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].type" data-path-key="|status|conditions[]|type|" data-parent-path="status.conditions" data-name="type" data-text="type of condition in CamelCase or in foo.example.com/CamelCase.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">type of condition in CamelCase or in foo.example.com/CamelCase.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.consecutiveFailures" data-path-key="|status|consecutiveFailures|" data-parent-path="status" data-name="consecutiveFailures" data-text="Count of back-to-back failed runs; resets on success. format: int64">
+  <span class="prop-name">consecutiveFailures</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Count of back-to-back failed runs; resets on success.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.lastSchedule" data-path-key="|status|lastSchedule|" data-parent-path="status" data-name="lastSchedule" data-text="Most recent firing (cron &#43; jitter, pinned).">
+<summary>
+  <span class="prop-name">lastSchedule</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Most recent firing (cron &#43; jitter, pinned).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.lastSchedule.at" data-path-key="|status|lastSchedule|at|" data-parent-path="status.lastSchedule" data-name="at" data-text="The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.">
+  <span class="prop-name">at</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">URL is the dynamic fetch link for the latest Artifact.
-It is provided on a &#34;best effort&#34; basis, and using the precise
-HelmChartStatus.Artifact data is recommended.
+  <div class="leaf-desc">The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.lastSchedule.snapshotRef" data-path-key="|status|lastSchedule|snapshotRef|" data-parent-path="status.lastSchedule" data-name="snapshotRef" data-text="The `Snapshot` CR this slot produced, when one was created.">
+<summary>
+  <span class="prop-name">snapshotRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The `Snapshot` CR this slot produced, when one was created.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.lastSchedule.snapshotRef.name" data-path-key="|status|lastSchedule|snapshotRef|name|" data-parent-path="status.lastSchedule.snapshotRef" data-name="name" data-text="The `Snapshot`&#39;s `metadata.name` (same namespace as the schedule).">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The `Snapshot`&#39;s `metadata.name` (same namespace as the schedule).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.lastSchedule.timezone" data-path-key="|status|lastSchedule|timezone|" data-parent-path="status.lastSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned
+(`nextSchedule` only). Recorded so the controller can detect an
+effective-timezone change — a `spec.schedule.timezone` edit or a change to
+the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
+pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
+pins written before this field existed (treated as &#34;unchanged&#34;).">
+  <span class="prop-name">timezone</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned
+(`nextSchedule` only). Recorded so the controller can detect an
+effective-timezone change — a `spec.schedule.timezone` edit or a change to
+the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
+pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
+pins written before this field existed (treated as &#34;unchanged&#34;).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="status.lastSuccessfulSchedule" data-path-key="|status|lastSuccessfulSchedule|" data-parent-path="status" data-name="lastSuccessfulSchedule" data-text="The most recent firing whose `Snapshot` succeeded.">
+<summary>
+  <span class="prop-name">lastSuccessfulSchedule</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The most recent firing whose `Snapshot` succeeded.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.lastSuccessfulSchedule.at" data-path-key="|status|lastSuccessfulSchedule|at|" data-parent-path="status.lastSuccessfulSchedule" data-name="at" data-text="The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.">
+  <span class="prop-name">at</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.lastSuccessfulSchedule.snapshotRef" data-path-key="|status|lastSuccessfulSchedule|snapshotRef|" data-parent-path="status.lastSuccessfulSchedule" data-name="snapshotRef" data-text="The `Snapshot` CR this slot produced, when one was created.">
+<summary>
+  <span class="prop-name">snapshotRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The `Snapshot` CR this slot produced, when one was created.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.lastSuccessfulSchedule.snapshotRef.name" data-path-key="|status|lastSuccessfulSchedule|snapshotRef|name|" data-parent-path="status.lastSuccessfulSchedule.snapshotRef" data-name="name" data-text="The `Snapshot`&#39;s `metadata.name` (same namespace as the schedule).">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The `Snapshot`&#39;s `metadata.name` (same namespace as the schedule).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.lastSuccessfulSchedule.timezone" data-path-key="|status|lastSuccessfulSchedule|timezone|" data-parent-path="status.lastSuccessfulSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned
+(`nextSchedule` only). Recorded so the controller can detect an
+effective-timezone change — a `spec.schedule.timezone` edit or a change to
+the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
+pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
+pins written before this field existed (treated as &#34;unchanged&#34;).">
+  <span class="prop-name">timezone</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned
+(`nextSchedule` only). Recorded so the controller can detect an
+effective-timezone change — a `spec.schedule.timezone` edit or a change to
+the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
+pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
+pins written before this field existed (treated as &#34;unchanged&#34;).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="status.nextSchedule" data-path-key="|status|nextSchedule|" data-parent-path="status" data-name="nextSchedule" data-text="The next firing slot the controller has computed (cron &#43; jitter, pinned).">
+<summary>
+  <span class="prop-name">nextSchedule</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The next firing slot the controller has computed (cron &#43; jitter, pinned).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.nextSchedule.at" data-path-key="|status|nextSchedule|at|" data-parent-path="status.nextSchedule" data-name="at" data-text="The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.">
+  <span class="prop-name">at</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.nextSchedule.snapshotRef" data-path-key="|status|nextSchedule|snapshotRef|" data-parent-path="status.nextSchedule" data-name="snapshotRef" data-text="The `Snapshot` CR this slot produced, when one was created.">
+<summary>
+  <span class="prop-name">snapshotRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The `Snapshot` CR this slot produced, when one was created.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.nextSchedule.snapshotRef.name" data-path-key="|status|nextSchedule|snapshotRef|name|" data-parent-path="status.nextSchedule.snapshotRef" data-name="name" data-text="The `Snapshot`&#39;s `metadata.name` (same namespace as the schedule).">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The `Snapshot`&#39;s `metadata.name` (same namespace as the schedule).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.nextSchedule.timezone" data-path-key="|status|nextSchedule|timezone|" data-parent-path="status.nextSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned
+(`nextSchedule` only). Recorded so the controller can detect an
+effective-timezone change — a `spec.schedule.timezone` edit or a change to
+the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
+pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
+pins written before this field existed (treated as &#34;unchanged&#34;).">
+  <span class="prop-name">timezone</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned
+(`nextSchedule` only). Recorded so the controller can detect an
+effective-timezone change — a `spec.schedule.timezone` edit or a change to
+the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
+pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
+pins written before this field existed (treated as &#34;unchanged&#34;).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="The `metadata.generation` this status reflects, for staleness detection. format: int64">
+  <span class="prop-name">observedGeneration</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The `metadata.generation` this status reflects, for staleness detection.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.chart for an exact path">No matches. Try .spec.chart for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.failedJobsHistoryLimit for an exact path">No matches. Try .spec.failedJobsHistoryLimit for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>
