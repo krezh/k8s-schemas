@@ -446,17 +446,12 @@ If not specified, a default configuration will be generated<div class="leaf-cons
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.image" data-path-key="|spec|image|" data-parent-path="spec" data-name="image" data-text="Image is the container image to use for the NVMe-oF gateway daemon.
-For example, quay.io/ceph/nvmeof:1.5
-If not specified, the image is fetched from the Ceph mon config store
-(mgr/cephadm/container_image_nvmeof). minLength: 1 maxLength: 1024">
+For example, quay.io/ceph/nvmeof:1.5 minLength: 1">
   <span class="prop-name">image</span>
-  <span class="type-badge">string</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Image is the container image to use for the NVMe-oF gateway daemon.
-For example, quay.io/ceph/nvmeof:1.5
-If not specified, the image is fetched from the Ceph mon config store
-(mgr/cephadm/container_image_nvmeof).<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
+For example, quay.io/ceph/nvmeof:1.5<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.instances" data-path-key="|spec|instances|" data-parent-path="spec" data-name="instances" data-text="The number of active gateway instances minimum: 1">

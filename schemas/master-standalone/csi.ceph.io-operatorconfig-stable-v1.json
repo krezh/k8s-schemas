@@ -1043,19 +1043,6 @@
                     "null"
                   ]
                 },
-                "containerExtraArgs": {
-                  "additionalProperties": {
-                    "items": {
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "description": "Extra arguments for containers in the controller plugin deployment.\nThe key is the container name, the value is a list of CLI arguments.\nThe operator will not override the default CLI argument values it's setting.\nThis is more for customizing what comes as default with cephcsi.\nExamples of container names: csi-rbdplugin, csi-provisioner, csi-attacher,\ncsi-resizer, csi-snapshotter, csi-omap-generator, liveness-prometheus, etc.",
-                  "type": [
-                    "object",
-                    "null"
-                  ]
-                },
                 "deploymentStrategy": {
                   "additionalProperties": false,
                   "description": "DeploymentStrategy describes how to replace existing pods with new ones\nDefault value is Recreate",
@@ -1152,7 +1139,7 @@
                   ]
                 },
                 "replicas": {
-                  "description": "Set replicas for controller plugin's deployment.\nIf not set, defaults to 2 or to the number of available nodes\non single-node clusters. When OperatorConfig specifies a replica\ncount, it is used as the default for all drivers.",
+                  "description": "Set replicas for controller plugin's deployment. Defaults to 2",
                   "format": "int32",
                   "minimum": 1,
                   "type": [
@@ -4148,7 +4135,7 @@
               ]
             },
             "enableMetadata": {
-              "description": "Deprecated: This field is no longer used by the ceph-csi driver and will be ignored.",
+              "description": "Set to true to enable adding volume metadata on the CephFS subvolumes and RBD images.\nNot all users might be interested in getting volume/snapshot details as metadata on CephFS subvolume and RBD images.\nHence enable metadata is false by default.",
               "type": [
                 "boolean",
                 "null"
@@ -5371,19 +5358,6 @@
                     "type": "string"
                   },
                   "description": "Pod's annotations",
-                  "type": [
-                    "object",
-                    "null"
-                  ]
-                },
-                "containerExtraArgs": {
-                  "additionalProperties": {
-                    "items": {
-                      "type": "string"
-                    },
-                    "type": "array"
-                  },
-                  "description": "Extra arguments for containers in the node plugin daemonset.\nThe key is the container name, the value is a list of CLI arguments.\nThe operator will not override the default CLI argument values it's setting.\nThis is more for customizing what comes as default with cephcsi.\nExamples of container names: csi-rbdplugin, driver-registrar, csi-addons,\nliveness-prometheus, etc.",
                   "type": [
                     "object",
                     "null"

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Driver v1 — csi.ceph.io</title>
+<title>Driver v1alpha1 — csi.ceph.io</title>
 <link rel="icon" type="image/svg+xml" href="/k8s-schemas/favicon.svg">
 <style>
   :root {
@@ -353,9 +353,9 @@
 </nav>
 <header>
   <h1 class="schema-title">Driver</h1>
-  <p class="schema-title-group">csi.ceph.io / v1</p>
+  <p class="schema-title-group">csi.ceph.io / v1alpha1</p>
 </header>
-<div class="yaml-block">apiVersion: csi.ceph.io/v1
+<div class="yaml-block">apiVersion: csi.ceph.io/v1alpha1
 kind: Driver
 metadata:
   name: example</div>
@@ -373,8 +373,8 @@ metadata:
     <button id="collapse-all">Collapse all</button>
   </div>
   <div class="toolbar-left">
-    <a href="/k8s-schemas/csi.ceph.io/driver_v1.json" target="_blank">View raw schema</a>
-    <button id="copy-url" data-url="/k8s-schemas/csi.ceph.io/driver_v1.json">Copy schema URL</button>
+    <a href="/k8s-schemas/csi.ceph.io/driver_v1alpha1.json" target="_blank">View raw schema</a>
+    <button id="copy-url" data-url="/k8s-schemas/csi.ceph.io/driver_v1alpha1.json">Copy schema URL</button>
   </div>
 </div>
 <div id="properties">
@@ -1619,13 +1619,13 @@ Empty topologyKey is not allowed.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.controllerPlugin.deploymentStrategy" data-path-key="|spec|controllerPlugin|deploymentStrategy|" data-parent-path="spec.controllerPlugin" data-name="deploymentStrategy" data-text="DeploymentStrategy describes how to replace existing pods with new ones
-Default value is Recreate">
+Default value is RollingUpdate with MaxUnavailable and MaxSurege as 25% (kubernetes default)">
 <summary>
   <span class="prop-name">deploymentStrategy</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">DeploymentStrategy describes how to replace existing pods with new ones
-Default value is Recreate</div>
+Default value is RollingUpdate with MaxUnavailable and MaxSurege as 25% (kubernetes default)</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.controllerPlugin.deploymentStrategy.rollingUpdate" data-path-key="|spec|controllerPlugin|deploymentStrategy|rollingUpdate|" data-parent-path="spec.controllerPlugin.deploymentStrategy" data-name="rollingUpdate" data-text="Rolling update config params. Present only if DeploymentStrategyType =
 RollingUpdate.">
@@ -2475,7 +2475,7 @@ If the operator is Exists, the value should be empty, otherwise just a regular s
 <details class="prop" data-prop-row data-path="spec.controllerPlugin.volumes[].mount" data-path-key="|spec|controllerPlugin|volumes[]|mount|" data-parent-path="spec.controllerPlugin.volumes" data-name="mount" data-text="VolumeMount describes a mounting of a Volume within a container.">
 <summary>
   <span class="prop-name">mount</span>
-  <span class="type-badge">object</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">VolumeMount describes a mounting of a Volume within a container.</div>
   <div class="prop-children">
@@ -2579,7 +2579,7 @@ SubPathExpr and SubPath are mutually exclusive.
 <details class="prop" data-prop-row data-path="spec.controllerPlugin.volumes[].volume" data-path-key="|spec|controllerPlugin|volumes[]|volume|" data-parent-path="spec.controllerPlugin.volumes" data-name="volume" data-text="Volume represents a named volume in a pod that may be accessed by any container in the pod.">
 <summary>
   <span class="prop-name">volume</span>
-  <span class="type-badge">object</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Volume represents a named volume in a pod that may be accessed by any container in the pod.</div>
   <div class="prop-children">
@@ -5515,14 +5515,6 @@ Ex. &#34;ext4&#34;, &#34;xfs&#34;, &#34;ntfs&#34;. Implicitly inferred to be &#3
   <div class="leaf-desc">a list of additional sidecars?
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.enableFencing" data-path-key="|spec|enableFencing|" data-parent-path="spec" data-name="enableFencing" data-text="Set to true to enable fencing for the driver.
-Fencing is a feature that allows the driver to fence a node when it is tainted with node.kubernetes.io/out-of-service.">
-  <span class="prop-name">enableFencing</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">Set to true to enable fencing for the driver.
-Fencing is a feature that allows the driver to fence a node when it is tainted with node.kubernetes.io/out-of-service.
-  </div>
-</div>
 <div class="prop-leaf" data-prop-row data-path="spec.enableMetadata" data-path-key="|spec|enableMetadata|" data-parent-path="spec" data-name="enableMetadata" data-text="Set to true to enable adding volume metadata on the CephFS subvolumes and RBD images.
 Not all users might be interested in getting volume/snapshot details as metadata on CephFS subvolume and RBD images.
 Hence enable metadata is false by default.">
@@ -7510,7 +7502,7 @@ the update.
 <details class="prop" data-prop-row data-path="spec.nodePlugin.volumes[].mount" data-path-key="|spec|nodePlugin|volumes[]|mount|" data-parent-path="spec.nodePlugin.volumes" data-name="mount" data-text="VolumeMount describes a mounting of a Volume within a container.">
 <summary>
   <span class="prop-name">mount</span>
-  <span class="type-badge">object</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">VolumeMount describes a mounting of a Volume within a container.</div>
   <div class="prop-children">
@@ -7614,7 +7606,7 @@ SubPathExpr and SubPath are mutually exclusive.
 <details class="prop" data-prop-row data-path="spec.nodePlugin.volumes[].volume" data-path-key="|spec|nodePlugin|volumes[]|volume|" data-parent-path="spec.nodePlugin.volumes" data-name="volume" data-text="Volume represents a named volume in a pod that may be accessed by any container in the pod.">
 <summary>
   <span class="prop-name">volume</span>
-  <span class="type-badge">object</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Volume represents a named volume in a pod that may be accessed by any container in the pod.</div>
   <div class="prop-children">

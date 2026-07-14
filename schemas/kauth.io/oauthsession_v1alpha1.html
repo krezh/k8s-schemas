@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CephObjectStoreUser v1 — ceph.rook.io</title>
+<title>OAuthSession v1alpha1 — kauth.io</title>
 <link rel="icon" type="image/svg+xml" href="/k8s-schemas/favicon.svg">
 <style>
   :root {
@@ -352,11 +352,11 @@
   <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Light mode" aria-pressed="false">☀/☾</button>
 </nav>
 <header>
-  <h1 class="schema-title">CephObjectStoreUser</h1>
-  <p class="schema-title-group">ceph.rook.io / v1</p>
+  <h1 class="schema-title">OAuthSession</h1>
+  <p class="schema-title-group">kauth.io / v1alpha1</p>
 </header>
-<div class="yaml-block">apiVersion: ceph.rook.io/v1
-kind: CephObjectStoreUser
+<div class="yaml-block">apiVersion: kauth.io/v1alpha1
+kind: OAuthSession
 metadata:
   name: example</div>
 <div class="search-row">
@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.capabilities for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.createdAt for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -373,386 +373,122 @@ metadata:
     <button id="collapse-all">Collapse all</button>
   </div>
   <div class="toolbar-left">
-    <a href="/k8s-schemas/ceph.rook.io/cephobjectstoreuser_v1.json" target="_blank">View raw schema</a>
-    <button id="copy-url" data-url="/k8s-schemas/ceph.rook.io/cephobjectstoreuser_v1.json">Copy schema URL</button>
+    <a href="/k8s-schemas/kauth.io/oauthsession_v1alpha1.json" target="_blank">View raw schema</a>
+    <button id="copy-url" data-url="/k8s-schemas/kauth.io/oauthsession_v1alpha1.json">Copy schema URL</button>
   </div>
 </div>
 <div id="properties">
-<div class="prop-leaf" data-prop-row data-path="apiVersion" data-path-key="|apiVersion|" data-parent-path="" data-name="apiVersion" data-text="APIVersion defines the versioned schema of this representation of an object.
-Servers should convert recognized schemas to the latest internal value, and
-may reject unrecognized values.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources">
-  <span class="prop-name">apiVersion</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIVersion defines the versioned schema of this representation of an object.
-Servers should convert recognized schemas to the latest internal value, and
-may reject unrecognized values.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="kind" data-path-key="|kind|" data-parent-path="" data-name="kind" data-text="Kind is a string value representing the REST resource this object represents.
-Servers may infer this from the endpoint the client submits requests to.
-Cannot be updated.
-In CamelCase.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds">
-  <span class="prop-name">kind</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Kind is a string value representing the REST resource this object represents.
-Servers may infer this from the endpoint the client submits requests to.
-Cannot be updated.
-In CamelCase.
-More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="metadata" data-path-key="|metadata|" data-parent-path="" data-name="metadata" data-text="">
-  <span class="prop-name">metadata</span>
-  <span class="type-badge">object</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="ObjectStoreUserSpec represent the spec of an Objectstoreuser">
+<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="">
 <summary>
   <span class="prop-name">spec</span>
-  <span class="type-badge">object</span> <span class="required-badge">required</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">ObjectStoreUserSpec represent the spec of an Objectstoreuser</div>
-  <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.capabilities" data-path-key="|spec|capabilities|" data-parent-path="spec" data-name="capabilities" data-text="Additional admin-level capabilities for the Ceph object store user">
-<summary>
-  <span class="prop-name">capabilities</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Additional admin-level capabilities for the Ceph object store user</div>
+<div class="prop-content">
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.amz-cache" data-path-key="|spec|capabilities|amz-cache|" data-parent-path="spec.capabilities" data-name="amz-cache" data-text="Add capabilities for user to send request to RGW Cache API header. Documented in https://docs.ceph.com/en/latest/radosgw/rgw-cache/#cache-api enum: *, read, write, read, write">
-  <span class="prop-name">amz-cache</span>
+<div class="prop-leaf" data-prop-row data-path="spec.createdAt" data-path-key="|spec|createdAt|" data-parent-path="spec" data-name="createdAt" data-text="Timestamp when session was created format: date-time">
+  <span class="prop-name">createdAt</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Add capabilities for user to send request to RGW Cache API header. Documented in https://docs.ceph.com/en/latest/radosgw/rgw-cache/#cache-api<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
+  <div class="leaf-desc">Timestamp when session was created<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.bilog" data-path-key="|spec|capabilities|bilog|" data-parent-path="spec.capabilities" data-name="bilog" data-text="Add capabilities for user to change bucket index logging. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">bilog</span>
+<div class="prop-leaf" data-prop-row data-path="spec.lastUsed" data-path-key="|spec|lastUsed|" data-parent-path="spec" data-name="lastUsed" data-text="Timestamp when session was last used for token refresh format: date-time">
+  <span class="prop-name">lastUsed</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Add capabilities for user to change bucket index logging. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
+  <div class="leaf-desc">Timestamp when session was last used for token refresh<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.bucket" data-path-key="|spec|capabilities|bucket|" data-parent-path="spec.capabilities" data-name="bucket" data-text="Admin capabilities to read/write Ceph object store buckets. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">bucket</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write Ceph object store buckets. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.buckets" data-path-key="|spec|capabilities|buckets|" data-parent-path="spec.capabilities" data-name="buckets" data-text="Admin capabilities to read/write Ceph object store buckets. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">buckets</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write Ceph object store buckets. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.datalog" data-path-key="|spec|capabilities|datalog|" data-parent-path="spec.capabilities" data-name="datalog" data-text="Add capabilities for user to change data logging. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">datalog</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Add capabilities for user to change data logging. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.info" data-path-key="|spec|capabilities|info|" data-parent-path="spec.capabilities" data-name="info" data-text="Admin capabilities to read/write information about the user. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">info</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write information about the user. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.mdlog" data-path-key="|spec|capabilities|mdlog|" data-parent-path="spec.capabilities" data-name="mdlog" data-text="Add capabilities for user to change metadata logging. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">mdlog</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Add capabilities for user to change metadata logging. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.metadata" data-path-key="|spec|capabilities|metadata|" data-parent-path="spec.capabilities" data-name="metadata" data-text="Admin capabilities to read/write Ceph object store metadata. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">metadata</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write Ceph object store metadata. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.oidc-provider" data-path-key="|spec|capabilities|oidc-provider|" data-parent-path="spec.capabilities" data-name="oidc-provider" data-text="Add capabilities for user to change oidc provider. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">oidc-provider</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Add capabilities for user to change oidc provider. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.ratelimit" data-path-key="|spec|capabilities|ratelimit|" data-parent-path="spec.capabilities" data-name="ratelimit" data-text="Add capabilities for user to set rate limiter for user and bucket. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">ratelimit</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Add capabilities for user to set rate limiter for user and bucket. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.roles" data-path-key="|spec|capabilities|roles|" data-parent-path="spec.capabilities" data-name="roles" data-text="Admin capabilities to read/write roles for user. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">roles</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write roles for user. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.usage" data-path-key="|spec|capabilities|usage|" data-parent-path="spec.capabilities" data-name="usage" data-text="Admin capabilities to read/write Ceph object store usage. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">usage</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write Ceph object store usage. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.user" data-path-key="|spec|capabilities|user|" data-parent-path="spec.capabilities" data-name="user" data-text="Admin capabilities to read/write Ceph object store users. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">user</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write Ceph object store users. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.user-policy" data-path-key="|spec|capabilities|user-policy|" data-parent-path="spec.capabilities" data-name="user-policy" data-text="Add capabilities for user to change user policies. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">user-policy</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Add capabilities for user to change user policies. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.users" data-path-key="|spec|capabilities|users|" data-parent-path="spec.capabilities" data-name="users" data-text="Admin capabilities to read/write Ceph object store users. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">users</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write Ceph object store users. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.capabilities.zone" data-path-key="|spec|capabilities|zone|" data-parent-path="spec.capabilities" data-name="zone" data-text="Admin capabilities to read/write Ceph object store zones. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities enum: *, read, write, read, write">
-  <span class="prop-name">zone</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Admin capabilities to read/write Ceph object store zones. Documented in https://docs.ceph.com/en/latest/radosgw/admin/?#add-remove-admin-capabilities<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: *, read, write, read, write"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">*, read, write, read, write</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.clusterNamespace" data-path-key="|spec|clusterNamespace|" data-parent-path="spec" data-name="clusterNamespace" data-text="The namespace where the parent CephCluster and CephObjectStore are found">
-  <span class="prop-name">clusterNamespace</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">The namespace where the parent CephCluster and CephObjectStore are found
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.displayName" data-path-key="|spec|displayName|" data-parent-path="spec" data-name="displayName" data-text="The display name for the ceph user.">
-  <span class="prop-name">displayName</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">The display name for the ceph user.
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.keys" data-path-key="|spec|keys|" data-parent-path="spec" data-name="keys" data-text="Allows specifying credentials for the user. If not provided, the operator
-will generate them.">
-<summary>
-  <span class="prop-name">keys</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Allows specifying credentials for the user. If not provided, the operator
-will generate them.</div>
-  <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.keys[].accessKeyRef" data-path-key="|spec|keys[]|accessKeyRef|" data-parent-path="spec.keys" data-name="accessKeyRef" data-text="Secret key selector for the access_key (commonly referred to as AWS_ACCESS_KEY_ID).">
-<summary>
-  <span class="prop-name">accessKeyRef</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Secret key selector for the access_key (commonly referred to as AWS_ACCESS_KEY_ID).</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.keys[].accessKeyRef.key" data-path-key="|spec|keys[]|accessKeyRef|key|" data-parent-path="spec.keys[].accessKeyRef" data-name="key" data-text="The key of the secret to select from.  Must be a valid secret key.">
-  <span class="prop-name">key</span>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionID" data-path-key="|spec|sessionID|" data-parent-path="spec" data-name="sessionID" data-text="Unique identifier for this session">
+  <span class="prop-name">sessionID</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The key of the secret to select from.  Must be a valid secret key.
+  <div class="leaf-desc">Unique identifier for this session
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.keys[].accessKeyRef.name" data-path-key="|spec|keys[]|accessKeyRef|name|" data-parent-path="spec.keys[].accessKeyRef" data-name="name" data-text="Name of the referent.
-This field is effectively required, but due to backwards compatibility is
-allowed to be empty. Instances of this type with an empty value here are
-almost certainly wrong.
-More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
-  <span class="prop-name">name</span>
+<div class="prop-leaf" data-prop-row data-path="spec.userID" data-path-key="|spec|userID|" data-parent-path="spec" data-name="userID" data-text="User identifier (email or sub)">
+  <span class="prop-name">userID</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the referent.
-This field is effectively required, but due to backwards compatibility is
-allowed to be empty. Instances of this type with an empty value here are
-almost certainly wrong.
-More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+  <div class="leaf-desc">User identifier (email or sub)
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.keys[].accessKeyRef.optional" data-path-key="|spec|keys[]|accessKeyRef|optional|" data-parent-path="spec.keys[].accessKeyRef" data-name="optional" data-text="Specify whether the Secret or its key must be defined">
-  <span class="prop-name">optional</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">Specify whether the Secret or its key must be defined
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<details class="prop" data-prop-row data-path="spec.keys[].secretKeyRef" data-path-key="|spec|keys[]|secretKeyRef|" data-parent-path="spec.keys" data-name="secretKeyRef" data-text="Secret key selector for the secret_key (commonly referred to as AWS_SECRET_ACCESS_KEY).">
-<summary>
-  <span class="prop-name">secretKeyRef</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Secret key selector for the secret_key (commonly referred to as AWS_SECRET_ACCESS_KEY).</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.keys[].secretKeyRef.key" data-path-key="|spec|keys[]|secretKeyRef|key|" data-parent-path="spec.keys[].secretKeyRef" data-name="key" data-text="The key of the secret to select from.  Must be a valid secret key.">
-  <span class="prop-name">key</span>
+<div class="prop-leaf" data-prop-row data-path="spec.verifier" data-path-key="|spec|verifier|" data-parent-path="spec" data-name="verifier" data-text="PKCE verifier for code exchange">
+  <span class="prop-name">verifier</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The key of the secret to select from.  Must be a valid secret key.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.keys[].secretKeyRef.name" data-path-key="|spec|keys[]|secretKeyRef|name|" data-parent-path="spec.keys[].secretKeyRef" data-name="name" data-text="Name of the referent.
-This field is effectively required, but due to backwards compatibility is
-allowed to be empty. Instances of this type with an empty value here are
-almost certainly wrong.
-More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the referent.
-This field is effectively required, but due to backwards compatibility is
-allowed to be empty. Instances of this type with an empty value here are
-almost certainly wrong.
-More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.keys[].secretKeyRef.optional" data-path-key="|spec|keys[]|secretKeyRef|optional|" data-parent-path="spec.keys[].secretKeyRef" data-name="optional" data-text="Specify whether the Secret or its key must be defined">
-  <span class="prop-name">optional</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">Specify whether the Secret or its key must be defined
+  <div class="leaf-desc">PKCE verifier for code exchange
   </div>
 </div>
   </div>
 </div>
 </details>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.opMask" data-path-key="|spec|opMask|" data-parent-path="spec" data-name="opMask" data-text="The op-mask of the user. minItems: 0 maxItems: 3">
-  <span class="prop-name">opMask</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">The op-mask of the user.<div class="leaf-constraints">
-<div class="schema-constraint" title="minItems: 0"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxItems: 3"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">3</code></div></div>
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.quotas" data-path-key="|spec|quotas|" data-parent-path="spec" data-name="quotas" data-text="ObjectUserQuotaSpec can be used to set quotas for the object store user to limit their usage. See the [Ceph docs](https://docs.ceph.com/en/latest/radosgw/admin/?#quota-management) for more">
-<summary>
-  <span class="prop-name">quotas</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">ObjectUserQuotaSpec can be used to set quotas for the object store user to limit their usage. See the [Ceph docs](https://docs.ceph.com/en/latest/radosgw/admin/?#quota-management) for more</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.quotas.maxBuckets" data-path-key="|spec|quotas|maxBuckets|" data-parent-path="spec.quotas" data-name="maxBuckets" data-text="Maximum bucket limit for the ceph user">
-  <span class="prop-name">maxBuckets</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">Maximum bucket limit for the ceph user
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.quotas.maxObjects" data-path-key="|spec|quotas|maxObjects|" data-parent-path="spec.quotas" data-name="maxObjects" data-text="Maximum number of objects across all the user&#39;s buckets format: int64">
-  <span class="prop-name">maxObjects</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">Maximum number of objects across all the user&#39;s buckets<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.quotas.maxSize" data-path-key="|spec|quotas|maxSize|" data-parent-path="spec.quotas" data-name="maxSize" data-text="Maximum size limit of all objects across all the user&#39;s buckets
-See https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity for more info. string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$">
-  <span class="prop-name">maxSize</span>
-  <span class="type-badge">string | integer</span>
-  <div class="leaf-desc">Maximum size limit of all objects across all the user&#39;s buckets
-See https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity for more info.<div class="leaf-constraints">
-<div class="schema-constraint" title="string pattern: ^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$"><span class="schema-constraint-label">string pattern:</span> <code class="schema-constraint-value">^(\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))(([KMGTPE]i)|[numkMGTPE]|([eE](\&#43;|-)?(([0-9]&#43;(\.[0-9]*)?)|(\.[0-9]&#43;))))?$</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.store" data-path-key="|spec|store|" data-parent-path="spec" data-name="store" data-text="The store the user will be created in">
-  <span class="prop-name">store</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">The store the user will be created in
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="ObjectStoreUserStatus represents the status Ceph Object Store Gateway User">
+<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="">
 <summary>
   <span class="prop-name">status</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">ObjectStoreUserStatus represents the status Ceph Object Store Gateway User</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.info" data-path-key="|status|info|" data-parent-path="status" data-name="info" data-text="">
-  <span class="prop-name">info</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.keys" data-path-key="|status|keys|" data-parent-path="status" data-name="keys" data-text="">
-<summary>
-  <span class="prop-name">keys</span>
-  <span class="type-badge">[]object</span>
-</summary>
 <div class="prop-content">
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.keys[].name" data-path-key="|status|keys[]|name|" data-parent-path="status.keys" data-name="name" data-text="name is unique within a namespace to reference a secret resource.">
-  <span class="prop-name">name</span>
+<div class="prop-leaf" data-prop-row data-path="status.completedAt" data-path-key="|status|completedAt|" data-parent-path="status" data-name="completedAt" data-text="Timestamp when OAuth flow completed format: date-time">
+  <span class="prop-name">completedAt</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">name is unique within a namespace to reference a secret resource.
+  <div class="leaf-desc">Timestamp when OAuth flow completed<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.keys[].namespace" data-path-key="|status|keys[]|namespace|" data-parent-path="status.keys" data-name="namespace" data-text="namespace defines the space within which the secret name must be unique.">
-  <span class="prop-name">namespace</span>
+<div class="prop-leaf" data-prop-row data-path="status.email" data-path-key="|status|email|" data-parent-path="status" data-name="email" data-text="Authenticated user&#39;s email address">
+  <span class="prop-name">email</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">namespace defines the space within which the secret name must be unique.
+  <div class="leaf-desc">Authenticated user&#39;s email address
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.keys[].resourceVersion" data-path-key="|status|keys[]|resourceVersion|" data-parent-path="status.keys" data-name="resourceVersion" data-text="">
-  <span class="prop-name">resourceVersion</span>
+<div class="prop-leaf" data-prop-row data-path="status.error" data-path-key="|status|error|" data-parent-path="status" data-name="error" data-text="Error message if OAuth flow failed">
+  <span class="prop-name">error</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Error message if OAuth flow failed
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.keys[].uid" data-path-key="|status|keys[]|uid|" data-parent-path="status.keys" data-name="uid" data-text="UID is a type that holds unique ID values, including UUIDs.  Because we
-don&#39;t ONLY use UUIDs, this is an alias to string.  Being a type captures
-intent and helps make sure that UIDs and names do not get conflated.">
-  <span class="prop-name">uid</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">UID is a type that holds unique ID values, including UUIDs.  Because we
-don&#39;t ONLY use UUIDs, this is an alias to string.  Being a type captures
-intent and helps make sure that UIDs and names do not get conflated.
+<div class="prop-leaf" data-prop-row data-path="status.groups" data-path-key="|status|groups|" data-parent-path="status" data-name="groups" data-text="User&#39;s group memberships from OIDC at login time">
+  <span class="prop-name">groups</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">User&#39;s group memberships from OIDC at login time
   </div>
 </div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="ObservedGeneration is the latest generation observed by the controller. format: int64">
-  <span class="prop-name">observedGeneration</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">ObservedGeneration is the latest generation observed by the controller.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="">
+<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Lifecycle phase of the session (Pending, Active, Revoked, Expired) enum: Pending, Active, Revoked, Expired">
   <span class="prop-name">phase</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Lifecycle phase of the session (Pending, Active, Revoked, Expired)<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Pending, Active, Revoked, Expired"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Active, Revoked, Expired</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.refreshToken" data-path-key="|status|refreshToken|" data-parent-path="status" data-name="refreshToken" data-text="Encrypted JWT refresh token for token rotation">
+  <span class="prop-name">refreshToken</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Encrypted JWT refresh token for token rotation
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.revokedAt" data-path-key="|status|revokedAt|" data-parent-path="status" data-name="revokedAt" data-text="Timestamp when the session was revoked format: date-time">
+  <span class="prop-name">revokedAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Timestamp when the session was revoked<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.username" data-path-key="|status|username|" data-parent-path="status" data-name="username" data-text="Authenticated user&#39;s preferred username">
+  <span class="prop-name">username</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authenticated user&#39;s preferred username
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.webhookToken" data-path-key="|status|webhookToken|" data-parent-path="status" data-name="webhookToken" data-text="Encrypted webhook credential for Kubernetes exec plugin">
+  <span class="prop-name">webhookToken</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Encrypted webhook credential for Kubernetes exec plugin
   </div>
 </div>
   </div>
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.capabilities for an exact path">No matches. Try .spec.capabilities for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.createdAt for an exact path">No matches. Try .spec.createdAt for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

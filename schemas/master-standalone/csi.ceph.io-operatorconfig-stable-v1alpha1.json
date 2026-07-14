@@ -1045,7 +1045,7 @@
                 },
                 "deploymentStrategy": {
                   "additionalProperties": false,
-                  "description": "DeploymentStrategy describes how to replace existing pods with new ones\nDefault value is Recreate",
+                  "description": "DeploymentStrategy describes how to replace existing pods with new ones\nDefault value is RollingUpdate with MaxUnavailable and MaxSurege as 25% (kubernetes default)",
                   "properties": {
                     "rollingUpdate": {
                       "additionalProperties": false,
@@ -1991,10 +1991,7 @@
                           "mountPath",
                           "name"
                         ],
-                        "type": [
-                          "object",
-                          "null"
-                        ]
+                        "type": "object"
                       },
                       "volume": {
                         "additionalProperties": false,
@@ -4101,12 +4098,13 @@
                         "required": [
                           "name"
                         ],
-                        "type": [
-                          "object",
-                          "null"
-                        ]
+                        "type": "object"
                       }
                     },
+                    "required": [
+                      "mount",
+                      "volume"
+                    ],
                     "type": "object"
                   },
                   "type": [
@@ -4122,13 +4120,6 @@
             },
             "deployCsiAddons": {
               "description": "a list of additional sidecars?",
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
-            "enableFencing": {
-              "description": "Set to true to enable fencing for the driver.\nFencing is a feature that allows the driver to fence a node when it is tainted with node.kubernetes.io/out-of-service.",
               "type": [
                 "boolean",
                 "null"
@@ -6002,10 +5993,7 @@
                           "mountPath",
                           "name"
                         ],
-                        "type": [
-                          "object",
-                          "null"
-                        ]
+                        "type": "object"
                       },
                       "volume": {
                         "additionalProperties": false,
@@ -8112,12 +8100,13 @@
                         "required": [
                           "name"
                         ],
-                        "type": [
-                          "object",
-                          "null"
-                        ]
+                        "type": "object"
                       }
                     },
+                    "required": [
+                      "mount",
+                      "volume"
+                    ],
                     "type": "object"
                   },
                   "type": [

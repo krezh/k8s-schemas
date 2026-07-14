@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CephObjectStoreAccount v1 — ceph.rook.io</title>
+<title>ClientProfileMapping v1alpha1 — csi.ceph.io</title>
 <link rel="icon" type="image/svg+xml" href="/k8s-schemas/favicon.svg">
 <style>
   :root {
@@ -352,11 +352,11 @@
   <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Light mode" aria-pressed="false">☀/☾</button>
 </nav>
 <header>
-  <h1 class="schema-title">CephObjectStoreAccount</h1>
-  <p class="schema-title-group">ceph.rook.io / v1</p>
+  <h1 class="schema-title">ClientProfileMapping</h1>
+  <p class="schema-title-group">csi.ceph.io / v1alpha1</p>
 </header>
-<div class="yaml-block">apiVersion: ceph.rook.io/v1
-kind: CephObjectStoreAccount
+<div class="yaml-block">apiVersion: csi.ceph.io/v1alpha1
+kind: ClientProfileMapping
 metadata:
   name: example</div>
 <div class="search-row">
@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.accountID for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.mappings for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -373,8 +373,8 @@ metadata:
     <button id="collapse-all">Collapse all</button>
   </div>
   <div class="toolbar-left">
-    <a href="/k8s-schemas/ceph.rook.io/cephobjectstoreaccount_v1.json" target="_blank">View raw schema</a>
-    <button id="copy-url" data-url="/k8s-schemas/ceph.rook.io/cephobjectstoreaccount_v1.json">Copy schema URL</button>
+    <a href="/k8s-schemas/csi.ceph.io/clientprofilemapping_v1alpha1.json" target="_blank">View raw schema</a>
+    <button id="copy-url" data-url="/k8s-schemas/csi.ceph.io/clientprofilemapping_v1alpha1.json">Copy schema URL</button>
   </div>
 </div>
 <div id="properties">
@@ -406,118 +406,56 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </div>
 <div class="prop-leaf" data-prop-row data-path="metadata" data-path-key="|metadata|" data-parent-path="" data-name="metadata" data-text="">
   <span class="prop-name">metadata</span>
-  <span class="type-badge">object</span> <span class="required-badge">required</span>
+  <span class="type-badge">object</span>
   <div class="leaf-desc">
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="ObjectStoreAccountSpec represent the spec of a RGW Account">
+<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="ClientProfileMappingSpec defines the desired state of ClientProfileMapping">
 <summary>
   <span class="prop-name">spec</span>
-  <span class="type-badge">object</span> <span class="required-badge">required</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">ObjectStoreAccountSpec represent the spec of a RGW Account</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.accountID" data-path-key="|spec|accountID|" data-parent-path="spec" data-name="accountID" data-text="AccountID uniquely identifies an account and resource ownership. Format should be RGW followed by 17 digits
-(e.g., RGW00889737169837717). If not specified, the ID will be automatically generated. pattern: ^RGW\d{17}$ minLength: 20 maxLength: 20">
-  <span class="prop-name">accountID</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">AccountID uniquely identifies an account and resource ownership. Format should be RGW followed by 17 digits
-(e.g., RGW00889737169837717). If not specified, the ID will be automatically generated.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^RGW\d{17}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^RGW\d{17}$</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 20"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">20</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 20"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">20</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.name" data-path-key="|spec|name|" data-parent-path="spec" data-name="name" data-text="Name is the desired display name of the RGW account if different from the CephObjectStoreAccount CR name. pattern: ^[a-zA-Z0-9 ._-]&#43;$ minLength: 1 maxLength: 2048">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Name is the desired display name of the RGW account if different from the CephObjectStoreAccount CR name.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^[a-zA-Z0-9 ._-]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-zA-Z0-9 ._-]&#43;$</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.rootUser" data-path-key="|spec|rootUser|" data-parent-path="spec" data-name="rootUser" data-text="RootUser configures the root user for the account. The root user is created by default
-and has default permissions across all account resources.">
-<summary>
-  <span class="prop-name">rootUser</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">RootUser configures the root user for the account. The root user is created by default
-and has default permissions across all account resources.</div>
+<div class="prop-content"><div class="prop-desc">ClientProfileMappingSpec defines the desired state of ClientProfileMapping</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.rootUser.displayName" data-path-key="|spec|rootUser|displayName|" data-parent-path="spec.rootUser" data-name="displayName" data-text="DisplayName for the root user pattern: ^[\w&#43;=,.@-]&#43;$ minLength: 1 maxLength: 64">
-  <span class="prop-name">displayName</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">DisplayName for the root user<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^[\w&#43;=,.@-]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[\w&#43;=,.@-]&#43;$</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 64"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">64</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.rootUser.skipCreate" data-path-key="|spec|rootUser|skipCreate|" data-parent-path="spec.rootUser" data-name="skipCreate" data-text="SkipCreate when set to true, the root user will not be created for this account.
-This can be useful if the user wants to manually manage the root user outside of Rook.">
-  <span class="prop-name">skipCreate</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">SkipCreate when set to true, the root user will not be created for this account.
-This can be useful if the user wants to manually manage the root user outside of Rook.
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.store" data-path-key="|spec|store|" data-parent-path="spec" data-name="store" data-text="Store is the CephObjectStore the account will be associated with minLength: 1 maxLength: 253">
-  <span class="prop-name">store</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Store is the CephObjectStore the account will be associated with<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="ObjectStoreAccountStatus represents the status of a CephObjectStoreAccount resource">
+<details class="prop" data-prop-row data-path="spec.mappings" data-path-key="|spec|mappings|" data-parent-path="spec" data-name="mappings" data-text="">
 <summary>
-  <span class="prop-name">status</span>
-  <span class="type-badge">object</span>
+  <span class="prop-name">mappings</span>
+  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">ObjectStoreAccountStatus represents the status of a CephObjectStoreAccount resource</div>
+<div class="prop-content">
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.accountID" data-path-key="|status|accountID|" data-parent-path="status" data-name="accountID" data-text="AccountID associated with the RGW user account minLength: 20 maxLength: 20">
-  <span class="prop-name">accountID</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">AccountID associated with the RGW user account<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 20"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">20</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 20"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">20</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="ObservedGeneration is the latest generation observed by the controller. format: int64">
-  <span class="prop-name">observedGeneration</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">ObservedGeneration is the latest generation observed by the controller.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="">
-  <span class="prop-name">phase</span>
-  <span class="type-badge">string</span>
+<div class="prop-leaf" data-prop-row data-path="spec.mappings[].blockPoolIdMapping" data-path-key="|spec|mappings[]|blockPoolIdMapping|" data-parent-path="spec.mappings" data-name="blockPoolIdMapping" data-text="">
+  <span class="prop-name">blockPoolIdMapping</span>
+  <span class="type-badge">[]array</span>
   <div class="leaf-desc">
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.rootAccountSecretName" data-path-key="|status|rootAccountSecretName|" data-parent-path="status" data-name="rootAccountSecretName" data-text="RootAccountSecretName is the name of the Kubernetes secret containing the root user&#39;s access credentials minLength: 1 maxLength: 253">
-  <span class="prop-name">rootAccountSecretName</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">RootAccountSecretName is the name of the Kubernetes secret containing the root user&#39;s access credentials<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+<div class="prop-leaf" data-prop-row data-path="spec.mappings[].localClientProfile" data-path-key="|spec|mappings[]|localClientProfile|" data-parent-path="spec.mappings" data-name="localClientProfile" data-text="">
+  <span class="prop-name">localClientProfile</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mappings[].remoteClientProfile" data-path-key="|spec|mappings[]|remoteClientProfile|" data-parent-path="spec.mappings" data-name="remoteClientProfile" data-text="">
+  <span class="prop-name">remoteClientProfile</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">
   </div>
 </div>
   </div>
 </div>
 </details>
+  </div>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.accountID for an exact path">No matches. Try .spec.accountID for an exact path</p>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="ClientProfileMappingStatus defines the observed state of ClientProfileMapping">
+  <span class="prop-name">status</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">ClientProfileMappingStatus defines the observed state of ClientProfileMapping
+  </div>
+</div>
+</div>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.mappings for an exact path">No matches. Try .spec.mappings for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>
