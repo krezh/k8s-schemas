@@ -5240,7 +5240,7 @@
               ]
             },
             "dataParallelSize": {
-              "description": "DataParallelSize sets the number of data-parallel replicas (SGLang-side controller).\nMaps to SGLang --dp flag. Not auto-derived; set explicitly.",
+              "description": "DataParallelSize sets the number of data-parallel replicas (SGLang-side controller).\nMaps to SGLang --dp flag. Not auto-derived; set explicitly.\n\nNOTE: at present this only sets the in-process SGLang `--dp` flag.\nMulti-replica rendezvous (SGLang's --dist-init-addr + a stable\nnetwork identity per pod, e.g. headless service + StatefulSet) is\nnot yet wired into the InferenceService controller and is tracked\nat https://github.com/defilantech/LLMKube/issues/1102. Setting\nthis on an InferenceService with replicas \u003e 1 will leave each\nreplica starting as its own DP-1 group; operators wanting true\nDP coordination should hold off on this flag until #1102 lands.",
               "format": "int32",
               "minimum": 1,
               "type": [
@@ -5317,8 +5317,49 @@
                 "null"
               ]
             },
+            "logLevel": {
+              "description": "LogLevel sets the SGLang server log level. SGLang accepts\n\"debug\"/\"info\"/\"warning\"/\"error\". Maps to SGLang --log-level flag.",
+              "enum": [
+                "debug",
+                "info",
+                "warning",
+                "error"
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "loraAdapters": {
+              "description": "LoraAdapters is a typed replacement for LoraModules. Each adapter has\na stable Name (SGLang-side handle) and Path (file mount). When both\nLoraAdapters and LoraModules are set, LoraAdapters wins on name\ncollision. Maps to SGLang --lora-paths flag (singular `lora_paths`,\nnot vLLM's --lora-modules — see\nhttps://github.com/sgl-project/sglang/blob/v0.5.15/python/sglang/srt/server_args.py).",
+              "items": {
+                "additionalProperties": false,
+                "description": "SGLangLoRAAdapter names a single LoRA adapter for SGLang's --lora-paths\nflag (NOT vLLM's --lora-modules — see\nhttps://github.com/sgl-project/sglang/blob/v0.5.15/python/sglang/srt/server_args.py).\nName is the SGLang-side adapter handle; Path is the file mount where\nadapter weights live (typically backed by a PVC created via\nLoRAAdapter resources). Prefer this typed shape over the legacy\nLoraModules []string; both are merged with the typed form winning on name\ncollision.",
+                "properties": {
+                  "name": {
+                    "description": "Name is the SGLang-side adapter handle used in inference requests.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "path": {
+                    "description": "Path is the path on disk inside the SGLang container where the\nadapter weights are mounted.",
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "path"
+                ],
+                "type": "object"
+              },
+              "type": [
+                "array",
+                "null"
+              ]
+            },
             "loraModules": {
-              "description": "LoRA (basic)\nLoraModules is a JSON array of LoRA specs (model_id -\u003e path). Maps to\nSGLang --lora-modules flag.",
+              "description": "LoRA (basic)\nLoraModules is the legacy form of --lora-paths entries. Each\nelement is either `name=path` shorthand or a JSON object\n{\"name\":\"x\",\"path\":\"/p\"}. New callers should prefer the typed\nLoraAdapters field; the controller merges both, with\nLoraAdapters winning on name collision. Deprecated: use\nLoraAdapters instead.",
               "items": {
                 "type": "string"
               },
@@ -5382,10 +5423,35 @@
                 "null"
               ]
             },
+            "skipTokenizerInit": {
+              "description": "SkipTokenizerInit skips tokenizer initialization at startup. Useful\nfor prefill-only disaggregation deployments. Maps to SGLang\n--skip-tokenizer-init flag. Omit to leave SGLang's default.",
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "speculative": {
               "additionalProperties": false,
               "description": "Speculative configures speculative decoding (EAGLE / EAGLE3 / Medusa).",
               "properties": {
+                "acceptThresholdAcc": {
+                  "description": "AcceptThresholdAcc sets the acceptance threshold for the bonus token\nin accepted-token-sequence verification (an accepted draft token's\nprobability must exceed p * accept_threshold_acc). Valid only when\nEnabled is true; surface a status condition when set otherwise.\nMaps to SGLang --speculative-accept-threshold-acc flag.",
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "acceptThresholdSingle": {
+                  "description": "AcceptThresholdSingle sets the acceptance threshold for non-matched\ntokens in single-sequence decoding (a draft token is accepted when\nits probability exceeds p * accept_threshold_single). Valid only\nwhen Enabled is true; surface a status condition when set otherwise.\nMaps to SGLang --speculative-accept-threshold-single flag.",
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
                 "algorithm": {
                   "description": "Algorithm selects the speculative algorithm (EAGLE, EAGLE3, Medusa).\nMaps to SGLang --speculative-algorithm flag.",
                   "enum": [
@@ -5467,6 +5533,13 @@
               ],
               "type": [
                 "string",
+                "null"
+              ]
+            },
+            "trustRemoteCode": {
+              "description": "TrustRemoteCode allows loading remote code from the HuggingFace Hub\nmodel repo. Mirrors the flag on other runtimes. Maps to SGLang\n--trust-remote-code flag. Omit to leave SGLang's default.",
+              "type": [
+                "boolean",
                 "null"
               ]
             }

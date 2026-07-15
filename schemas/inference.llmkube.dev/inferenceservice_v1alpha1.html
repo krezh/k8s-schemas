@@ -7286,11 +7286,29 @@ Maps to SGLang --context-length flag.<div class="leaf-constraints">
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.dataParallelSize" data-path-key="|spec|sglangConfig|dataParallelSize|" data-parent-path="spec.sglangConfig" data-name="dataParallelSize" data-text="DataParallelSize sets the number of data-parallel replicas (SGLang-side controller).
-Maps to SGLang --dp flag. Not auto-derived; set explicitly. format: int32 minimum: 1">
+Maps to SGLang --dp flag. Not auto-derived; set explicitly.
+
+NOTE: at present this only sets the in-process SGLang `--dp` flag.
+Multi-replica rendezvous (SGLang&#39;s --dist-init-addr &#43; a stable
+network identity per pod, e.g. headless service &#43; StatefulSet) is
+not yet wired into the InferenceService controller and is tracked
+at https://github.com/defilantech/LLMKube/issues/1102. Setting
+this on an InferenceService with replicas &gt; 1 will leave each
+replica starting as its own DP-1 group; operators wanting true
+DP coordination should hold off on this flag until #1102 lands. format: int32 minimum: 1">
   <span class="prop-name">dataParallelSize</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">DataParallelSize sets the number of data-parallel replicas (SGLang-side controller).
-Maps to SGLang --dp flag. Not auto-derived; set explicitly.<div class="leaf-constraints">
+Maps to SGLang --dp flag. Not auto-derived; set explicitly.
+
+NOTE: at present this only sets the in-process SGLang `--dp` flag.
+Multi-replica rendezvous (SGLang&#39;s --dist-init-addr &#43; a stable
+network identity per pod, e.g. headless service &#43; StatefulSet) is
+not yet wired into the InferenceService controller and is tracked
+at https://github.com/defilantech/LLMKube/issues/1102. Setting
+this on an InferenceService with replicas &gt; 1 will leave each
+replica starting as its own DP-1 group; operators wanting true
+DP coordination should hold off on this flag until #1102 lands.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
@@ -7376,14 +7394,67 @@ Maps to SGLang --kv-cache-dtype flag.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: auto, fp8_e5m2, fp8_e4m3"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">auto, fp8_e5m2, fp8_e4m3</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.logLevel" data-path-key="|spec|sglangConfig|logLevel|" data-parent-path="spec.sglangConfig" data-name="logLevel" data-text="LogLevel sets the SGLang server log level. SGLang accepts
+&#34;debug&#34;/&#34;info&#34;/&#34;warning&#34;/&#34;error&#34;. Maps to SGLang --log-level flag. enum: debug, info, warning, error">
+  <span class="prop-name">logLevel</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LogLevel sets the SGLang server log level. SGLang accepts
+&#34;debug&#34;/&#34;info&#34;/&#34;warning&#34;/&#34;error&#34;. Maps to SGLang --log-level flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: debug, info, warning, error"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">debug, info, warning, error</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.sglangConfig.loraAdapters" data-path-key="|spec|sglangConfig|loraAdapters|" data-parent-path="spec.sglangConfig" data-name="loraAdapters" data-text="LoraAdapters is a typed replacement for LoraModules. Each adapter has
+a stable Name (SGLang-side handle) and Path (file mount). When both
+LoraAdapters and LoraModules are set, LoraAdapters wins on name
+collision. Maps to SGLang --lora-paths flag (singular `lora_paths`,
+not vLLM&#39;s --lora-modules — see
+https://github.com/sgl-project/sglang/blob/v0.5.15/python/sglang/srt/server_args.py).">
+<summary>
+  <span class="prop-name">loraAdapters</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">LoraAdapters is a typed replacement for LoraModules. Each adapter has
+a stable Name (SGLang-side handle) and Path (file mount). When both
+LoraAdapters and LoraModules are set, LoraAdapters wins on name
+collision. Maps to SGLang --lora-paths flag (singular `lora_paths`,
+not vLLM&#39;s --lora-modules — see
+https://github.com/sgl-project/sglang/blob/v0.5.15/python/sglang/srt/server_args.py).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.loraAdapters[].name" data-path-key="|spec|sglangConfig|loraAdapters[]|name|" data-parent-path="spec.sglangConfig.loraAdapters" data-name="name" data-text="Name is the SGLang-side adapter handle used in inference requests. minLength: 1">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the SGLang-side adapter handle used in inference requests.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.loraAdapters[].path" data-path-key="|spec|sglangConfig|loraAdapters[]|path|" data-parent-path="spec.sglangConfig.loraAdapters" data-name="path" data-text="Path is the path on disk inside the SGLang container where the
+adapter weights are mounted. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path is the path on disk inside the SGLang container where the
+adapter weights are mounted.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.loraModules" data-path-key="|spec|sglangConfig|loraModules|" data-parent-path="spec.sglangConfig" data-name="loraModules" data-text="LoRA (basic)
-LoraModules is a JSON array of LoRA specs (model_id -&gt; path). Maps to
-SGLang --lora-modules flag.">
+LoraModules is the legacy form of --lora-paths entries. Each
+element is either `name=path` shorthand or a JSON object
+{&#34;name&#34;:&#34;x&#34;,&#34;path&#34;:&#34;/p&#34;}. New callers should prefer the typed
+LoraAdapters field; the controller merges both, with
+LoraAdapters winning on name collision. Deprecated: use
+LoraAdapters instead.">
   <span class="prop-name">loraModules</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">LoRA (basic)
-LoraModules is a JSON array of LoRA specs (model_id -&gt; path). Maps to
-SGLang --lora-modules flag.
+LoraModules is the legacy form of --lora-paths entries. Each
+element is either `name=path` shorthand or a JSON object
+{&#34;name&#34;:&#34;x&#34;,&#34;path&#34;:&#34;/p&#34;}. New callers should prefer the typed
+LoraAdapters field; the controller merges both, with
+LoraAdapters winning on name collision. Deprecated: use
+LoraAdapters instead.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.loraTargetModules" data-path-key="|spec|sglangConfig|loraTargetModules|" data-parent-path="spec.sglangConfig" data-name="loraTargetModules" data-text="LoraTargetModules lists the modules LoRA adapters may target (e.g.,
@@ -7447,6 +7518,16 @@ thinking models (qwen3, deepseek-r1). Maps to SGLang --reasoning-parser.<div cla
 <div class="schema-constraint" title="enum: qwen3, deepseek-r1"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">qwen3, deepseek-r1</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.skipTokenizerInit" data-path-key="|spec|sglangConfig|skipTokenizerInit|" data-parent-path="spec.sglangConfig" data-name="skipTokenizerInit" data-text="SkipTokenizerInit skips tokenizer initialization at startup. Useful
+for prefill-only disaggregation deployments. Maps to SGLang
+--skip-tokenizer-init flag. Omit to leave SGLang&#39;s default.">
+  <span class="prop-name">skipTokenizerInit</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">SkipTokenizerInit skips tokenizer initialization at startup. Useful
+for prefill-only disaggregation deployments. Maps to SGLang
+--skip-tokenizer-init flag. Omit to leave SGLang&#39;s default.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.sglangConfig.speculative" data-path-key="|spec|sglangConfig|speculative|" data-parent-path="spec.sglangConfig" data-name="speculative" data-text="Speculative configures speculative decoding (EAGLE / EAGLE3 / Medusa).">
 <summary>
   <span class="prop-name">speculative</span>
@@ -7454,6 +7535,38 @@ thinking models (qwen3, deepseek-r1). Maps to SGLang --reasoning-parser.<div cla
 </summary>
 <div class="prop-content"><div class="prop-desc">Speculative configures speculative decoding (EAGLE / EAGLE3 / Medusa).</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.acceptThresholdAcc" data-path-key="|spec|sglangConfig|speculative|acceptThresholdAcc|" data-parent-path="spec.sglangConfig.speculative" data-name="acceptThresholdAcc" data-text="AcceptThresholdAcc sets the acceptance threshold for the bonus token
+in accepted-token-sequence verification (an accepted draft token&#39;s
+probability must exceed p * accept_threshold_acc). Valid only when
+Enabled is true; surface a status condition when set otherwise.
+Maps to SGLang --speculative-accept-threshold-acc flag. minimum: 0 maximum: 1">
+  <span class="prop-name">acceptThresholdAcc</span>
+  <span class="type-badge">number</span>
+  <div class="leaf-desc">AcceptThresholdAcc sets the acceptance threshold for the bonus token
+in accepted-token-sequence verification (an accepted draft token&#39;s
+probability must exceed p * accept_threshold_acc). Valid only when
+Enabled is true; surface a status condition when set otherwise.
+Maps to SGLang --speculative-accept-threshold-acc flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 1"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.acceptThresholdSingle" data-path-key="|spec|sglangConfig|speculative|acceptThresholdSingle|" data-parent-path="spec.sglangConfig.speculative" data-name="acceptThresholdSingle" data-text="AcceptThresholdSingle sets the acceptance threshold for non-matched
+tokens in single-sequence decoding (a draft token is accepted when
+its probability exceeds p * accept_threshold_single). Valid only
+when Enabled is true; surface a status condition when set otherwise.
+Maps to SGLang --speculative-accept-threshold-single flag. minimum: 0 maximum: 1">
+  <span class="prop-name">acceptThresholdSingle</span>
+  <span class="type-badge">number</span>
+  <div class="leaf-desc">AcceptThresholdSingle sets the acceptance threshold for non-matched
+tokens in single-sequence decoding (a draft token is accepted when
+its probability exceeds p * accept_threshold_single). Valid only
+when Enabled is true; surface a status condition when set otherwise.
+Maps to SGLang --speculative-accept-threshold-single flag.<div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 1"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.speculative.algorithm" data-path-key="|spec|sglangConfig|speculative|algorithm|" data-parent-path="spec.sglangConfig.speculative" data-name="algorithm" data-text="Algorithm selects the speculative algorithm (EAGLE, EAGLE3, Medusa).
 Maps to SGLang --speculative-algorithm flag. enum: EAGLE, EAGLE3, Medusa">
   <span class="prop-name">algorithm</span>
@@ -7533,6 +7646,16 @@ tool-loop workloads. Maps to SGLang --tool-call-parser flag. enum: llama3, qwen3
 ToolCallParser selects the tool-call extraction format. For foreman
 tool-loop workloads. Maps to SGLang --tool-call-parser flag.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: llama3, qwen3, qwen25, hermes, functionary, mistral"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llama3, qwen3, qwen25, hermes, functionary, mistral</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.trustRemoteCode" data-path-key="|spec|sglangConfig|trustRemoteCode|" data-parent-path="spec.sglangConfig" data-name="trustRemoteCode" data-text="TrustRemoteCode allows loading remote code from the HuggingFace Hub
+model repo. Mirrors the flag on other runtimes. Maps to SGLang
+--trust-remote-code flag. Omit to leave SGLang&#39;s default.">
+  <span class="prop-name">trustRemoteCode</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">TrustRemoteCode allows loading remote code from the HuggingFace Hub
+model repo. Mirrors the flag on other runtimes. Maps to SGLang
+--trust-remote-code flag. Omit to leave SGLang&#39;s default.
   </div>
 </div>
   </div>
