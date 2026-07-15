@@ -818,6 +818,20 @@ If empty, defaults to [&#34;openid&#34;].
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.podTemplateSpec" data-path-key="|spec|podTemplateSpec|" data-parent-path="spec" data-name="podTemplateSpec" data-text="PodTemplateSpec defines the pod template to use for the MCPRemoteProxy
+This allows for customizing the pod configuration beyond what is provided by the other fields.
+Note that to modify the specific container the remote proxy runs in, you must specify
+the `toolhive` container name in the PodTemplateSpec.
+This field accepts a PodTemplateSpec object as JSON/YAML.">
+  <span class="prop-name">podTemplateSpec</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">PodTemplateSpec defines the pod template to use for the MCPRemoteProxy
+This allows for customizing the pod configuration beyond what is provided by the other fields.
+Note that to modify the specific container the remote proxy runs in, you must specify
+the `toolhive` container name in the PodTemplateSpec.
+This field accepts a PodTemplateSpec object as JSON/YAML.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.proxyPort" data-path-key="|spec|proxyPort|" data-parent-path="spec" data-name="proxyPort" data-text="ProxyPort is the port to expose the MCP proxy on format: int32 minimum: 1 maximum: 65535">
   <span class="prop-name">proxyPort</span>
   <span class="type-badge">integer</span>

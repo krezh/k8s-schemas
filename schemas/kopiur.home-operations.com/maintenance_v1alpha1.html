@@ -1084,6 +1084,26 @@ Localhost - a profile defined in a file on the node should be used. RuntimeDefau
   <div class="leaf-desc">Stable lease holder identity (e.g. `kopia-operator/nas-primary`).
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.ownership.ownerAliases" data-path-key="|spec|ownership|ownerAliases|" data-parent-path="spec.ownership" data-name="ownerAliases" data-text="Previous lease strings still recognized as SELF (a migration path):
+when kopia&#39;s currently-recorded maintenance owner matches the owner
+derived from one of these aliases, a run treats the lease as its own —
+it claims it and re-stamps `owner`, upgrading the recorded owner to the
+current format. The operator populates this when a repository&#39;s managed
+Maintenance moves to a cluster-qualified lease (identityDefaults.cluster),
+so the transition never yields the lease to what merely looks like a
+foreign owner.">
+  <span class="prop-name">ownerAliases</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Previous lease strings still recognized as SELF (a migration path):
+when kopia&#39;s currently-recorded maintenance owner matches the owner
+derived from one of these aliases, a run treats the lease as its own —
+it claims it and re-stamps `owner`, upgrading the recorded owner to the
+current format. The operator populates this when a repository&#39;s managed
+Maintenance moves to a cluster-qualified lease (identityDefaults.cluster),
+so the transition never yields the lease to what merely looks like a
+foreign owner.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.ownership.takeoverPolicy" data-path-key="|spec|ownership|takeoverPolicy|" data-parent-path="spec.ownership" data-name="takeoverPolicy" data-text="What to do when the lease is already held by a different `owner`. enum: Never, PromptCondition, Force">
   <span class="prop-name">takeoverPolicy</span>
   <span class="type-badge">string</span>

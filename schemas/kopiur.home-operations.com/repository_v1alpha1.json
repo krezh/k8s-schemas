@@ -801,6 +801,18 @@
                 "null"
               ]
             },
+            "foreignSnapshots": {
+              "description": "How catalog discovery treats snapshots written by ANOTHER cluster.\n`status.catalog.foreignSnapshotCount` counts an identity hostname carrying\na different `.\u003ccluster\u003e` suffix ALWAYS, under either value below, plus —\nunder `Ignore` only — a bare hostname naming no allowed namespace here.\nUnder `Fallback`, that same disallowed bare host is NOT counted foreign:\nit materializes into `catalog.fallbackNamespace` exactly like a disallowed\n`OwnCluster` host would, so it is placed rather than dropped-and-counted\n(see `classify_hostname`/`decide_cluster_placement`).\nMeaningful only when `identityDefaults.cluster` is set: without a cluster\nidentity there is no notion of \"foreign\" and the legacy\nhostname-names-a-namespace placement applies (validators enforce this).",
+              "enum": [
+                "Ignore",
+                "Fallback"
+              ],
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "periodicRefresh": {
               "description": "Opt-in: periodically re-scan the repository to keep discovered `Snapshot` CRs\ncurrent (re-list snapshots; for object-store / volume-backed repos this recycles\nthe bootstrap Job every `refreshInterval`). **Off by default** — the repository\nstill bootstraps once, re-bootstraps on a spec change, and re-probes on a backup\nfailure, but does not re-run on a timer. Enable it if you rely on discovered\nsnapshots reflecting changes made outside this operator.",
               "type": [
@@ -1012,6 +1024,41 @@
               },
               "type": [
                 "object",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "identityDefaults": {
+          "additionalProperties": false,
+          "description": "Identity defaults (CEL `*Expr`) applied when consumers don't override.\nSet `cluster` when this repository's backend is shared across clusters\n(e.g. one bucket backed up from more than one Kubernetes cluster) — the\ndefault kopia identity hostname then becomes `\u003cnamespace\u003e.\u003ccluster\u003e`\ninstead of bare `\u003cnamespace\u003e`, so same-named namespaces on different\nclusters never collide. Same semantics as `ClusterRepository`'s field of\nthe same name (ADR-0004 §5); a consumer's explicit `spec.identity` still\nwins over anything here.",
+          "nullable": true,
+          "properties": {
+            "cluster": {
+              "description": "This cluster's identity suffix for repositories shared across clusters\n(an RFC 1123 label, at most 32 characters; dots are rejected — the first\n`.` in a hostname is the namespace/cluster delimiter). When set, the\ndefault kopia identity hostname becomes `\u003cnamespace\u003e.\u003ccluster\u003e` instead\nof `\u003cnamespace\u003e`, so two clusters backing up same-named namespaces write\ndistinct identities (and one cluster's retention prune can no longer\ntouch the other's snapshots). Also exposed to `hostnameExpr`/\n`usernameExpr` as the CEL variable `cluster`.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "hostnameExpr": {
+              "description": "CEL expression for the kopia identity hostname (e.g. `\"namespace\"`).",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "usernameExpr": {
+              "description": "CEL expression for the kopia identity username (e.g. `\"namespace + '-' + policyName\"`).",
+              "nullable": true,
+              "type": [
+                "string",
                 "null"
               ]
             }
@@ -4338,6 +4385,15 @@
           "properties": {
             "discoveredBackupCount": {
               "description": "How many `Snapshot` CRs were materialized from the catalog scan.",
+              "format": "int64",
+              "nullable": true,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "foreignSnapshotCount": {
+              "description": "Snapshots in the last complete listing classified as another cluster's\n(see `catalog.foreignSnapshots`); never materialized under `Ignore`.\nAs of `catalog.lastRefreshAt` — enable `periodicRefresh` to keep it\ncurrent.",
               "format": "int64",
               "nullable": true,
               "type": [
