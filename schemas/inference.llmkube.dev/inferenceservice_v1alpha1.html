@@ -5262,6 +5262,20 @@ the ~25% decode degradation observed at long context on Qwen-class
 models running on M-series chips.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.hotCacheMaxSize" data-path-key="|spec|hotCacheMaxSize|" data-parent-path="spec" data-name="hotCacheMaxSize" data-text="HotCacheMaxSize sets the maximum size of the oMLX hot cache.
+Maps to oMLX --hot-cache-max-size. The hot cache holds recently used
+KV cache blocks in RAM for fast access. A string value like &#34;100GB&#34;
+or &#34;50GB&#34;. Only meaningful for the omlx runtime; ignored by llamacpp
+and other runtimes.">
+  <span class="prop-name">hotCacheMaxSize</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">HotCacheMaxSize sets the maximum size of the oMLX hot cache.
+Maps to oMLX --hot-cache-max-size. The hot cache holds recently used
+KV cache blocks in RAM for fast access. A string value like &#34;100GB&#34;
+or &#34;50GB&#34;. Only meaningful for the omlx runtime; ignored by llamacpp
+and other runtimes.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.image" data-path-key="|spec|image|" data-parent-path="spec" data-name="image" data-text="Image is the container image for the inference runtime.
 For llamacpp runtime, defaults to ghcr.io/ggml-org/llama.cpp:server.
 For generic runtime, this field is required.">
@@ -5435,6 +5449,36 @@ Maps to llama.cpp --no-warmup flag.
   <span class="prop-name">nodeSelector</span>
   <span class="type-badge">object</span>
   <div class="leaf-desc">NodeSelector for pod placement (e.g., specific node pools)
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.pagedSSDCacheDir" data-path-key="|spec|pagedSSDCacheDir|" data-parent-path="spec" data-name="pagedSSDCacheDir" data-text="PagedSSDCacheDir sets the directory for the oMLX paged SSD cache.
+Maps to oMLX --paged-ssd-cache-dir. When set, the oMLX daemon uses
+a paged cache backed by the specified directory, allowing models to
+exceed available RAM by paging KV cache blocks to SSD. The directory
+must exist and be writable by the oMLX process. Only meaningful for
+the omlx runtime; ignored by llamacpp and other runtimes.">
+  <span class="prop-name">pagedSSDCacheDir</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PagedSSDCacheDir sets the directory for the oMLX paged SSD cache.
+Maps to oMLX --paged-ssd-cache-dir. When set, the oMLX daemon uses
+a paged cache backed by the specified directory, allowing models to
+exceed available RAM by paging KV cache blocks to SSD. The directory
+must exist and be writable by the oMLX process. Only meaningful for
+the omlx runtime; ignored by llamacpp and other runtimes.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.pagedSSDCacheMaxSize" data-path-key="|spec|pagedSSDCacheMaxSize|" data-parent-path="spec" data-name="pagedSSDCacheMaxSize" data-text="PagedSSDCacheMaxSize sets the maximum size of the oMLX paged SSD cache.
+Maps to oMLX --paged-ssd-cache-max-size. The paged cache holds KV cache
+blocks that have been evicted from RAM to SSD. A string value like
+&#34;200GB&#34; or &#34;500GB&#34;. Only meaningful for the omlx runtime; ignored by
+llamacpp and other runtimes.">
+  <span class="prop-name">pagedSSDCacheMaxSize</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PagedSSDCacheMaxSize sets the maximum size of the oMLX paged SSD cache.
+Maps to oMLX --paged-ssd-cache-max-size. The paged cache holds KV cache
+blocks that have been evicted from RAM to SSD. A string value like
+&#34;200GB&#34; or &#34;500GB&#34;. Only meaningful for the omlx runtime; ignored by
+llamacpp and other runtimes.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.parallelSlots" data-path-key="|spec|parallelSlots|" data-parent-path="spec" data-name="parallelSlots" data-text="ParallelSlots sets the number of concurrent request slots for the llama.cpp

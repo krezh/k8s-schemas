@@ -3704,6 +3704,13 @@
             "null"
           ]
         },
+        "hotCacheMaxSize": {
+          "description": "HotCacheMaxSize sets the maximum size of the oMLX hot cache.\nMaps to oMLX --hot-cache-max-size. The hot cache holds recently used\nKV cache blocks in RAM for fast access. A string value like \"100GB\"\nor \"50GB\". Only meaningful for the omlx runtime; ignored by llamacpp\nand other runtimes.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "image": {
           "description": "Image is the container image for the inference runtime.\nFor llamacpp runtime, defaults to ghcr.io/ggml-org/llama.cpp:server.\nFor generic runtime, this field is required.",
           "type": [
@@ -3823,6 +3830,20 @@
           "description": "NodeSelector for pod placement (e.g., specific node pools)",
           "type": [
             "object",
+            "null"
+          ]
+        },
+        "pagedSSDCacheDir": {
+          "description": "PagedSSDCacheDir sets the directory for the oMLX paged SSD cache.\nMaps to oMLX --paged-ssd-cache-dir. When set, the oMLX daemon uses\na paged cache backed by the specified directory, allowing models to\nexceed available RAM by paging KV cache blocks to SSD. The directory\nmust exist and be writable by the oMLX process. Only meaningful for\nthe omlx runtime; ignored by llamacpp and other runtimes.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pagedSSDCacheMaxSize": {
+          "description": "PagedSSDCacheMaxSize sets the maximum size of the oMLX paged SSD cache.\nMaps to oMLX --paged-ssd-cache-max-size. The paged cache holds KV cache\nblocks that have been evicted from RAM to SSD. A string value like\n\"200GB\" or \"500GB\". Only meaningful for the omlx runtime; ignored by\nllamacpp and other runtimes.",
+          "type": [
+            "string",
             "null"
           ]
         },
