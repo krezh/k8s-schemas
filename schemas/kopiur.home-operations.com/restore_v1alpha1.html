@@ -484,12 +484,26 @@ Desired state of a Restore: where to read from, where to write to, and how to be
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom" data-path-key="|spec|mover|inheritSecurityContextFrom|" data-parent-path="spec.mover" data-name="inheritSecurityContextFrom" data-text="Copy the UID/GID security context from a live workload instead of setting it explicitly.">
+<details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom" data-path-key="|spec|mover|inheritSecurityContextFrom|" data-parent-path="spec.mover" data-name="inheritSecurityContextFrom" data-text="Copy the UID/GID security context from a live workload rather than hard-coding it.
+
+Requires the workload to pin `runAsUser` (container or pod level): a UID that comes
+from the container image&#39;s `USER` line is invisible in the pod spec and cannot be
+inherited — the mover would silently run as its own image&#39;s UID instead.
+
+May be combined with `securityContext`/`podSecurityContext`, which override it
+field-wise and act as the fallback when no workload pod can be resolved.">
 <summary>
   <span class="prop-name">inheritSecurityContextFrom</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Copy the UID/GID security context from a live workload instead of setting it explicitly.</div>
+<div class="prop-content"><div class="prop-desc">Copy the UID/GID security context from a live workload rather than hard-coding it.
+
+Requires the workload to pin `runAsUser` (container or pod level): a UID that comes
+from the container image&#39;s `USER` line is invisible in the pod spec and cannot be
+inherited — the mover would silently run as its own image&#39;s UID instead.
+
+May be combined with `securityContext`/`podSecurityContext`, which override it
+field-wise and act as the fallback when no workload pod can be resolved.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.pvcConsumer" data-path-key="|spec|mover|inheritSecurityContextFrom|pvcConsumer|" data-parent-path="spec.mover.inheritSecurityContextFrom" data-name="pvcConsumer" data-text="Backup sources only: auto-derive the workload from the PVC this snapshot backs up.">
 <summary>
@@ -570,12 +584,16 @@ Desired state of a Restore: where to read from, where to write to, and how to be
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext" data-path-key="|spec|mover|podSecurityContext|" data-parent-path="spec.mover" data-name="podSecurityContext" data-text="Pod security context for the mover (notably `fsGroup` for group-writable restore volumes).">
+<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext" data-path-key="|spec|mover|podSecurityContext|" data-parent-path="spec.mover" data-name="podSecurityContext" data-text="Pod security context for the mover (notably `fsGroup` for group-writable restore
+volumes). Same layering as `securityContext`: highest layer, merged field-wise, and
+combinable with `inheritSecurityContextFrom`.">
 <summary>
   <span class="prop-name">podSecurityContext</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Pod security context for the mover (notably `fsGroup` for group-writable restore volumes).</div>
+<div class="prop-content"><div class="prop-desc">Pod security context for the mover (notably `fsGroup` for group-writable restore
+volumes). Same layering as `securityContext`: highest layer, merged field-wise, and
+combinable with `inheritSecurityContextFrom`.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.mover.podSecurityContext.appArmorProfile" data-path-key="|spec|mover|podSecurityContext|appArmorProfile|" data-parent-path="spec.mover.podSecurityContext" data-name="appArmorProfile" data-text="appArmorProfile is the AppArmor options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.">
 <summary>
@@ -861,12 +879,20 @@ This field is immutable. It can only be set for containers.</div>
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.mover.securityContext" data-path-key="|spec|mover|securityContext|" data-parent-path="spec.mover" data-name="securityContext" data-text="Container security context for the mover; merged field-wise over the defaults and hardened base.">
+<details class="prop" data-prop-row data-path="spec.mover.securityContext" data-path-key="|spec|mover|securityContext|" data-parent-path="spec.mover" data-name="securityContext" data-text="Container security context for the mover; merged field-wise over the hardened base,
+`moverDefaults`, and any inherited context — this is the highest layer, so every field
+set here wins. Combines with `inheritSecurityContextFrom`: fields you set override the
+workload&#39;s, fields you omit are inherited, and this context stands in alone when
+inheritance cannot resolve a pod.">
 <summary>
   <span class="prop-name">securityContext</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Container security context for the mover; merged field-wise over the defaults and hardened base.</div>
+<div class="prop-content"><div class="prop-desc">Container security context for the mover; merged field-wise over the hardened base,
+`moverDefaults`, and any inherited context — this is the highest layer, so every field
+set here wins. Combines with `inheritSecurityContextFrom`: fields you set override the
+workload&#39;s, fields you omit are inherited, and this context stands in alone when
+inheritance cannot resolve a pod.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.allowPrivilegeEscalation" data-path-key="|spec|mover|securityContext|allowPrivilegeEscalation|" data-parent-path="spec.mover.securityContext" data-name="allowPrivilegeEscalation" data-text="AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">allowPrivilegeEscalation</span>

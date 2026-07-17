@@ -708,7 +708,7 @@
             },
             "inheritSecurityContextFrom": {
               "additionalProperties": false,
-              "description": "Copy the UID/GID security context from a live workload instead of setting it explicitly.",
+              "description": "Copy the UID/GID security context from a live workload rather than hard-coding it.\n\nRequires the workload to pin `runAsUser` (container or pod level): a UID that comes\nfrom the container image's `USER` line is invisible in the pod spec and cannot be\ninherited — the mover would silently run as its own image's UID instead.\n\nMay be combined with `securityContext`/`podSecurityContext`, which override it\nfield-wise and act as the fallback when no workload pod can be resolved.",
               "nullable": true,
               "oneOf": [
                 {
@@ -820,7 +820,7 @@
             },
             "podSecurityContext": {
               "additionalProperties": false,
-              "description": "Pod security context for the mover (notably `fsGroup` for group-writable restore volumes).",
+              "description": "Pod security context for the mover (notably `fsGroup` for group-writable restore\nvolumes). Same layering as `securityContext`: highest layer, merged field-wise, and\ncombinable with `inheritSecurityContextFrom`.",
               "nullable": true,
               "properties": {
                 "appArmorProfile": {
@@ -1129,7 +1129,7 @@
             },
             "securityContext": {
               "additionalProperties": false,
-              "description": "Container security context for the mover; merged field-wise over the defaults and hardened base.",
+              "description": "Container security context for the mover; merged field-wise over the hardened base,\n`moverDefaults`, and any inherited context — this is the highest layer, so every field\nset here wins. Combines with `inheritSecurityContextFrom`: fields you set override the\nworkload's, fields you omit are inherited, and this context stands in alone when\ninheritance cannot resolve a pod.",
               "nullable": true,
               "properties": {
                 "allowPrivilegeEscalation": {
