@@ -1685,6 +1685,142 @@ is installed to.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec" data-path-key="|spec|generator|gitlabDeployTokenSpec|" data-parent-path="spec.generator" data-name="gitlabDeployTokenSpec" data-text="GitlabDeployTokenSpec defines the desired state to generate a GitLab deploy token.">
+<summary>
+  <span class="prop-name">gitlabDeployTokenSpec</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">GitlabDeployTokenSpec defines the desired state to generate a GitLab deploy token.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.auth" data-path-key="|spec|generator|gitlabDeployTokenSpec|auth|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="auth" data-text="Auth configures how ESO authenticates with the GitLab API.">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Auth configures how ESO authenticates with the GitLab API.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.auth.token" data-path-key="|spec|generator|gitlabDeployTokenSpec|auth|token|" data-parent-path="spec.generator.gitlabDeployTokenSpec.auth" data-name="token" data-text="Token references a secret containing a GitLab access token (personal, group, or
+project) with the api scope and at least the Maintainer role on the target.">
+<summary>
+  <span class="prop-name">token</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Token references a secret containing a GitLab access token (personal, group, or
+project) with the api scope and at least the Maintainer role on the target.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.auth.token.secretRef" data-path-key="|spec|generator|gitlabDeployTokenSpec|auth|token|secretRef|" data-parent-path="spec.generator.gitlabDeployTokenSpec.auth.token" data-name="secretRef" data-text="SecretKeySelector is a reference to a specific &#39;key&#39; within a Secret resource.
+In some instances, `key` is a required field.">
+<summary>
+  <span class="prop-name">secretRef</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SecretKeySelector is a reference to a specific &#39;key&#39; within a Secret resource.
+In some instances, `key` is a required field.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.auth.token.secretRef.key" data-path-key="|spec|generator|gitlabDeployTokenSpec|auth|token|secretRef|key|" data-parent-path="spec.generator.gitlabDeployTokenSpec.auth.token.secretRef" data-name="key" data-text="A key in the referenced Secret.
+Some instances of this field may be defaulted, in others it may be required. pattern: ^[-._a-zA-Z0-9]&#43;$ minLength: 1 maxLength: 253">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">A key in the referenced Secret.
+Some instances of this field may be defaulted, in others it may be required.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[-._a-zA-Z0-9]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[-._a-zA-Z0-9]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.auth.token.secretRef.name" data-path-key="|spec|generator|gitlabDeployTokenSpec|auth|token|secretRef|name|" data-parent-path="spec.generator.gitlabDeployTokenSpec.auth.token.secretRef" data-name="name" data-text="The name of the Secret resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The name of the Secret resource being referred to.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.auth.token.secretRef.namespace" data-path-key="|spec|generator|gitlabDeployTokenSpec|auth|token|secretRef|namespace|" data-parent-path="spec.generator.gitlabDeployTokenSpec.auth.token.secretRef" data-name="namespace" data-text="The namespace of the Secret resource being referred to.
+Ignored if referent is not cluster-scoped, otherwise defaults to the namespace of the referent. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ minLength: 1 maxLength: 63">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The namespace of the Secret resource being referred to.
+Ignored if referent is not cluster-scoped, otherwise defaults to the namespace of the referent.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 63"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">63</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.expiresAt" data-path-key="|spec|generator|gitlabDeployTokenSpec|expiresAt|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="expiresAt" data-text="ExpiresAt is an optional expiry for the deploy token. If omitted the token does
+not expire on the GitLab side and is revoked only when the generator state is
+cleaned up (on regeneration or when the consuming ExternalSecret is deleted). format: date-time">
+  <span class="prop-name">expiresAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ExpiresAt is an optional expiry for the deploy token. If omitted the token does
+not expire on the GitLab side and is revoked only when the generator state is
+cleaned up (on regeneration or when the consuming ExternalSecret is deleted).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.groupID" data-path-key="|spec|generator|gitlabDeployTokenSpec|groupID|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="groupID" data-text="GroupID is the numeric ID or unescaped path (e.g. parent/group) of the group to
+create the deploy token in. The generator URL-escapes paths before calling the
+GitLab API, so do not pre-encode. Mutually exclusive with projectID. minLength: 1">
+  <span class="prop-name">groupID</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">GroupID is the numeric ID or unescaped path (e.g. parent/group) of the group to
+create the deploy token in. The generator URL-escapes paths before calling the
+GitLab API, so do not pre-encode. Mutually exclusive with projectID.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.name" data-path-key="|spec|generator|gitlabDeployTokenSpec|name|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="name" data-text="Name of the deploy token. minLength: 1">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the deploy token.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.projectID" data-path-key="|spec|generator|gitlabDeployTokenSpec|projectID|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="projectID" data-text="ProjectID is the numeric ID or unescaped path (e.g. group/project) of the
+project to create the deploy token in. The generator URL-escapes paths before
+calling the GitLab API, so do not pre-encode. Mutually exclusive with groupID. minLength: 1">
+  <span class="prop-name">projectID</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ProjectID is the numeric ID or unescaped path (e.g. group/project) of the
+project to create the deploy token in. The generator URL-escapes paths before
+calling the GitLab API, so do not pre-encode. Mutually exclusive with groupID.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.scopes" data-path-key="|spec|generator|gitlabDeployTokenSpec|scopes|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="scopes" data-text="Scopes granted to the deploy token. At least one scope is required. minItems: 1">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Scopes granted to the deploy token. At least one scope is required.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.url" data-path-key="|spec|generator|gitlabDeployTokenSpec|url|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="url" data-text="URL configures the GitLab instance URL. Defaults to https://gitlab.com.">
+  <span class="prop-name">url</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">URL configures the GitLab instance URL. Defaults to https://gitlab.com.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.gitlabDeployTokenSpec.username" data-path-key="|spec|generator|gitlabDeployTokenSpec|username|" data-parent-path="spec.generator.gitlabDeployTokenSpec" data-name="username" data-text="Username is an optional username for the deploy token. GitLab defaults it to
+gitlab&#43;deploy-token-{n} when omitted.">
+  <span class="prop-name">username</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Username is an optional username for the deploy token. GitLab defaults it to
+gitlab&#43;deploy-token-{n} when omitted.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.generator.grafanaSpec" data-path-key="|spec|generator|grafanaSpec|" data-parent-path="spec.generator" data-name="grafanaSpec" data-text="GrafanaSpec controls the behavior of the grafana generator.">
 <summary>
   <span class="prop-name">grafanaSpec</span>
@@ -1811,6 +1947,16 @@ https://grafana.com/docs/grafana/latest/administration/roles-and-permissions/acc
   <div class="leaf-desc">Role is the role of the service account.
 See here for the documentation on basic roles offered by Grafana:
 https://grafana.com/docs/grafana/latest/administration/roles-and-permissions/access-control/rbac-fixed-basic-role-definitions/
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.generator.grafanaSpec.serviceAccount.secondsToLive" data-path-key="|spec|generator|grafanaSpec|serviceAccount|secondsToLive|" data-parent-path="spec.generator.grafanaSpec.serviceAccount" data-name="secondsToLive" data-text="SecondsToLive is the number of seconds before the generated service account token will expire.
+Some Grafana deployments (e.g. AWS Managed Grafana) require this value to be set. format: int64 minimum: 1">
+  <span class="prop-name">secondsToLive</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">SecondsToLive is the number of seconds before the generated service account token will expire.
+Some Grafana deployments (e.g. AWS Managed Grafana) require this value to be set.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
   </div>
@@ -4126,13 +4272,13 @@ These secrets will be passed to the templating function as key value pairs under
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.kind" data-path-key="|spec|kind|" data-parent-path="spec" data-name="kind" data-text="Kind the kind of this generator. enum: ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA">
+<div class="prop-leaf" data-prop-row data-path="spec.kind" data-path-key="|spec|kind|" data-parent-path="spec" data-name="kind" data-text="Kind the kind of this generator. enum: ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, GitlabDeployToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA">
   <span class="prop-name">kind</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Kind the kind of this generator.<div class="leaf-constraints">
-<details class="schema-constraint schema-constraint-long" title="enum: ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA">
+<details class="schema-constraint schema-constraint-long" title="enum: ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, GitlabDeployToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA">
   <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAcce...</code></summary>
-  <code class="schema-constraint-value schema-constraint-full">ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA</code>
+  <code class="schema-constraint-value schema-constraint-full">ACRAccessToken, BeyondtrustWorkloadCredentialsDynamicSecret, CloudsmithAccessToken, ECRAuthorizationToken, Fake, GCRAccessToken, GithubAccessToken, GitlabDeployToken, QuayAccessToken, Password, SSHKey, STSSessionToken, UUID, VaultDynamicSecret, Webhook, Grafana, MFA</code>
 </details></div>
   </div>
 </div>
