@@ -449,14 +449,24 @@ file passed to the runtime.
 &#34;vulkan&#34; covers AMD and Intel GPUs using the Vulkan runtime
 (gpu.vendor: amd/intel &#43; gpu.runtime: vulkan). When set to
 &#34;vulkan&#34; the readiness-check path uses devic.es/dri-render as
-the GPU resource name instead of amd.com/gpu or nvidia.com/gpu. enum: cpu, metal, cuda, rocm, intel, vulkan">
+the GPU resource name instead of amd.com/gpu or nvidia.com/gpu.
+&#34;rocm&#34; is the HIP compute tier for AMD GPUs (LLMKube&#39;s own
+hardware-validated ROCm llama.cpp image, see #701); like &#34;vulkan&#34;
+it resolves to devic.es/dri-render rather than amd.com/gpu, since
+the two runtimes share the same physical device on single-GPU AMD
+nodes. The tiers differ only in the container image they select. enum: cpu, metal, cuda, rocm, intel, vulkan">
   <span class="prop-name">accelerator</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Accelerator specifies the type of hardware acceleration.
 &#34;vulkan&#34; covers AMD and Intel GPUs using the Vulkan runtime
 (gpu.vendor: amd/intel &#43; gpu.runtime: vulkan). When set to
 &#34;vulkan&#34; the readiness-check path uses devic.es/dri-render as
-the GPU resource name instead of amd.com/gpu or nvidia.com/gpu.<div class="leaf-constraints">
+the GPU resource name instead of amd.com/gpu or nvidia.com/gpu.
+&#34;rocm&#34; is the HIP compute tier for AMD GPUs (LLMKube&#39;s own
+hardware-validated ROCm llama.cpp image, see #701); like &#34;vulkan&#34;
+it resolves to devic.es/dri-render rather than amd.com/gpu, since
+the two runtimes share the same physical device on single-GPU AMD
+nodes. The tiers differ only in the container image they select.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: cpu, metal, cuda, rocm, intel, vulkan"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">cpu, metal, cuda, rocm, intel, vulkan</code></div></div>
   </div>
 </div>
@@ -628,8 +638,16 @@ For the llama.cpp inference backend with `vendor: amd`:
     ResourceName overrides it). The plugin injects /dev/dri; the non-root
     container still needs the host render group, supplied via
     InferenceService.spec.podSecurityContext.supplementalGroups.
-  - &#34;rocm&#34;: the historical behavior (amd -&gt; amd.com/gpu, stock image).
-  - &#34;&#34; (empty): back-compatible, identical to &#34;rocm&#34;.
+  - &#34;rocm&#34;: the HIP compute tier (#701). Schedules LLMKube&#39;s
+    hardware-validated ROCm llama.cpp image and requests the same
+    shared `devic.es/dri-render` resource as &#34;vulkan&#34; (unless
+    ResourceName overrides it): the two runtimes contend for the same
+    physical device on single-GPU AMD nodes, so they share one
+    device-plugin resource rather than each claiming their own. &#34;rocm&#34;
+    differs from &#34;vulkan&#34; only in the container image it selects.
+  - &#34;&#34; (empty): falls through to `amd.com/gpu` with the vendor-neutral
+    stock image, back-compatible with pre-#701 behavior, not the same
+    as &#34;rocm&#34;.
 
 Ignored for non-AMD vendors and non-llama.cpp backends. enum: vulkan, rocm">
   <span class="prop-name">runtime</span>
@@ -644,8 +662,16 @@ For the llama.cpp inference backend with `vendor: amd`:
     ResourceName overrides it). The plugin injects /dev/dri; the non-root
     container still needs the host render group, supplied via
     InferenceService.spec.podSecurityContext.supplementalGroups.
-  - &#34;rocm&#34;: the historical behavior (amd -&gt; amd.com/gpu, stock image).
-  - &#34;&#34; (empty): back-compatible, identical to &#34;rocm&#34;.
+  - &#34;rocm&#34;: the HIP compute tier (#701). Schedules LLMKube&#39;s
+    hardware-validated ROCm llama.cpp image and requests the same
+    shared `devic.es/dri-render` resource as &#34;vulkan&#34; (unless
+    ResourceName overrides it): the two runtimes contend for the same
+    physical device on single-GPU AMD nodes, so they share one
+    device-plugin resource rather than each claiming their own. &#34;rocm&#34;
+    differs from &#34;vulkan&#34; only in the container image it selects.
+  - &#34;&#34; (empty): falls through to `amd.com/gpu` with the vendor-neutral
+    stock image, back-compatible with pre-#701 behavior, not the same
+    as &#34;rocm&#34;.
 
 Ignored for non-AMD vendors and non-llama.cpp backends.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: vulkan, rocm"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">vulkan, rocm</code></div></div>

@@ -56,7 +56,7 @@
           "properties": {
             "accelerator": {
               "default": "cpu",
-              "description": "Accelerator specifies the type of hardware acceleration.\n\"vulkan\" covers AMD and Intel GPUs using the Vulkan runtime\n(gpu.vendor: amd/intel + gpu.runtime: vulkan). When set to\n\"vulkan\" the readiness-check path uses devic.es/dri-render as\nthe GPU resource name instead of amd.com/gpu or nvidia.com/gpu.",
+              "description": "Accelerator specifies the type of hardware acceleration.\n\"vulkan\" covers AMD and Intel GPUs using the Vulkan runtime\n(gpu.vendor: amd/intel + gpu.runtime: vulkan). When set to\n\"vulkan\" the readiness-check path uses devic.es/dri-render as\nthe GPU resource name instead of amd.com/gpu or nvidia.com/gpu.\n\"rocm\" is the HIP compute tier for AMD GPUs (LLMKube's own\nhardware-validated ROCm llama.cpp image, see #701); like \"vulkan\"\nit resolves to devic.es/dri-render rather than amd.com/gpu, since\nthe two runtimes share the same physical device on single-GPU AMD\nnodes. The tiers differ only in the container image they select.",
               "enum": [
                 "cpu",
                 "metal",
@@ -158,7 +158,7 @@
                   ]
                 },
                 "runtime": {
-                  "description": "Runtime selects the GPU compute backend the operator schedules for this\nModel, independent of the Vendor field. It exists so `vendor: amd` is not\noverloaded to mean both \"ROCm\" and \"Vulkan\".\n\nFor the llama.cpp inference backend with `vendor: amd`:\n  - \"vulkan\": schedule LLMKube's Vulkan llama.cpp image and request the\n    generic-device-plugin resource `devic.es/dri-render` (unless\n    ResourceName overrides it). The plugin injects /dev/dri; the non-root\n    container still needs the host render group, supplied via\n    InferenceService.spec.podSecurityContext.supplementalGroups.\n  - \"rocm\": the historical behavior (amd -\u003e amd.com/gpu, stock image).\n  - \"\" (empty): back-compatible, identical to \"rocm\".\n\nIgnored for non-AMD vendors and non-llama.cpp backends.",
+                  "description": "Runtime selects the GPU compute backend the operator schedules for this\nModel, independent of the Vendor field. It exists so `vendor: amd` is not\noverloaded to mean both \"ROCm\" and \"Vulkan\".\n\nFor the llama.cpp inference backend with `vendor: amd`:\n  - \"vulkan\": schedule LLMKube's Vulkan llama.cpp image and request the\n    generic-device-plugin resource `devic.es/dri-render` (unless\n    ResourceName overrides it). The plugin injects /dev/dri; the non-root\n    container still needs the host render group, supplied via\n    InferenceService.spec.podSecurityContext.supplementalGroups.\n  - \"rocm\": the HIP compute tier (#701). Schedules LLMKube's\n    hardware-validated ROCm llama.cpp image and requests the same\n    shared `devic.es/dri-render` resource as \"vulkan\" (unless\n    ResourceName overrides it): the two runtimes contend for the same\n    physical device on single-GPU AMD nodes, so they share one\n    device-plugin resource rather than each claiming their own. \"rocm\"\n    differs from \"vulkan\" only in the container image it selects.\n  - \"\" (empty): falls through to `amd.com/gpu` with the vendor-neutral\n    stock image, back-compatible with pre-#701 behavior, not the same\n    as \"rocm\".\n\nIgnored for non-AMD vendors and non-llama.cpp backends.",
                   "enum": [
                     "vulkan",
                     "rocm"

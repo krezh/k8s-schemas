@@ -6918,21 +6918,23 @@ for extending context (e.g. 128K to 256K).<div class="leaf-constraints">
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.runtime" data-path-key="|spec|runtime|" data-parent-path="spec" data-name="runtime" data-text="Runtime selects the inference server backend.
 &#34;llamacpp&#34; (default): llama.cpp server with auto-generated args and /health probes.
+&#34;llamacpp-router&#34;: llama.cpp server in router mode for multi-model dynamic loading.
 &#34;generic&#34;: user-provided container with custom command, args, env, and probes.
 &#34;personaplex&#34;: NVIDIA PersonaPlex (Moshi) speech-to-speech server.
 &#34;vllm&#34;: vLLM OpenAI-compatible server with PagedAttention.
 &#34;tgi&#34;: HuggingFace Text Generation Inference server.
-&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching. enum: llamacpp, personaplex, vllm, tgi, sglang, generic">
+&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching. enum: llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic">
   <span class="prop-name">runtime</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Runtime selects the inference server backend.
 &#34;llamacpp&#34; (default): llama.cpp server with auto-generated args and /health probes.
+&#34;llamacpp-router&#34;: llama.cpp server in router mode for multi-model dynamic loading.
 &#34;generic&#34;: user-provided container with custom command, args, env, and probes.
 &#34;personaplex&#34;: NVIDIA PersonaPlex (Moshi) speech-to-speech server.
 &#34;vllm&#34;: vLLM OpenAI-compatible server with PagedAttention.
 &#34;tgi&#34;: HuggingFace Text Generation Inference server.
 &#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: llamacpp, personaplex, vllm, tgi, sglang, generic"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llamacpp, personaplex, vllm, tgi, sglang, generic</code></div></div>
+<div class="schema-constraint" title="enum: llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.runtimeClassName" data-path-key="|spec|runtimeClassName|" data-parent-path="spec" data-name="runtimeClassName" data-text="RuntimeClassName selects a Kubernetes RuntimeClass for the inference Pod.
@@ -7715,6 +7717,80 @@ Use when the model is baked into the image or downloaded by the
 container itself (e.g., via HF_TOKEN).
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.slo" data-path-key="|spec|slo|" data-parent-path="spec" data-name="slo" data-text="SLO declares a service-level objective for this inference service.
+When set (and the operator runs with --enable-pyrra-slo), the
+controller creates a Pyrra ServiceLevelObjective in the same
+namespace; Pyrra generates the recording and alert rules. Requires
+Pyrra installed in the cluster (https://github.com/pyrra-dev/pyrra).">
+<summary>
+  <span class="prop-name">slo</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SLO declares a service-level objective for this inference service.
+When set (and the operator runs with --enable-pyrra-slo), the
+controller creates a Pyrra ServiceLevelObjective in the same
+namespace; Pyrra generates the recording and alert rules. Requires
+Pyrra installed in the cluster (https://github.com/pyrra-dev/pyrra).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.slo.indicator" data-path-key="|spec|slo|indicator|" data-parent-path="spec.slo" data-name="indicator" data-text="Indicator selects the measured signal. &#34;availability&#34; is scrape
+success of the serving pod (Prometheus `up`); &#34;latency&#34; is the
+fraction of requests completing under latencyThreshold. Latency is
+currently supported on the vllm runtime only (llama.cpp exports no
+request-latency histogram). enum: availability, latency">
+  <span class="prop-name">indicator</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Indicator selects the measured signal. &#34;availability&#34; is scrape
+success of the serving pod (Prometheus `up`); &#34;latency&#34; is the
+fraction of requests completing under latencyThreshold. Latency is
+currently supported on the vllm runtime only (llama.cpp exports no
+request-latency histogram).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: availability, latency"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">availability, latency</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.slo.latencyThreshold" data-path-key="|spec|slo|latencyThreshold|" data-parent-path="spec.slo" data-name="latencyThreshold" data-text="LatencyThreshold is the request-duration bound in seconds (e.g. &#34;2&#34;
+or &#34;0.5&#34;) a request must beat to count as good. Required when
+indicator is latency. Must match a histogram bucket boundary of the
+runtime&#39;s latency metric (see docs/observability/slo.md). pattern: ^[0-9]&#43;(\.[0-9]&#43;)?$">
+  <span class="prop-name">latencyThreshold</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LatencyThreshold is the request-duration bound in seconds (e.g. &#34;2&#34;
+or &#34;0.5&#34;) a request must beat to count as good. Required when
+indicator is latency. Must match a histogram bucket boundary of the
+runtime&#39;s latency metric (see docs/observability/slo.md).<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[0-9]&#43;(\.[0-9]&#43;)?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[0-9]&#43;(\.[0-9]&#43;)?$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.slo.name" data-path-key="|spec|slo|name|" data-parent-path="spec.slo" data-name="name" data-text="Name is the SLO identifier shown in Pyrra and Grafana. Defaults to
+&#34;&lt;inferenceservice-name&gt;-&lt;indicator&gt;&#34;.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name is the SLO identifier shown in Pyrra and Grafana. Defaults to
+&#34;&lt;inferenceservice-name&gt;-&lt;indicator&gt;&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.slo.objective" data-path-key="|spec|slo|objective|" data-parent-path="spec.slo" data-name="objective" data-text="Objective is the target as a percentage string between 50 and
+99.999, e.g. &#34;99.5&#34;. A string because CRD validation cannot express
+float64 (controller-tools #245); Pyrra&#39;s own target field has the
+same shape and this value passes through unchanged. pattern: ^[0-9]&#43;(\.[0-9]&#43;)?$">
+  <span class="prop-name">objective</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Objective is the target as a percentage string between 50 and
+99.999, e.g. &#34;99.5&#34;. A string because CRD validation cannot express
+float64 (controller-tools #245); Pyrra&#39;s own target field has the
+same shape and this value passes through unchanged.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[0-9]&#43;(\.[0-9]&#43;)?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[0-9]&#43;(\.[0-9]&#43;)?$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.slo.window" data-path-key="|spec|slo|window|" data-parent-path="spec.slo" data-name="window" data-text="Window is the rolling window the objective is measured over. pattern: ^[0-9]&#43;[mhdw]$">
+  <span class="prop-name">window</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Window is the rolling window the objective is measured over.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[0-9]&#43;[mhdw]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[0-9]&#43;[mhdw]$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.speculativeDecoding" data-path-key="|spec|speculativeDecoding|" data-parent-path="spec" data-name="speculativeDecoding" data-text="SpeculativeDecoding configures speculative decoding for the llama.cpp
 runtime using MTP (Multi-Token Prediction) or draft-model decoding.
 Maps to llama.cpp --spec-type and --draft-n-max flags. Only the

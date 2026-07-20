@@ -4979,9 +4979,10 @@
         },
         "runtime": {
           "default": "llamacpp",
-          "description": "Runtime selects the inference server backend.\n\"llamacpp\" (default): llama.cpp server with auto-generated args and /health probes.\n\"generic\": user-provided container with custom command, args, env, and probes.\n\"personaplex\": NVIDIA PersonaPlex (Moshi) speech-to-speech server.\n\"vllm\": vLLM OpenAI-compatible server with PagedAttention.\n\"tgi\": HuggingFace Text Generation Inference server.\n\"sglang\": SGLang OpenAI-compatible server with RadixAttention prefix caching.",
+          "description": "Runtime selects the inference server backend.\n\"llamacpp\" (default): llama.cpp server with auto-generated args and /health probes.\n\"llamacpp-router\": llama.cpp server in router mode for multi-model dynamic loading.\n\"generic\": user-provided container with custom command, args, env, and probes.\n\"personaplex\": NVIDIA PersonaPlex (Moshi) speech-to-speech server.\n\"vllm\": vLLM OpenAI-compatible server with PagedAttention.\n\"tgi\": HuggingFace Text Generation Inference server.\n\"sglang\": SGLang OpenAI-compatible server with RadixAttention prefix caching.",
           "enum": [
             "llamacpp",
+            "llamacpp-router",
             "personaplex",
             "vllm",
             "tgi",
@@ -5575,6 +5576,72 @@
           "type": [
             "boolean",
             "null"
+          ]
+        },
+        "slo": {
+          "additionalProperties": false,
+          "description": "SLO declares a service-level objective for this inference service.\nWhen set (and the operator runs with --enable-pyrra-slo), the\ncontroller creates a Pyrra ServiceLevelObjective in the same\nnamespace; Pyrra generates the recording and alert rules. Requires\nPyrra installed in the cluster (https://github.com/pyrra-dev/pyrra).",
+          "properties": {
+            "indicator": {
+              "default": "availability",
+              "description": "Indicator selects the measured signal. \"availability\" is scrape\nsuccess of the serving pod (Prometheus `up`); \"latency\" is the\nfraction of requests completing under latencyThreshold. Latency is\ncurrently supported on the vllm runtime only (llama.cpp exports no\nrequest-latency histogram).",
+              "enum": [
+                "availability",
+                "latency"
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "latencyThreshold": {
+              "description": "LatencyThreshold is the request-duration bound in seconds (e.g. \"2\"\nor \"0.5\") a request must beat to count as good. Required when\nindicator is latency. Must match a histogram bucket boundary of the\nruntime's latency metric (see docs/observability/slo.md).",
+              "pattern": "^[0-9]+(\\.[0-9]+)?$",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "name": {
+              "description": "Name is the SLO identifier shown in Pyrra and Grafana. Defaults to\n\"\u003cinferenceservice-name\u003e-\u003cindicator\u003e\".",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "objective": {
+              "description": "Objective is the target as a percentage string between 50 and\n99.999, e.g. \"99.5\". A string because CRD validation cannot express\nfloat64 (controller-tools #245); Pyrra's own target field has the\nsame shape and this value passes through unchanged.",
+              "pattern": "^[0-9]+(\\.[0-9]+)?$",
+              "type": "string",
+              "x-kubernetes-validations": [
+                {
+                  "message": "objective must be a number between 50 and 99.999",
+                  "rule": "double(self) \u003e= 50.0 \u0026\u0026 double(self) \u003c= 99.999"
+                }
+              ]
+            },
+            "window": {
+              "default": "28d",
+              "description": "Window is the rolling window the objective is measured over.",
+              "pattern": "^[0-9]+[mhdw]$",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "objective"
+          ],
+          "type": [
+            "object",
+            "null"
+          ],
+          "x-kubernetes-validations": [
+            {
+              "message": "latencyThreshold is required when indicator is latency",
+              "rule": "self.indicator != 'latency' || has(self.latencyThreshold)"
+            }
           ]
         },
         "speculativeDecoding": {
