@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.compression for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.adoption for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -385,6 +385,21 @@ metadata:
 </summary>
 <div class="prop-content"><div class="prop-desc">What to back up: sources, identity, retention, policy, hooks.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.adoption" data-path-key="|spec|adoption|" data-parent-path="spec" data-name="adoption" data-text="Whether a discovered snapshot whose resolved identity matches a live
+`SnapshotPolicy` is automatically adopted — re-attached (stamped with that
+policy&#39;s config label, `status.origin` flipped to `Adopted`) so GFS
+retention governs it and eventually prunes it, instead of it sitting in the
+catalog forever as an immortal `discovered` row. enum: Adopt, Ignore">
+  <span class="prop-name">adoption</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Whether a discovered snapshot whose resolved identity matches a live
+`SnapshotPolicy` is automatically adopted — re-attached (stamped with that
+policy&#39;s config label, `status.origin` flipped to `Adopted`) so GFS
+retention governs it and eventually prunes it, instead of it sitting in the
+catalog forever as an immortal `discovered` row.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Adopt, Ignore"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Adopt, Ignore</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.compression" data-path-key="|spec|compression|" data-parent-path="spec" data-name="compression" data-text="Compression algorithm &#43; per-extension opt-outs.">
 <summary>
   <span class="prop-name">compression</span>
@@ -439,6 +454,25 @@ Produced backups default to `Delete`; discovered snapshots are forced to `Retain
 <div class="schema-constraint" title="enum: Delete, Retain, Orphan"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Delete, Retain, Orphan</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.deletion" data-path-key="|spec|deletion|" data-parent-path="spec" data-name="deletion" data-text="Deletion semantics for the `Snapshot` CRs carrying this recipe&#39;s config label.">
+<summary>
+  <span class="prop-name">deletion</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Deletion semantics for the `Snapshot` CRs carrying this recipe&#39;s config label.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.deletion.onPolicyDelete" data-path-key="|spec|deletion|onPolicyDelete|" data-parent-path="spec.deletion" data-name="onPolicyDelete" data-text="Consulted by the Snapshot finalizer when the deletion is external and the
+owning `SnapshotPolicy` is gone. Absent resolves to `Retain`. enum: Retain, Delete">
+  <span class="prop-name">onPolicyDelete</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Consulted by the Snapshot finalizer when the deletion is external and the
+owning `SnapshotPolicy` is gone. Absent resolves to `Retain`.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Retain, Delete"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Retain, Delete</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.errorHandling" data-path-key="|spec|errorHandling|" data-parent-path="spec" data-name="errorHandling" data-text="Backup-side error handling: let a snapshot complete-with-errors instead of failing outright.">
 <summary>
   <span class="prop-name">errorHandling</span>
@@ -1697,12 +1731,32 @@ zero duration (`0`/`0s`) holds indefinitely (never fail on preflight).
 <div class="prop-content"><div class="prop-desc">What to back up (at least one source; webhook-enforced).</div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 100"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">100</code></div></div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.sources[].nfs" data-path-key="|spec|sources[]|nfs|" data-parent-path="spec.sources" data-name="nfs" data-text="An inline NFS export to back up directly, mounted read-only. Mutually exclusive with `pvc`/`pvcSelector`.">
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].acknowledgeLiveMutation" data-path-key="|spec|sources[]|acknowledgeLiveMutation|" data-parent-path="spec.sources" data-name="acknowledgeLiveMutation" data-text="Acknowledges that `copyMethod: Direct` &#43; `readOnly: false` lets the kubelet
+recursively `chgrp` the **live** volume to the mover&#39;s `fsGroup` and make it
+group-writable — permanently, while the workload is running. Required for that
+combination alone.
+
+Ignored (not rejected) otherwise: it is an acknowledgement, never harmful to
+carry, and rejecting a stale one would make switching `copyMethod` between
+`Direct` and `Snapshot`/`Clone` a two-step edit in both directions.">
+  <span class="prop-name">acknowledgeLiveMutation</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Acknowledges that `copyMethod: Direct` &#43; `readOnly: false` lets the kubelet
+recursively `chgrp` the **live** volume to the mover&#39;s `fsGroup` and make it
+group-writable — permanently, while the workload is running. Required for that
+combination alone.
+
+Ignored (not rejected) otherwise: it is an acknowledgement, never harmful to
+carry, and rejecting a stale one would make switching `copyMethod` between
+`Direct` and `Snapshot`/`Clone` a two-step edit in both directions.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.sources[].nfs" data-path-key="|spec|sources[]|nfs|" data-parent-path="spec.sources" data-name="nfs" data-text="An inline NFS export to back up directly. Mutually exclusive with `pvc`/`pvcSelector`.">
 <summary>
   <span class="prop-name">nfs</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">An inline NFS export to back up directly, mounted read-only. Mutually exclusive with `pvc`/`pvcSelector`.</div>
+<div class="prop-content"><div class="prop-desc">An inline NFS export to back up directly. Mutually exclusive with `pvc`/`pvcSelector`.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.sources[].nfs.path" data-path-key="|spec|sources[]|nfs|path|" data-parent-path="spec.sources[].nfs" data-name="path" data-text="Exported path on the NFS server (e.g. `/export/kopia` or `/mnt/eros/Media`).">
   <span class="prop-name">path</span>
@@ -1805,6 +1859,34 @@ zero duration (`0`/`0s`) holds indefinitely (never fail on preflight).
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].readOnly" data-path-key="|spec|sources[]|readOnly|" data-parent-path="spec.sources" data-name="readOnly" data-text="Mount the source read-only (default `true`; kopia only ever reads it).
+
+Set `false` **only** to make `fsGroup` work on the source. The kubelet applies
+`fsGroup` by recursively `chgrp`-ing the volume and adding group-write — and it
+skips that walk entirely on a read-only mount, which is why a mover
+`fsGroup`/`fsGroupChangePolicy` otherwise has no effect here. Under
+`copyMethod: Snapshot`/`Clone` the walk rewrites the throwaway staged PVC and
+never touches your data. Under `copyMethod: Direct` it rewrites the LIVE volume,
+which requires `acknowledgeLiveMutation`.
+
+Not supported on an `nfs` source: the kubelet does not apply `fsGroup` to
+in-tree NFS volumes at all, so a read-write mount would grant nothing.">
+  <span class="prop-name">readOnly</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Mount the source read-only (default `true`; kopia only ever reads it).
+
+Set `false` **only** to make `fsGroup` work on the source. The kubelet applies
+`fsGroup` by recursively `chgrp`-ing the volume and adding group-write — and it
+skips that walk entirely on a read-only mount, which is why a mover
+`fsGroup`/`fsGroupChangePolicy` otherwise has no effect here. Under
+`copyMethod: Snapshot`/`Clone` the walk rewrites the throwaway staged PVC and
+never touches your data. Under `copyMethod: Direct` it rewrites the LIVE volume,
+which requires `acknowledgeLiveMutation`.
+
+Not supported on an `nfs` source: the kubelet does not apply `fsGroup` to
+in-tree NFS volumes at all, so a read-write mount would grant nothing.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.sources[].sourcePathOverride" data-path-key="|spec|sources[]|sourcePathOverride|" data-parent-path="spec.sources" data-name="sourcePathOverride" data-text="What kopia records as the source path (default `/pvc/&lt;name&gt;`, or the NFS export `path`). maxLength: 4096">
   <span class="prop-name">sourcePathOverride</span>
   <span class="type-badge">string</span>
@@ -1837,14 +1919,16 @@ the CSI capture to become ready before failing the backup).</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.staging.accessModes" data-path-key="|spec|staging|accessModes|" data-parent-path="spec.staging" data-name="accessModes" data-text="Access modes for the staged PVC. Empty ⇒ copy the source PVC&#39;s modes.
 `[ReadOnlyMany]` pairs with snapshot-backed read-only classes (e.g. CephFS
-`backingSnapshot`); the mover always mounts the staged PVC read-only
-regardless of the mode.">
+`backingSnapshot`); the mover mounts the staged PVC read-only to match, and
+rejects it at admission if a source sets `readOnly: false` (a read-only stage
+cannot be mounted read-write).">
   <span class="prop-name">accessModes</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Access modes for the staged PVC. Empty ⇒ copy the source PVC&#39;s modes.
 `[ReadOnlyMany]` pairs with snapshot-backed read-only classes (e.g. CephFS
-`backingSnapshot`); the mover always mounts the staged PVC read-only
-regardless of the mode.
+`backingSnapshot`); the mover mounts the staged PVC read-only to match, and
+rejects it at admission if a source sets `readOnly: false` (a read-only stage
+cannot be mounted read-write).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.staging.storageClassName" data-path-key="|spec|staging|storageClassName|" data-parent-path="spec.staging" data-name="storageClassName" data-text="StorageClass for the **staged PVC** — the temporary PVC restored from the
@@ -2118,6 +2202,56 @@ the enclosing schedule&#39;s timezone, else the controller default (UTC).
 </summary>
 <div class="prop-content"><div class="prop-desc">Observed state of a `SnapshotPolicy`.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.adoption" data-path-key="|status|adoption|" data-parent-path="status" data-name="adoption" data-text="Summary of automatic adoption of discovered snapshots into this recipe.">
+<summary>
+  <span class="prop-name">adoption</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Summary of automatic adoption of discovered snapshots into this recipe.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.adoption.lastAdoptedCount" data-path-key="|status|adoption|lastAdoptedCount|" data-parent-path="status.adoption" data-name="lastAdoptedCount" data-text="Number of discovered `Snapshot` CRs adopted by the last adoption pass. format: uint32 minimum: 0">
+  <span class="prop-name">lastAdoptedCount</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Number of discovered `Snapshot` CRs adopted by the last adoption pass.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.adoption.lastAdoptionAt" data-path-key="|status|adoption|lastAdoptionAt|" data-parent-path="status.adoption" data-name="lastAdoptionAt" data-text="RFC3339 timestamp of the last adoption pass that adopted at least one snapshot.">
+  <span class="prop-name">lastAdoptionAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC3339 timestamp of the last adoption pass that adopted at least one snapshot.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.adoption.scanRequestedAt" data-path-key="|status|adoption|scanRequestedAt|" data-parent-path="status.adoption" data-name="scanRequestedAt" data-text="RFC3339 token echoing an in-flight on-demand adoption scan request for
+this policy&#39;s identity; cleared once honored.">
+  <span class="prop-name">scanRequestedAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC3339 token echoing an in-flight on-demand adoption scan request for
+this policy&#39;s identity; cleared once honored.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.adoption.scanRequestedIdentity" data-path-key="|status|adoption|scanRequestedIdentity|" data-parent-path="status.adoption" data-name="scanRequestedIdentity" data-text="The resolved kopia identity the requested scan was scoped to, pinned at
+request time so a later identity-changing edit can&#39;t retarget an
+in-flight scan.">
+  <span class="prop-name">scanRequestedIdentity</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The resolved kopia identity the requested scan was scoped to, pinned at
+request time so a later identity-changing edit can&#39;t retarget an
+in-flight scan.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.adoption.totalAdopted" data-path-key="|status|adoption|totalAdopted|" data-parent-path="status.adoption" data-name="totalAdopted" data-text="Running total of `Snapshot` CRs ever adopted into this recipe. format: uint64 minimum: 0">
+  <span class="prop-name">totalAdopted</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Running total of `Snapshot` CRs ever adopted into this recipe.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Standard Kubernetes conditions (e.g. `RepositoryReachable`, `GroupSnapshotSupported`).">
 <summary>
   <span class="prop-name">conditions</span>
@@ -2279,7 +2413,7 @@ the enclosing schedule&#39;s timezone, else the controller default (UTC).
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.compression for an exact path">No matches. Try .spec.compression for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.adoption for an exact path">No matches. Try .spec.adoption for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

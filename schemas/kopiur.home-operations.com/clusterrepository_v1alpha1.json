@@ -890,6 +890,18 @@
           "description": "Bounds materialization of `origin: discovered` `Snapshot` CRs from the kopia catalog.",
           "nullable": true,
           "properties": {
+            "adoption": {
+              "description": "Whether a discovered snapshot whose resolved identity matches a live\n`SnapshotPolicy` is automatically adopted — re-attached (stamped with that\npolicy's config label, `status.origin` flipped to `Adopted`) so GFS\nretention governs it and eventually prunes it, instead of it sitting in the\ncatalog forever as an immortal `discovered` row.",
+              "enum": [
+                "Adopt",
+                "Ignore"
+              ],
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "fallbackNamespace": {
               "description": "Where to materialize discovered `Snapshot`s with no allowed-namespace mapping (ClusterRepository only).",
               "nullable": true,
@@ -1042,6 +1054,28 @@
               "description": "When `true`, the owner permits projecting this repository's credential Secret(s) into a consumer namespace.",
               "type": [
                 "boolean",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "deletionProtection": {
+          "additionalProperties": false,
+          "description": "Mass-deletion circuit breaker for this repository's Snapshots.",
+          "nullable": true,
+          "properties": {
+            "threshold": {
+              "default": 10,
+              "description": "Pending EXTERNAL destructive Snapshot deletions (deletionTimestamp set,\neffective deletionPolicy Delete, not operator-pruned) that trip the\nbreaker for this repository: at or above this, those deletions are HELD\n(finalizers wait) until acknowledged via the\n`kopiur.home-operations.com/allow-mass-deletion` annotation.\n`0` disables the breaker. Default 10.",
+              "format": "uint32",
+              "minimum": 0,
+              "nullable": true,
+              "type": [
+                "integer",
                 "null"
               ]
             }
@@ -3760,6 +3794,80 @@
             "null"
           ]
         },
+        "parameters": {
+          "additionalProperties": false,
+          "description": "Mutable kopia repository parameters, re-applied on bootstrap whenever they drift.",
+          "nullable": true,
+          "properties": {
+            "epoch": {
+              "additionalProperties": false,
+              "description": "Epoch-manager tuning — how fast kopia closes epochs and therefore how fast index\nblobs get compacted.",
+              "nullable": true,
+              "properties": {
+                "advanceOnCount": {
+                  "description": "Index blobs in an epoch that trigger an advance, once older than `minDuration`\n(kopia default `20`).",
+                  "format": "int64",
+                  "nullable": true,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "advanceOnSizeMiB": {
+                  "description": "Total index size in an epoch that triggers an advance, once older than `minDuration`\n(kopia default `10` MiB).\n\nNamed `MiB`, not `MB`, with an explicit rename rather than the derived camelCase\n(`advanceOnSizeMb`, which reads as *megabit*). The unit is genuinely mebibytes —\nkopia's `--epoch-advance-on-size-mb` multiplies by 1048576, so `10` is 10485760\nbytes — even though kopia's own log renders the result as \"MB\". That ambiguity is\nthis field's main hazard; the API surface should not reproduce it.",
+                  "format": "int64",
+                  "nullable": true,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "checkpointFrequency": {
+                  "description": "Epochs between full index checkpoints (kopia default `7`).",
+                  "format": "int64",
+                  "nullable": true,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "deleteParallelism": {
+                  "description": "Parallelism for epoch cleanup deletions (kopia default `4`).",
+                  "format": "int64",
+                  "nullable": true,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "minDuration": {
+                  "description": "Minimum epoch age before it may advance (kopia default `24h`). A Go-style duration\n(`6h`, `90m`). The advance **gate** — no blob count closes an epoch younger than this.",
+                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "refreshFrequency": {
+                  "description": "How often clients re-read epoch state (kopia default `20m`). Go-style duration.",
+                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "type": [
+                "object",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "scheduleDefaults": {
           "additionalProperties": false,
           "description": "Scheduling defaults (e.g. `timezone`) inherited by consumers that don't set\ntheir own equivalent field — verification, replication, and maintenance\nschedules today; set once here instead of repeating it on every cron.",
@@ -4541,6 +4649,22 @@
                 "string",
                 "null"
               ]
+            },
+            "scanRequestAttemptAt": {
+              "description": "RFC 3339 timestamp of the last bootstrap/scan attempt initiated BECAUSE OF\na pending `catalog-scan-requested-at` token (i.e. the token arm was the\nreason the attempt fired). Used only to rate-limit token-driven attempts\non a Ready-but-unreachable repository — it is never compared against the\ntoken for retirement (that's `scanRequestHonored`, by equality).",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "scanRequestHonored": {
+              "description": "The RFC3339 token VALUE of the `kopiur.home-operations.com/catalog-scan-requested-at`\nannotation last honored by a completed catalog scan. Compared by\n**equality** against the live annotation to decide whether a requested\non-demand scan is still pending — deliberately NOT a timestamp comparison\nagainst `lastRefreshAt` (a periodic refresh completing after the request\nwas made would otherwise look like it honored the request even though it\nstarted before the annotation was set).",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
             }
           },
           "type": [
@@ -4656,6 +4780,74 @@
           "nullable": true,
           "type": [
             "integer",
+            "null"
+          ]
+        },
+        "parameters": {
+          "additionalProperties": false,
+          "description": "The kopia repository parameters actually observed at the last bootstrap. Compare\nagainst `spec.parameters` to see whether a declared value landed.",
+          "nullable": true,
+          "properties": {
+            "epoch": {
+              "additionalProperties": false,
+              "description": "The epoch parameters the repository reports.",
+              "nullable": true,
+              "properties": {
+                "advanceOnCount": {
+                  "description": "Observed index-blob count that triggers an epoch advance.",
+                  "format": "int64",
+                  "type": "integer"
+                },
+                "advanceOnSizeMiB": {
+                  "description": "Observed total index size (MiB) that triggers an epoch advance.",
+                  "format": "int64",
+                  "type": "integer"
+                },
+                "checkpointFrequency": {
+                  "description": "Observed epochs between full index checkpoints.",
+                  "format": "int64",
+                  "type": "integer"
+                },
+                "cleanupSafetyMargin": {
+                  "description": "Observed cleanup safety margin, as a Go-style duration. Reported for diagnosis;\nnot settable through `spec.parameters`.",
+                  "type": "string"
+                },
+                "deleteParallelism": {
+                  "description": "Observed epoch-cleanup delete parallelism.",
+                  "format": "int64",
+                  "type": "integer"
+                },
+                "enabled": {
+                  "description": "Whether kopia's epoch manager is enabled on this repository at all.",
+                  "type": "boolean"
+                },
+                "minDuration": {
+                  "description": "Observed minimum epoch age, as a Go-style duration.",
+                  "type": "string"
+                },
+                "refreshFrequency": {
+                  "description": "Observed epoch-state refresh frequency, as a Go-style duration.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "advanceOnCount",
+                "advanceOnSizeMiB",
+                "checkpointFrequency",
+                "cleanupSafetyMargin",
+                "deleteParallelism",
+                "enabled",
+                "minDuration",
+                "refreshFrequency"
+              ],
+              "type": [
+                "object",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
             "null"
           ]
         },

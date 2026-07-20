@@ -65,6 +65,18 @@
             "null"
           ]
         },
+        "onScheduleDelete": {
+          "description": "What the deletion of a `SnapshotSchedule` does to the `Snapshot` CRs it\nproduced (which Kubernetes GC cascade-deletes via their ownerReference).\nDefault `Retain`: the CRs are removed but their kopia snapshots survive and\nthe catalog rediscovers them as `origin: discovered`. `Delete` opts into the\ncascade: each Snapshot's own `deletionPolicy` applies.\n\nDeliberately 2-variant (not reusing [`DeletionPolicy`]): an `Orphan` in\ncascade position would differ from `Retain` only in per-CR event/metric\nbookkeeping — an invalid state made unrepresentable. The guard's `Retain`\nis exactly `DeletionPolicy::Retain`'s semantics (CR removed, kopia snapshot\nstays, catalog rediscovers it), deliberately NOT the `Orphan` event storm\n(no per-CR \"orphaned\" event/metric for every produced Snapshot).",
+          "enum": [
+            "Retain",
+            "Delete"
+          ],
+          "nullable": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "pin": {
           "description": "Exempt this snapshot from GFS retention.",
           "type": [
@@ -308,7 +320,8 @@
           "enum": [
             "scheduled",
             "manual",
-            "discovered"
+            "discovered",
+            "adopted"
           ],
           "nullable": true,
           "type": [
@@ -353,6 +366,25 @@
           "description": "Frozen recipe values at run time (scheduled/manual).",
           "nullable": true,
           "properties": {
+            "credentialProjection": {
+              "additionalProperties": false,
+              "description": "The recipe's `spec.credentialProjection` as it stood for this run.\n\nThe deletion path re-projects the mover's credentials, but the opt-in lives on the\n`SnapshotPolicy` — which a user may delete first. Pinning it here lets the finalizer\nhonor the opt-in that was actually in force, instead of reading an absent recipe as\n\"projection off\" and blocking on a Secret that was never meant to be namespace-local\n(#255). Absent only on a `Snapshot` that predates the pin or never ran; a run always\nwrites it, including `enabled: false`, so absent stays distinguishable from off.",
+              "nullable": true,
+              "properties": {
+                "enabled": {
+                  "default": false,
+                  "description": "Copy the repository's credential Secret(s) into the namespace of each mover Job; off by default.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "type": [
+                "object",
+                "null"
+              ]
+            },
             "repository": {
               "additionalProperties": false,
               "description": "The repository this run targeted, frozen at run time.",

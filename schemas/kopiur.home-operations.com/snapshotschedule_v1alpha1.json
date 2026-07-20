@@ -5,6 +5,29 @@
       "additionalProperties": false,
       "description": "Cron schedule that fires `Snapshot` CRs from a `SnapshotPolicy`.",
       "properties": {
+        "deletion": {
+          "additionalProperties": false,
+          "description": "Deletion semantics for the Snapshots this schedule produced.",
+          "nullable": true,
+          "properties": {
+            "onScheduleDelete": {
+              "default": "Retain",
+              "description": "Stamped onto every produced Snapshot at creation (`spec.onScheduleDelete`)\nand consulted by the Snapshot finalizer when the owning schedule is gone\nor replaced. Absent resolves to `Retain`.",
+              "enum": [
+                "Retain",
+                "Delete"
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "failedJobsHistoryLimit": {
           "default": 10,
           "description": "Maximum number of failed `Snapshot` CRs from this schedule to retain\n(default `10`; `0` keeps none).",

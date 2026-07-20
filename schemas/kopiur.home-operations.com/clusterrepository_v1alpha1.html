@@ -1248,6 +1248,21 @@ shape parity but is not honored by the bootstrap Job.</div>
 </summary>
 <div class="prop-content"><div class="prop-desc">Bounds materialization of `origin: discovered` `Snapshot` CRs from the kopia catalog.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.catalog.adoption" data-path-key="|spec|catalog|adoption|" data-parent-path="spec.catalog" data-name="adoption" data-text="Whether a discovered snapshot whose resolved identity matches a live
+`SnapshotPolicy` is automatically adopted — re-attached (stamped with that
+policy&#39;s config label, `status.origin` flipped to `Adopted`) so GFS
+retention governs it and eventually prunes it, instead of it sitting in the
+catalog forever as an immortal `discovered` row. enum: Adopt, Ignore">
+  <span class="prop-name">adoption</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Whether a discovered snapshot whose resolved identity matches a live
+`SnapshotPolicy` is automatically adopted — re-attached (stamped with that
+policy&#39;s config label, `status.origin` flipped to `Adopted`) so GFS
+retention governs it and eventually prunes it, instead of it sitting in the
+catalog forever as an immortal `discovered` row.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Adopt, Ignore"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Adopt, Ignore</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.catalog.fallbackNamespace" data-path-key="|spec|catalog|fallbackNamespace|" data-parent-path="spec.catalog" data-name="fallbackNamespace" data-text="Where to materialize discovered `Snapshot`s with no allowed-namespace mapping (ClusterRepository only).">
   <span class="prop-name">fallbackNamespace</span>
   <span class="type-badge">string</span>
@@ -1410,6 +1425,34 @@ externally-managed repository the operator must never create.
   <span class="prop-name">allowed</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">When `true`, the owner permits projecting this repository&#39;s credential Secret(s) into a consumer namespace.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.deletionProtection" data-path-key="|spec|deletionProtection|" data-parent-path="spec" data-name="deletionProtection" data-text="Mass-deletion circuit breaker for this repository&#39;s Snapshots.">
+<summary>
+  <span class="prop-name">deletionProtection</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Mass-deletion circuit breaker for this repository&#39;s Snapshots.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.deletionProtection.threshold" data-path-key="|spec|deletionProtection|threshold|" data-parent-path="spec.deletionProtection" data-name="threshold" data-text="Pending EXTERNAL destructive Snapshot deletions (deletionTimestamp set,
+effective deletionPolicy Delete, not operator-pruned) that trip the
+breaker for this repository: at or above this, those deletions are HELD
+(finalizers wait) until acknowledged via the
+`kopiur.home-operations.com/allow-mass-deletion` annotation.
+`0` disables the breaker. Default 10. format: uint32 minimum: 0">
+  <span class="prop-name">threshold</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Pending EXTERNAL destructive Snapshot deletions (deletionTimestamp set,
+effective deletionPolicy Delete, not operator-pruned) that trip the
+breaker for this repository: at or above this, those deletions are HELD
+(finalizers wait) until acknowledged via the
+`kopiur.home-operations.com/allow-mass-deletion` annotation.
+`0` disables the breaker. Default 10.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
   </div>
@@ -3766,6 +3809,86 @@ Localhost - a profile defined in a file on the node should be used. RuntimeDefau
 <div class="schema-constraint" title="enum: Orphan, Delete"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Orphan, Delete</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.parameters" data-path-key="|spec|parameters|" data-parent-path="spec" data-name="parameters" data-text="Mutable kopia repository parameters, re-applied on bootstrap whenever they drift.">
+<summary>
+  <span class="prop-name">parameters</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Mutable kopia repository parameters, re-applied on bootstrap whenever they drift.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.parameters.epoch" data-path-key="|spec|parameters|epoch|" data-parent-path="spec.parameters" data-name="epoch" data-text="Epoch-manager tuning — how fast kopia closes epochs and therefore how fast index
+blobs get compacted.">
+<summary>
+  <span class="prop-name">epoch</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Epoch-manager tuning — how fast kopia closes epochs and therefore how fast index
+blobs get compacted.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.advanceOnCount" data-path-key="|spec|parameters|epoch|advanceOnCount|" data-parent-path="spec.parameters.epoch" data-name="advanceOnCount" data-text="Index blobs in an epoch that trigger an advance, once older than `minDuration`
+(kopia default `20`). format: int64">
+  <span class="prop-name">advanceOnCount</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Index blobs in an epoch that trigger an advance, once older than `minDuration`
+(kopia default `20`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.advanceOnSizeMiB" data-path-key="|spec|parameters|epoch|advanceOnSizeMiB|" data-parent-path="spec.parameters.epoch" data-name="advanceOnSizeMiB" data-text="Total index size in an epoch that triggers an advance, once older than `minDuration`
+(kopia default `10` MiB).
+
+Named `MiB`, not `MB`, with an explicit rename rather than the derived camelCase
+(`advanceOnSizeMb`, which reads as *megabit*). The unit is genuinely mebibytes —
+kopia&#39;s `--epoch-advance-on-size-mb` multiplies by 1048576, so `10` is 10485760
+bytes — even though kopia&#39;s own log renders the result as &#34;MB&#34;. That ambiguity is
+this field&#39;s main hazard; the API surface should not reproduce it. format: int64">
+  <span class="prop-name">advanceOnSizeMiB</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Total index size in an epoch that triggers an advance, once older than `minDuration`
+(kopia default `10` MiB).
+
+Named `MiB`, not `MB`, with an explicit rename rather than the derived camelCase
+(`advanceOnSizeMb`, which reads as *megabit*). The unit is genuinely mebibytes —
+kopia&#39;s `--epoch-advance-on-size-mb` multiplies by 1048576, so `10` is 10485760
+bytes — even though kopia&#39;s own log renders the result as &#34;MB&#34;. That ambiguity is
+this field&#39;s main hazard; the API surface should not reproduce it.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.checkpointFrequency" data-path-key="|spec|parameters|epoch|checkpointFrequency|" data-parent-path="spec.parameters.epoch" data-name="checkpointFrequency" data-text="Epochs between full index checkpoints (kopia default `7`). format: int64">
+  <span class="prop-name">checkpointFrequency</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Epochs between full index checkpoints (kopia default `7`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.deleteParallelism" data-path-key="|spec|parameters|epoch|deleteParallelism|" data-parent-path="spec.parameters.epoch" data-name="deleteParallelism" data-text="Parallelism for epoch cleanup deletions (kopia default `4`). format: int64">
+  <span class="prop-name">deleteParallelism</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Parallelism for epoch cleanup deletions (kopia default `4`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.minDuration" data-path-key="|spec|parameters|epoch|minDuration|" data-parent-path="spec.parameters.epoch" data-name="minDuration" data-text="Minimum epoch age before it may advance (kopia default `24h`). A Go-style duration
+(`6h`, `90m`). The advance **gate** — no blob count closes an epoch younger than this.">
+  <span class="prop-name">minDuration</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Minimum epoch age before it may advance (kopia default `24h`). A Go-style duration
+(`6h`, `90m`). The advance **gate** — no blob count closes an epoch younger than this.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.refreshFrequency" data-path-key="|spec|parameters|epoch|refreshFrequency|" data-parent-path="spec.parameters.epoch" data-name="refreshFrequency" data-text="How often clients re-read epoch state (kopia default `20m`). Go-style duration.">
+  <span class="prop-name">refreshFrequency</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">How often clients re-read epoch state (kopia default `20m`). Go-style duration.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.scheduleDefaults" data-path-key="|spec|scheduleDefaults|" data-parent-path="spec" data-name="scheduleDefaults" data-text="Scheduling defaults (e.g. `timezone`) inherited by consumers that don&#39;t set
 their own equivalent field — verification, replication, and maintenance
 schedules today; set once here instead of repeating it on every cron.">
@@ -4463,6 +4586,38 @@ current.<div class="leaf-constraints">
   <div class="leaf-desc">RFC 3339 timestamp of the last catalog refresh.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.catalog.scanRequestAttemptAt" data-path-key="|status|catalog|scanRequestAttemptAt|" data-parent-path="status.catalog" data-name="scanRequestAttemptAt" data-text="RFC 3339 timestamp of the last bootstrap/scan attempt initiated BECAUSE OF
+a pending `catalog-scan-requested-at` token (i.e. the token arm was the
+reason the attempt fired). Used only to rate-limit token-driven attempts
+on a Ready-but-unreachable repository — it is never compared against the
+token for retirement (that&#39;s `scanRequestHonored`, by equality).">
+  <span class="prop-name">scanRequestAttemptAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC 3339 timestamp of the last bootstrap/scan attempt initiated BECAUSE OF
+a pending `catalog-scan-requested-at` token (i.e. the token arm was the
+reason the attempt fired). Used only to rate-limit token-driven attempts
+on a Ready-but-unreachable repository — it is never compared against the
+token for retirement (that&#39;s `scanRequestHonored`, by equality).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.catalog.scanRequestHonored" data-path-key="|status|catalog|scanRequestHonored|" data-parent-path="status.catalog" data-name="scanRequestHonored" data-text="The RFC3339 token VALUE of the `kopiur.home-operations.com/catalog-scan-requested-at`
+annotation last honored by a completed catalog scan. Compared by
+**equality** against the live annotation to decide whether a requested
+on-demand scan is still pending — deliberately NOT a timestamp comparison
+against `lastRefreshAt` (a periodic refresh completing after the request
+was made would otherwise look like it honored the request even though it
+started before the annotation was set).">
+  <span class="prop-name">scanRequestHonored</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The RFC3339 token VALUE of the `kopiur.home-operations.com/catalog-scan-requested-at`
+annotation last honored by a completed catalog scan. Compared by
+**equality** against the live annotation to decide whether a requested
+on-demand scan is still pending — deliberately NOT a timestamp comparison
+against `lastRefreshAt` (a periodic refresh completing after the request
+was made would otherwise look like it honored the request even though it
+started before the annotation was set).
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -4568,6 +4723,82 @@ the `health_probe_due` timer so the probe re-fires on cadence.
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.parameters" data-path-key="|status|parameters|" data-parent-path="status" data-name="parameters" data-text="The kopia repository parameters actually observed at the last bootstrap. Compare
+against `spec.parameters` to see whether a declared value landed.">
+<summary>
+  <span class="prop-name">parameters</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The kopia repository parameters actually observed at the last bootstrap. Compare
+against `spec.parameters` to see whether a declared value landed.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.parameters.epoch" data-path-key="|status|parameters|epoch|" data-parent-path="status.parameters" data-name="epoch" data-text="The epoch parameters the repository reports.">
+<summary>
+  <span class="prop-name">epoch</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The epoch parameters the repository reports.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.advanceOnCount" data-path-key="|status|parameters|epoch|advanceOnCount|" data-parent-path="status.parameters.epoch" data-name="advanceOnCount" data-text="Observed index-blob count that triggers an epoch advance. format: int64">
+  <span class="prop-name">advanceOnCount</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed index-blob count that triggers an epoch advance.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.advanceOnSizeMiB" data-path-key="|status|parameters|epoch|advanceOnSizeMiB|" data-parent-path="status.parameters.epoch" data-name="advanceOnSizeMiB" data-text="Observed total index size (MiB) that triggers an epoch advance. format: int64">
+  <span class="prop-name">advanceOnSizeMiB</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed total index size (MiB) that triggers an epoch advance.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.checkpointFrequency" data-path-key="|status|parameters|epoch|checkpointFrequency|" data-parent-path="status.parameters.epoch" data-name="checkpointFrequency" data-text="Observed epochs between full index checkpoints. format: int64">
+  <span class="prop-name">checkpointFrequency</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed epochs between full index checkpoints.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.cleanupSafetyMargin" data-path-key="|status|parameters|epoch|cleanupSafetyMargin|" data-parent-path="status.parameters.epoch" data-name="cleanupSafetyMargin" data-text="Observed cleanup safety margin, as a Go-style duration. Reported for diagnosis;
+not settable through `spec.parameters`.">
+  <span class="prop-name">cleanupSafetyMargin</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed cleanup safety margin, as a Go-style duration. Reported for diagnosis;
+not settable through `spec.parameters`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.deleteParallelism" data-path-key="|status|parameters|epoch|deleteParallelism|" data-parent-path="status.parameters.epoch" data-name="deleteParallelism" data-text="Observed epoch-cleanup delete parallelism. format: int64">
+  <span class="prop-name">deleteParallelism</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed epoch-cleanup delete parallelism.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.enabled" data-path-key="|status|parameters|epoch|enabled|" data-parent-path="status.parameters.epoch" data-name="enabled" data-text="Whether kopia&#39;s epoch manager is enabled on this repository at all.">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Whether kopia&#39;s epoch manager is enabled on this repository at all.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.minDuration" data-path-key="|status|parameters|epoch|minDuration|" data-parent-path="status.parameters.epoch" data-name="minDuration" data-text="Observed minimum epoch age, as a Go-style duration.">
+  <span class="prop-name">minDuration</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed minimum epoch age, as a Go-style duration.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.refreshFrequency" data-path-key="|status|parameters|epoch|refreshFrequency|" data-parent-path="status.parameters.epoch" data-name="refreshFrequency" data-text="Observed epoch-state refresh frequency, as a Go-style duration.">
+  <span class="prop-name">refreshFrequency</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed epoch-state refresh frequency, as a Go-style duration.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Lifecycle phase of a repository. A freshly admitted CR starts in `Pending`. enum: Pending, Initializing, Ready, Degraded, Failed">
   <span class="prop-name">phase</span>
   <span class="type-badge">string</span>

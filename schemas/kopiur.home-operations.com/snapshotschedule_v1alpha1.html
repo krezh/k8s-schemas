@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.failedJobsHistoryLimit for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.deletion for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -385,6 +385,27 @@ metadata:
 </summary>
 <div class="prop-content"><div class="prop-desc">Cron schedule that fires `Snapshot` CRs from a `SnapshotPolicy`.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.deletion" data-path-key="|spec|deletion|" data-parent-path="spec" data-name="deletion" data-text="Deletion semantics for the Snapshots this schedule produced.">
+<summary>
+  <span class="prop-name">deletion</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Deletion semantics for the Snapshots this schedule produced.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.deletion.onScheduleDelete" data-path-key="|spec|deletion|onScheduleDelete|" data-parent-path="spec.deletion" data-name="onScheduleDelete" data-text="Stamped onto every produced Snapshot at creation (`spec.onScheduleDelete`)
+and consulted by the Snapshot finalizer when the owning schedule is gone
+or replaced. Absent resolves to `Retain`. enum: Retain, Delete">
+  <span class="prop-name">onScheduleDelete</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Stamped onto every produced Snapshot at creation (`spec.onScheduleDelete`)
+and consulted by the Snapshot finalizer when the owning schedule is gone
+or replaced. Absent resolves to `Retain`.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Retain, Delete"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Retain, Delete</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.failedJobsHistoryLimit" data-path-key="|spec|failedJobsHistoryLimit|" data-parent-path="spec" data-name="failedJobsHistoryLimit" data-text="Maximum number of failed `Snapshot` CRs from this schedule to retain
 (default `10`; `0` keeps none). format: uint32 minimum: 0">
   <span class="prop-name">failedJobsHistoryLimit</span>
@@ -735,7 +756,7 @@ pins written before this field existed (treated as &#34;unchanged&#34;).
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.failedJobsHistoryLimit for an exact path">No matches. Try .spec.failedJobsHistoryLimit for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.deletion for an exact path">No matches. Try .spec.deletion for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

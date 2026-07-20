@@ -5,6 +5,18 @@
       "additionalProperties": false,
       "description": "What to back up: sources, identity, retention, policy, hooks.",
       "properties": {
+        "adoption": {
+          "description": "Whether a discovered snapshot whose resolved identity matches a live\n`SnapshotPolicy` is automatically adopted — re-attached (stamped with that\npolicy's config label, `status.origin` flipped to `Adopted`) so GFS\nretention governs it and eventually prunes it, instead of it sitting in the\ncatalog forever as an immortal `discovered` row.",
+          "enum": [
+            "Adopt",
+            "Ignore"
+          ],
+          "nullable": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "compression": {
           "additionalProperties": false,
           "description": "Compression algorithm + per-extension opt-outs.",
@@ -77,6 +89,29 @@
           "nullable": true,
           "type": [
             "string",
+            "null"
+          ]
+        },
+        "deletion": {
+          "additionalProperties": false,
+          "description": "Deletion semantics for the `Snapshot` CRs carrying this recipe's config label.",
+          "nullable": true,
+          "properties": {
+            "onPolicyDelete": {
+              "default": "Retain",
+              "description": "Consulted by the Snapshot finalizer when the deletion is external and the\nowning `SnapshotPolicy` is gone. Absent resolves to `Retain`.",
+              "enum": [
+                "Retain",
+                "Delete"
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
             "null"
           ]
         },
@@ -1525,9 +1560,17 @@
             "additionalProperties": false,
             "description": "A single backup source; exactly one of `pvc`, `pvcSelector`, `nfs` (webhook-enforced).",
             "properties": {
+              "acknowledgeLiveMutation": {
+                "description": "Acknowledges that `copyMethod: Direct` + `readOnly: false` lets the kubelet\nrecursively `chgrp` the **live** volume to the mover's `fsGroup` and make it\ngroup-writable — permanently, while the workload is running. Required for that\ncombination alone.\n\nIgnored (not rejected) otherwise: it is an acknowledgement, never harmful to\ncarry, and rejecting a stale one would make switching `copyMethod` between\n`Direct` and `Snapshot`/`Clone` a two-step edit in both directions.",
+                "nullable": true,
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
               "nfs": {
                 "additionalProperties": false,
-                "description": "An inline NFS export to back up directly, mounted read-only. Mutually exclusive with `pvc`/`pvcSelector`.",
+                "description": "An inline NFS export to back up directly. Mutually exclusive with `pvc`/`pvcSelector`.",
                 "nullable": true,
                 "properties": {
                   "path": {
@@ -1655,6 +1698,15 @@
                   "null"
                 ]
               },
+              "readOnly": {
+                "default": true,
+                "description": "Mount the source read-only (default `true`; kopia only ever reads it).\n\nSet `false` **only** to make `fsGroup` work on the source. The kubelet applies\n`fsGroup` by recursively `chgrp`-ing the volume and adding group-write — and it\nskips that walk entirely on a read-only mount, which is why a mover\n`fsGroup`/`fsGroupChangePolicy` otherwise has no effect here. Under\n`copyMethod: Snapshot`/`Clone` the walk rewrites the throwaway staged PVC and\nnever touches your data. Under `copyMethod: Direct` it rewrites the LIVE volume,\nwhich requires `acknowledgeLiveMutation`.\n\nNot supported on an `nfs` source: the kubelet does not apply `fsGroup` to\nin-tree NFS volumes at all, so a read-write mount would grant nothing.",
+                "nullable": true,
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
               "sourcePathOverride": {
                 "description": "What kopia records as the source path (default `/pvc/\u003cname\u003e`, or the NFS export `path`).",
                 "maxLength": 4096,
@@ -1698,7 +1750,7 @@
           "nullable": true,
           "properties": {
             "accessModes": {
-              "description": "Access modes for the staged PVC. Empty ⇒ copy the source PVC's modes.\n`[ReadOnlyMany]` pairs with snapshot-backed read-only classes (e.g. CephFS\n`backingSnapshot`); the mover always mounts the staged PVC read-only\nregardless of the mode.",
+              "description": "Access modes for the staged PVC. Empty ⇒ copy the source PVC's modes.\n`[ReadOnlyMany]` pairs with snapshot-backed read-only classes (e.g. CephFS\n`backingSnapshot`); the mover mounts the staged PVC read-only to match, and\nrejects it at admission if a source sets `readOnly: false` (a read-only stage\ncannot be mounted read-write).",
               "items": {
                 "description": "A Kubernetes PersistentVolumeClaim access mode.",
                 "enum": [
@@ -1985,6 +2037,61 @@
       "description": "Observed state of a `SnapshotPolicy`.",
       "nullable": true,
       "properties": {
+        "adoption": {
+          "additionalProperties": false,
+          "description": "Summary of automatic adoption of discovered snapshots into this recipe.",
+          "nullable": true,
+          "properties": {
+            "lastAdoptedCount": {
+              "description": "Number of discovered `Snapshot` CRs adopted by the last adoption pass.",
+              "format": "uint32",
+              "minimum": 0,
+              "nullable": true,
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "lastAdoptionAt": {
+              "description": "RFC3339 timestamp of the last adoption pass that adopted at least one snapshot.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "scanRequestedAt": {
+              "description": "RFC3339 token echoing an in-flight on-demand adoption scan request for\nthis policy's identity; cleared once honored.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "scanRequestedIdentity": {
+              "description": "The resolved kopia identity the requested scan was scoped to, pinned at\nrequest time so a later identity-changing edit can't retarget an\nin-flight scan.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "totalAdopted": {
+              "description": "Running total of `Snapshot` CRs ever adopted into this recipe.",
+              "format": "uint64",
+              "minimum": 0,
+              "nullable": true,
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "conditions": {
           "description": "Standard Kubernetes conditions (e.g. `RepositoryReachable`, `GroupSnapshotSupported`).",
           "items": {
