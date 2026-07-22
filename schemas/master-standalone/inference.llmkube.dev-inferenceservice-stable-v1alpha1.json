@@ -3748,6 +3748,15 @@
             "null"
           ]
         },
+        "maxPodLifetimeSeconds": {
+          "description": "MaxPodLifetimeSeconds sets the maximum lifetime (in seconds) for\ninference pods. When set, the operator copies this value to\nPodSpec.ActiveDeadlineSeconds on the generated Deployment's pod\ntemplate, causing Kubernetes to terminate the pod after the\nspecified duration even if it remains healthy. This is useful for\nworkloads that need periodic process recycling to release driver\nmemory (e.g. llama.cpp on AMD Vulkan with pinned GTT memory).\nWhen omitted, pods run indefinitely until manually restarted or\nthe Deployment is updated.",
+          "format": "int64",
+          "minimum": 1,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "metadataOverrides": {
           "description": "MetadataOverrides overrides GGUF metadata key-value pairs at model load time.\nEach entry is passed as a separate --override-kv flag. Format: key=type:value\n(e.g., \"qwen35moe.context_length=int:1048576\" to extend context window, or\n\"tokenizer.chat_template.thinking=bool:false\" to tweak tokenizer behavior).\nMaps to llama.cpp --override-kv flag (one flag per entry).",
           "items": {
@@ -4874,6 +4883,59 @@
               "type": [
                 "string",
                 "null"
+              ]
+            },
+            "gpuSharing": {
+              "additionalProperties": false,
+              "description": "GPUSharing declares how this InferenceService consumes its GPU:\nexclusively (whole device, the default), as a hardware partition\n(e.g. NVIDIA MIG), or co-resident with other workloads on a shared\ndevice. Sharing is a serving-time decision, which is why it lives\nhere rather than on the Model: the same Model can run exclusive in\nproduction and shared in dev. Unset means exclusive, preserving the\nbehavior of every existing manifest.",
+              "properties": {
+                "memoryLimitGiB": {
+                  "description": "MemoryLimitGiB caps this service's device-memory footprint in\nshared mode. It drives quota accounting (a shared workload counts\nthis many GiB against a GPUQuota vramBytes cap) and, where the\nruntime supports it, a memory-cap enforcement flag. Only valid for\nmode shared.",
+                  "format": "int32",
+                  "minimum": 1,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "mode": {
+                  "default": "exclusive",
+                  "description": "Mode selects the sharing tier. Defaults to exclusive.",
+                  "enum": [
+                    "exclusive",
+                    "shared",
+                    "partitioned"
+                  ],
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "profile": {
+                  "description": "Profile names the hardware partition to request. Required when\nmode is partitioned, forbidden otherwise. The string is\nvendor-specific; for NVIDIA MIG it is the profile name as exposed\nby the device plugin, e.g. \"1g.24gb\" or \"3g.90gb\", and resolves to\nthe extended resource nvidia.com/mig-\u003cprofile\u003e.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "type": [
+                "object",
+                "null"
+              ],
+              "x-kubernetes-validations": [
+                {
+                  "message": "profile is required when mode is partitioned",
+                  "rule": "!has(self.mode) || self.mode != 'partitioned' || (has(self.profile) \u0026\u0026 self.profile.size() \u003e 0)"
+                },
+                {
+                  "message": "profile is only valid when mode is partitioned",
+                  "rule": "!has(self.profile) || self.profile.size() == 0 || (has(self.mode) \u0026\u0026 self.mode == 'partitioned')"
+                },
+                {
+                  "message": "memoryLimitGiB is only valid when mode is shared",
+                  "rule": "!has(self.memoryLimitGiB) || (has(self.mode) \u0026\u0026 self.mode == 'shared')"
+                }
               ]
             },
             "hostMemory": {
