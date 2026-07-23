@@ -385,29 +385,35 @@ metadata:
 </summary>
 <div class="prop-content">
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.attrPaths" data-path-key="|spec|attrPaths|" data-parent-path="spec" data-name="attrPaths" data-text="Flake fragments `nix-eval-jobs` evaluates, one invocation per entry. Must list at least one -- an empty list would mean nothing is ever evaluated for this project. minItems: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.attrPaths" data-path-key="|spec|attrPaths|" data-parent-path="spec" data-name="attrPaths" data-text="Flake fragments `nix-eval-jobs` evaluates, one invocation per entry.
+Must list at least one -- an empty list would mean nothing is ever
+evaluated for this project. minItems: 1">
   <span class="prop-name">attrPaths</span>
   <span class="type-badge">[]string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Flake fragments `nix-eval-jobs` evaluates, one invocation per entry. Must list at least one -- an empty list would mean nothing is ever evaluated for this project.<div class="leaf-constraints">
+  <div class="leaf-desc">Flake fragments `nix-eval-jobs` evaluates, one invocation per entry.
+Must list at least one -- an empty list would mean nothing is ever
+evaluated for this project.<div class="leaf-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.client" data-path-key="|spec|client|" data-parent-path="spec" data-name="client" data-text="Name of the NixBuilderClient this project&#39;s builds are attributed to (quota, pool routing). Not validated against a real NixBuilderClient existing -- matches NixBuilderPool.spec.clients&#39; existing precedent.">
-  <span class="prop-name">client</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name of the NixBuilderClient this project&#39;s builds are attributed to (quota, pool routing). Not validated against a real NixBuilderClient existing -- matches NixBuilderPool.spec.clients&#39; existing precedent.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.flakeRef" data-path-key="|spec|flakeRef|" data-parent-path="spec" data-name="flakeRef" data-text="Repo-level flake identity, e.g. &#34;github:krezh/dotnix&#34; -- no ref/query fragment. Jobsets (one per branch/PR) are still created dynamically underneath this project when a webhook reports a ref of this repo.">
+<div class="prop-leaf" data-prop-row data-path="spec.flakeRef" data-path-key="|spec|flakeRef|" data-parent-path="spec" data-name="flakeRef" data-text="Repo-level flake identity, e.g. &#34;github:acme/widgets&#34; -- no ref/query
+fragment. Jobsets (one per branch/PR) are still created dynamically
+underneath this project when a webhook reports a ref of this repo.">
   <span class="prop-name">flakeRef</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Repo-level flake identity, e.g. &#34;github:krezh/dotnix&#34; -- no ref/query fragment. Jobsets (one per branch/PR) are still created dynamically underneath this project when a webhook reports a ref of this repo.
+  <div class="leaf-desc">Repo-level flake identity, e.g. &#34;github:acme/widgets&#34; -- no ref/query
+fragment. Jobsets (one per branch/PR) are still created dynamically
+underneath this project when a webhook reports a ref of this repo.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.pools" data-path-key="|spec|pools|" data-parent-path="spec" data-name="pools" data-text="Advisory list of pool names this project is expected to build on. Checked at reconcile time (logged, not enforced) against each named pool&#39;s own `clients` list.">
+<div class="prop-leaf" data-prop-row data-path="spec.pools" data-path-key="|spec|pools|" data-parent-path="spec" data-name="pools" data-text="Advisory list of pool names this project is expected to build on.
+Not enforced -- any pool whose system matches a job&#39;s system can
+build it regardless of this list.">
   <span class="prop-name">pools</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Advisory list of pool names this project is expected to build on. Checked at reconcile time (logged, not enforced) against each named pool&#39;s own `clients` list.
+  <div class="leaf-desc">Advisory list of pool names this project is expected to build on.
+Not enforced -- any pool whose system matches a job&#39;s system can
+build it regardless of this list.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.webhookSecretRef" data-path-key="|spec|webhookSecretRef|" data-parent-path="spec" data-name="webhookSecretRef" data-text="">

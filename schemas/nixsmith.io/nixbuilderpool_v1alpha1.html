@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.clients for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.image for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -385,13 +385,6 @@ metadata:
 </summary>
 <div class="prop-content">
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.clients" data-path-key="|spec|clients|" data-parent-path="spec" data-name="clients" data-text="Names of the NixBuilderClients this pool serves. Must list at least one -- a pool with no clients listed serves nobody. minItems: 1">
-  <span class="prop-name">clients</span>
-  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Names of the NixBuilderClients this pool serves. Must list at least one -- a pool with no clients listed serves nobody.<div class="leaf-constraints">
-<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
-  </div>
-</div>
 <div class="prop-leaf" data-prop-row data-path="spec.image" data-path-key="|spec|image|" data-parent-path="spec" data-name="image" data-text="">
   <span class="prop-name">image</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
@@ -411,18 +404,50 @@ metadata:
 </summary>
 <div class="prop-content">
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.resources.cpu" data-path-key="|spec|resources|cpu|" data-parent-path="spec.resources" data-name="cpu" data-text="">
+<details class="prop" data-prop-row data-path="spec.resources.limits" data-path-key="|spec|resources|limits|" data-parent-path="spec.resources" data-name="limits" data-text="">
+<summary>
+  <span class="prop-name">limits</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content">
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.resources.limits.cpu" data-path-key="|spec|resources|limits|cpu|" data-parent-path="spec.resources.limits" data-name="cpu" data-text="">
   <span class="prop-name">cpu</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.resources.memory" data-path-key="|spec|resources|memory|" data-parent-path="spec.resources" data-name="memory" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.resources.limits.memory" data-path-key="|spec|resources|limits|memory|" data-parent-path="spec.resources.limits" data-name="memory" data-text="">
   <span class="prop-name">memory</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">
   </div>
 </div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.resources.requests" data-path-key="|spec|resources|requests|" data-parent-path="spec.resources" data-name="requests" data-text="">
+<summary>
+  <span class="prop-name">requests</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content">
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.resources.requests.cpu" data-path-key="|spec|resources|requests|cpu|" data-parent-path="spec.resources.requests" data-name="cpu" data-text="">
+  <span class="prop-name">cpu</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.resources.requests.memory" data-path-key="|spec|resources|requests|memory|" data-parent-path="spec.resources.requests" data-name="memory" data-text="">
+  <span class="prop-name">memory</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -504,7 +529,7 @@ metadata:
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.clients for an exact path">No matches. Try .spec.clients for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.image for an exact path">No matches. Try .spec.image for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

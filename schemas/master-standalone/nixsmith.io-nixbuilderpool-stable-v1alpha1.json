@@ -4,14 +4,6 @@
     "spec": {
       "additionalProperties": false,
       "properties": {
-        "clients": {
-          "description": "Names of the NixBuilderClients this pool serves. Must list at least one -- a pool with no clients listed serves nobody.",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "type": "array"
-        },
         "image": {
           "type": "string"
         },
@@ -28,17 +20,47 @@
         "resources": {
           "additionalProperties": false,
           "properties": {
-            "cpu": {
-              "type": "string"
+            "limits": {
+              "additionalProperties": false,
+              "nullable": true,
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cpu",
+                "memory"
+              ],
+              "type": [
+                "object",
+                "null"
+              ]
             },
-            "memory": {
-              "type": "string"
+            "requests": {
+              "additionalProperties": false,
+              "nullable": true,
+              "properties": {
+                "cpu": {
+                  "type": "string"
+                },
+                "memory": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cpu",
+                "memory"
+              ],
+              "type": [
+                "object",
+                "null"
+              ]
             }
           },
-          "required": [
-            "cpu",
-            "memory"
-          ],
           "type": "object"
         },
         "scaling": {
@@ -79,7 +101,6 @@
         }
       },
       "required": [
-        "clients",
         "image",
         "resources",
         "scaling",
