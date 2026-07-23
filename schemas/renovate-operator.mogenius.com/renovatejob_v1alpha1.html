@@ -5050,6 +5050,16 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
   <div class="leaf-desc">
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.provider.publicEndpoint" data-path-key="|spec|provider|publicEndpoint|" data-parent-path="spec.provider" data-name="publicEndpoint" data-text="PublicEndpoint is the externally reachable URL for the provider, used only for UI links.
+When set, this overrides Endpoint for dashboard links while Endpoint continues to be
+used for Renovate API calls and cloning. Defaults to Endpoint when omitted.">
+  <span class="prop-name">publicEndpoint</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PublicEndpoint is the externally reachable URL for the provider, used only for UI links.
+When set, this overrides Endpoint for dashboard links while Endpoint continues to be
+used for Renovate API calls and cloning. Defaults to Endpoint when omitted.
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -6783,10 +6793,10 @@ the common Renovate token key names are tried.</div>
   <div class="leaf-desc">
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].lastRun" data-path-key="|status|projects[]|lastRun|" data-parent-path="status.projects" data-name="lastRun" data-text="format: date-time">
-  <span class="prop-name">lastRun</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="prop-leaf" data-prop-row data-path="status.projects[].lastTransition" data-path-key="|status|projects[]|lastTransition|" data-parent-path="status.projects" data-name="lastTransition" data-text="LastTransition records when the project most recently changed state. format: date-time">
+  <span class="prop-name">lastTransition</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LastTransition records when the project most recently changed state.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
