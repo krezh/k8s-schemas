@@ -49,7 +49,12 @@
         "flakeRef",
         "webhookSecretRef"
       ],
-      "type": "object"
+      "type": "object",
+      "x-kubernetes-validations": [
+        {
+          "rule": "self.flakeRef == oldSelf.flakeRef"
+        }
+      ]
     }
   },
   "required": [

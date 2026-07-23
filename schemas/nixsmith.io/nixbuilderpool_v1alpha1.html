@@ -458,36 +458,68 @@ metadata:
 </summary>
 <div class="prop-content">
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.scaling.idleTimeoutSeconds" data-path-key="|spec|scaling|idleTimeoutSeconds|" data-parent-path="spec.scaling" data-name="idleTimeoutSeconds" data-text="format: uint32 minimum: 0">
+<div class="prop-leaf" data-prop-row data-path="spec.scaling.idleTimeoutSeconds" data-path-key="|spec|scaling|idleTimeoutSeconds|" data-parent-path="spec.scaling" data-name="idleTimeoutSeconds" data-text="format: uint32 minimum: 0 maximum: 2.147483647e&#43;09">
   <span class="prop-name">idleTimeoutSeconds</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
   <div class="leaf-desc"><div class="leaf-constraints">
 <div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 2.147483647e&#43;09"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">2.147483647e&#43;09</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.scaling.jobsPerPod" data-path-key="|spec|scaling|jobsPerPod|" data-parent-path="spec.scaling" data-name="jobsPerPod" data-text="format: uint32 minimum: 0">
+<div class="prop-leaf" data-prop-row data-path="spec.scaling.jobsPerPod" data-path-key="|spec|scaling|jobsPerPod|" data-parent-path="spec.scaling" data-name="jobsPerPod" data-text="format: uint32 minimum: 1 maximum: 2.147483647e&#43;09">
   <span class="prop-name">jobsPerPod</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
   <div class="leaf-desc"><div class="leaf-constraints">
 <div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 2.147483647e&#43;09"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">2.147483647e&#43;09</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.scaling.maxPods" data-path-key="|spec|scaling|maxPods|" data-parent-path="spec.scaling" data-name="maxPods" data-text="format: uint32 minimum: 0">
+<div class="prop-leaf" data-prop-row data-path="spec.scaling.maxPods" data-path-key="|spec|scaling|maxPods|" data-parent-path="spec.scaling" data-name="maxPods" data-text="format: uint32 minimum: 0 maximum: 2.147483647e&#43;09">
   <span class="prop-name">maxPods</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
   <div class="leaf-desc"><div class="leaf-constraints">
 <div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 2.147483647e&#43;09"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">2.147483647e&#43;09</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.scaling.minPods" data-path-key="|spec|scaling|minPods|" data-parent-path="spec.scaling" data-name="minPods" data-text="format: uint32 minimum: 0">
+<div class="prop-leaf" data-prop-row data-path="spec.scaling.minPods" data-path-key="|spec|scaling|minPods|" data-parent-path="spec.scaling" data-name="minPods" data-text="format: uint32 minimum: 0 maximum: 2.147483647e&#43;09">
   <span class="prop-name">minPods</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
   <div class="leaf-desc"><div class="leaf-constraints">
 <div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 2.147483647e&#43;09"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">2.147483647e&#43;09</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.storage" data-path-key="|spec|storage|" data-parent-path="spec" data-name="storage" data-text="">
+<summary>
+  <span class="prop-name">storage</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content">
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.storage.buildCacheSize" data-path-key="|spec|storage|buildCacheSize|" data-parent-path="spec.storage" data-name="buildCacheSize" data-text="">
+  <span class="prop-name">buildCacheSize</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.storage.nixStoreSize" data-path-key="|spec|storage|nixStoreSize|" data-parent-path="spec.storage" data-name="nixStoreSize" data-text="">
+  <span class="prop-name">nixStoreSize</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.storage.storageClassName" data-path-key="|spec|storage|storageClassName|" data-parent-path="spec.storage" data-name="storageClassName" data-text="">
+  <span class="prop-name">storageClassName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">
   </div>
 </div>
   </div>
@@ -517,8 +549,39 @@ metadata:
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.desiredPods" data-path-key="|status|desiredPods|" data-parent-path="status" data-name="desiredPods" data-text="format: uint32 minimum: 0">
+  <span class="prop-name">desiredPods</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="format: int64">
+  <span class="prop-name">observedGeneration</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.pendingPods" data-path-key="|status|pendingPods|" data-parent-path="status" data-name="pendingPods" data-text="format: uint32 minimum: 0">
+  <span class="prop-name">pendingPods</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.readyPods" data-path-key="|status|readyPods|" data-parent-path="status" data-name="readyPods" data-text="format: uint32 minimum: 0">
   <span class="prop-name">readyPods</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.stalePods" data-path-key="|status|stalePods|" data-parent-path="status" data-name="stalePods" data-text="format: uint32 minimum: 0">
+  <span class="prop-name">stalePods</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc"><div class="leaf-constraints">
 <div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">

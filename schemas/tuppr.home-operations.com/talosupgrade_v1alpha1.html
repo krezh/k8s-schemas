@@ -7559,6 +7559,69 @@ Multi-Attach error when a fast reboot orphans a mount. No-op on single-node.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.silences" data-path-key="|spec|silences|" data-parent-path="spec" data-name="silences" data-text="Silences are Alertmanager silences held while this upgrade runs, one per
+entry. Requires the operator-level Alertmanager connection (Helm
+`silences.*`). minItems: 1 maxItems: 8">
+<summary>
+  <span class="prop-name">silences</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Silences are Alertmanager silences held while this upgrade runs, one per
+entry. Requires the operator-level Alertmanager connection (Helm
+`silences.*`).</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 8"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">8</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.silences[].matchers" data-path-key="|spec|silences[]|matchers|" data-parent-path="spec.silences" data-name="matchers" data-text="Matchers select the alerts this silence covers. Alertmanager ANDs the
+matchers of one silence; use a regex value to cover alternatives, or
+additional silences for independent scopes. minItems: 1">
+<summary>
+  <span class="prop-name">matchers</span>
+  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Matchers select the alerts this silence covers. Alertmanager ANDs the
+matchers of one silence; use a regex value to cover alternatives, or
+additional silences for independent scopes.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.silences[].matchers[].matchType" data-path-key="|spec|silences[]|matchers[]|matchType|" data-parent-path="spec.silences[].matchers" data-name="matchType" data-text="MatchType is the match operator: = (equals), != , =~ (regex), !~. enum: =, !=, =~, !~">
+  <span class="prop-name">matchType</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">MatchType is the match operator: = (equals), != , =~ (regex), !~.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: =, !=, =~, !~"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">=, !=, =~, !~</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.silences[].matchers[].name" data-path-key="|spec|silences[]|matchers[]|name|" data-parent-path="spec.silences[].matchers" data-name="name" data-text="Name of the alert label to match. minLength: 1">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the alert label to match.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.silences[].matchers[].value" data-path-key="|spec|silences[]|matchers[]|value|" data-parent-path="spec.silences[].matchers" data-name="value" data-text="Value the label is matched against. minLength: 1">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Value the label is matched against.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.silences[].maxDuration" data-path-key="|spec|silences[]|maxDuration|" data-parent-path="spec.silences" data-name="maxDuration" data-text="MaxDuration hard-caps how long a continuous silence hold keeps being
+extended; a run still holding this silence beyond it alerts again. The
+budget re-arms when the hold is released (run parked or finished). pattern: ^([0-9]&#43;[smh])&#43;$">
+  <span class="prop-name">maxDuration</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">MaxDuration hard-caps how long a continuous silence hold keeps being
+extended; a run still holding this silence beyond it alerts again. The
+budget re-arms when the hold is released (run parked or finished).<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]&#43;[smh])&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;[smh])&#43;$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.talos" data-path-key="|spec|talos|" data-parent-path="spec" data-name="talos" data-text="Talos specifies the talos configuration for upgrade operations">
 <summary>
   <span class="prop-name">talos</span>
@@ -7627,6 +7690,29 @@ If not specified, defaults to the target version
 </summary>
 <div class="prop-content"><div class="prop-desc">TalosUpgradeStatus defines the observed state of TalosUpgrade</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.alertSilenceIDs" data-path-key="|status|alertSilenceIDs|" data-parent-path="status" data-name="alertSilenceIDs" data-text="AlertSilenceIDs are the Alertmanager silences this run holds open, indexed
+like spec.silences (an empty entry is a silence not yet created). Persisted
+so the leases are re-adopted across controller restarts and expired when
+the run leaves its active phases.">
+  <span class="prop-name">alertSilenceIDs</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">AlertSilenceIDs are the Alertmanager silences this run holds open, indexed
+like spec.silences (an empty entry is a silence not yet created). Persisted
+so the leases are re-adopted across controller restarts and expired when
+the run leaves its active phases.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.alertSilencesSince" data-path-key="|status|alertSilencesSince|" data-parent-path="status" data-name="alertSilencesSince" data-text="AlertSilencesSince is when the current silence hold began; each entry&#39;s
+maxDuration caps extension relative to it. Cleared when the hold is
+released, so a resumed run gets a fresh budget. format: date-time">
+  <span class="prop-name">alertSilencesSince</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">AlertSilencesSince is when the current silence hold began; each entry&#39;s
+maxDuration caps extension relative to it. Cleared when the hold is
+released, so a resumed run gets a fresh budget.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.completedAt" data-path-key="|status|completedAt|" data-parent-path="status" data-name="completedAt" data-text="CompletedAt is the time the upgrade reached a terminal phase format: date-time">
   <span class="prop-name">completedAt</span>
   <span class="type-badge">string</span>
@@ -7865,6 +7951,35 @@ Equals len(spec.hooks.pre) once all pre-hooks are done.">
 Equals len(spec.hooks.pre) once all pre-hooks are done.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.rebootingNodes" data-path-key="|status|rebootingNodes|" data-parent-path="status" data-name="rebootingNodes" data-text="RebootingNodes tracks nodes whose upgrade job finished but whose
+post-reboot readiness has not been verified yet. Persisted in status so
+the wait survives upgrade Job garbage collection; a node that never
+comes back is marked failed once its deadline passes.">
+<summary>
+  <span class="prop-name">rebootingNodes</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RebootingNodes tracks nodes whose upgrade job finished but whose
+post-reboot readiness has not been verified yet. Persisted in status so
+the wait survives upgrade Job garbage collection; a node that never
+comes back is marked failed once its deadline passes.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.rebootingNodes[].deadline" data-path-key="|status|rebootingNodes[]|deadline|" data-parent-path="status.rebootingNodes" data-name="deadline" data-text="Deadline is when the reboot wait expires and the node is marked failed format: date-time">
+  <span class="prop-name">deadline</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Deadline is when the reboot wait expires and the node is marked failed<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.rebootingNodes[].nodeName" data-path-key="|status|rebootingNodes[]|nodeName|" data-parent-path="status.rebootingNodes" data-name="nodeName" data-text="NodeName is the name of the node">
+  <span class="prop-name">nodeName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">NodeName is the name of the node
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="status.startedAt" data-path-key="|status|startedAt|" data-parent-path="status" data-name="startedAt" data-text="StartedAt is the time the current upgrade run began format: date-time">
   <span class="prop-name">startedAt</span>
   <span class="type-badge">string</span>

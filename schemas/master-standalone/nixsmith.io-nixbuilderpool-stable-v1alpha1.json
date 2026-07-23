@@ -68,21 +68,25 @@
           "properties": {
             "idleTimeoutSeconds": {
               "format": "uint32",
+              "maximum": 2147483647,
               "minimum": 0,
               "type": "integer"
             },
             "jobsPerPod": {
               "format": "uint32",
-              "minimum": 0,
+              "maximum": 2147483647,
+              "minimum": 1,
               "type": "integer"
             },
             "maxPods": {
               "format": "uint32",
+              "maximum": 2147483647,
               "minimum": 0,
               "type": "integer"
             },
             "minPods": {
               "format": "uint32",
+              "maximum": 2147483647,
               "minimum": 0,
               "type": "integer"
             }
@@ -95,6 +99,40 @@
           ],
           "type": "object"
         },
+        "storage": {
+          "additionalProperties": false,
+          "default": {
+            "buildCacheSize": "10Gi",
+            "nixStoreSize": "40Gi"
+          },
+          "properties": {
+            "buildCacheSize": {
+              "default": "10Gi",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "nixStoreSize": {
+              "default": "40Gi",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "storageClassName": {
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "system": {
           "description": "Nix system string, e.g. \"x86_64-linux\" or \"aarch64-linux\".",
           "type": "string"
@@ -106,7 +144,12 @@
         "scaling",
         "system"
       ],
-      "type": "object"
+      "type": "object",
+      "x-kubernetes-validations": [
+        {
+          "rule": "self.scaling.minPods \u003c= self.scaling.maxPods"
+        }
+      ]
     },
     "status": {
       "additionalProperties": false,
@@ -121,7 +164,42 @@
             "null"
           ]
         },
+        "desiredPods": {
+          "default": 0,
+          "format": "uint32",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "observedGeneration": {
+          "format": "int64",
+          "nullable": true,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "pendingPods": {
+          "default": 0,
+          "format": "uint32",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "readyPods": {
+          "default": 0,
+          "format": "uint32",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "stalePods": {
           "default": 0,
           "format": "uint32",
           "minimum": 0,
