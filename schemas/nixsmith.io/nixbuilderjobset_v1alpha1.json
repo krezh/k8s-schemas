@@ -1,0 +1,65 @@
+{
+  "description": "Auto-generated derived type for NixBuilderJobsetSpec via `CustomResource`",
+  "properties": {
+    "spec": {
+      "additionalProperties": false,
+      "properties": {
+        "attrPaths": {
+          "description": "Flake fragments `nix-eval-jobs` evaluates, one invocation per entry. Must list at least one -- an empty list would mean nothing is ever evaluated for this project.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "client": {
+          "description": "Name of the NixBuilderClient this project's builds are attributed to (quota, pool routing). Not validated against a real NixBuilderClient existing -- matches NixBuilderPool.spec.clients' existing precedent.",
+          "type": "string"
+        },
+        "flakeRef": {
+          "description": "Repo-level flake identity, e.g. \"github:krezh/dotnix\" -- no ref/query fragment. Jobsets (one per branch/PR) are still created dynamically underneath this project when a webhook reports a ref of this repo.",
+          "type": "string"
+        },
+        "pools": {
+          "default": [],
+          "description": "Advisory list of pool names this project is expected to build on. Checked at reconcile time (logged, not enforced) against each named pool's own `clients` list.",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "webhookSecretRef": {
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "key",
+            "name"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "attrPaths",
+        "client",
+        "flakeRef",
+        "webhookSecretRef"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "spec"
+  ],
+  "title": "NixBuilderJobset",
+  "type": "object"
+}

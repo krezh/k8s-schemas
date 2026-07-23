@@ -1,0 +1,41 @@
+{
+  "description": "Auto-generated derived type for NixBuilderClientSpec via `CustomResource`",
+  "properties": {
+    "spec": {
+      "additionalProperties": false,
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "quota": {
+          "additionalProperties": false,
+          "properties": {
+            "maxConcurrentBuilds": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "maxConcurrentBuilds"
+          ],
+          "type": "object"
+        },
+        "sshPublicKey": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "displayName",
+        "quota",
+        "sshPublicKey"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "spec"
+  ],
+  "title": "NixBuilderClient",
+  "type": "object"
+}
