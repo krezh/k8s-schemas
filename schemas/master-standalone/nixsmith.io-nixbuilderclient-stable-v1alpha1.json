@@ -22,13 +22,16 @@
           "type": "object"
         },
         "sshPublicKey": {
-          "type": "string"
+          "nullable": true,
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
         "displayName",
-        "quota",
-        "sshPublicKey"
+        "quota"
       ],
       "type": "object"
     }
