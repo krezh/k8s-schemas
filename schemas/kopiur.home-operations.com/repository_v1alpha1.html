@@ -1122,14 +1122,16 @@ other than the operator itself reads the `Secret`.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.bootstrap" data-path-key="|spec|bootstrap|" data-parent-path="spec" data-name="bootstrap" data-text="Tuning for the one-shot bootstrap Job that connects/creates an object-store
-repository the operator cannot reach in-process.">
+<details class="prop" data-prop-row data-path="spec.bootstrap" data-path-key="|spec|bootstrap|" data-parent-path="spec" data-name="bootstrap" data-text="Tuning for the bootstrap/discovery mover Job (`&lt;name&gt;-discovery`) that
+connects/creates an object-store repository the operator cannot reach
+in-process (and re-runs for catalog re-scans).">
 <summary>
   <span class="prop-name">bootstrap</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Tuning for the one-shot bootstrap Job that connects/creates an object-store
-repository the operator cannot reach in-process.</div>
+<div class="prop-content"><div class="prop-desc">Tuning for the bootstrap/discovery mover Job (`&lt;name&gt;-discovery`) that
+connects/creates an object-store repository the operator cannot reach
+in-process (and re-runs for catalog re-scans).</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.bootstrap.failurePolicy" data-path-key="|spec|bootstrap|failurePolicy|" data-parent-path="spec.bootstrap" data-name="failurePolicy" data-text="Failure policy for the bootstrap Job. `activeDeadlineSeconds` caps how long
 a connect may run before the Job is marked failed (default 120s); raise it
@@ -1232,18 +1234,18 @@ hostname-names-a-namespace placement applies (validators enforce this).<div clas
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.catalog.periodicRefresh" data-path-key="|spec|catalog|periodicRefresh|" data-parent-path="spec.catalog" data-name="periodicRefresh" data-text="Opt-in: periodically re-scan the repository to keep discovered `Snapshot` CRs
 current (re-list snapshots; for object-store / volume-backed repos this recycles
-the bootstrap Job every `refreshInterval`). **Off by default** — the repository
-still bootstraps once, re-bootstraps on a spec change, and re-probes on a backup
-failure, but does not re-run on a timer. Enable it if you rely on discovered
-snapshots reflecting changes made outside this operator.">
+the `&lt;name&gt;-discovery` mover Job every `refreshInterval`). **Off by default** —
+the repository still bootstraps once, re-bootstraps on a spec change, and
+re-probes on a backup failure, but does not re-run on a timer. Enable it if you
+rely on discovered snapshots reflecting changes made outside this operator.">
   <span class="prop-name">periodicRefresh</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">Opt-in: periodically re-scan the repository to keep discovered `Snapshot` CRs
 current (re-list snapshots; for object-store / volume-backed repos this recycles
-the bootstrap Job every `refreshInterval`). **Off by default** — the repository
-still bootstraps once, re-bootstraps on a spec change, and re-probes on a backup
-failure, but does not re-run on a timer. Enable it if you rely on discovered
-snapshots reflecting changes made outside this operator.
+the `&lt;name&gt;-discovery` mover Job every `refreshInterval`). **Off by default** —
+the repository still bootstraps once, re-bootstraps on a spec change, and
+re-probes on a backup failure, but does not re-run on a timer. Enable it if you
+rely on discovered snapshots reflecting changes made outside this operator.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.catalog.refreshInterval" data-path-key="|spec|catalog|refreshInterval|" data-parent-path="spec.catalog" data-name="refreshInterval" data-text="How often to re-scan when `periodicRefresh: true` (Go-style duration; minimum
@@ -4622,6 +4624,26 @@ the `health_probe_due` timer so the probe re-fires on cadence.">
   <span class="type-badge">string</span>
   <div class="leaf-desc">RFC 3339 timestamp of the last completed probe (success or failure); drives
 the `health_probe_due` timer so the probe re-fires on cadence.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.health.probeAttemptAt" data-path-key="|status|health|probeAttemptAt|" data-parent-path="status.health" data-name="probeAttemptAt" data-text="RFC 3339 timestamp at which the last backend health probe was *launched*
+(the bootstrap Job created for it), cleared when its result is finalized.
+
+This is the **launch-side** rate limit, and it is what makes the probe
+terminate. `lastProbeAt` is written only at *finalize*, so gating the
+launch on that alone recycles the bootstrap Job forever: the gate destroys
+every Job whose completion would have cleared it (#273). Never compared
+against `lastProbeAt` — see `kopiur_controller::health::probe_action`.">
+  <span class="prop-name">probeAttemptAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC 3339 timestamp at which the last backend health probe was *launched*
+(the bootstrap Job created for it), cleared when its result is finalized.
+
+This is the **launch-side** rate limit, and it is what makes the probe
+terminate. `lastProbeAt` is written only at *finalize*, so gating the
+launch on that alone recycles the bootstrap Job forever: the gate destroys
+every Job whose completion would have cleared it (#273). Never compared
+against `lastProbeAt` — see `kopiur_controller::health::probe_action`.
   </div>
 </div>
   </div>

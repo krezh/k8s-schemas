@@ -266,6 +266,32 @@
                           "null"
                         ]
                       },
+                      "headers": {
+                        "description": "Additional request headers (e.g. `Content-Type: application/json`).",
+                        "items": {
+                          "additionalProperties": false,
+                          "description": "One HTTP header sent with an `httpRequest` hook.",
+                          "properties": {
+                            "name": {
+                              "description": "Header name (case-insensitive; RFC 7230 token, e.g. `Content-Type`).",
+                              "type": "string"
+                            },
+                            "value": {
+                              "description": "Header value.",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "value"
+                          ],
+                          "type": "object"
+                        },
+                        "type": [
+                          "array",
+                          "null"
+                        ]
+                      },
                       "method": {
                         "description": "HTTP method (default `POST`).",
                         "nullable": true,
@@ -474,6 +500,32 @@
                         "description": "If `true`, a failed request does not abort the backup (default: abort).",
                         "type": [
                           "boolean",
+                          "null"
+                        ]
+                      },
+                      "headers": {
+                        "description": "Additional request headers (e.g. `Content-Type: application/json`).",
+                        "items": {
+                          "additionalProperties": false,
+                          "description": "One HTTP header sent with an `httpRequest` hook.",
+                          "properties": {
+                            "name": {
+                              "description": "Header name (case-insensitive; RFC 7230 token, e.g. `Content-Type`).",
+                              "type": "string"
+                            },
+                            "value": {
+                              "description": "Header value.",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "value"
+                          ],
+                          "type": "object"
+                        },
+                        "type": [
+                          "array",
                           "null"
                         ]
                       },
@@ -2073,6 +2125,16 @@
               "nullable": true,
               "type": [
                 "string",
+                "null"
+              ]
+            },
+            "skippedByRetention": {
+              "description": "Identity-matching discovered snapshots the last adoption pass left\ndiscovered because `spec.retention` would prune them immediately under\nthe effective `deletionPolicy` (`Retain`/`Orphan` — a CR-only prune that\nwould re-discover and re-adopt forever). `0`/absent when nothing was\nwithheld. See the `AdoptionSkippedByRetention` event for the levers.",
+              "format": "uint32",
+              "minimum": 0,
+              "nullable": true,
+              "type": [
+                "integer",
                 "null"
               ]
             },

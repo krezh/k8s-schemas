@@ -741,7 +741,7 @@
         },
         "bootstrap": {
           "additionalProperties": false,
-          "description": "Tuning for the one-shot bootstrap Job that connects/creates an object-store\nrepository the operator cannot reach in-process.",
+          "description": "Tuning for the bootstrap/discovery mover Job (`\u003cname\u003e-discovery`) that\nconnects/creates an object-store repository the operator cannot reach\nin-process (and re-runs for catalog re-scans).",
           "nullable": true,
           "properties": {
             "failurePolicy": {
@@ -826,7 +826,7 @@
               ]
             },
             "periodicRefresh": {
-              "description": "Opt-in: periodically re-scan the repository to keep discovered `Snapshot` CRs\ncurrent (re-list snapshots; for object-store / volume-backed repos this recycles\nthe bootstrap Job every `refreshInterval`). **Off by default** — the repository\nstill bootstraps once, re-bootstraps on a spec change, and re-probes on a backup\nfailure, but does not re-run on a timer. Enable it if you rely on discovered\nsnapshots reflecting changes made outside this operator.",
+              "description": "Opt-in: periodically re-scan the repository to keep discovered `Snapshot` CRs\ncurrent (re-list snapshots; for object-store / volume-backed repos this recycles\nthe `\u003cname\u003e-discovery` mover Job every `refreshInterval`). **Off by default** —\nthe repository still bootstraps once, re-bootstraps on a spec change, and\nre-probes on a backup failure, but does not re-run on a timer. Enable it if you\nrely on discovered snapshots reflecting changes made outside this operator.",
               "type": [
                 "boolean",
                 "null"
@@ -4621,6 +4621,14 @@
             },
             "lastProbeAt": {
               "description": "RFC 3339 timestamp of the last completed probe (success or failure); drives\nthe `health_probe_due` timer so the probe re-fires on cadence.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "probeAttemptAt": {
+              "description": "RFC 3339 timestamp at which the last backend health probe was *launched*\n(the bootstrap Job created for it), cleared when its result is finalized.\n\nThis is the **launch-side** rate limit, and it is what makes the probe\nterminate. `lastProbeAt` is written only at *finalize*, so gating the\nlaunch on that alone recycles the bootstrap Job forever: the gate destroys\nevery Job whose completion would have cleared it (#273). Never compared\nagainst `lastProbeAt` — see `kopiur_controller::health::probe_action`.",
               "nullable": true,
               "type": [
                 "string",

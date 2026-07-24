@@ -605,6 +605,28 @@ because a silent per-PVC fallback would produce inconsistent backups.<div class=
   <div class="leaf-desc">If `true`, a failed request does not abort the backup (default: abort).
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.hooks.afterSnapshot[].httpRequest.headers" data-path-key="|spec|hooks|afterSnapshot[]|httpRequest|headers|" data-parent-path="spec.hooks.afterSnapshot[].httpRequest" data-name="headers" data-text="Additional request headers (e.g. `Content-Type: application/json`).">
+<summary>
+  <span class="prop-name">headers</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Additional request headers (e.g. `Content-Type: application/json`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.hooks.afterSnapshot[].httpRequest.headers[].name" data-path-key="|spec|hooks|afterSnapshot[]|httpRequest|headers[]|name|" data-parent-path="spec.hooks.afterSnapshot[].httpRequest.headers" data-name="name" data-text="Header name (case-insensitive; RFC 7230 token, e.g. `Content-Type`).">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Header name (case-insensitive; RFC 7230 token, e.g. `Content-Type`).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.hooks.afterSnapshot[].httpRequest.headers[].value" data-path-key="|spec|hooks|afterSnapshot[]|httpRequest|headers[]|value|" data-parent-path="spec.hooks.afterSnapshot[].httpRequest.headers" data-name="value" data-text="Header value.">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Header value.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.hooks.afterSnapshot[].httpRequest.method" data-path-key="|spec|hooks|afterSnapshot[]|httpRequest|method|" data-parent-path="spec.hooks.afterSnapshot[].httpRequest" data-name="method" data-text="HTTP method (default `POST`).">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
@@ -761,6 +783,28 @@ because a silent per-PVC fallback would produce inconsistent backups.<div class=
   <div class="leaf-desc">If `true`, a failed request does not abort the backup (default: abort).
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.hooks.beforeSnapshot[].httpRequest.headers" data-path-key="|spec|hooks|beforeSnapshot[]|httpRequest|headers|" data-parent-path="spec.hooks.beforeSnapshot[].httpRequest" data-name="headers" data-text="Additional request headers (e.g. `Content-Type: application/json`).">
+<summary>
+  <span class="prop-name">headers</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Additional request headers (e.g. `Content-Type: application/json`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.hooks.beforeSnapshot[].httpRequest.headers[].name" data-path-key="|spec|hooks|beforeSnapshot[]|httpRequest|headers[]|name|" data-parent-path="spec.hooks.beforeSnapshot[].httpRequest.headers" data-name="name" data-text="Header name (case-insensitive; RFC 7230 token, e.g. `Content-Type`).">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Header name (case-insensitive; RFC 7230 token, e.g. `Content-Type`).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.hooks.beforeSnapshot[].httpRequest.headers[].value" data-path-key="|spec|hooks|beforeSnapshot[]|httpRequest|headers[]|value|" data-parent-path="spec.hooks.beforeSnapshot[].httpRequest.headers" data-name="value" data-text="Header value.">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Header value.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.hooks.beforeSnapshot[].httpRequest.method" data-path-key="|spec|hooks|beforeSnapshot[]|httpRequest|method|" data-parent-path="spec.hooks.beforeSnapshot[].httpRequest" data-name="method" data-text="HTTP method (default `POST`).">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
@@ -2239,6 +2283,22 @@ in-flight scan.">
   <div class="leaf-desc">The resolved kopia identity the requested scan was scoped to, pinned at
 request time so a later identity-changing edit can&#39;t retarget an
 in-flight scan.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.adoption.skippedByRetention" data-path-key="|status|adoption|skippedByRetention|" data-parent-path="status.adoption" data-name="skippedByRetention" data-text="Identity-matching discovered snapshots the last adoption pass left
+discovered because `spec.retention` would prune them immediately under
+the effective `deletionPolicy` (`Retain`/`Orphan` — a CR-only prune that
+would re-discover and re-adopt forever). `0`/absent when nothing was
+withheld. See the `AdoptionSkippedByRetention` event for the levers. format: uint32 minimum: 0">
+  <span class="prop-name">skippedByRetention</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Identity-matching discovered snapshots the last adoption pass left
+discovered because `spec.retention` would prune them immediately under
+the effective `deletionPolicy` (`Retain`/`Orphan` — a CR-only prune that
+would re-discover and re-adopt forever). `0`/absent when nothing was
+withheld. See the `AdoptionSkippedByRetention` event for the levers.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.adoption.totalAdopted" data-path-key="|status|adoption|totalAdopted|" data-parent-path="status.adoption" data-name="totalAdopted" data-text="Running total of `Snapshot` CRs ever adopted into this recipe. format: uint64 minimum: 0">
