@@ -1667,6 +1667,22 @@ Maps to llama.cpp --batch-size flag.<div class="leaf-constraints">
 <div class="schema-constraint" title="maximum: 16384"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">16384</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.bindAddress" data-path-key="|spec|bindAddress|" data-parent-path="spec" data-name="bindAddress" data-text="BindAddress sets the network address the runtime listens on.
+Maps to --host for llamacpp/llamacpp-router/vllm/sglang and --hostname
+for tgi. Default is &#34;::&#34; (dual-stack wildcard; see #972/#973). Prefer
+this over raw spec.extraArgs: it is validated and discoverable via
+`kubectl explain`. If --host (or --hostname for TGI) is also present in
+spec.extraArgs, extraArgs wins and this is skipped.">
+  <span class="prop-name">bindAddress</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">BindAddress sets the network address the runtime listens on.
+Maps to --host for llamacpp/llamacpp-router/vllm/sglang and --hostname
+for tgi. Default is &#34;::&#34; (dual-stack wildcard; see #972/#973). Prefer
+this over raw spec.extraArgs: it is validated and discoverable via
+`kubectl explain`. If --host (or --hostname for TGI) is also present in
+spec.extraArgs, extraArgs wins and this is skipped.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.cacheTypeCustomK" data-path-key="|spec|cacheTypeCustomK|" data-parent-path="spec" data-name="cacheTypeCustomK" data-text="CacheTypeCustomK sets a custom KV cache type for keys that is not in the
 standard enum. Used for llama.cpp forks with additional cache formats such
 as TurboQuant (turbo3, turbo4, tbqp3, etc.). Maps to llama.cpp
@@ -5318,26 +5334,52 @@ Required when using the OpenAI-compatible API with tools. Maps to llama.cpp --ji
 Required when using the OpenAI-compatible API with tools. Maps to llama.cpp --jinja flag.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.maxPodLifetimeSeconds" data-path-key="|spec|maxPodLifetimeSeconds|" data-parent-path="spec" data-name="maxPodLifetimeSeconds" data-text="MaxPodLifetimeSeconds sets the maximum lifetime (in seconds) for
-inference pods. When set, the operator copies this value to
-PodSpec.ActiveDeadlineSeconds on the generated Deployment&#39;s pod
-template, causing Kubernetes to terminate the pod after the
-specified duration even if it remains healthy. This is useful for
-workloads that need periodic process recycling to release driver
-memory (e.g. llama.cpp on AMD Vulkan with pinned GTT memory).
-When omitted, pods run indefinitely until manually restarted or
-the Deployment is updated. format: int64 minimum: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.maxPodLifetimeIdleTimeoutSeconds" data-path-key="|spec|maxPodLifetimeIdleTimeoutSeconds|" data-parent-path="spec" data-name="maxPodLifetimeIdleTimeoutSeconds" data-text="MaxPodLifetimeIdleTimeoutSeconds bounds how long recycling will wait for
+an idle backend before evicting anyway, measured from the moment the pod
+exceeded maxPodLifetimeSeconds. It only applies when
+rolloutPolicy.waitForIdle is set, which otherwise makes recycling wait
+indefinitely — safe for in-flight requests, but a saturated service then
+never recycles, which is exactly when leaked driver memory hurts most.
+Set 0 to recycle without waiting for idle at all. When omitted, recycling
+waits indefinitely. format: int64 minimum: 0">
+  <span class="prop-name">maxPodLifetimeIdleTimeoutSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">MaxPodLifetimeIdleTimeoutSeconds bounds how long recycling will wait for
+an idle backend before evicting anyway, measured from the moment the pod
+exceeded maxPodLifetimeSeconds. It only applies when
+rolloutPolicy.waitForIdle is set, which otherwise makes recycling wait
+indefinitely — safe for in-flight requests, but a saturated service then
+never recycles, which is exactly when leaked driver memory hurts most.
+Set 0 to recycle without waiting for idle at all. When omitted, recycling
+waits indefinitely.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.maxPodLifetimeSeconds" data-path-key="|spec|maxPodLifetimeSeconds|" data-parent-path="spec" data-name="maxPodLifetimeSeconds" data-text="MaxPodLifetimeSeconds requests best-effort periodic recycling of
+deployment-backed inference pods. The controller evicts one expired pod
+at a time, using its status start time as the age reference; it is not a
+strict deadline and does not set PodSpec.ActiveDeadlineSeconds. This is
+useful for workloads that need periodic process recycling to release
+driver memory (e.g. llama.cpp on AMD Vulkan with pinned GTT memory).
+Eviction respects PodDisruptionBudgets, and when rolloutPolicy.waitForIdle
+is set it waits for the backend to go idle first. With a single replica
+recycling is a restart, not a rolling replacement: expect a downtime
+window while the model reloads. When omitted, pods run indefinitely until
+manually restarted or the Deployment is updated. format: int64 minimum: 1">
   <span class="prop-name">maxPodLifetimeSeconds</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">MaxPodLifetimeSeconds sets the maximum lifetime (in seconds) for
-inference pods. When set, the operator copies this value to
-PodSpec.ActiveDeadlineSeconds on the generated Deployment&#39;s pod
-template, causing Kubernetes to terminate the pod after the
-specified duration even if it remains healthy. This is useful for
-workloads that need periodic process recycling to release driver
-memory (e.g. llama.cpp on AMD Vulkan with pinned GTT memory).
-When omitted, pods run indefinitely until manually restarted or
-the Deployment is updated.<div class="leaf-constraints">
+  <div class="leaf-desc">MaxPodLifetimeSeconds requests best-effort periodic recycling of
+deployment-backed inference pods. The controller evicts one expired pod
+at a time, using its status start time as the age reference; it is not a
+strict deadline and does not set PodSpec.ActiveDeadlineSeconds. This is
+useful for workloads that need periodic process recycling to release
+driver memory (e.g. llama.cpp on AMD Vulkan with pinned GTT memory).
+Eviction respects PodDisruptionBudgets, and when rolloutPolicy.waitForIdle
+is set it waits for the backend to go idle first. With a single replica
+recycling is a restart, not a rolling replacement: expect a downtime
+window while the model reloads. When omitted, pods run indefinitely until
+manually restarted or the Deployment is updated.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
@@ -7913,6 +7955,22 @@ entire SpeculativeDecoding block) means no speculative decoding.<div class="leaf
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.suspend" data-path-key="|spec|suspend|" data-parent-path="spec" data-name="suspend" data-text="Suspend stops the inference workload without losing the desired
+replica count: the serving Deployment (or metal process) is scaled to
+zero while spec.replicas is preserved, and the service reports phase
+Suspended. Intended for external admission controllers (for example
+the Kueue integration, which holds a queue-labeled service suspended
+until its ClusterQueue admits it). Defaults to false.">
+  <span class="prop-name">suspend</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Suspend stops the inference workload without losing the desired
+replica count: the serving Deployment (or metal process) is scaled to
+zero while spec.replicas is preserved, and the service reports phase
+Suspended. Intended for external admission controllers (for example
+the Kueue integration, which holds a queue-labeled service suspended
+until its ClusterQueue admits it). Defaults to false.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.tensorOverrides" data-path-key="|spec|tensorOverrides|" data-parent-path="spec" data-name="tensorOverrides" data-text="TensorOverrides provides fine-grained tensor placement overrides for power users.
 Each entry specifies a tensor name and target device (e.g., &#34;exps=CPU&#34;, &#34;token_embd=CUDA0&#34;).
 Maps to llama.cpp --override-tensor flag (one flag per entry).">
@@ -8840,19 +8898,23 @@ when set, otherwise inferred from the runtime flags and endpoint path.
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Phase represents the current lifecycle phase of the InferenceService.
 Possible values: Pending, Creating, Progressing, Ready, WaitingForGPU,
-Stopped, Failed. Stopped is the terminal state when spec.replicas=0
-has caused the agent to tear down the workload; tooling polling for
-readiness should treat Stopped the same as Pending (the user
-intentionally took the service offline; this is not an error). enum: Pending, Creating, Progressing, Ready, WaitingForGPU, Stopped, Failed">
+Stopped, Suspended, Failed. Stopped is the terminal state when
+spec.replicas=0 has caused the agent to tear down the workload; tooling
+polling for readiness should treat Stopped the same as Pending (the
+user intentionally took the service offline; this is not an error).
+Suspended is the equivalent state when spec.suspend=true has scaled the
+workload to zero while spec.replicas is preserved for restoration. enum: Pending, Creating, Progressing, Ready, WaitingForGPU, Stopped, Suspended, Failed">
   <span class="prop-name">phase</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Phase represents the current lifecycle phase of the InferenceService.
 Possible values: Pending, Creating, Progressing, Ready, WaitingForGPU,
-Stopped, Failed. Stopped is the terminal state when spec.replicas=0
-has caused the agent to tear down the workload; tooling polling for
-readiness should treat Stopped the same as Pending (the user
-intentionally took the service offline; this is not an error).<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: Pending, Creating, Progressing, Ready, WaitingForGPU, Stopped, Failed"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Creating, Progressing, Ready, WaitingForGPU, Stopped, Failed</code></div></div>
+Stopped, Suspended, Failed. Stopped is the terminal state when
+spec.replicas=0 has caused the agent to tear down the workload; tooling
+polling for readiness should treat Stopped the same as Pending (the
+user intentionally took the service offline; this is not an error).
+Suspended is the equivalent state when spec.suspend=true has scaled the
+workload to zero while spec.replicas is preserved for restoration.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Pending, Creating, Progressing, Ready, WaitingForGPU, Stopped, Suspended, Failed"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Creating, Progressing, Ready, WaitingForGPU, Stopped, Suspended, Failed</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.queuePosition" data-path-key="|status|queuePosition|" data-parent-path="status" data-name="queuePosition" data-text="QueuePosition indicates position among pending InferenceServices cluster-wide (0 = not queued) format: int32">

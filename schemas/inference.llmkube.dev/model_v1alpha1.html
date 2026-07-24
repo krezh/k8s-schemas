@@ -778,6 +778,32 @@ pass to runtimes that support projector arguments.">
 pass to runtimes that support projector arguments.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.prefetch" data-path-key="|spec|prefetch|" data-parent-path="spec" data-name="prefetch" data-text="Prefetch, when true on a remote (http/https/hf) source, makes the
+operator eagerly download the artifact into the namespace&#39;s SHARED
+model cache PVC (llmkube-model-cache) via an owner-ref&#39;d Job that
+reuses the serving init-container download stack, instead of waiting
+for the first InferenceService to pull it at serve time. Progress is
+reflected in status (Downloading, then Ready with cacheKey set), so
+the first serving pod starts from a cache hit. Fleets running
+modelCache.mode=perService still download per-service at serve time:
+prefetch targets the shared cache only, and staging via a pvc://
+source remains the alternative there. Ignored for local and pvc://
+sources, which need no remote fetch.">
+  <span class="prop-name">prefetch</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Prefetch, when true on a remote (http/https/hf) source, makes the
+operator eagerly download the artifact into the namespace&#39;s SHARED
+model cache PVC (llmkube-model-cache) via an owner-ref&#39;d Job that
+reuses the serving init-container download stack, instead of waiting
+for the first InferenceService to pull it at serve time. Progress is
+reflected in status (Downloading, then Ready with cacheKey set), so
+the first serving pod starts from a cache hit. Fleets running
+modelCache.mode=perService still download per-service at serve time:
+prefetch targets the shared cache only, and staging via a pvc://
+source remains the alternative there. Ignored for local and pvc://
+sources, which need no remote fetch.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.quantization" data-path-key="|spec|quantization|" data-parent-path="spec" data-name="quantization" data-text="Quantization describes the quantization level (e.g., Q4_0, Q5_K_M, F16)">
   <span class="prop-name">quantization</span>
   <span class="type-badge">string</span>

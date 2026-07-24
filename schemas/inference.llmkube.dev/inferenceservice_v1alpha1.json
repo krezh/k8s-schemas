@@ -1096,6 +1096,13 @@
             "null"
           ]
         },
+        "bindAddress": {
+          "description": "BindAddress sets the network address the runtime listens on.\nMaps to --host for llamacpp/llamacpp-router/vllm/sglang and --hostname\nfor tgi. Default is \"::\" (dual-stack wildcard; see #972/#973). Prefer\nthis over raw spec.extraArgs: it is validated and discoverable via\n`kubectl explain`. If --host (or --hostname for TGI) is also present in\nspec.extraArgs, extraArgs wins and this is skipped.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "cacheTypeCustomK": {
           "description": "CacheTypeCustomK sets a custom KV cache type for keys that is not in the\nstandard enum. Used for llama.cpp forks with additional cache formats such\nas TurboQuant (turbo3, turbo4, tbqp3, etc.). Maps to llama.cpp\n--cache-type-k. The runtime binary must understand the value or llama-server\nwill fail to start; LLMKube does not validate the string.\nTakes precedence over CacheTypeK when both are set.",
           "type": [
@@ -3748,8 +3755,17 @@
             "null"
           ]
         },
+        "maxPodLifetimeIdleTimeoutSeconds": {
+          "description": "MaxPodLifetimeIdleTimeoutSeconds bounds how long recycling will wait for\nan idle backend before evicting anyway, measured from the moment the pod\nexceeded maxPodLifetimeSeconds. It only applies when\nrolloutPolicy.waitForIdle is set, which otherwise makes recycling wait\nindefinitely — safe for in-flight requests, but a saturated service then\nnever recycles, which is exactly when leaked driver memory hurts most.\nSet 0 to recycle without waiting for idle at all. When omitted, recycling\nwaits indefinitely.",
+          "format": "int64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "maxPodLifetimeSeconds": {
-          "description": "MaxPodLifetimeSeconds sets the maximum lifetime (in seconds) for\ninference pods. When set, the operator copies this value to\nPodSpec.ActiveDeadlineSeconds on the generated Deployment's pod\ntemplate, causing Kubernetes to terminate the pod after the\nspecified duration even if it remains healthy. This is useful for\nworkloads that need periodic process recycling to release driver\nmemory (e.g. llama.cpp on AMD Vulkan with pinned GTT memory).\nWhen omitted, pods run indefinitely until manually restarted or\nthe Deployment is updated.",
+          "description": "MaxPodLifetimeSeconds requests best-effort periodic recycling of\ndeployment-backed inference pods. The controller evicts one expired pod\nat a time, using its status start time as the age reference; it is not a\nstrict deadline and does not set PodSpec.ActiveDeadlineSeconds. This is\nuseful for workloads that need periodic process recycling to release\ndriver memory (e.g. llama.cpp on AMD Vulkan with pinned GTT memory).\nEviction respects PodDisruptionBudgets, and when rolloutPolicy.waitForIdle\nis set it waits for the backend to go idle first. With a single replica\nrecycling is a restart, not a rolling replacement: expect a downtime\nwindow while the model reloads. When omitted, pods run indefinitely until\nmanually restarted or the Deployment is updated.",
           "format": "int64",
           "minimum": 1,
           "type": [
@@ -5737,6 +5753,14 @@
             "null"
           ]
         },
+        "suspend": {
+          "default": false,
+          "description": "Suspend stops the inference workload without losing the desired\nreplica count: the serving Deployment (or metal process) is scaled to\nzero while spec.replicas is preserved, and the service reports phase\nSuspended. Intended for external admission controllers (for example\nthe Kueue integration, which holds a queue-labeled service suspended\nuntil its ClusterQueue admits it). Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "tensorOverrides": {
           "description": "TensorOverrides provides fine-grained tensor placement overrides for power users.\nEach entry specifies a tensor name and target device (e.g., \"exps=CPU\", \"token_embd=CUDA0\").\nMaps to llama.cpp --override-tensor flag (one flag per entry).",
           "items": {
@@ -6391,7 +6415,7 @@
           ]
         },
         "phase": {
-          "description": "Phase represents the current lifecycle phase of the InferenceService.\nPossible values: Pending, Creating, Progressing, Ready, WaitingForGPU,\nStopped, Failed. Stopped is the terminal state when spec.replicas=0\nhas caused the agent to tear down the workload; tooling polling for\nreadiness should treat Stopped the same as Pending (the user\nintentionally took the service offline; this is not an error).",
+          "description": "Phase represents the current lifecycle phase of the InferenceService.\nPossible values: Pending, Creating, Progressing, Ready, WaitingForGPU,\nStopped, Suspended, Failed. Stopped is the terminal state when\nspec.replicas=0 has caused the agent to tear down the workload; tooling\npolling for readiness should treat Stopped the same as Pending (the\nuser intentionally took the service offline; this is not an error).\nSuspended is the equivalent state when spec.suspend=true has scaled the\nworkload to zero while spec.replicas is preserved for restoration.",
           "enum": [
             "Pending",
             "Creating",
@@ -6399,6 +6423,7 @@
             "Ready",
             "WaitingForGPU",
             "Stopped",
+            "Suspended",
             "Failed"
           ],
           "type": [
