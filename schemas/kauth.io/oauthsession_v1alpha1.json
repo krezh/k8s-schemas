@@ -11,16 +11,8 @@
             "null"
           ]
         },
-        "expiresAt": {
-          "description": "Timestamp when the session expires unless activity extends it",
-          "format": "date-time",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "lastUsed": {
-          "description": "Timestamp when session was last used for authentication or token refresh",
+          "description": "Timestamp when session was last used for token refresh",
           "format": "date-time",
           "type": [
             "string",
