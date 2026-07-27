@@ -521,11 +521,12 @@ that the input provider should include.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.filter.limit" data-path-key="|spec|filter|limit|" data-parent-path="spec.filter" data-name="limit" data-text="Limit specifies the maximum number of input sets to return.
-When not set, the default limit is 100.">
+When not set, the default limit is 100. maximum: 10000">
   <span class="prop-name">limit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">Limit specifies the maximum number of input sets to return.
-When not set, the default limit is 100.
+When not set, the default limit is 100.<div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 10000"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">10000</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.filter.semver" data-path-key="|spec|filter|semver|" data-parent-path="spec.filter" data-name="semver" data-text="Semver specifies a semantic version range to filter and sort the tags.
@@ -616,6 +617,86 @@ keys for basic authentication.</div>
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.selectors" data-path-key="|spec|selectors|" data-parent-path="spec" data-name="selectors" data-text="Selectors specifies label selectors used to discover ExternalArtifact objects.
+Required when spec.type is &#39;ExternalArtifact&#39; and must not be set otherwise.">
+<summary>
+  <span class="prop-name">selectors</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Selectors specifies label selectors used to discover ExternalArtifact objects.
+Required when spec.type is &#39;ExternalArtifact&#39; and must not be set otherwise.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.selectors[].matchExpressions" data-path-key="|spec|selectors[]|matchExpressions|" data-parent-path="spec.selectors" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.selectors[].matchExpressions[].key" data-path-key="|spec|selectors[]|matchExpressions[]|key|" data-parent-path="spec.selectors[].matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.selectors[].matchExpressions[].operator" data-path-key="|spec|selectors[]|matchExpressions[]|operator|" data-parent-path="spec.selectors[].matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.selectors[].matchExpressions[].values" data-path-key="|spec|selectors[]|matchExpressions[]|values|" data-parent-path="spec.selectors[].matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.selectors[].matchLabels" data-path-key="|spec|selectors[]|matchLabels|" data-parent-path="spec.selectors" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.selectors[].name" data-path-key="|spec|selectors[]|name|" data-parent-path="spec.selectors" data-name="name" data-text="Name selects a single ExternalArtifact by metadata.name.
+This field is mutually exclusive with matchLabels and matchExpressions.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name selects a single ExternalArtifact by metadata.name.
+This field is mutually exclusive with matchLabels and matchExpressions.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.selectors[].namespace" data-path-key="|spec|selectors[]|namespace|" data-parent-path="spec.selectors" data-name="namespace" data-text="Namespace scopes ExternalArtifact discovery.
+When empty, ExternalArtifacts are listed in the ResourceSetInputProvider namespace.
+When set to &#34;*&#34;, ExternalArtifacts are listed across all namespaces by
+omitting the namespace option from List().
+Otherwise, ExternalArtifacts are listed only in the specified namespace.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace scopes ExternalArtifact discovery.
+When empty, ExternalArtifacts are listed in the ResourceSetInputProvider namespace.
+When set to &#34;*&#34;, ExternalArtifacts are listed across all namespaces by
+omitting the namespace option from List().
+Otherwise, ExternalArtifacts are listed only in the specified namespace.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.serviceAccountName" data-path-key="|spec|serviceAccountName|" data-parent-path="spec" data-name="serviceAccountName" data-text="ServiceAccountName specifies the name of the Kubernetes ServiceAccount
 used for authentication with AWS, Azure or GCP services through
 workload identity federation features. If not specified, the
@@ -648,13 +729,13 @@ When prefixed with !, input provider response will be skipped if it does not hav
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.type" data-path-key="|spec|type|" data-parent-path="spec" data-name="type" data-text="Type specifies the type of the input provider. enum: Static, GitHubBranch, GitHubTag, GitHubPullRequest, GitLabBranch, GitLabTag, GitLabMergeRequest, GitLabEnvironment, AzureDevOpsBranch, AzureDevOpsTag, AzureDevOpsPullRequest, AWSCodeCommitBranch, AWSCodeCommitTag, AWSCodeCommitPullRequest, GiteaBranch, GiteaTag, GiteaPullRequest, OCIArtifactTag, ACRArtifactTag, ECRArtifactTag, GARArtifactTag, ExternalService">
+<div class="prop-leaf" data-prop-row data-path="spec.type" data-path-key="|spec|type|" data-parent-path="spec" data-name="type" data-text="Type specifies the type of the input provider. enum: Static, GitHubBranch, GitHubTag, GitHubPullRequest, GitLabBranch, GitLabTag, GitLabMergeRequest, GitLabEnvironment, AzureDevOpsBranch, AzureDevOpsTag, AzureDevOpsPullRequest, AWSCodeCommitBranch, AWSCodeCommitTag, AWSCodeCommitPullRequest, GiteaBranch, GiteaTag, GiteaPullRequest, OCIArtifactTag, ACRArtifactTag, ECRArtifactTag, GARArtifactTag, ExternalService, ExternalArtifact">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Type specifies the type of the input provider.<div class="leaf-constraints">
-<details class="schema-constraint schema-constraint-long" title="enum: Static, GitHubBranch, GitHubTag, GitHubPullRequest, GitLabBranch, GitLabTag, GitLabMergeRequest, GitLabEnvironment, AzureDevOpsBranch, AzureDevOpsTag, AzureDevOpsPullRequest, AWSCodeCommitBranch, AWSCodeCommitTag, AWSCodeCommitPullRequest, GiteaBranch, GiteaTag, GiteaPullRequest, OCIArtifactTag, ACRArtifactTag, ECRArtifactTag, GARArtifactTag, ExternalService">
+<details class="schema-constraint schema-constraint-long" title="enum: Static, GitHubBranch, GitHubTag, GitHubPullRequest, GitLabBranch, GitLabTag, GitLabMergeRequest, GitLabEnvironment, AzureDevOpsBranch, AzureDevOpsTag, AzureDevOpsPullRequest, AWSCodeCommitBranch, AWSCodeCommitTag, AWSCodeCommitPullRequest, GiteaBranch, GiteaTag, GiteaPullRequest, OCIArtifactTag, ACRArtifactTag, ECRArtifactTag, GARArtifactTag, ExternalService, ExternalArtifact">
   <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">Static, GitHubBranch, GitHubTag, GitHubPullRequest, GitLabBranch, GitLabTag, GitLabMergeRequest, GitLabEnvironment, Azur...</code></summary>
-  <code class="schema-constraint-value schema-constraint-full">Static, GitHubBranch, GitHubTag, GitHubPullRequest, GitLabBranch, GitLabTag, GitLabMergeRequest, GitLabEnvironment, AzureDevOpsBranch, AzureDevOpsTag, AzureDevOpsPullRequest, AWSCodeCommitBranch, AWSCodeCommitTag, AWSCodeCommitPullRequest, GiteaBranch, GiteaTag, GiteaPullRequest, OCIArtifactTag, ACRArtifactTag, ECRArtifactTag, GARArtifactTag, ExternalService</code>
+  <code class="schema-constraint-value schema-constraint-full">Static, GitHubBranch, GitHubTag, GitHubPullRequest, GitLabBranch, GitLabTag, GitLabMergeRequest, GitLabEnvironment, AzureDevOpsBranch, AzureDevOpsTag, AzureDevOpsPullRequest, AWSCodeCommitBranch, AWSCodeCommitTag, AWSCodeCommitPullRequest, GiteaBranch, GiteaTag, GiteaPullRequest, OCIArtifactTag, ACRArtifactTag, ECRArtifactTag, GARArtifactTag, ExternalService, ExternalArtifact</code>
 </details></div>
   </div>
 </div>

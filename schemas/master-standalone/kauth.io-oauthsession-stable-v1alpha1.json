@@ -12,7 +12,7 @@
           ]
         },
         "lastUsed": {
-          "description": "Timestamp when session was last used for token refresh",
+          "description": "Timestamp when session was last used (token refresh or API server token-review via the webhook)",
           "format": "date-time",
           "type": [
             "string",
