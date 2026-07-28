@@ -5031,6 +5031,12 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.priorityClassName" data-path-key="|spec|priorityClassName|" data-parent-path="spec" data-name="priorityClassName" data-text="PriorityClassName for the resulting pod, used to set the pod&#39;s scheduling priority.">
+  <span class="prop-name">priorityClassName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PriorityClassName for the resulting pod, used to set the pod&#39;s scheduling priority.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.provider" data-path-key="|spec|provider|" data-parent-path="spec" data-name="provider" data-text="Renovate Provider Information to fill &#34;RENOVATE_ENDPOINT&#34; and &#34;RENOVATE_PLATFORM&#34; environment variables in the renovate container">
 <summary>
   <span class="prop-name">provider</span>
@@ -6699,6 +6705,23 @@ It&#39;s a required field.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.webhook.baseUrl" data-path-key="|spec|webhook|baseUrl|" data-parent-path="spec.webhook" data-name="baseUrl" data-text="Externally reachable base URL of the operator&#39;s webhook server for this
+job, e.g. https://renovate.example.com. The platform-specific path is
+appended to it. Takes precedence over the operator-wide
+WEBHOOK_BASE_URL environment variable, which is used when this is empty.
+Set it when a platform needs a different hostname to reach the operator
+than the operator-wide default provides. pattern: ^https?://[^?#]&#43;$">
+  <span class="prop-name">baseUrl</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Externally reachable base URL of the operator&#39;s webhook server for this
+job, e.g. https://renovate.example.com. The platform-specific path is
+appended to it. Takes precedence over the operator-wide
+WEBHOOK_BASE_URL environment variable, which is used when this is empty.
+Set it when a platform needs a different hostname to reach the operator
+than the operator-wide default provides.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https?://[^?#]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^?#]&#43;$</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.webhook.enabled" data-path-key="|spec|webhook|enabled|" data-parent-path="spec.webhook" data-name="enabled" data-text="">
   <span class="prop-name">enabled</span>
   <span class="type-badge">boolean</span> <span class="required-badge">required</span>
