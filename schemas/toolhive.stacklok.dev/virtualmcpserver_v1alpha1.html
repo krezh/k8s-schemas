@@ -1794,18 +1794,28 @@ Supports ToolConfigRef for Kubernetes-native MCPToolConfig resource references.<
 </summary>
 <div class="prop-content"><div class="prop-desc">ConflictResolutionConfig provides configuration for the chosen strategy.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.config.aggregation.conflictResolutionConfig.prefixFormat" data-path-key="|spec|config|aggregation|conflictResolutionConfig|prefixFormat|" data-parent-path="spec.config.aggregation.conflictResolutionConfig" data-name="prefixFormat" data-text="PrefixFormat defines the prefix format for the &#34;prefix&#34; strategy.
+<div class="prop-leaf" data-prop-row data-path="spec.config.aggregation.conflictResolutionConfig.prefixFormat" data-path-key="|spec|config|aggregation|conflictResolutionConfig|prefixFormat|" data-parent-path="spec.config.aggregation.conflictResolutionConfig" data-name="prefixFormat" data-text="PrefixFormat defines the prefix format for the &#34;prefix&#34; tool strategy
+and for backend-prefixed prompt names (the default for every prompt;
+under the &#34;priority&#34; strategy, backends listed in priorityOrder keep
+their own prompt names).
 Supports placeholders: {workload}, {workload}_, {workload}.">
   <span class="prop-name">prefixFormat</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">PrefixFormat defines the prefix format for the &#34;prefix&#34; strategy.
+  <div class="leaf-desc">PrefixFormat defines the prefix format for the &#34;prefix&#34; tool strategy
+and for backend-prefixed prompt names (the default for every prompt;
+under the &#34;priority&#34; strategy, backends listed in priorityOrder keep
+their own prompt names).
 Supports placeholders: {workload}, {workload}_, {workload}.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.aggregation.conflictResolutionConfig.priorityOrder" data-path-key="|spec|config|aggregation|conflictResolutionConfig|priorityOrder|" data-parent-path="spec.config.aggregation.conflictResolutionConfig" data-name="priorityOrder" data-text="PriorityOrder defines the workload priority order for the &#34;priority&#34; strategy.">
+<div class="prop-leaf" data-prop-row data-path="spec.config.aggregation.conflictResolutionConfig.priorityOrder" data-path-key="|spec|config|aggregation|conflictResolutionConfig|priorityOrder|" data-parent-path="spec.config.aggregation.conflictResolutionConfig" data-name="priorityOrder" data-text="PriorityOrder defines the workload priority order for the &#34;priority&#34; strategy.
+Listed workloads also keep their own prompt names (unlisted workloads&#39;
+prompts stay backend-prefixed).">
   <span class="prop-name">priorityOrder</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">PriorityOrder defines the workload priority order for the &#34;priority&#34; strategy.
+Listed workloads also keep their own prompt names (unlisted workloads&#39;
+prompts stay backend-prefixed).
   </div>
 </div>
   </div>
@@ -1981,6 +1991,17 @@ This takes precedence over EventTypes.
   <span class="prop-name">maxDataSize</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">MaxDataSize limits the size of request/response data included in audit logs (in bytes).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.audit.maxDelegationDepth" data-path-key="|spec|config|audit|maxDelegationDepth|" data-parent-path="spec.config.audit" data-name="maxDelegationDepth" data-text="MaxDelegationDepth caps how many nested RFC 8693 &#34;act&#34; entries are
+recorded in an audit event&#39;s delegation chain. Deeper chains are
+truncated (marked with truncated=true). Defaults to 10 when unset. minimum: 1">
+  <span class="prop-name">maxDelegationDepth</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">MaxDelegationDepth caps how many nested RFC 8693 &#34;act&#34; entries are
+recorded in an audit event&#39;s delegation chain. Deeper chains are
+truncated (marked with truncated=true). Defaults to 10 when unset.<div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
   </div>
@@ -2572,6 +2593,24 @@ role extraction is performed.
   <div class="leaf-desc">Audience is the required token audience.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.incomingAuth.oidc.caBundlePath" data-path-key="|spec|config|incomingAuth|oidc|caBundlePath|" data-parent-path="spec.config.incomingAuth.oidc" data-name="caBundlePath" data-text="CABundlePath is the absolute file path to a PEM-encoded CA certificate bundle
+used when the OIDC middleware performs HTTPS requests to the issuer
+(OIDC discovery, JWKS fetch, token introspection). When set, the CA bundle
+at this path is added to the trust store used for verifying the issuer&#39;s
+TLS certificate. Typically populated by the Kubernetes operator from
+MCPOIDCConfig.spec.inline.caBundleRef (ConfigMap) or from the in-cluster
+service-account CA when using Kubernetes service-account auth.">
+  <span class="prop-name">caBundlePath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CABundlePath is the absolute file path to a PEM-encoded CA certificate bundle
+used when the OIDC middleware performs HTTPS requests to the issuer
+(OIDC discovery, JWKS fetch, token introspection). When set, the CA bundle
+at this path is added to the trust store used for verifying the issuer&#39;s
+TLS certificate. Typically populated by the Kubernetes operator from
+MCPOIDCConfig.spec.inline.caBundleRef (ConfigMap) or from the in-cluster
+service-account CA when using Kubernetes service-account auth.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.config.incomingAuth.oidc.clientId" data-path-key="|spec|config|incomingAuth|oidc|clientId|" data-parent-path="spec.config.incomingAuth.oidc" data-name="clientId" data-text="ClientID is the OAuth client ID.">
   <span class="prop-name">clientId</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
@@ -2818,7 +2857,11 @@ When omitted or empty, the server uses info level logging.<div class="leaf-const
 <details class="prop" data-prop-row data-path="spec.config.optimizer" data-path-key="|spec|config|optimizer|" data-parent-path="spec.config" data-name="optimizer" data-text="Optimizer configures the MCP optimizer for context optimization on large toolsets.
 When enabled, vMCP exposes only find_tool and call_tool operations to clients
 instead of all backend tools directly. This reduces token usage by allowing
-LLMs to discover relevant tools on demand rather than receiving all tool definitions.">
+LLMs to discover relevant tools on demand rather than receiving all tool definitions.
+Enabling the optimizer currently pins this instance to MCP 2025-11-25: the
+find_tool/call_tool meta-tools are session-scoped, so Modern-capable (2026-07-28)
+clients are negotiated down to the Legacy revision (see
+pkg/vmcp/server/modern_gate.go; Modern parity is tracked in stacklok/toolhive#6089).">
 <summary>
   <span class="prop-name">optimizer</span>
   <span class="type-badge">object</span>
@@ -2826,7 +2869,11 @@ LLMs to discover relevant tools on demand rather than receiving all tool definit
 <div class="prop-content"><div class="prop-desc">Optimizer configures the MCP optimizer for context optimization on large toolsets.
 When enabled, vMCP exposes only find_tool and call_tool operations to clients
 instead of all backend tools directly. This reduces token usage by allowing
-LLMs to discover relevant tools on demand rather than receiving all tool definitions.</div>
+LLMs to discover relevant tools on demand rather than receiving all tool definitions.
+Enabling the optimizer currently pins this instance to MCP 2025-11-25: the
+find_tool/call_tool meta-tools are session-scoped, so Modern-capable (2026-07-28)
+clients are negotiated down to the Legacy revision (see
+pkg/vmcp/server/modern_gate.go; Modern parity is tracked in stacklok/toolhive#6089).</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.config.optimizer.embeddingHeaders" data-path-key="|spec|config|optimizer|embeddingHeaders|" data-parent-path="spec.config.optimizer" data-name="embeddingHeaders" data-text="EmbeddingHeaders holds additional HTTP headers sent with every embedding
 request. Only supported when EmbeddingProvider is &#34;openai&#34;. Values are
@@ -4578,6 +4625,14 @@ Resets to 0 when the backend becomes healthy again.
   <span class="type-badge">string</span>
   <div class="leaf-desc">LastHealthCheck is the timestamp of the last health check<div class="leaf-constraints">
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.discoveredBackends[].mcpRevision" data-path-key="|status|discoveredBackends[]|mcpRevision|" data-parent-path="status.discoveredBackends" data-name="mcpRevision" data-text="MCPRevision is the backend&#39;s negotiated MCP protocol revision
+(&#34;2026-07-28&#34; or &#34;2025-11-25&#34;). Empty when the backend has not been probed.">
+  <span class="prop-name">mcpRevision</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">MCPRevision is the backend&#39;s negotiated MCP protocol revision
+(&#34;2026-07-28&#34; or &#34;2025-11-25&#34;). Empty when the backend has not been probed.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.discoveredBackends[].message" data-path-key="|status|discoveredBackends[]|message|" data-parent-path="status.discoveredBackends" data-name="message" data-text="Message provides additional information about the backend status">

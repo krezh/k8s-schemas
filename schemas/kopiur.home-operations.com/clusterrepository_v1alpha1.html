@@ -1741,6 +1741,24 @@ field-wise and act as the fallback when no workload pod can be resolved.</div>
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.maintenance.mover.inheritSecurityContextFrom.snapshot" data-path-key="|spec|maintenance|mover|inheritSecurityContextFrom|snapshot|" data-parent-path="spec.maintenance.mover.inheritSecurityContextFrom" data-name="snapshot" data-text="Restores only: inherit the identity RECORDED on the backup itself
+(`Snapshot.status.recorded`, decoded from the `kopiur-meta` kopia tag) —
+uid/gid/fsGroup the backup mover actually ran as. Needs no live workload
+pod, so it works on a rebuilt cluster and with `target.populator`.
+Rejected at admission on SnapshotPolicy/Maintenance (backups read the
+live workload; maintenance has no snapshot). Write it as `snapshot: {}`
+(an empty sub-object) — a bare `snapshot:` is null and rejected.">
+  <span class="prop-name">snapshot</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Restores only: inherit the identity RECORDED on the backup itself
+(`Snapshot.status.recorded`, decoded from the `kopiur-meta` kopia tag) —
+uid/gid/fsGroup the backup mover actually ran as. Needs no live workload
+pod, so it works on a rebuilt cluster and with `target.populator`.
+Rejected at admission on SnapshotPolicy/Maintenance (backups read the
+live workload; maintenance has no snapshot). Write it as `snapshot: {}`
+(an empty sub-object) — a bare `snapshot:` is null and rejected.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.maintenance.mover.inheritSecurityContextFrom.workloadSelector" data-path-key="|spec|maintenance|mover|inheritSecurityContextFrom|workloadSelector|" data-parent-path="spec.maintenance.mover.inheritSecurityContextFrom" data-name="workloadSelector" data-text="Inherit from workload pod(s) matched by an explicit label selector (backup or restore).">
 <summary>
   <span class="prop-name">workloadSelector</span>

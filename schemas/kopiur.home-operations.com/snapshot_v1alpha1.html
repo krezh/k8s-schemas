@@ -495,10 +495,20 @@ stays, catalog rediscovers it), deliberately NOT the `Orphan` event storm
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.tags" data-path-key="|spec|tags|" data-parent-path="spec" data-name="tags" data-text="Arbitrary kopia snapshot tags (e.g. `reason: scheduled-nightly`).">
+<div class="prop-leaf" data-prop-row data-path="spec.tags" data-path-key="|spec|tags|" data-parent-path="spec" data-name="tags" data-text="Free-form tags attached to the kopia snapshot manifest itself
+(`snapshot create --tags`), e.g. `reason: pre-upgrade` — durable in the
+repository, independent of this CR. Keys must be non-empty, colon-free
+(kopia splits on the first colon), and must not start with the reserved
+`kopiur` prefix; at most 10 tags, keys ≤ 63 bytes, values ≤ 256 bytes
+(webhook-enforced).">
   <span class="prop-name">tags</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">Arbitrary kopia snapshot tags (e.g. `reason: scheduled-nightly`).
+  <div class="leaf-desc">Free-form tags attached to the kopia snapshot manifest itself
+(`snapshot create --tags`), e.g. `reason: pre-upgrade` — durable in the
+repository, independent of this CR. Keys must be non-empty, colon-free
+(kopia splits on the first colon), and must not start with the reserved
+`kopiur` prefix; at most 10 tags, keys ≤ 63 bytes, values ≤ 256 bytes
+(webhook-enforced).
   </div>
 </div>
   </div>
@@ -726,6 +736,77 @@ earlier repository-not-Ready wait). Cleared once every preflight check passes,
 so a later failing episode gets a fresh budget rather than a stale anchor.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.recorded" data-path-key="|status|recorded|" data-parent-path="status" data-name="recorded" data-text="The mover identity recorded on the kopia snapshot itself (the
+`kopiur-meta` tag): the resolved effective uid/gid/fsGroup the backup ran
+as, plus its provenance. Produced runs stamp this at launch (from the
+same value written into the tag); discovered rows decode it from the tag
+during the catalog scan. Absent for pre-feature snapshots, foreign
+backups without the tag, or a tag this operator version cannot decode.">
+<summary>
+  <span class="prop-name">recorded</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The mover identity recorded on the kopia snapshot itself (the
+`kopiur-meta` tag): the resolved effective uid/gid/fsGroup the backup ran
+as, plus its provenance. Produced runs stamp this at launch (from the
+same value written into the tag); discovered rows decode it from the tag
+during the catalog scan. Absent for pre-feature snapshots, foreign
+backups without the tag, or a tag this operator version cannot decode.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.recorded.fsGroup" data-path-key="|status|recorded|fsGroup|" data-parent-path="status.recorded" data-name="fsGroup" data-text="The resolved pod-level `fsGroup` the mover ran with (the hardened
+default is `65532`). Absent = no layer set one. format: int64">
+  <span class="prop-name">fsGroup</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The resolved pod-level `fsGroup` the mover ran with (the hardened
+default is `65532`). Absent = no layer set one.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.recorded.gid" data-path-key="|status|recorded|gid|" data-parent-path="status.recorded" data-name="gid" data-text="The resolved effective `runAsGroup` the mover ran as at backup time
+(container `runAsGroup`, else pod). Absent = image-determined. format: int64">
+  <span class="prop-name">gid</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The resolved effective `runAsGroup` the mover ran as at backup time
+(container `runAsGroup`, else pod). Absent = image-determined.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.recorded.schema" data-path-key="|status|recorded|schema|" data-parent-path="status.recorded" data-name="schema" data-text="The `kopiur-meta` schema version this value was written under. Writers
+emit the lowest schema that represents the data (currently
+[`KOPIUR_META_SCHEMA_V1`]); readers reject only a schema NEWER than they
+understand (degrading to recorded-absent, never an error). format: int64">
+  <span class="prop-name">schema</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The `kopiur-meta` schema version this value was written under. Writers
+emit the lowest schema that represents the data (currently
+[`KOPIUR_META_SCHEMA_V1`]); readers reject only a schema NEWER than they
+understand (degrading to recorded-absent, never an error).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.recorded.src" data-path-key="|status|recorded|src|" data-parent-path="status.recorded" data-name="src" data-text="Which layer pinned the recorded identity. Only `inherited` means the
+identity tracked the workload. enum: inherited, explicit, defaults, unknown">
+  <span class="prop-name">src</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Which layer pinned the recorded identity. Only `inherited` means the
+identity tracked the workload.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: inherited, explicit, defaults, unknown"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">inherited, explicit, defaults, unknown</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.recorded.uid" data-path-key="|status|recorded|uid|" data-parent-path="status.recorded" data-name="uid" data-text="The resolved effective `runAsUser` the mover ran as at backup time
+(container `runAsUser`, else pod). Absent = no layer pinned a UID, so
+the mover&#39;s UID was image-determined. format: int64">
+  <span class="prop-name">uid</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The resolved effective `runAsUser` the mover ran as at backup time
+(container `runAsUser`, else pod). Absent = no layer pinned a UID, so
+the mover&#39;s UID was image-determined.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.resolved" data-path-key="|status|resolved|" data-parent-path="status" data-name="resolved" data-text="Frozen recipe values at run time (scheduled/manual).">
 <summary>
   <span class="prop-name">resolved</span>
@@ -824,6 +905,18 @@ writes it, including `enabled: false`, so absent stays distinguishable from off.
 </summary>
 <div class="prop-content"><div class="prop-desc">The kopia artifact this CR represents.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.snapshot.description" data-path-key="|status|snapshot|description|" data-parent-path="status.snapshot" data-name="description" data-text="The kopia snapshot description (`snapshot create --description`), when
+one is recorded and non-empty. For discovered rows this is copied from
+the repository listing TRUNCATED to 1024 bytes (char-boundary-safe) —
+the value is foreign-writer-controlled and must never fail the CR write.">
+  <span class="prop-name">description</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The kopia snapshot description (`snapshot create --description`), when
+one is recorded and non-empty. For discovered rows this is copied from
+the repository listing TRUNCATED to 1024 bytes (char-boundary-safe) —
+the value is foreign-writer-controlled and must never fail the CR write.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="status.snapshot.identity" data-path-key="|status|snapshot|identity|" data-parent-path="status.snapshot" data-name="identity" data-text="The `username@hostname:path` identity recorded for this snapshot.">
 <summary>
   <span class="prop-name">identity</span>

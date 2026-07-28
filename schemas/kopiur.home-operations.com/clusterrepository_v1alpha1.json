@@ -1345,6 +1345,11 @@
                       "required": [
                         "pvcConsumer"
                       ]
+                    },
+                    {
+                      "required": [
+                        "snapshot"
+                      ]
                     }
                   ],
                   "properties": {
@@ -1361,6 +1366,13 @@
                           ]
                         }
                       },
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    },
+                    "snapshot": {
+                      "description": "Restores only: inherit the identity RECORDED on the backup itself\n(`Snapshot.status.recorded`, decoded from the `kopiur-meta` kopia tag) —\nuid/gid/fsGroup the backup mover actually ran as. Needs no live workload\npod, so it works on a rebuilt cluster and with `target.populator`.\nRejected at admission on SnapshotPolicy/Maintenance (backups read the\nlive workload; maintenance has no snapshot). Write it as `snapshot: {}`\n(an empty sub-object) — a bare `snapshot:` is null and rejected.",
                       "type": [
                         "object",
                         "null"
