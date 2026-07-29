@@ -2206,14 +2206,18 @@ for non-llama-server runtimes (oMLX, Ollama). Defaults to false.
 <div class="prop-leaf" data-prop-row data-path="spec.extraArgs" data-path-key="|spec|extraArgs|" data-parent-path="spec" data-name="extraArgs" data-text="ExtraArgs provides additional command-line arguments passed directly to the
 runtime process. Use for flags not yet supported as typed CRD fields.
 Arguments are appended after all other configured flags.
-Supported by the &#34;llamacpp&#34; and &#34;vllm&#34; runtimes. Ignored by others.
+Supported by the &#34;llamacpp&#34;, &#34;llamacpp-router&#34;, &#34;sglang&#34;, &#34;tgi&#34; and
+&#34;vllm&#34; runtimes. Ignored by &#34;generic&#34; (which takes spec.args instead)
+and &#34;personaplex&#34;.
 Example: [&#34;--seed&#34;, &#34;42&#34;, &#34;--log-disable&#34;]">
   <span class="prop-name">extraArgs</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">ExtraArgs provides additional command-line arguments passed directly to the
 runtime process. Use for flags not yet supported as typed CRD fields.
 Arguments are appended after all other configured flags.
-Supported by the &#34;llamacpp&#34; and &#34;vllm&#34; runtimes. Ignored by others.
+Supported by the &#34;llamacpp&#34;, &#34;llamacpp-router&#34;, &#34;sglang&#34;, &#34;tgi&#34; and
+&#34;vllm&#34; runtimes. Ignored by &#34;generic&#34; (which takes spec.args instead)
+and &#34;personaplex&#34;.
 Example: [&#34;--seed&#34;, &#34;42&#34;, &#34;--log-disable&#34;]
   </div>
 </div>
@@ -6826,12 +6830,24 @@ Note: Multi-GPU sharding config comes from Model CRD<div class="leaf-constraints
 <div class="schema-constraint" title="maximum: 8"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">8</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.resources.gpuMemory" data-path-key="|spec|resources|gpuMemory|" data-parent-path="spec.resources" data-name="gpuMemory" data-text="GPUMemory specifies GPU memory limit per pod (e.g., &#34;16Gi&#34;)
-Used for scheduling and validation">
+<div class="prop-leaf" data-prop-row data-path="spec.resources.gpuMemory" data-path-key="|spec|resources|gpuMemory|" data-parent-path="spec.resources" data-name="gpuMemory" data-text="GPUMemory is recorded on the object and has no effect. It sets no pod
+resource request, does not influence scheduling, and is not validated;
+nothing in the operator reads it.
+
+Superseded by gpuSharing.memoryLimitGiB for shared-GPU quota
+accounting, or the Model&#39;s hardware.gpu.memory to declare a model&#39;s
+footprint. This field is retained for compatibility with existing
+objects and will be removed in a future API version.">
   <span class="prop-name">gpuMemory</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">GPUMemory specifies GPU memory limit per pod (e.g., &#34;16Gi&#34;)
-Used for scheduling and validation
+  <div class="leaf-desc">GPUMemory is recorded on the object and has no effect. It sets no pod
+resource request, does not influence scheduling, and is not validated;
+nothing in the operator reads it.
+
+Superseded by gpuSharing.memoryLimitGiB for shared-GPU quota
+accounting, or the Model&#39;s hardware.gpu.memory to declare a model&#39;s
+footprint. This field is retained for compatibility with existing
+objects and will be removed in a future API version.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.resources.gpuSharing" data-path-key="|spec|resources|gpuSharing|" data-parent-path="spec.resources" data-name="gpuSharing" data-text="GPUSharing declares how this InferenceService consumes its GPU:
@@ -6853,18 +6869,30 @@ here rather than on the Model: the same Model can run exclusive in
 production and shared in dev. Unset means exclusive, preserving the
 behavior of every existing manifest.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.resources.gpuSharing.memoryLimitGiB" data-path-key="|spec|resources|gpuSharing|memoryLimitGiB|" data-parent-path="spec.resources.gpuSharing" data-name="memoryLimitGiB" data-text="MemoryLimitGiB caps this service&#39;s device-memory footprint in
-shared mode. It drives quota accounting (a shared workload counts
-this many GiB against a GPUQuota vramBytes cap) and, where the
-runtime supports it, a memory-cap enforcement flag. Only valid for
-mode shared. format: int32 minimum: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.resources.gpuSharing.memoryLimitGiB" data-path-key="|spec|resources|gpuSharing|memoryLimitGiB|" data-parent-path="spec.resources.gpuSharing" data-name="memoryLimitGiB" data-text="MemoryLimitGiB declares this service&#39;s device-memory footprint in
+shared mode, in GiB. It drives quota accounting: a shared workload
+counts this many GiB against a GPUQuota vramBytes cap.
+
+It is NOT enforced at runtime. Nothing caps the process&#39;s actual VRAM
+use, so a workload that exceeds this figure will do so, and on a
+time-sliced device it can exhaust the VRAM its co-tenants need.
+Shared mode is co-scheduling for workloads that already trust each
+other, not an isolation boundary; for a hard boundary between tenants
+use mode partitioned (NVIDIA MIG), where the partition is enforced in
+hardware. Only valid for mode shared. format: int32 minimum: 1">
   <span class="prop-name">memoryLimitGiB</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">MemoryLimitGiB caps this service&#39;s device-memory footprint in
-shared mode. It drives quota accounting (a shared workload counts
-this many GiB against a GPUQuota vramBytes cap) and, where the
-runtime supports it, a memory-cap enforcement flag. Only valid for
-mode shared.<div class="leaf-constraints">
+  <div class="leaf-desc">MemoryLimitGiB declares this service&#39;s device-memory footprint in
+shared mode, in GiB. It drives quota accounting: a shared workload
+counts this many GiB against a GPUQuota vramBytes cap.
+
+It is NOT enforced at runtime. Nothing caps the process&#39;s actual VRAM
+use, so a workload that exceeds this figure will do so, and on a
+time-sliced device it can exhaust the VRAM its co-tenants need.
+Shared mode is co-scheduling for workloads that already trust each
+other, not an isolation boundary; for a hard boundary between tenants
+use mode partitioned (NVIDIA MIG), where the partition is enforced in
+hardware. Only valid for mode shared.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
@@ -8458,16 +8486,36 @@ Maps to vLLM --attention-backend flag.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: FLASH_ATTN, FLASHINFER, XFORMERS, flashinfer, flash_attn, xformers, torch_sdpa"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">FLASH_ATTN, FLASHINFER, XFORMERS, flashinfer, flash_attn, xformers, torch_sdpa</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.cpuOffloadGB" data-path-key="|spec|vllmConfig|cpuOffloadGB|" data-parent-path="spec.vllmConfig" data-name="cpuOffloadGB" data-text="CPUOffloadGB increases the GPU memory size. When set, passes
---cpu-offload-gb to vLLM. Per-rank, so 4 on TP=2 means 4 GB of
-CPU RAM per GPU. Use when FP8 model weights don&#39;t fit VRAM.
-Throughput hit is 2-5x on the offloaded path. format: int32 minimum: 0">
+<div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.cpuOffloadGB" data-path-key="|spec|vllmConfig|cpuOffloadGB|" data-parent-path="spec.vllmConfig" data-name="cpuOffloadGB" data-text="CPUOffloadGB passes --cpu-offload-gb to vLLM. Per-rank, so 4 on TP=2
+means 4 GB of CPU RAM per GPU. Throughput hit is 2-5x on the offloaded
+path when it works.
+
+RELIABILITY NOTE: --cpu-offload-gb is reported silently ineffective in
+some configurations on current vLLM (vllm-project/vllm#48468, open):
+accepted but no weights offloaded, so VRAM-tight models OOM instead of
+spilling to host RAM. It is verified working in others, including the
+cpu-offload sample&#39;s configuration on both its pinned image and the
+operator default. Setting it surfaces a CPUOffloadUnverified advisory
+on the VLLMSpecValid condition and as an Event; confirm offload took
+effect in the server logs (Offloader/offloaded-parameters lines, or a
+Model-loading size below the full footprint) before relying on it. For
+MoE VRAM relief on llama.cpp use spec.moeCPUOffload. format: int32 minimum: 0">
   <span class="prop-name">cpuOffloadGB</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">CPUOffloadGB increases the GPU memory size. When set, passes
---cpu-offload-gb to vLLM. Per-rank, so 4 on TP=2 means 4 GB of
-CPU RAM per GPU. Use when FP8 model weights don&#39;t fit VRAM.
-Throughput hit is 2-5x on the offloaded path.<div class="leaf-constraints">
+  <div class="leaf-desc">CPUOffloadGB passes --cpu-offload-gb to vLLM. Per-rank, so 4 on TP=2
+means 4 GB of CPU RAM per GPU. Throughput hit is 2-5x on the offloaded
+path when it works.
+
+RELIABILITY NOTE: --cpu-offload-gb is reported silently ineffective in
+some configurations on current vLLM (vllm-project/vllm#48468, open):
+accepted but no weights offloaded, so VRAM-tight models OOM instead of
+spilling to host RAM. It is verified working in others, including the
+cpu-offload sample&#39;s configuration on both its pinned image and the
+operator default. Setting it surfaces a CPUOffloadUnverified advisory
+on the VLLMSpecValid condition and as an Event; confirm offload took
+effect in the server logs (Offloader/offloaded-parameters lines, or a
+Model-loading size below the full footprint) before relying on it. For
+MoE VRAM relief on llama.cpp use spec.moeCPUOffload.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>

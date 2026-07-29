@@ -1520,7 +1520,7 @@
           ]
         },
         "extraArgs": {
-          "description": "ExtraArgs provides additional command-line arguments passed directly to the\nruntime process. Use for flags not yet supported as typed CRD fields.\nArguments are appended after all other configured flags.\nSupported by the \"llamacpp\" and \"vllm\" runtimes. Ignored by others.\nExample: [\"--seed\", \"42\", \"--log-disable\"]",
+          "description": "ExtraArgs provides additional command-line arguments passed directly to the\nruntime process. Use for flags not yet supported as typed CRD fields.\nArguments are appended after all other configured flags.\nSupported by the \"llamacpp\", \"llamacpp-router\", \"sglang\", \"tgi\" and\n\"vllm\" runtimes. Ignored by \"generic\" (which takes spec.args instead)\nand \"personaplex\".\nExample: [\"--seed\", \"42\", \"--log-disable\"]",
           "items": {
             "type": "string"
           },
@@ -4895,7 +4895,7 @@
               ]
             },
             "gpuMemory": {
-              "description": "GPUMemory specifies GPU memory limit per pod (e.g., \"16Gi\")\nUsed for scheduling and validation",
+              "description": "GPUMemory is recorded on the object and has no effect. It sets no pod\nresource request, does not influence scheduling, and is not validated;\nnothing in the operator reads it.\n\nSuperseded by gpuSharing.memoryLimitGiB for shared-GPU quota\naccounting, or the Model's hardware.gpu.memory to declare a model's\nfootprint. This field is retained for compatibility with existing\nobjects and will be removed in a future API version.",
               "type": [
                 "string",
                 "null"
@@ -4906,7 +4906,7 @@
               "description": "GPUSharing declares how this InferenceService consumes its GPU:\nexclusively (whole device, the default), as a hardware partition\n(e.g. NVIDIA MIG), or co-resident with other workloads on a shared\ndevice. Sharing is a serving-time decision, which is why it lives\nhere rather than on the Model: the same Model can run exclusive in\nproduction and shared in dev. Unset means exclusive, preserving the\nbehavior of every existing manifest.",
               "properties": {
                 "memoryLimitGiB": {
-                  "description": "MemoryLimitGiB caps this service's device-memory footprint in\nshared mode. It drives quota accounting (a shared workload counts\nthis many GiB against a GPUQuota vramBytes cap) and, where the\nruntime supports it, a memory-cap enforcement flag. Only valid for\nmode shared.",
+                  "description": "MemoryLimitGiB declares this service's device-memory footprint in\nshared mode, in GiB. It drives quota accounting: a shared workload\ncounts this many GiB against a GPUQuota vramBytes cap.\n\nIt is NOT enforced at runtime. Nothing caps the process's actual VRAM\nuse, so a workload that exceeds this figure will do so, and on a\ntime-sliced device it can exhaust the VRAM its co-tenants need.\nShared mode is co-scheduling for workloads that already trust each\nother, not an isolation boundary; for a hard boundary between tenants\nuse mode partitioned (NVIDIA MIG), where the partition is enforced in\nhardware. Only valid for mode shared.",
                   "format": "int32",
                   "minimum": 1,
                   "type": [
@@ -6071,7 +6071,7 @@
               ]
             },
             "cpuOffloadGB": {
-              "description": "CPUOffloadGB increases the GPU memory size. When set, passes\n--cpu-offload-gb to vLLM. Per-rank, so 4 on TP=2 means 4 GB of\nCPU RAM per GPU. Use when FP8 model weights don't fit VRAM.\nThroughput hit is 2-5x on the offloaded path.",
+              "description": "CPUOffloadGB passes --cpu-offload-gb to vLLM. Per-rank, so 4 on TP=2\nmeans 4 GB of CPU RAM per GPU. Throughput hit is 2-5x on the offloaded\npath when it works.\n\nRELIABILITY NOTE: --cpu-offload-gb is reported silently ineffective in\nsome configurations on current vLLM (vllm-project/vllm#48468, open):\naccepted but no weights offloaded, so VRAM-tight models OOM instead of\nspilling to host RAM. It is verified working in others, including the\ncpu-offload sample's configuration on both its pinned image and the\noperator default. Setting it surfaces a CPUOffloadUnverified advisory\non the VLLMSpecValid condition and as an Event; confirm offload took\neffect in the server logs (Offloader/offloaded-parameters lines, or a\nModel-loading size below the full footprint) before relying on it. For\nMoE VRAM relief on llama.cpp use spec.moeCPUOffload.",
               "format": "int32",
               "minimum": 0,
               "type": [
