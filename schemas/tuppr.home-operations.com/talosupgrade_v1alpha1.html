@@ -7629,6 +7629,20 @@ budget re-arms when the hold is released (run parked or finished).<div class="le
 </summary>
 <div class="prop-content"><div class="prop-desc">Talos specifies the talos configuration for upgrade operations</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.talos.prePull" data-path-key="|spec|talos|prePull|" data-parent-path="spec.talos" data-name="prePull" data-text="PrePull pulls each node&#39;s resolved installer image at the start of a run,
+before the first node is cordoned, so an unreachable registry or a bad
+schematic/tag parks the run before any disruption. Nodes running Talos
+older than v1.13 (no ImageService API) are skipped. Disable for airgapped
+clusters that seed images out of band.">
+  <span class="prop-name">prePull</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">PrePull pulls each node&#39;s resolved installer image at the start of a run,
+before the first node is cordoned, so an unreachable registry or a bad
+schematic/tag parks the run before any disruption. Nodes running Talos
+older than v1.13 (no ImageService API) are skipped. Disable for airgapped
+clusters that seed images out of band.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.talos.version" data-path-key="|spec|talos|version|" data-parent-path="spec.talos" data-name="version" data-text="Version is the target Talos version to upgrade to (e.g., &#34;v1.11.0&#34;) pattern: ^v[0-9]&#43;\.[0-9]&#43;\.[0-9]&#43;(-[a-zA-Z0-9\-\.]&#43;)?$">
   <span class="prop-name">version</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
@@ -7951,6 +7965,54 @@ Equals len(spec.hooks.pre) once all pre-hooks are done.">
 Equals len(spec.hooks.pre) once all pre-hooks are done.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.prePulledNodes" data-path-key="|status|prePulledNodes|" data-parent-path="status" data-name="prePulledNodes" data-text="PrePulledNodes records the installer image pre-pulled on each node
+during this run (or noted as skipped because the node&#39;s Talos version
+predates the ImageService API), so pulls are not repeated on every
+reconcile. A record is keyed by the resolved ref and the Node UID: a
+node that becomes eligible mid-run, is recreated under the same name,
+or whose resolved image changes (annotations, machine config), is
+pre-pulled before its next batch.">
+<summary>
+  <span class="prop-name">prePulledNodes</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">PrePulledNodes records the installer image pre-pulled on each node
+during this run (or noted as skipped because the node&#39;s Talos version
+predates the ImageService API), so pulls are not repeated on every
+reconcile. A record is keyed by the resolved ref and the Node UID: a
+node that becomes eligible mid-run, is recreated under the same name,
+or whose resolved image changes (annotations, machine config), is
+pre-pulled before its next batch.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.prePulledNodes[].image" data-path-key="|status|prePulledNodes[]|image|" data-parent-path="status.prePulledNodes" data-name="image" data-text="Image is the installer ref that was resolved for the node when it was
+pulled (or skipped as unsupported). A different resolved ref
+invalidates the record.">
+  <span class="prop-name">image</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Image is the installer ref that was resolved for the node when it was
+pulled (or skipped as unsupported). A different resolved ref
+invalidates the record.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.prePulledNodes[].nodeName" data-path-key="|status|prePulledNodes[]|nodeName|" data-parent-path="status.prePulledNodes" data-name="nodeName" data-text="NodeName is the name of the node.">
+  <span class="prop-name">nodeName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">NodeName is the name of the node.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.prePulledNodes[].nodeUID" data-path-key="|status|prePulledNodes[]|nodeUID|" data-parent-path="status.prePulledNodes" data-name="nodeUID" data-text="NodeUID is the UID of the Node object the pull was performed against.
+A node recreated under the same name (new UID) invalidates the record:
+its image store starts empty.">
+  <span class="prop-name">nodeUID</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">NodeUID is the UID of the Node object the pull was performed against.
+A node recreated under the same name (new UID) invalidates the record:
+its image store starts empty.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.rebootingNodes" data-path-key="|status|rebootingNodes|" data-parent-path="status" data-name="rebootingNodes" data-text="RebootingNodes tracks nodes whose upgrade job finished but whose
 post-reboot readiness has not been verified yet. Persisted in status so
 the wait survives upgrade Job garbage collection; a node that never
