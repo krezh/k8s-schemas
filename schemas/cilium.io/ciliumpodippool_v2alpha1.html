@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.ipv4 for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.allowFirstIP for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -417,6 +417,30 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content">
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.allowFirstIP" data-path-key="|spec|allowFirstIP|" data-parent-path="spec" data-name="allowFirstIP" data-text="AllowFirstIP allows the first IP of each allocated CIDR to be used. If
+unset or false, this IP is reserved. This field is ignored for /{31,32}
+and /{127,128} CIDRs since reserving the first and last IPs would make
+the CIDRs unusable. This field is immutable.">
+  <span class="prop-name">allowFirstIP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowFirstIP allows the first IP of each allocated CIDR to be used. If
+unset or false, this IP is reserved. This field is ignored for /{31,32}
+and /{127,128} CIDRs since reserving the first and last IPs would make
+the CIDRs unusable. This field is immutable.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.allowLastIP" data-path-key="|spec|allowLastIP|" data-parent-path="spec" data-name="allowLastIP" data-text="AllowLastIP allows the last IP of each allocated CIDR to be used. If
+unset or false, this IP is reserved. This field is ignored for /{31,32}
+and /{127,128} CIDRs since reserving the first and last IPs would make
+the CIDRs unusable. This field is immutable.">
+  <span class="prop-name">allowLastIP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowLastIP allows the last IP of each allocated CIDR to be used. If
+unset or false, this IP is reserved. This field is ignored for /{31,32}
+and /{127,128} CIDRs since reserving the first and last IPs would make
+the CIDRs unusable. This field is immutable.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.ipv4" data-path-key="|spec|ipv4|" data-parent-path="spec" data-name="ipv4" data-text="IPv4 specifies the IPv4 CIDRs and mask sizes of the pool">
 <summary>
   <span class="prop-name">ipv4</span>
@@ -619,7 +643,7 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.ipv4 for an exact path">No matches. Try .spec.ipv4 for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.allowFirstIP for an exact path">No matches. Try .spec.allowFirstIP for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

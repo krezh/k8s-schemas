@@ -454,10 +454,11 @@ ENIs.">
 ENIs.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.alibaba-cloud.cidr-block" data-path-key="|spec|alibaba-cloud|cidr-block|" data-parent-path="spec.alibaba-cloud" data-name="cidr-block" data-text="CIDRBlock is vpc ipv4 CIDR">
+<div class="prop-leaf" data-prop-row data-path="spec.alibaba-cloud.cidr-block" data-path-key="|spec|alibaba-cloud|cidr-block|" data-parent-path="spec.alibaba-cloud" data-name="cidr-block" data-text="CIDRBlock is vpc ipv4 CIDR format: cidr">
   <span class="prop-name">cidr-block</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">CIDRBlock is vpc ipv4 CIDR
+  <div class="leaf-desc">CIDRBlock is vpc ipv4 CIDR<div class="leaf-constraints">
+<div class="schema-constraint" title="format: cidr"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">cidr</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.alibaba-cloud.instance-type" data-path-key="|spec|alibaba-cloud|instance-type|" data-parent-path="spec.alibaba-cloud" data-name="instance-type" data-text="InstanceType is the ECS instance type, e.g. &#34;ecs.g6.2xlarge&#34;">
@@ -603,62 +604,10 @@ used for IP allocation, eth0 will be ignored for PodIP allocation.<div class="le
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.eni.instance-id" data-path-key="|spec|eni|instance-id|" data-parent-path="spec.eni" data-name="instance-id" data-text="InstanceID is the AWS InstanceId of the node. The InstanceID is used
-to retrieve AWS metadata for the node.
-
-OBSOLETE: This field is obsolete, please use Spec.InstanceID">
-  <span class="prop-name">instance-id</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">InstanceID is the AWS InstanceId of the node. The InstanceID is used
-to retrieve AWS metadata for the node.
-
-OBSOLETE: This field is obsolete, please use Spec.InstanceID
-  </div>
-</div>
 <div class="prop-leaf" data-prop-row data-path="spec.eni.instance-type" data-path-key="|spec|eni|instance-type|" data-parent-path="spec.eni" data-name="instance-type" data-text="InstanceType is the AWS EC2 instance type, e.g. &#34;m5.large&#34;">
   <span class="prop-name">instance-type</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">InstanceType is the AWS EC2 instance type, e.g. &#34;m5.large&#34;
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.eni.max-above-watermark" data-path-key="|spec|eni|max-above-watermark|" data-parent-path="spec.eni" data-name="max-above-watermark" data-text="MaxAboveWatermark is the maximum number of addresses to allocate
-beyond the addresses needed to reach the PreAllocate watermark.
-Going above the watermark can help reduce the number of API calls to
-allocate IPs, e.g. when a new ENI is allocated, as many secondary
-IPs as possible are allocated. Limiting the amount can help reduce
-waste of IPs.
-
-OBSOLETE: This field is obsolete, please use Spec.IPAM.MaxAboveWatermark minimum: 0">
-  <span class="prop-name">max-above-watermark</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">MaxAboveWatermark is the maximum number of addresses to allocate
-beyond the addresses needed to reach the PreAllocate watermark.
-Going above the watermark can help reduce the number of API calls to
-allocate IPs, e.g. when a new ENI is allocated, as many secondary
-IPs as possible are allocated. Limiting the amount can help reduce
-waste of IPs.
-
-OBSOLETE: This field is obsolete, please use Spec.IPAM.MaxAboveWatermark<div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.eni.min-allocate" data-path-key="|spec|eni|min-allocate|" data-parent-path="spec.eni" data-name="min-allocate" data-text="MinAllocate is the minimum number of IPs that must be allocated when
-the node is first bootstrapped. It defines the minimum base socket
-of addresses that must be available. After reaching this watermark,
-the PreAllocate and MaxAboveWatermark logic takes over to continue
-allocating IPs.
-
-OBSOLETE: This field is obsolete, please use Spec.IPAM.MinAllocate minimum: 0">
-  <span class="prop-name">min-allocate</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">MinAllocate is the minimum number of IPs that must be allocated when
-the node is first bootstrapped. It defines the minimum base socket
-of addresses that must be available. After reaching this watermark,
-the PreAllocate and MaxAboveWatermark logic takes over to continue
-allocating IPs.
-
-OBSOLETE: This field is obsolete, please use Spec.IPAM.MinAllocate<div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.eni.node-subnet-id" data-path-key="|spec|eni|node-subnet-id|" data-parent-path="spec.eni" data-name="node-subnet-id" data-text="NodeSubnetID is the subnet of the primary ENI the instance was brought up
@@ -667,23 +616,6 @@ with. It is used as a sensible default subnet to create ENIs in.">
   <span class="type-badge">string</span>
   <div class="leaf-desc">NodeSubnetID is the subnet of the primary ENI the instance was brought up
 with. It is used as a sensible default subnet to create ENIs in.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.eni.pre-allocate" data-path-key="|spec|eni|pre-allocate|" data-parent-path="spec.eni" data-name="pre-allocate" data-text="PreAllocate defines the number of IP addresses that must be
-available for allocation in the IPAMspec. It defines the buffer of
-addresses available immediately without requiring cilium-operator to
-get involved.
-
-OBSOLETE: This field is obsolete, please use Spec.IPAM.PreAllocate minimum: 0">
-  <span class="prop-name">pre-allocate</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">PreAllocate defines the number of IP addresses that must be
-available for allocation in the IPAMspec. It defines the buffer of
-addresses available immediately without requiring cilium-operator to
-get involved.
-
-OBSOLETE: This field is obsolete, please use Spec.IPAM.PreAllocate<div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.eni.security-group-tags" data-path-key="|spec|eni|security-group-tags|" data-parent-path="spec.eni" data-name="security-group-tags" data-text="SecurityGroupTags is the list of tags to use when evaliating what
@@ -895,6 +827,18 @@ remove CIDRs it has released.">
 operator will add new pod CIDRs to this field, whereas the agent will
 remove CIDRs it has released.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.ipam.pools.allocated[].allowFirstIP" data-path-key="|spec|ipam|pools|allocated[]|allowFirstIP|" data-parent-path="spec.ipam.pools.allocated" data-name="allowFirstIP" data-text="AllowFirstIP allows the first IP of each allocated CIDR to be used.">
+  <span class="prop-name">allowFirstIP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowFirstIP allows the first IP of each allocated CIDR to be used.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.ipam.pools.allocated[].allowLastIP" data-path-key="|spec|ipam|pools|allocated[]|allowLastIP|" data-parent-path="spec.ipam.pools.allocated" data-name="allowLastIP" data-text="AllowLastIP allows the last IP of each allocated CIDR to be used.">
+  <span class="prop-name">allowLastIP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowLastIP allows the last IP of each allocated CIDR to be used.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.ipam.pools.allocated[].cidrs" data-path-key="|spec|ipam|pools|allocated[]|cidrs|" data-parent-path="spec.ipam.pools.allocated" data-name="cidrs" data-text="CIDRs contains a list of pod CIDRs currently allocated from this pool">
   <span class="prop-name">cidrs</span>
   <span class="type-badge">[]string</span>
@@ -968,13 +912,13 @@ pool
 </div>
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.ipam.pre-allocate" data-path-key="|spec|ipam|pre-allocate|" data-parent-path="spec.ipam" data-name="pre-allocate" data-text="PreAllocate defines the number of IP addresses that must be
-available for allocation in the IPAMspec. It defines the buffer of
+available for allocation in the IPAMSpec. It defines the buffer of
 addresses available immediately without requiring cilium-operator to
 get involved. minimum: 0">
   <span class="prop-name">pre-allocate</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">PreAllocate defines the number of IP addresses that must be
-available for allocation in the IPAMspec. It defines the buffer of
+available for allocation in the IPAMSpec. It defines the buffer of
 addresses available immediately without requiring cilium-operator to
 get involved.<div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
@@ -993,13 +937,6 @@ filter Elastic IP Addresses.
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.nodeidentity" data-path-key="|spec|nodeidentity|" data-parent-path="spec" data-name="nodeidentity" data-text="NodeIdentity is the Cilium numeric identity allocated for the node, if any. format: int64">
-  <span class="prop-name">nodeidentity</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">NodeIdentity is the Cilium numeric identity allocated for the node, if any.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
-  </div>
-</div>
   </div>
 </div>
 </details>
@@ -1042,24 +979,18 @@ of the node.</div>
 </summary>
 <div class="prop-content"><div class="prop-desc">Interfaces is the list of interfaces on the node</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].GatewayIP" data-path-key="|status|azure|interfaces[]|GatewayIP|" data-parent-path="status.azure.interfaces" data-name="GatewayIP" data-text="GatewayIP is the interface&#39;s subnet&#39;s default route
-
-OBSOLETE: This field is obsolete, please use Gateway field instead.">
-  <span class="prop-name">GatewayIP</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">GatewayIP is the interface&#39;s subnet&#39;s default route
-
-OBSOLETE: This field is obsolete, please use Gateway field instead.
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.azure.interfaces[].addresses" data-path-key="|status|azure|interfaces[]|addresses|" data-parent-path="status.azure.interfaces" data-name="addresses" data-text="Addresses is the list of all IPs associated with the interface,
-including all secondary addresses">
+<details class="prop" data-prop-row data-path="status.azure.interfaces[].addresses" data-path-key="|status|azure|interfaces[]|addresses|" data-parent-path="status.azure.interfaces" data-name="addresses" data-text="Addresses is the list of secondary IPs associated with the interface.
+The primary IP is tracked separately in the IP field, but is also
+included here when the operator is configured to expose it for
+allocation.">
 <summary>
   <span class="prop-name">addresses</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Addresses is the list of all IPs associated with the interface,
-including all secondary addresses</div>
+<div class="prop-content"><div class="prop-desc">Addresses is the list of secondary IPs associated with the interface.
+The primary IP is tracked separately in the IP field, but is also
+included here when the operator is configured to expose it for
+allocation.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].addresses[].ip" data-path-key="|status|azure|interfaces[]|addresses[]|ip|" data-parent-path="status.azure.interfaces[].addresses" data-name="ip" data-text="IP is the ip address of the address">
   <span class="prop-name">ip</span>
@@ -1073,19 +1004,32 @@ including all secondary addresses</div>
   <div class="leaf-desc">State is the provisioning state of the address
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].addresses[].subnet" data-path-key="|status|azure|interfaces[]|addresses[]|subnet|" data-parent-path="status.azure.interfaces[].addresses" data-name="subnet" data-text="Subnet is the subnet the address belongs to">
+<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].addresses[].subnet" data-path-key="|status|azure|interfaces[]|addresses[]|subnet|" data-parent-path="status.azure.interfaces[].addresses" data-name="subnet" data-text="Subnet is the subnet the address belongs to.
+
+Deprecated: use AzureInterface.Subnet.ID. Populated as a mirror for one
+release so external consumers of CiliumNode.Status.Azure can migrate.">
   <span class="prop-name">subnet</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Subnet is the subnet the address belongs to
+  <div class="leaf-desc">Subnet is the subnet the address belongs to.
+
+Deprecated: use AzureInterface.Subnet.ID. Populated as a mirror for one
+release so external consumers of CiliumNode.Status.Azure can migrate.
   </div>
 </div>
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].cidr" data-path-key="|status|azure|interfaces[]|cidr|" data-parent-path="status.azure.interfaces" data-name="cidr" data-text="CIDR is the range that the interface belongs to.">
+<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].cidr" data-path-key="|status|azure|interfaces[]|cidr|" data-parent-path="status.azure.interfaces" data-name="cidr" data-text="CIDR is the range that the interface belongs to.
+
+Deprecated: use Subnet.CIDR. Retained for one release so agent/operator
+rolling upgrades work in either order. format: cidr">
   <span class="prop-name">cidr</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">CIDR is the range that the interface belongs to.
+
+Deprecated: use Subnet.CIDR. Retained for one release so agent/operator
+rolling upgrades work in either order.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: cidr"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">cidr</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].gateway" data-path-key="|status|azure|interfaces[]|gateway|" data-parent-path="status.azure.interfaces" data-name="gateway" data-text="Gateway is the interface&#39;s subnet&#39;s default route">
@@ -1098,6 +1042,12 @@ including all secondary addresses</div>
   <span class="prop-name">id</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">ID is the identifier
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].ip" data-path-key="|status|azure|interfaces[]|ip|" data-parent-path="status.azure.interfaces" data-name="ip" data-text="IP is the primary IP of the interface">
+  <span class="prop-name">ip</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">IP is the primary IP of the interface
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].mac" data-path-key="|status|azure|interfaces[]|mac|" data-parent-path="status.azure.interfaces" data-name="mac" data-text="MAC is the mac address">
@@ -1124,6 +1074,29 @@ including all secondary addresses</div>
   <div class="leaf-desc">State is the provisioning state
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.azure.interfaces[].subnet" data-path-key="|status|azure|interfaces[]|subnet|" data-parent-path="status.azure.interfaces" data-name="subnet" data-text="Subnet is the subnet the interface is attached to.">
+<summary>
+  <span class="prop-name">subnet</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Subnet is the subnet the interface is attached to.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].subnet.cidr" data-path-key="|status|azure|interfaces[]|subnet|cidr|" data-parent-path="status.azure.interfaces[].subnet" data-name="cidr" data-text="CIDR is the CIDR range associated with the subnet format: cidr">
+  <span class="prop-name">cidr</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CIDR is the CIDR range associated with the subnet<div class="leaf-constraints">
+<div class="schema-constraint" title="format: cidr"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">cidr</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.azure.interfaces[].subnet.id" data-path-key="|status|azure|interfaces[]|subnet|id|" data-parent-path="status.azure.interfaces[].subnet" data-name="id" data-text="ID is the resource ID of the subnet">
+  <span class="prop-name">id</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ID is the resource ID of the subnet
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>

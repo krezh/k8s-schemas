@@ -764,13 +764,13 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.egress[].toEntities" data-path-key="|spec|egress[]|toEntities|" data-parent-path="spec.egress" data-name="toEntities" data-text="ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">toEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
@@ -862,9 +862,10 @@ Examples:
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.egress[].toGroups" data-path-key="|spec|egress[]|toGroups|" data-parent-path="spec.egress" data-name="toGroups" data-text="ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="spec.egress[].toGroups" data-path-key="|spec|egress[]|toGroups|" data-parent-path="spec.egress" data-name="toGroups" data-text="ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -875,9 +876,10 @@ toGroups:
   <span class="prop-name">toGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -892,28 +894,46 @@ toGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.labels" data-path-key="|spec|egress[]|toGroups[]|aws|labels|" data-parent-path="spec.egress[].toGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.labels" data-path-key="|spec|egress[]|toGroups[]|aws|labels|" data-parent-path="spec.egress[].toGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.region" data-path-key="|spec|egress[]|toGroups[]|aws|region|" data-parent-path="spec.egress[].toGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.region" data-path-key="|spec|egress[]|toGroups[]|aws|region|" data-parent-path="spec.egress[].toGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.securityGroupsIds" data-path-key="|spec|egress[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="spec.egress[].toGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.securityGroupsIds" data-path-key="|spec|egress[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="spec.egress[].toGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.securityGroupsNames" data-path-key="|spec|egress[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="spec.egress[].toGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egress[].toGroups[].aws.securityGroupsNames" data-path-key="|spec|egress[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="spec.egress[].toGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -1180,24 +1200,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].ports[].protocol" data-path-key="|spec|egress[]|toPorts[]|ports[]|protocol|" data-parent-path="spec.egress[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -1413,152 +1443,6 @@ If omitted or empty, all paths are all allowed.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.egress[].toPorts[].rules.kafka" data-path-key="|spec|egress[]|toPorts[]|rules|kafka|" data-parent-path="spec.egress[].toPorts[].rules" data-name="kafka" data-text="Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.">
-<summary>
-  <span class="prop-name">kafka</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].rules.kafka[].apiKey" data-path-key="|spec|egress[]|toPorts[]|rules|kafka[]|apiKey|" data-parent-path="spec.egress[].toPorts[].rules.kafka" data-name="apiKey" data-text="APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.">
-  <span class="prop-name">apiKey</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].rules.kafka[].apiVersion" data-path-key="|spec|egress[]|toPorts[]|rules|kafka[]|apiVersion|" data-parent-path="spec.egress[].toPorts[].rules.kafka" data-name="apiVersion" data-text="APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.">
-  <span class="prop-name">apiVersion</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].rules.kafka[].clientID" data-path-key="|spec|egress[]|toPorts[]|rules|kafka[]|clientID|" data-parent-path="spec.egress[].toPorts[].rules.kafka" data-name="clientID" data-text="ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.">
-  <span class="prop-name">clientID</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].rules.kafka[].role" data-path-key="|spec|egress[]|toPorts[]|rules|kafka[]|role|" data-parent-path="spec.egress[].toPorts[].rules.kafka" data-name="role" data-text="Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed. enum: produce, consume">
-  <span class="prop-name">role</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: produce, consume"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">produce, consume</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].rules.kafka[].topic" data-path-key="|spec|egress[]|toPorts[]|rules|kafka[]|topic|" data-parent-path="spec.egress[].toPorts[].rules.kafka" data-name="topic" data-text="Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed. maxLength: 255">
-  <span class="prop-name">topic</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].rules.l7" data-path-key="|spec|egress[]|toPorts[]|rules|l7|" data-parent-path="spec.egress[].toPorts[].rules" data-name="l7" data-text="Key-value pair rules.">
-  <span class="prop-name">l7</span>
-  <span class="type-badge">[]object</span>
-  <div class="leaf-desc">Key-value pair rules.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.egress[].toPorts[].rules.l7proto" data-path-key="|spec|egress[]|toPorts[]|rules|l7proto|" data-parent-path="spec.egress[].toPorts[].rules" data-name="l7proto" data-text="Name of the L7 protocol for which the Key-value pair rules apply.">
-  <span class="prop-name">l7proto</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the L7 protocol for which the Key-value pair rules apply.
-  </div>
-</div>
   </div>
 </div>
 </details>
@@ -2105,19 +1989,20 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toEntities" data-path-key="|spec|egressDeny[]|toEntities|" data-parent-path="spec.egressDeny" data-name="toEntities" data-text="ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">toEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.egressDeny[].toGroups" data-path-key="|spec|egressDeny[]|toGroups|" data-parent-path="spec.egressDeny" data-name="toGroups" data-text="ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="spec.egressDeny[].toGroups" data-path-key="|spec|egressDeny[]|toGroups|" data-parent-path="spec.egressDeny" data-name="toGroups" data-text="ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -2128,9 +2013,10 @@ toGroups:
   <span class="prop-name">toGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -2145,28 +2031,46 @@ toGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.labels" data-path-key="|spec|egressDeny[]|toGroups[]|aws|labels|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.labels" data-path-key="|spec|egressDeny[]|toGroups[]|aws|labels|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.region" data-path-key="|spec|egressDeny[]|toGroups[]|aws|region|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.region" data-path-key="|spec|egressDeny[]|toGroups[]|aws|region|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.securityGroupsIds" data-path-key="|spec|egressDeny[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.securityGroupsIds" data-path-key="|spec|egressDeny[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.securityGroupsNames" data-path-key="|spec|egressDeny[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toGroups[].aws.securityGroupsNames" data-path-key="|spec|egressDeny[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="spec.egressDeny[].toGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -2281,24 +2185,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="spec.egressDeny[].toPorts[].ports[].protocol" data-path-key="|spec|egressDeny[]|toPorts[]|ports[]|protocol|" data-parent-path="spec.egressDeny[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -2802,22 +2716,23 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromEntities" data-path-key="|spec|ingress[]|fromEntities|" data-parent-path="spec.ingress" data-name="fromEntities" data-text="FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">fromEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.ingress[].fromGroups" data-path-key="|spec|ingress[]|fromGroups|" data-parent-path="spec.ingress" data-name="fromGroups" data-text="FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="spec.ingress[].fromGroups" data-path-key="|spec|ingress[]|fromGroups|" data-parent-path="spec.ingress" data-name="fromGroups" data-text="FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;">
@@ -2825,12 +2740,13 @@ FromGroups:
   <span class="prop-name">fromGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;</div>
@@ -2842,28 +2758,46 @@ FromGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.labels" data-path-key="|spec|ingress[]|fromGroups[]|aws|labels|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.labels" data-path-key="|spec|ingress[]|fromGroups[]|aws|labels|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.region" data-path-key="|spec|ingress[]|fromGroups[]|aws|region|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.region" data-path-key="|spec|ingress[]|fromGroups[]|aws|region|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.securityGroupsIds" data-path-key="|spec|ingress[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.securityGroupsIds" data-path-key="|spec|ingress[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.securityGroupsNames" data-path-key="|spec|ingress[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingress[].fromGroups[].aws.securityGroupsNames" data-path-key="|spec|ingress[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="spec.ingress[].fromGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -3219,24 +3153,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].ports[].protocol" data-path-key="|spec|ingress[]|toPorts[]|ports[]|protocol|" data-parent-path="spec.ingress[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -3452,152 +3396,6 @@ If omitted or empty, all paths are all allowed.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.ingress[].toPorts[].rules.kafka" data-path-key="|spec|ingress[]|toPorts[]|rules|kafka|" data-parent-path="spec.ingress[].toPorts[].rules" data-name="kafka" data-text="Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.">
-<summary>
-  <span class="prop-name">kafka</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].rules.kafka[].apiKey" data-path-key="|spec|ingress[]|toPorts[]|rules|kafka[]|apiKey|" data-parent-path="spec.ingress[].toPorts[].rules.kafka" data-name="apiKey" data-text="APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.">
-  <span class="prop-name">apiKey</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].rules.kafka[].apiVersion" data-path-key="|spec|ingress[]|toPorts[]|rules|kafka[]|apiVersion|" data-parent-path="spec.ingress[].toPorts[].rules.kafka" data-name="apiVersion" data-text="APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.">
-  <span class="prop-name">apiVersion</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].rules.kafka[].clientID" data-path-key="|spec|ingress[]|toPorts[]|rules|kafka[]|clientID|" data-parent-path="spec.ingress[].toPorts[].rules.kafka" data-name="clientID" data-text="ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.">
-  <span class="prop-name">clientID</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].rules.kafka[].role" data-path-key="|spec|ingress[]|toPorts[]|rules|kafka[]|role|" data-parent-path="spec.ingress[].toPorts[].rules.kafka" data-name="role" data-text="Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed. enum: produce, consume">
-  <span class="prop-name">role</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: produce, consume"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">produce, consume</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].rules.kafka[].topic" data-path-key="|spec|ingress[]|toPorts[]|rules|kafka[]|topic|" data-parent-path="spec.ingress[].toPorts[].rules.kafka" data-name="topic" data-text="Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed. maxLength: 255">
-  <span class="prop-name">topic</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].rules.l7" data-path-key="|spec|ingress[]|toPorts[]|rules|l7|" data-parent-path="spec.ingress[].toPorts[].rules" data-name="l7" data-text="Key-value pair rules.">
-  <span class="prop-name">l7</span>
-  <span class="type-badge">[]object</span>
-  <div class="leaf-desc">Key-value pair rules.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingress[].toPorts[].rules.l7proto" data-path-key="|spec|ingress[]|toPorts[]|rules|l7proto|" data-parent-path="spec.ingress[].toPorts[].rules" data-name="l7proto" data-text="Name of the L7 protocol for which the Key-value pair rules apply.">
-  <span class="prop-name">l7proto</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the L7 protocol for which the Key-value pair rules apply.
-  </div>
-</div>
   </div>
 </div>
 </details>
@@ -3952,22 +3750,23 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromEntities" data-path-key="|spec|ingressDeny[]|fromEntities|" data-parent-path="spec.ingressDeny" data-name="fromEntities" data-text="FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">fromEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.ingressDeny[].fromGroups" data-path-key="|spec|ingressDeny[]|fromGroups|" data-parent-path="spec.ingressDeny" data-name="fromGroups" data-text="FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="spec.ingressDeny[].fromGroups" data-path-key="|spec|ingressDeny[]|fromGroups|" data-parent-path="spec.ingressDeny" data-name="fromGroups" data-text="FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;">
@@ -3975,12 +3774,13 @@ FromGroups:
   <span class="prop-name">fromGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;</div>
@@ -3992,28 +3792,46 @@ FromGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.labels" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|labels|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.labels" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|labels|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.region" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|region|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.region" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|region|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.securityGroupsIds" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.securityGroupsIds" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.securityGroupsNames" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].fromGroups[].aws.securityGroupsNames" data-path-key="|spec|ingressDeny[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="spec.ingressDeny[].fromGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -4217,24 +4035,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="spec.ingressDeny[].toPorts[].ports[].protocol" data-path-key="|spec|ingressDeny[]|toPorts[]|ports[]|protocol|" data-parent-path="spec.ingressDeny[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -4265,10 +4093,10 @@ unique, multiple rules can have overlapping or identical labels.</div>
   <div class="leaf-desc">
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.labels[].source" data-path-key="|spec|labels[]|source|" data-parent-path="spec.labels" data-name="source" data-text="Source can be one of the above values (e.g.: LabelSourceContainer).">
+<div class="prop-leaf" data-prop-row data-path="spec.labels[].source" data-path-key="|spec|labels[]|source|" data-parent-path="spec.labels" data-name="source" data-text="Source can be one of the above values (e.g.: LabelSourceK8s).">
   <span class="prop-name">source</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Source can be one of the above values (e.g.: LabelSourceContainer).
+  <div class="leaf-desc">Source can be one of the above values (e.g.: LabelSourceK8s).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.labels[].value" data-path-key="|spec|labels[]|value|" data-parent-path="spec.labels" data-name="value" data-text="">
@@ -4718,13 +4546,13 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="specs[].egress[].toEntities" data-path-key="|specs[]|egress[]|toEntities|" data-parent-path="specs[].egress" data-name="toEntities" data-text="ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">toEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
@@ -4816,9 +4644,10 @@ Examples:
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="specs[].egress[].toGroups" data-path-key="|specs[]|egress[]|toGroups|" data-parent-path="specs[].egress" data-name="toGroups" data-text="ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="specs[].egress[].toGroups" data-path-key="|specs[]|egress[]|toGroups|" data-parent-path="specs[].egress" data-name="toGroups" data-text="ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -4829,9 +4658,10 @@ toGroups:
   <span class="prop-name">toGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -4846,28 +4676,46 @@ toGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.labels" data-path-key="|specs[]|egress[]|toGroups[]|aws|labels|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.labels" data-path-key="|specs[]|egress[]|toGroups[]|aws|labels|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.region" data-path-key="|specs[]|egress[]|toGroups[]|aws|region|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.region" data-path-key="|specs[]|egress[]|toGroups[]|aws|region|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.securityGroupsIds" data-path-key="|specs[]|egress[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.securityGroupsIds" data-path-key="|specs[]|egress[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.securityGroupsNames" data-path-key="|specs[]|egress[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toGroups[].aws.securityGroupsNames" data-path-key="|specs[]|egress[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].egress[].toGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -5134,24 +4982,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].ports[].protocol" data-path-key="|specs[]|egress[]|toPorts[]|ports[]|protocol|" data-parent-path="specs[].egress[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -5367,152 +5225,6 @@ If omitted or empty, all paths are all allowed.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="specs[].egress[].toPorts[].rules.kafka" data-path-key="|specs[]|egress[]|toPorts[]|rules|kafka|" data-parent-path="specs[].egress[].toPorts[].rules" data-name="kafka" data-text="Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.">
-<summary>
-  <span class="prop-name">kafka</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].rules.kafka[].apiKey" data-path-key="|specs[]|egress[]|toPorts[]|rules|kafka[]|apiKey|" data-parent-path="specs[].egress[].toPorts[].rules.kafka" data-name="apiKey" data-text="APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.">
-  <span class="prop-name">apiKey</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].rules.kafka[].apiVersion" data-path-key="|specs[]|egress[]|toPorts[]|rules|kafka[]|apiVersion|" data-parent-path="specs[].egress[].toPorts[].rules.kafka" data-name="apiVersion" data-text="APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.">
-  <span class="prop-name">apiVersion</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].rules.kafka[].clientID" data-path-key="|specs[]|egress[]|toPorts[]|rules|kafka[]|clientID|" data-parent-path="specs[].egress[].toPorts[].rules.kafka" data-name="clientID" data-text="ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.">
-  <span class="prop-name">clientID</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].rules.kafka[].role" data-path-key="|specs[]|egress[]|toPorts[]|rules|kafka[]|role|" data-parent-path="specs[].egress[].toPorts[].rules.kafka" data-name="role" data-text="Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed. enum: produce, consume">
-  <span class="prop-name">role</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: produce, consume"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">produce, consume</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].rules.kafka[].topic" data-path-key="|specs[]|egress[]|toPorts[]|rules|kafka[]|topic|" data-parent-path="specs[].egress[].toPorts[].rules.kafka" data-name="topic" data-text="Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed. maxLength: 255">
-  <span class="prop-name">topic</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].rules.l7" data-path-key="|specs[]|egress[]|toPorts[]|rules|l7|" data-parent-path="specs[].egress[].toPorts[].rules" data-name="l7" data-text="Key-value pair rules.">
-  <span class="prop-name">l7</span>
-  <span class="type-badge">[]object</span>
-  <div class="leaf-desc">Key-value pair rules.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egress[].toPorts[].rules.l7proto" data-path-key="|specs[]|egress[]|toPorts[]|rules|l7proto|" data-parent-path="specs[].egress[].toPorts[].rules" data-name="l7proto" data-text="Name of the L7 protocol for which the Key-value pair rules apply.">
-  <span class="prop-name">l7proto</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the L7 protocol for which the Key-value pair rules apply.
-  </div>
-</div>
   </div>
 </div>
 </details>
@@ -6059,19 +5771,20 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toEntities" data-path-key="|specs[]|egressDeny[]|toEntities|" data-parent-path="specs[].egressDeny" data-name="toEntities" data-text="ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">toEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">ToEntities is a list of special entities to which the endpoint subject
 to the rule is allowed to initiate connections. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="specs[].egressDeny[].toGroups" data-path-key="|specs[]|egressDeny[]|toGroups|" data-parent-path="specs[].egressDeny" data-name="toGroups" data-text="ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="specs[].egressDeny[].toGroups" data-path-key="|specs[]|egressDeny[]|toGroups|" data-parent-path="specs[].egressDeny" data-name="toGroups" data-text="ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -6082,9 +5795,10 @@ toGroups:
   <span class="prop-name">toGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">ToGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">ToGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+ToGroups entries are functionally equivalent to toCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
 toGroups:
@@ -6099,28 +5813,46 @@ toGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.labels" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|labels|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.labels" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|labels|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.region" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|region|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.region" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|region|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.securityGroupsIds" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.securityGroupsIds" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.securityGroupsNames" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toGroups[].aws.securityGroupsNames" data-path-key="|specs[]|egressDeny[]|toGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].egressDeny[].toGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -6235,24 +5967,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="specs[].egressDeny[].toPorts[].ports[].protocol" data-path-key="|specs[]|egressDeny[]|toPorts[]|ports[]|protocol|" data-parent-path="specs[].egressDeny[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -6756,22 +6498,23 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromEntities" data-path-key="|specs[]|ingress[]|fromEntities|" data-parent-path="specs[].ingress" data-name="fromEntities" data-text="FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">fromEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="specs[].ingress[].fromGroups" data-path-key="|specs[]|ingress[]|fromGroups|" data-parent-path="specs[].ingress" data-name="fromGroups" data-text="FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="specs[].ingress[].fromGroups" data-path-key="|specs[]|ingress[]|fromGroups|" data-parent-path="specs[].ingress" data-name="fromGroups" data-text="FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;">
@@ -6779,12 +6522,13 @@ FromGroups:
   <span class="prop-name">fromGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;</div>
@@ -6796,28 +6540,46 @@ FromGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.labels" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|labels|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.labels" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|labels|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.region" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|region|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.region" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|region|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.securityGroupsIds" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.securityGroupsIds" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.securityGroupsNames" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].fromGroups[].aws.securityGroupsNames" data-path-key="|specs[]|ingress[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].ingress[].fromGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -7173,24 +6935,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].ports[].protocol" data-path-key="|specs[]|ingress[]|toPorts[]|ports[]|protocol|" data-parent-path="specs[].ingress[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -7406,152 +7178,6 @@ If omitted or empty, all paths are all allowed.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="specs[].ingress[].toPorts[].rules.kafka" data-path-key="|specs[]|ingress[]|toPorts[]|rules|kafka|" data-parent-path="specs[].ingress[].toPorts[].rules" data-name="kafka" data-text="Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.">
-<summary>
-  <span class="prop-name">kafka</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Kafka-specific rules.
-Deprecated: This beta feature is deprecated and will be removed in a future release.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].rules.kafka[].apiKey" data-path-key="|specs[]|ingress[]|toPorts[]|rules|kafka[]|apiKey|" data-parent-path="specs[].ingress[].toPorts[].rules.kafka" data-name="apiKey" data-text="APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.">
-  <span class="prop-name">apiKey</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIKey is a case-insensitive string matched against the key of a
-request, e.g. &#34;produce&#34;, &#34;fetch&#34;, &#34;createtopic&#34;, &#34;deletetopic&#34;, et al
-Reference: https://kafka.apache.org/protocol#protocol_api_keys
-
-If omitted or empty, and if Role is not specified, then all keys are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].rules.kafka[].apiVersion" data-path-key="|specs[]|ingress[]|toPorts[]|rules|kafka[]|apiVersion|" data-parent-path="specs[].ingress[].toPorts[].rules.kafka" data-name="apiVersion" data-text="APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.">
-  <span class="prop-name">apiVersion</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">APIVersion is the version matched against the api version of the
-Kafka message. If set, it has to be a string representing a positive
-integer.
-
-If omitted or empty, all versions are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].rules.kafka[].clientID" data-path-key="|specs[]|ingress[]|toPorts[]|rules|kafka[]|clientID|" data-parent-path="specs[].ingress[].toPorts[].rules.kafka" data-name="clientID" data-text="ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.">
-  <span class="prop-name">clientID</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ClientID is the client identifier as provided in the request.
-
-From Kafka protocol documentation:
-This is a user supplied identifier for the client application. The
-user can use any identifier they like and it will be used when
-logging errors, monitoring aggregates, etc. For example, one might
-want to monitor not just the requests per second overall, but the
-number coming from each client application (each of which could
-reside on multiple servers). This id acts as a logical grouping
-across all requests from a particular client.
-
-If omitted or empty, all client identifiers are allowed.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].rules.kafka[].role" data-path-key="|specs[]|ingress[]|toPorts[]|rules|kafka[]|role|" data-parent-path="specs[].ingress[].toPorts[].rules.kafka" data-name="role" data-text="Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed. enum: produce, consume">
-  <span class="prop-name">role</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Role is a case-insensitive string and describes a group of API keys
-necessary to perform certain higher-level Kafka operations such as &#34;produce&#34;
-or &#34;consume&#34;. A Role automatically expands into all APIKeys required
-to perform the specified higher-level operation.
-
-The following values are supported:
- - &#34;produce&#34;: Allow producing to the topics specified in the rule
- - &#34;consume&#34;: Allow consuming from the topics specified in the rule
-
-This field is incompatible with the APIKey field, i.e APIKey and Role
-cannot both be specified in the same rule.
-
-If omitted or empty, and if APIKey is not specified, then all keys are
-allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: produce, consume"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">produce, consume</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].rules.kafka[].topic" data-path-key="|specs[]|ingress[]|toPorts[]|rules|kafka[]|topic|" data-parent-path="specs[].ingress[].toPorts[].rules.kafka" data-name="topic" data-text="Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed. maxLength: 255">
-  <span class="prop-name">topic</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Topic is the topic name contained in the message. If a Kafka request
-contains multiple topics, then all topics must be allowed or the
-message will be rejected.
-
-This constraint is ignored if the matched request message type
-doesn&#39;t contain any topic. Maximum size of Topic can be 249
-characters as per recent Kafka spec and allowed characters are
-a-z, A-Z, 0-9, -, . and _.
-
-Older Kafka versions had longer topic lengths of 255, but in Kafka 0.10
-version the length was changed from 255 to 249. For compatibility
-reasons we are using 255.
-
-If omitted or empty, all topics are allowed.<div class="leaf-constraints">
-<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].rules.l7" data-path-key="|specs[]|ingress[]|toPorts[]|rules|l7|" data-parent-path="specs[].ingress[].toPorts[].rules" data-name="l7" data-text="Key-value pair rules.">
-  <span class="prop-name">l7</span>
-  <span class="type-badge">[]object</span>
-  <div class="leaf-desc">Key-value pair rules.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingress[].toPorts[].rules.l7proto" data-path-key="|specs[]|ingress[]|toPorts[]|rules|l7proto|" data-parent-path="specs[].ingress[].toPorts[].rules" data-name="l7proto" data-text="Name of the L7 protocol for which the Key-value pair rules apply.">
-  <span class="prop-name">l7proto</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the L7 protocol for which the Key-value pair rules apply.
-  </div>
-</div>
   </div>
 </div>
 </details>
@@ -7906,22 +7532,23 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromEntities" data-path-key="|specs[]|ingressDeny[]|fromEntities|" data-parent-path="specs[].ingressDeny" data-name="fromEntities" data-text="FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.">
   <span class="prop-name">fromEntities</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">FromEntities is a list of special entities which the endpoint subject
 to the rule is allowed to receive connections from. Supported entities are
-`world`, `cluster`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
+`world`, `cluster`, `cluster-mesh`, `host`, `remote-node`, `kube-apiserver`, `ingress`, `init`,
 `health`, `unmanaged`, `none` and `all`.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="specs[].ingressDeny[].fromGroups" data-path-key="|specs[]|ingressDeny[]|fromGroups|" data-parent-path="specs[].ingressDeny" data-name="fromGroups" data-text="FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<details class="prop" data-prop-row data-path="specs[].ingressDeny[].fromGroups" data-path-key="|specs[]|ingressDeny[]|fromGroups|" data-parent-path="specs[].ingressDeny" data-name="fromGroups" data-text="FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;">
@@ -7929,12 +7556,13 @@ FromGroups:
   <span class="prop-name">fromGroups</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">FromGroups is a directive that allows the integration with multiple outside
-providers. Currently, only AWS is supported, and the rule can select by
-multiple sub directives:
+<div class="prop-content"><div class="prop-desc">FromGroups allows policies to reference CIDRs provided by external integrations.
+Currently, only AWS is supported, and the rule can select by multiple sub directives.
+FromGroups entries are functionally equivalent to FromCIDR, and have the same
+limitiations. They cannot select traffic originating from within the cluster.
 
 Example:
-FromGroups:
+fromGroups:
 - aws:
     securityGroupsIds:
     - &#39;sg-XXXXXXXXXXXXX&#39;</div>
@@ -7946,28 +7574,46 @@ FromGroups:
 </summary>
 <div class="prop-content"><div class="prop-desc">AWSGroup is an structure that can be used to whitelisting information from AWS integration</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.labels" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|labels|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="labels" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.labels" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|labels|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="labels" data-text="Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.">
   <span class="prop-name">labels</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Labels selects AWS ENIs by labels.
+Multiple labels are AND-ed together.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.region" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|region|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="region" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.region" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|region|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="region" data-text="Deprecated: Region is unused.">
   <span class="prop-name">region</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Deprecated: Region is unused.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.securityGroupsIds" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="securityGroupsIds" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.securityGroupsIds" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|securityGroupsIds|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="securityGroupsIds" data-text="SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsIds</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsIds selects VPC SecurityGroups by IDs.
+If multiple IDs are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any Names specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.securityGroupsNames" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="securityGroupsNames" data-text="">
+<div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].fromGroups[].aws.securityGroupsNames" data-path-key="|specs[]|ingressDeny[]|fromGroups[]|aws|securityGroupsNames|" data-parent-path="specs[].ingressDeny[].fromGroups[].aws" data-name="securityGroupsNames" data-text="SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.">
   <span class="prop-name">securityGroupsNames</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">SecurityGroupsNames selects VPC SecurityGroups by name.
+If multiple names are specified, they are OR-ed together.
+
+Note that this may be AND-ed with any IDs specified. Specifying both
+IDs and Names is not recommended.
   </div>
 </div>
   </div>
@@ -8171,24 +7817,34 @@ or &#34;http-8080&#34;.<div class="leaf-constraints">
 <div class="prop-leaf" data-prop-row data-path="specs[].ingressDeny[].toPorts[].ports[].protocol" data-path-key="|specs[]|ingressDeny[]|toPorts[]|ports[]|protocol|" data-parent-path="specs[].ingressDeny[].toPorts[].ports" data-name="protocol" data-text="Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
-contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, ANY">
+contradict this. enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY">
   <span class="prop-name">protocol</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Protocol is the L4 protocol. If &#34;ANY&#34;, omitted or empty, any protocols
 with transport ports (TCP, UDP, SCTP) match.
 
-Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;ANY&#34;
+Accepted values: &#34;TCP&#34;, &#34;UDP&#34;, &#34;SCTP&#34;, &#34;VRRP&#34;, &#34;IGMP&#34;, &#34;GRE&#34;, &#34;IPIP&#34;,
+&#34;IPV6&#34;, &#34;ESP&#34;, &#34;AH&#34;, &#34;ANY&#34;
+
+Tunnel/encapsulation protocols (GRE, IPIP, IPV6, ESP, AH) and other
+extended IP protocols (VRRP, IGMP) require the --enable-extended-ip-protocols
+flag to be set. These protocols do not use transport-layer ports.
 
 Matching on ICMP is not supported.
 
 Named port specified for a container may narrow this down, but may not
 contradict this.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, ANY</code></div></div>
+<div class="schema-constraint" title="enum: TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">TCP, UDP, SCTP, VRRP, IGMP, GRE, IPIP, IPV6, ESP, AH, ANY</code></div></div>
   </div>
 </div>
   </div>
@@ -8219,10 +7875,10 @@ unique, multiple rules can have overlapping or identical labels.</div>
   <div class="leaf-desc">
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="specs[].labels[].source" data-path-key="|specs[]|labels[]|source|" data-parent-path="specs[].labels" data-name="source" data-text="Source can be one of the above values (e.g.: LabelSourceContainer).">
+<div class="prop-leaf" data-prop-row data-path="specs[].labels[].source" data-path-key="|specs[]|labels[]|source|" data-parent-path="specs[].labels" data-name="source" data-text="Source can be one of the above values (e.g.: LabelSourceK8s).">
   <span class="prop-name">source</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Source can be one of the above values (e.g.: LabelSourceContainer).
+  <div class="leaf-desc">Source can be one of the above values (e.g.: LabelSourceK8s).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="specs[].labels[].value" data-path-key="|specs[]|labels[]|value|" data-parent-path="specs[].labels" data-name="value" data-text="">
