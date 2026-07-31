@@ -4730,7 +4730,7 @@ When both `enforcedKeepDroppedTargets` and `keepDroppedTargets` are defined and 
 * Scrape objects without a defined keepDroppedTargets value will inherit the global keepDroppedTargets value (Prometheus &gt;= 2.45.0) or the enforcedKeepDroppedTargets value (Prometheus &lt; v2.45.0).
   If Prometheus version is &gt;= 2.45.0 and the `enforcedKeepDroppedTargets` is greater than the `keepDroppedTargets`, the `keepDroppedTargets` will be set to `enforcedKeepDroppedTargets`.
 * Scrape objects with a keepDroppedTargets value less than or equal to enforcedKeepDroppedTargets keep their specific value.
-* Scrape objects with a keepDroppedTargets value greater than enforcedKeepDroppedTargets are set to enforcedKeepDroppedTargets. format: int64">
+* Scrape objects with a keepDroppedTargets value greater than enforcedKeepDroppedTargets are set to enforcedKeepDroppedTargets. format: int64 minimum: 0">
   <span class="prop-name">enforcedKeepDroppedTargets</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">enforcedKeepDroppedTargets when defined specifies a global limit on the number of targets
@@ -4746,7 +4746,8 @@ When both `enforcedKeepDroppedTargets` and `keepDroppedTargets` are defined and 
   If Prometheus version is &gt;= 2.45.0 and the `enforcedKeepDroppedTargets` is greater than the `keepDroppedTargets`, the `keepDroppedTargets` will be set to `enforcedKeepDroppedTargets`.
 * Scrape objects with a keepDroppedTargets value less than or equal to enforcedKeepDroppedTargets keep their specific value.
 * Scrape objects with a keepDroppedTargets value greater than enforcedKeepDroppedTargets are set to enforcedKeepDroppedTargets.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.enforcedLabelLimit" data-path-key="|spec|enforcedLabelLimit|" data-parent-path="spec" data-name="enforcedLabelLimit" data-text="enforcedLabelLimit when defined specifies a global limit on the number
@@ -4760,7 +4761,7 @@ When both `enforcedLabelLimit` and `labelLimit` are defined and greater than zer
 * Scrape objects without a defined labelLimit value will inherit the global labelLimit value (Prometheus &gt;= 2.45.0) or the enforcedLabelLimit value (Prometheus &lt; v2.45.0).
   If Prometheus version is &gt;= 2.45.0 and the `enforcedLabelLimit` is greater than the `labelLimit`, the `labelLimit` will be set to `enforcedLabelLimit`.
 * Scrape objects with a labelLimit value less than or equal to enforcedLabelLimit keep their specific value.
-* Scrape objects with a labelLimit value greater than enforcedLabelLimit are set to enforcedLabelLimit. format: int64">
+* Scrape objects with a labelLimit value greater than enforcedLabelLimit are set to enforcedLabelLimit. format: int64 minimum: 0">
   <span class="prop-name">enforcedLabelLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">enforcedLabelLimit when defined specifies a global limit on the number
@@ -4775,7 +4776,8 @@ When both `enforcedLabelLimit` and `labelLimit` are defined and greater than zer
   If Prometheus version is &gt;= 2.45.0 and the `enforcedLabelLimit` is greater than the `labelLimit`, the `labelLimit` will be set to `enforcedLabelLimit`.
 * Scrape objects with a labelLimit value less than or equal to enforcedLabelLimit keep their specific value.
 * Scrape objects with a labelLimit value greater than enforcedLabelLimit are set to enforcedLabelLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.enforcedLabelNameLengthLimit" data-path-key="|spec|enforcedLabelNameLengthLimit|" data-parent-path="spec" data-name="enforcedLabelNameLengthLimit" data-text="enforcedLabelNameLengthLimit when defined specifies a global limit on the length
@@ -4789,7 +4791,7 @@ When both `enforcedLabelNameLengthLimit` and `labelNameLengthLimit` are defined 
 * Scrape objects without a defined labelNameLengthLimit value will inherit the global labelNameLengthLimit value (Prometheus &gt;= 2.45.0) or the enforcedLabelNameLengthLimit value (Prometheus &lt; v2.45.0).
   If Prometheus version is &gt;= 2.45.0 and the `enforcedLabelNameLengthLimit` is greater than the `labelNameLengthLimit`, the `labelNameLengthLimit` will be set to `enforcedLabelNameLengthLimit`.
 * Scrape objects with a labelNameLengthLimit value less than or equal to enforcedLabelNameLengthLimit keep their specific value.
-* Scrape objects with a labelNameLengthLimit value greater than enforcedLabelNameLengthLimit are set to enforcedLabelNameLengthLimit. format: int64">
+* Scrape objects with a labelNameLengthLimit value greater than enforcedLabelNameLengthLimit are set to enforcedLabelNameLengthLimit. format: int64 minimum: 0">
   <span class="prop-name">enforcedLabelNameLengthLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">enforcedLabelNameLengthLimit when defined specifies a global limit on the length
@@ -4804,7 +4806,8 @@ When both `enforcedLabelNameLengthLimit` and `labelNameLengthLimit` are defined 
   If Prometheus version is &gt;= 2.45.0 and the `enforcedLabelNameLengthLimit` is greater than the `labelNameLengthLimit`, the `labelNameLengthLimit` will be set to `enforcedLabelNameLengthLimit`.
 * Scrape objects with a labelNameLengthLimit value less than or equal to enforcedLabelNameLengthLimit keep their specific value.
 * Scrape objects with a labelNameLengthLimit value greater than enforcedLabelNameLengthLimit are set to enforcedLabelNameLengthLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.enforcedLabelValueLengthLimit" data-path-key="|spec|enforcedLabelValueLengthLimit|" data-parent-path="spec" data-name="enforcedLabelValueLengthLimit" data-text="enforcedLabelValueLengthLimit when not null defines a global limit on the length
@@ -4818,7 +4821,7 @@ When both `enforcedLabelValueLengthLimit` and `labelValueLengthLimit` are define
 * Scrape objects without a defined labelValueLengthLimit value will inherit the global labelValueLengthLimit value (Prometheus &gt;= 2.45.0) or the enforcedLabelValueLengthLimit value (Prometheus &lt; v2.45.0).
   If Prometheus version is &gt;= 2.45.0 and the `enforcedLabelValueLengthLimit` is greater than the `labelValueLengthLimit`, the `labelValueLengthLimit` will be set to `enforcedLabelValueLengthLimit`.
 * Scrape objects with a labelValueLengthLimit value less than or equal to enforcedLabelValueLengthLimit keep their specific value.
-* Scrape objects with a labelValueLengthLimit value greater than enforcedLabelValueLengthLimit are set to enforcedLabelValueLengthLimit. format: int64">
+* Scrape objects with a labelValueLengthLimit value greater than enforcedLabelValueLengthLimit are set to enforcedLabelValueLengthLimit. format: int64 minimum: 0">
   <span class="prop-name">enforcedLabelValueLengthLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">enforcedLabelValueLengthLimit when not null defines a global limit on the length
@@ -4833,7 +4836,8 @@ When both `enforcedLabelValueLengthLimit` and `labelValueLengthLimit` are define
   If Prometheus version is &gt;= 2.45.0 and the `enforcedLabelValueLengthLimit` is greater than the `labelValueLengthLimit`, the `labelValueLengthLimit` will be set to `enforcedLabelValueLengthLimit`.
 * Scrape objects with a labelValueLengthLimit value less than or equal to enforcedLabelValueLengthLimit keep their specific value.
 * Scrape objects with a labelValueLengthLimit value greater than enforcedLabelValueLengthLimit are set to enforcedLabelValueLengthLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.enforcedNamespaceLabel" data-path-key="|spec|enforcedNamespaceLabel|" data-parent-path="spec" data-name="enforcedNamespaceLabel" data-text="enforcedNamespaceLabel when not empty, a label will be added to:
@@ -4877,7 +4881,7 @@ When both `enforcedSampleLimit` and `sampleLimit` are defined and greater than z
 * Scrape objects without a defined sampleLimit value will inherit the global sampleLimit value (Prometheus &gt;= 2.45.0) or the enforcedSampleLimit value (Prometheus &lt; v2.45.0).
   If Prometheus version is &gt;= 2.45.0 and the `enforcedSampleLimit` is greater than the `sampleLimit`, the `sampleLimit` will be set to `enforcedSampleLimit`.
 * Scrape objects with a sampleLimit value less than or equal to enforcedSampleLimit keep their specific value.
-* Scrape objects with a sampleLimit value greater than enforcedSampleLimit are set to enforcedSampleLimit. format: int64">
+* Scrape objects with a sampleLimit value greater than enforcedSampleLimit are set to enforcedSampleLimit. format: int64 minimum: 0">
   <span class="prop-name">enforcedSampleLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">enforcedSampleLimit when defined specifies a global limit on the number
@@ -4894,7 +4898,8 @@ When both `enforcedSampleLimit` and `sampleLimit` are defined and greater than z
   If Prometheus version is &gt;= 2.45.0 and the `enforcedSampleLimit` is greater than the `sampleLimit`, the `sampleLimit` will be set to `enforcedSampleLimit`.
 * Scrape objects with a sampleLimit value less than or equal to enforcedSampleLimit keep their specific value.
 * Scrape objects with a sampleLimit value greater than enforcedSampleLimit are set to enforcedSampleLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.enforcedTargetLimit" data-path-key="|spec|enforcedTargetLimit|" data-parent-path="spec" data-name="enforcedTargetLimit" data-text="enforcedTargetLimit when defined specifies a global limit on the number
@@ -4909,7 +4914,7 @@ When both `enforcedTargetLimit` and `targetLimit` are defined and greater than z
 * Scrape objects without a defined targetLimit value will inherit the global targetLimit value (Prometheus &gt;= 2.45.0) or the enforcedTargetLimit value (Prometheus &lt; v2.45.0).
   If Prometheus version is &gt;= 2.45.0 and the `enforcedTargetLimit` is greater than the `targetLimit`, the `targetLimit` will be set to `enforcedTargetLimit`.
 * Scrape objects with a targetLimit value less than or equal to enforcedTargetLimit keep their specific value.
-* Scrape objects with a targetLimit value greater than enforcedTargetLimit are set to enforcedTargetLimit. format: int64">
+* Scrape objects with a targetLimit value greater than enforcedTargetLimit are set to enforcedTargetLimit. format: int64 minimum: 0">
   <span class="prop-name">enforcedTargetLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">enforcedTargetLimit when defined specifies a global limit on the number
@@ -4925,7 +4930,8 @@ When both `enforcedTargetLimit` and `targetLimit` are defined and greater than z
   If Prometheus version is &gt;= 2.45.0 and the `enforcedTargetLimit` is greater than the `targetLimit`, the `targetLimit` will be set to `enforcedTargetLimit`.
 * Scrape objects with a targetLimit value less than or equal to enforcedTargetLimit keep their specific value.
 * Scrape objects with a targetLimit value greater than enforcedTargetLimit are set to enforcedTargetLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.excludedFromEnforcement" data-path-key="|spec|excludedFromEnforcement|" data-parent-path="spec" data-name="excludedFromEnforcement" data-text="excludedFromEnforcement defines the list of references to PodMonitor, ServiceMonitor, Probe and PrometheusRule objects
@@ -7422,7 +7428,7 @@ that will be kept in memory. 0 means no limit.
 It requires Prometheus &gt;= v2.47.0.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
-If you want to enforce a maximum limit for all scrape objects, refer to enforcedKeepDroppedTargets. format: int64">
+If you want to enforce a maximum limit for all scrape objects, refer to enforcedKeepDroppedTargets. format: int64 minimum: 0">
   <span class="prop-name">keepDroppedTargets</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">keepDroppedTargets defines the per-scrape limit on the number of targets dropped by relabeling
@@ -7432,14 +7438,15 @@ It requires Prometheus &gt;= v2.47.0.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
 If you want to enforce a maximum limit for all scrape objects, refer to enforcedKeepDroppedTargets.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.labelLimit" data-path-key="|spec|labelLimit|" data-parent-path="spec" data-name="labelLimit" data-text="labelLimit defines per-scrape limit on number of labels that will be accepted for a sample.
 Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
-If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelLimit. format: int64">
+If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelLimit. format: int64 minimum: 0">
   <span class="prop-name">labelLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">labelLimit defines per-scrape limit on number of labels that will be accepted for a sample.
@@ -7447,14 +7454,15 @@ Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
 If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.labelNameLengthLimit" data-path-key="|spec|labelNameLengthLimit|" data-parent-path="spec" data-name="labelNameLengthLimit" data-text="labelNameLengthLimit defines the per-scrape limit on length of labels name that will be accepted for a sample.
 Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
-If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelNameLengthLimit. format: int64">
+If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelNameLengthLimit. format: int64 minimum: 0">
   <span class="prop-name">labelNameLengthLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">labelNameLengthLimit defines the per-scrape limit on length of labels name that will be accepted for a sample.
@@ -7462,14 +7470,15 @@ Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
 If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelNameLengthLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.labelValueLengthLimit" data-path-key="|spec|labelValueLengthLimit|" data-parent-path="spec" data-name="labelValueLengthLimit" data-text="labelValueLengthLimit defines the per-scrape limit on length of labels value that will be accepted for a sample.
 Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
-If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelValueLengthLimit. format: int64">
+If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelValueLengthLimit. format: int64 minimum: 0">
   <span class="prop-name">labelValueLengthLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">labelValueLengthLimit defines the per-scrape limit on length of labels value that will be accepted for a sample.
@@ -7477,7 +7486,8 @@ Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
 If you want to enforce a maximum limit for all scrape objects, refer to enforcedLabelValueLengthLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.listenLocal" data-path-key="|spec|listenLocal|" data-parent-path="spec" data-name="listenLocal" data-text="listenLocal when true, the Prometheus server listens on the loopback address
@@ -8628,10 +8638,14 @@ It requires Prometheus &gt;= v2.29.0.<div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: -1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">-1</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].metadataConfig.send" data-path-key="|spec|remoteWrite[]|metadataConfig|send|" data-parent-path="spec.remoteWrite[].metadataConfig" data-name="send" data-text="send defines whether metric metadata is sent to the remote storage or not.">
+<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].metadataConfig.send" data-path-key="|spec|remoteWrite[]|metadataConfig|send|" data-parent-path="spec.remoteWrite[].metadataConfig" data-name="send" data-text="send defines whether metric metadata is sent to the remote storage or not.
+
+The setting is ignored when Remote Write message&#39;s version 2.0 is used.">
   <span class="prop-name">send</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">send defines whether metric metadata is sent to the remote storage or not.
+
+The setting is ignored when Remote Write message&#39;s version 2.0 is used.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].metadataConfig.sendInterval" data-path-key="|spec|remoteWrite[]|metadataConfig|sendInterval|" data-parent-path="spec.remoteWrite[].metadataConfig" data-name="sendInterval" data-text="sendInterval defines how frequently metric metadata is sent to the remote storage. pattern: ^(0|(([0-9]&#43;)y)?(([0-9]&#43;)w)?(([0-9]&#43;)d)?(([0-9]&#43;)h)?(([0-9]&#43;)m)?(([0-9]&#43;)s)?(([0-9]&#43;)ms)?)$">
@@ -9729,13 +9743,14 @@ Default: &#34;Replace&#34;<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].writeRelabelConfigs[].modulus" data-path-key="|spec|remoteWrite[]|writeRelabelConfigs[]|modulus|" data-parent-path="spec.remoteWrite[].writeRelabelConfigs" data-name="modulus" data-text="modulus to take of the hash of the source label values.
 
-Only applicable when the action is `HashMod`. format: int64">
+Only applicable when the action is `HashMod`. format: int64 minimum: 0">
   <span class="prop-name">modulus</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">modulus to take of the hash of the source label values.
 
 Only applicable when the action is `HashMod`.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].writeRelabelConfigs[].regex" data-path-key="|spec|remoteWrite[]|writeRelabelConfigs[]|regex|" data-parent-path="spec.remoteWrite[].writeRelabelConfigs" data-name="regex" data-text="regex defines the regular expression against which the extracted value is matched.">
@@ -9948,7 +9963,7 @@ See: https://tip.golang.org/doc/gc-guide#GOGC<div class="leaf-constraints">
 Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
-If you want to enforce a maximum limit for all scrape objects, refer to enforcedSampleLimit. format: int64">
+If you want to enforce a maximum limit for all scrape objects, refer to enforcedSampleLimit. format: int64 minimum: 0">
   <span class="prop-name">sampleLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">sampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
@@ -9956,7 +9971,8 @@ Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
 If you want to enforce a maximum limit for all scrape objects, refer to enforcedSampleLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.schedulerName" data-path-key="|spec|schedulerName|" data-parent-path="spec" data-name="schedulerName" data-text="schedulerName defines the scheduler to use for Pod scheduling. If not specified, the default scheduler is used. minLength: 1">
@@ -10151,13 +10167,14 @@ Default: &#34;Replace&#34;<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.scrapeClasses[].metricRelabelings[].modulus" data-path-key="|spec|scrapeClasses[]|metricRelabelings[]|modulus|" data-parent-path="spec.scrapeClasses[].metricRelabelings" data-name="modulus" data-text="modulus to take of the hash of the source label values.
 
-Only applicable when the action is `HashMod`. format: int64">
+Only applicable when the action is `HashMod`. format: int64 minimum: 0">
   <span class="prop-name">modulus</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">modulus to take of the hash of the source label values.
 
 Only applicable when the action is `HashMod`.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.scrapeClasses[].metricRelabelings[].regex" data-path-key="|spec|scrapeClasses[]|metricRelabelings[]|regex|" data-parent-path="spec.scrapeClasses[].metricRelabelings" data-name="regex" data-text="regex defines the regular expression against which the extracted value is matched.">
@@ -10263,13 +10280,14 @@ Default: &#34;Replace&#34;<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.scrapeClasses[].relabelings[].modulus" data-path-key="|spec|scrapeClasses[]|relabelings[]|modulus|" data-parent-path="spec.scrapeClasses[].relabelings" data-name="modulus" data-text="modulus to take of the hash of the source label values.
 
-Only applicable when the action is `HashMod`. format: int64">
+Only applicable when the action is `HashMod`. format: int64 minimum: 0">
   <span class="prop-name">modulus</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">modulus to take of the hash of the source label values.
 
 Only applicable when the action is `HashMod`.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.scrapeClasses[].relabelings[].regex" data-path-key="|spec|scrapeClasses[]|relabelings[]|regex|" data-parent-path="spec.scrapeClasses[].relabelings" data-name="regex" data-text="regex defines the regular expression against which the extracted value is matched.">
@@ -11510,7 +11528,9 @@ configuration (either in the monitoring resources or via scrape class).
 
 You can also disable sharding on a specific target by setting the
 `__tmp_disable_sharding` label with relabeling configuration. When
-the label value isn&#39;t empty, all Prometheus shards will scrape the target. format: int32">
+the label value isn&#39;t empty, all Prometheus shards will scrape the target.
+
+Default: 1 format: int32">
   <span class="prop-name">shards</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">shards defines the number of shards to distribute the scraped targets onto.
@@ -11538,7 +11558,9 @@ configuration (either in the monitoring resources or via scrape class).
 
 You can also disable sharding on a specific target by setting the
 `__tmp_disable_sharding` label with relabeling configuration. When
-the label value isn&#39;t empty, all Prometheus shards will scrape the target.<div class="leaf-constraints">
+the label value isn&#39;t empty, all Prometheus shards will scrape the target.
+
+Default: 1<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
@@ -12613,7 +12635,7 @@ Note: New statuses can be added in the future. Consumers should check for unknow
 Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
-If you want to enforce a maximum limit for all scrape objects, refer to enforcedTargetLimit. format: int64">
+If you want to enforce a maximum limit for all scrape objects, refer to enforcedTargetLimit. format: int64 minimum: 0">
   <span class="prop-name">targetLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">targetLimit defines a limit on the number of scraped targets that will be accepted.
@@ -12621,7 +12643,8 @@ Only valid in Prometheus versions 2.45.0 and newer.
 
 Note that the global limit only applies to scrape objects that don&#39;t specify an explicit limit value.
 If you want to enforce a maximum limit for all scrape objects, refer to enforcedTargetLimit.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.terminationGracePeriodSeconds" data-path-key="|spec|terminationGracePeriodSeconds|" data-parent-path="spec" data-name="terminationGracePeriodSeconds" data-text="terminationGracePeriodSeconds defines the optional duration in seconds the pod needs to terminate gracefully.
@@ -13316,6 +13339,49 @@ It requires Prometheus &gt;= v2.39.0 or PrometheusAgent &gt;= v2.54.0.">
 <div class="prop-content"><div class="prop-desc">tsdb defines the runtime reloadable configuration of the timeseries database(TSDB).
 It requires Prometheus &gt;= v2.39.0 or PrometheusAgent &gt;= v2.54.0.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.tsdb.chunkEncoding" data-path-key="|spec|tsdb|chunkEncoding|" data-parent-path="spec.tsdb" data-name="chunkEncoding" data-text="chunkEncoding configures per-chunk-type encoding overrides.
+
+It requires Prometheus &gt;= v3.13.0.
+
+Notice: Setting &#34;Xor&#34; is incompatible with --enable-feature=st-storage
+(XOR chunks do not store start timestamps).">
+<summary>
+  <span class="prop-name">chunkEncoding</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">chunkEncoding configures per-chunk-type encoding overrides.
+
+It requires Prometheus &gt;= v3.13.0.
+
+Notice: Setting &#34;Xor&#34; is incompatible with --enable-feature=st-storage
+(XOR chunks do not store start timestamps).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.tsdb.chunkEncoding.floats" data-path-key="|spec|tsdb|chunkEncoding|floats|" data-parent-path="spec.tsdb.chunkEncoding" data-name="floats" data-text="floats selects the encoding used for float chunks.
+Valid values are &#34;Xor&#34; and &#34;Xor2&#34;.
+
+Notice:
+ * Setting &#34;Xor&#34; is incompatible with --enable-feature=st-storage
+(XOR chunks do not store start timestamps).
+ * Setting &#34;Xor2&#34; automatically adds the `xor2-encoding` feature flag.
+
+It requires Prometheus &gt;= v3.13.0. enum: Xor, Xor2">
+  <span class="prop-name">floats</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">floats selects the encoding used for float chunks.
+Valid values are &#34;Xor&#34; and &#34;Xor2&#34;.
+
+Notice:
+ * Setting &#34;Xor&#34; is incompatible with --enable-feature=st-storage
+(XOR chunks do not store start timestamps).
+ * Setting &#34;Xor2&#34; automatically adds the `xor2-encoding` feature flag.
+
+It requires Prometheus &gt;= v3.13.0.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Xor, Xor2"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Xor, Xor2</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.tsdb.outOfOrderTimeWindow" data-path-key="|spec|tsdb|outOfOrderTimeWindow|" data-parent-path="spec.tsdb" data-name="outOfOrderTimeWindow" data-text="outOfOrderTimeWindow defines how old an out-of-order/out-of-bounds sample can be with
 respect to the TSDB max time.
 

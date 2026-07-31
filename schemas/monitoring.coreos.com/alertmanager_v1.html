@@ -14506,12 +14506,13 @@ Ex. &#34;ext4&#34;, &#34;xfs&#34;, &#34;ntfs&#34;. Implicitly inferred to be &#3
 <div class="prop-content"><div class="prop-desc">web defines the web command line flags when starting Alertmanager.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.web.getConcurrency" data-path-key="|spec|web|getConcurrency|" data-parent-path="spec.web" data-name="getConcurrency" data-text="getConcurrency defines the maximum number of GET requests processed concurrently. This corresponds to the
-Alertmanager&#39;s `--web.get-concurrency` flag. format: int32">
+Alertmanager&#39;s `--web.get-concurrency` flag. format: int32 minimum: 0">
   <span class="prop-name">getConcurrency</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">getConcurrency defines the maximum number of GET requests processed concurrently. This corresponds to the
 Alertmanager&#39;s `--web.get-concurrency` flag.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.web.httpConfig" data-path-key="|spec|web|httpConfig|" data-parent-path="spec.web" data-name="httpConfig" data-text="httpConfig defines HTTP parameters for web server.">
@@ -14601,12 +14602,13 @@ Whenever the value of the field changes, a rolling update will be triggered.
 </div>
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.web.timeout" data-path-key="|spec|web|timeout|" data-parent-path="spec.web" data-name="timeout" data-text="timeout for HTTP requests. This corresponds to the Alertmanager&#39;s
-`--web.timeout` flag. format: int32">
+`--web.timeout` flag. format: int32 minimum: 0">
   <span class="prop-name">timeout</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">timeout for HTTP requests. This corresponds to the Alertmanager&#39;s
 `--web.timeout` flag.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.web.tlsConfig" data-path-key="|spec|web|tlsConfig|" data-parent-path="spec.web" data-name="tlsConfig" data-text="tlsConfig defines the TLS parameters for HTTPS.">

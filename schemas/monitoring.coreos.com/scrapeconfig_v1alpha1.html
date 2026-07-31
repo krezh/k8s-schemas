@@ -9693,14 +9693,15 @@ operator to prevent duplicate job names, which Prometheus does not allow. Instea
 <div class="prop-leaf" data-prop-row data-path="spec.keepDroppedTargets" data-path-key="|spec|keepDroppedTargets|" data-parent-path="spec" data-name="keepDroppedTargets" data-text="keepDroppedTargets defines the per-scrape limit on the number of targets dropped by relabeling
 that will be kept in memory. 0 means no limit.
 
-It requires Prometheus &gt;= v2.47.0. format: int64">
+It requires Prometheus &gt;= v2.47.0. format: int64 minimum: 0">
   <span class="prop-name">keepDroppedTargets</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">keepDroppedTargets defines the per-scrape limit on the number of targets dropped by relabeling
 that will be kept in memory. 0 means no limit.
 
 It requires Prometheus &gt;= v2.47.0.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.kubernetesSDConfigs" data-path-key="|spec|kubernetesSDConfigs|" data-parent-path="spec" data-name="kubernetesSDConfigs" data-text="kubernetesSDConfigs defines a list of Kubernetes service discovery configurations.">
@@ -11651,30 +11652,33 @@ It requires Prometheus &gt;= v2.35.0 or Thanos &gt;= v0.28.0.<div class="leaf-co
 </div>
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.labelLimit" data-path-key="|spec|labelLimit|" data-parent-path="spec" data-name="labelLimit" data-text="labelLimit defines the per-scrape limit on number of labels that will be accepted for a sample.
-Only valid in Prometheus versions 2.27.0 and newer. format: int64">
+Only valid in Prometheus versions 2.27.0 and newer. format: int64 minimum: 0">
   <span class="prop-name">labelLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">labelLimit defines the per-scrape limit on number of labels that will be accepted for a sample.
 Only valid in Prometheus versions 2.27.0 and newer.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.labelNameLengthLimit" data-path-key="|spec|labelNameLengthLimit|" data-parent-path="spec" data-name="labelNameLengthLimit" data-text="labelNameLengthLimit defines the per-scrape limit on length of labels name that will be accepted for a sample.
-Only valid in Prometheus versions 2.27.0 and newer. format: int64">
+Only valid in Prometheus versions 2.27.0 and newer. format: int64 minimum: 0">
   <span class="prop-name">labelNameLengthLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">labelNameLengthLimit defines the per-scrape limit on length of labels name that will be accepted for a sample.
 Only valid in Prometheus versions 2.27.0 and newer.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.labelValueLengthLimit" data-path-key="|spec|labelValueLengthLimit|" data-parent-path="spec" data-name="labelValueLengthLimit" data-text="labelValueLengthLimit defines the per-scrape limit on length of labels value that will be accepted for a sample.
-Only valid in Prometheus versions 2.27.0 and newer. format: int64">
+Only valid in Prometheus versions 2.27.0 and newer. format: int64 minimum: 0">
   <span class="prop-name">labelValueLengthLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">labelValueLengthLimit defines the per-scrape limit on length of labels value that will be accepted for a sample.
 Only valid in Prometheus versions 2.27.0 and newer.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.lightSailSDConfigs" data-path-key="|spec|lightSailSDConfigs|" data-parent-path="spec" data-name="lightSailSDConfigs" data-text="lightSailSDConfigs defines a list of Lightsail service discovery configurations.">
@@ -13568,13 +13572,14 @@ Default: &#34;Replace&#34;<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.metricRelabelings[].modulus" data-path-key="|spec|metricRelabelings[]|modulus|" data-parent-path="spec.metricRelabelings" data-name="modulus" data-text="modulus to take of the hash of the source label values.
 
-Only applicable when the action is `HashMod`. format: int64">
+Only applicable when the action is `HashMod`. format: int64 minimum: 0">
   <span class="prop-name">modulus</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">modulus to take of the hash of the source label values.
 
 Only applicable when the action is `HashMod`.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.metricRelabelings[].regex" data-path-key="|spec|metricRelabelings[]|regex|" data-parent-path="spec.metricRelabelings" data-name="regex" data-text="regex defines the regular expression against which the extracted value is matched.">
@@ -13661,13 +13666,14 @@ It requires Prometheus &gt;= v3.0.0.<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.nativeHistogramBucketLimit" data-path-key="|spec|nativeHistogramBucketLimit|" data-parent-path="spec" data-name="nativeHistogramBucketLimit" data-text="nativeHistogramBucketLimit defines ff there are more than this many buckets in a native histogram,
 buckets will be merged to stay within the limit.
-It requires Prometheus &gt;= v2.45.0. format: int64">
+It requires Prometheus &gt;= v2.45.0. format: int64 minimum: 0">
   <span class="prop-name">nativeHistogramBucketLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">nativeHistogramBucketLimit defines ff there are more than this many buckets in a native histogram,
 buckets will be merged to stay within the limit.
 It requires Prometheus &gt;= v2.45.0.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.nativeHistogramMinBucketFactor" data-path-key="|spec|nativeHistogramMinBucketFactor|" data-parent-path="spec" data-name="nativeHistogramMinBucketFactor" data-text="nativeHistogramMinBucketFactor defines if the growth factor of one bucket to the next is smaller than this,
@@ -16697,13 +16703,14 @@ Default: &#34;Replace&#34;<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.relabelings[].modulus" data-path-key="|spec|relabelings[]|modulus|" data-parent-path="spec.relabelings" data-name="modulus" data-text="modulus to take of the hash of the source label values.
 
-Only applicable when the action is `HashMod`. format: int64">
+Only applicable when the action is `HashMod`. format: int64 minimum: 0">
   <span class="prop-name">modulus</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">modulus to take of the hash of the source label values.
 
 Only applicable when the action is `HashMod`.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.relabelings[].regex" data-path-key="|spec|relabelings[]|regex|" data-parent-path="spec.relabelings" data-name="regex" data-text="regex defines the regular expression against which the extracted value is matched.">
@@ -16759,11 +16766,12 @@ Regex capture groups are available.
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.sampleLimit" data-path-key="|spec|sampleLimit|" data-parent-path="spec" data-name="sampleLimit" data-text="sampleLimit defines per-scrape limit on number of scraped samples that will be accepted. format: int64">
+<div class="prop-leaf" data-prop-row data-path="spec.sampleLimit" data-path-key="|spec|sampleLimit|" data-parent-path="spec" data-name="sampleLimit" data-text="sampleLimit defines per-scrape limit on number of scraped samples that will be accepted. format: int64 minimum: 0">
   <span class="prop-name">sampleLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">sampleLimit defines per-scrape limit on number of scraped samples that will be accepted.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.scalewaySDConfigs" data-path-key="|spec|scalewaySDConfigs|" data-parent-path="spec" data-name="scalewaySDConfigs" data-text="scalewaySDConfigs defines a list of Scaleway instances and baremetal service discovery configurations.">
@@ -17268,11 +17276,12 @@ The value cannot be greater than the scrape interval otherwise the operator will
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.targetLimit" data-path-key="|spec|targetLimit|" data-parent-path="spec" data-name="targetLimit" data-text="targetLimit defines a limit on the number of scraped targets that will be accepted. format: int64">
+<div class="prop-leaf" data-prop-row data-path="spec.targetLimit" data-path-key="|spec|targetLimit|" data-parent-path="spec" data-name="targetLimit" data-text="targetLimit defines a limit on the number of scraped targets that will be accepted. format: int64 minimum: 0">
   <span class="prop-name">targetLimit</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">targetLimit defines a limit on the number of scraped targets that will be accepted.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.tlsConfig" data-path-key="|spec|tlsConfig|" data-parent-path="spec" data-name="tlsConfig" data-text="tlsConfig defines the TLS configuration to use on every scrape request">

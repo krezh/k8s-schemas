@@ -10369,6 +10369,16 @@ It requires Alertmanager &gt;= v0.30.0.<div class="leaf-constraints">
   <div class="leaf-desc">titleLink defines the URL that the title will link to when clicked.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.receivers[].slackConfigs[].updateMessage" data-path-key="|spec|receivers[]|slackConfigs[]|updateMessage|" data-parent-path="spec.receivers[].slackConfigs" data-name="updateMessage" data-text="updateMessage enables updating existing Slack messages instead of creating new ones
+when alert state changes. Please note that Webhook URLs do not support updates.
+It requires Alertmanager &gt;= v0.32.0.">
+  <span class="prop-name">updateMessage</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">updateMessage enables updating existing Slack messages instead of creating new ones
+when alert state changes. Please note that Webhook URLs do not support updates.
+It requires Alertmanager &gt;= v0.32.0.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.receivers[].slackConfigs[].username" data-path-key="|spec|receivers[]|slackConfigs[]|username|" data-parent-path="spec.receivers[].slackConfigs" data-name="username" data-text="username defines the slack bot user name. minLength: 1">
   <span class="prop-name">username</span>
   <span class="type-badge">string</span>
@@ -11531,6 +11541,20 @@ If you don&#39;t specify this value, you must specify a value for the PhoneNumbe
   <div class="leaf-desc">topicARN defines the SNS topic ARN, e.g. arn:aws:sns:us-east-2:698519295917:My-Topic.
 If you don&#39;t specify this value, you must specify a value for the PhoneNumber or TargetARN.<div class="leaf-constraints">
 <div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.receivers[].snsConfigs[].useAWSHTTPClient" data-path-key="|spec|receivers[]|snsConfigs[]|useAWSHTTPClient|" data-parent-path="spec.receivers[].snsConfigs" data-name="useAWSHTTPClient" data-text="useAWSHTTPClient forces the AWS SDK&#39;s BuildableClient instead of
+alertmanager&#39;s tracing-wrapped HTTP client. Auto-enabled when AWS_CA_BUNDLE
+is set; set explicitly when configuring ca_bundle via shared AWS config.
+
+It requires Alertmanager &gt;= 0.33.0.">
+  <span class="prop-name">useAWSHTTPClient</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">useAWSHTTPClient forces the AWS SDK&#39;s BuildableClient instead of
+alertmanager&#39;s tracing-wrapped HTTP client. Auto-enabled when AWS_CA_BUNDLE
+is set; set explicitly when configuring ca_bundle via shared AWS config.
+
+It requires Alertmanager &gt;= 0.33.0.
   </div>
 </div>
   </div>

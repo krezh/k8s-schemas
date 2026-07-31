@@ -7657,10 +7657,14 @@ It requires Prometheus &gt;= v2.29.0.<div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: -1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">-1</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].metadataConfig.send" data-path-key="|spec|remoteWrite[]|metadataConfig|send|" data-parent-path="spec.remoteWrite[].metadataConfig" data-name="send" data-text="send defines whether metric metadata is sent to the remote storage or not.">
+<div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].metadataConfig.send" data-path-key="|spec|remoteWrite[]|metadataConfig|send|" data-parent-path="spec.remoteWrite[].metadataConfig" data-name="send" data-text="send defines whether metric metadata is sent to the remote storage or not.
+
+The setting is ignored when Remote Write message&#39;s version 2.0 is used.">
   <span class="prop-name">send</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">send defines whether metric metadata is sent to the remote storage or not.
+
+The setting is ignored when Remote Write message&#39;s version 2.0 is used.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].metadataConfig.sendInterval" data-path-key="|spec|remoteWrite[]|metadataConfig|sendInterval|" data-parent-path="spec.remoteWrite[].metadataConfig" data-name="sendInterval" data-text="sendInterval defines how frequently metric metadata is sent to the remote storage. pattern: ^(0|(([0-9]&#43;)y)?(([0-9]&#43;)w)?(([0-9]&#43;)d)?(([0-9]&#43;)h)?(([0-9]&#43;)m)?(([0-9]&#43;)s)?(([0-9]&#43;)ms)?)$">
@@ -8758,13 +8762,14 @@ Default: &#34;Replace&#34;<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].writeRelabelConfigs[].modulus" data-path-key="|spec|remoteWrite[]|writeRelabelConfigs[]|modulus|" data-parent-path="spec.remoteWrite[].writeRelabelConfigs" data-name="modulus" data-text="modulus to take of the hash of the source label values.
 
-Only applicable when the action is `HashMod`. format: int64">
+Only applicable when the action is `HashMod`. format: int64 minimum: 0">
   <span class="prop-name">modulus</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">modulus to take of the hash of the source label values.
 
 Only applicable when the action is `HashMod`.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.remoteWrite[].writeRelabelConfigs[].regex" data-path-key="|spec|remoteWrite[]|writeRelabelConfigs[]|regex|" data-parent-path="spec.remoteWrite[].writeRelabelConfigs" data-name="regex" data-text="regex defines the regular expression against which the extracted value is matched.">
