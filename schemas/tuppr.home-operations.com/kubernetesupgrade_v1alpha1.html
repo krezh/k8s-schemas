@@ -666,6 +666,16 @@ If not specified, defaults to the target version
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.completionCycles" data-path-key="|status|completionCycles|" data-parent-path="status" data-name="completionCycles" data-text="CompletionCycles counts Completed→Pending re-entries: a completed run
+re-opened because a node still lags the target version. Bounds restart
+loops; reset by spec changes and the reset annotation.">
+  <span class="prop-name">completionCycles</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">CompletionCycles counts Completed→Pending re-entries: a completed run
+re-opened because a node still lags the target version. Bounds restart
+loops; reset by spec changes and the reset annotation.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions report the upgrade&#39;s &#34;Progressing&#34; and &#34;Ready&#34; status.">
 <summary>
   <span class="prop-name">conditions</span>
@@ -750,13 +760,13 @@ This field may not be empty.<div class="leaf-constraints">
   <div class="leaf-desc">CurrentVersion is the current Kubernetes version detected in the cluster
   </div>
 </div>
-<details class="prop" data-prop-row data-path="status.history" data-path-key="|status|history|" data-parent-path="status" data-name="history" data-text="History records past version transitions on this CR, newest first maxItems: 10">
+<details class="prop" data-prop-row data-path="status.history" data-path-key="|status|history|" data-parent-path="status" data-name="history" data-text="History records past version transitions on this CR, newest first maxItems: 3">
 <summary>
   <span class="prop-name">history</span>
   <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">History records past version transitions on this CR, newest first</div><div class="prop-constraints">
-<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
+<div class="schema-constraint" title="maxItems: 3"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">3</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="status.history[].completedAt" data-path-key="|status|history[]|completedAt|" data-parent-path="status.history" data-name="completedAt" data-text="CompletedAt is when the run reached its terminal phase format: date-time">
   <span class="prop-name">completedAt</span>
