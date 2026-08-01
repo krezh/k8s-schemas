@@ -7965,6 +7965,34 @@ Equals len(spec.hooks.pre) once all pre-hooks are done.">
 Equals len(spec.hooks.pre) once all pre-hooks are done.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.prePullFailure" data-path-key="|status|prePullFailure|" data-parent-path="status" data-name="prePullFailure" data-text="PrePullFailure tracks the current streak of consecutive failed pre-pull
+cycles, so a crash-looping pre-pull stays visible in status instead of
+being overwritten by the next cycle&#39;s Pre-pulling message. Drives the
+retry backoff; cleared once a pass completes without a failure.">
+<summary>
+  <span class="prop-name">prePullFailure</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">PrePullFailure tracks the current streak of consecutive failed pre-pull
+cycles, so a crash-looping pre-pull stays visible in status instead of
+being overwritten by the next cycle&#39;s Pre-pulling message. Drives the
+retry backoff; cleared once a pass completes without a failure.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.prePullFailure.attempts" data-path-key="|status|prePullFailure|attempts|" data-parent-path="status.prePullFailure" data-name="attempts" data-text="Attempts is the number of consecutive pre-pull cycles that have failed.">
+  <span class="prop-name">attempts</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Attempts is the number of consecutive pre-pull cycles that have failed.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.prePullFailure.lastError" data-path-key="|status|prePullFailure|lastError|" data-parent-path="status.prePullFailure" data-name="lastError" data-text="LastError is the failure from the most recent cycle.">
+  <span class="prop-name">lastError</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">LastError is the failure from the most recent cycle.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.prePulledNodes" data-path-key="|status|prePulledNodes|" data-parent-path="status" data-name="prePulledNodes" data-text="PrePulledNodes records the installer image pre-pulled on each node
 during this run (or noted as skipped because the node&#39;s Talos version
 predates the ImageService API), so pulls are not repeated on every
