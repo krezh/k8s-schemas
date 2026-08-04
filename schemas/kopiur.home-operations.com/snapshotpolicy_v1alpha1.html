@@ -2248,10 +2248,14 @@ the enclosing schedule&#39;s timezone, else the controller default (UTC).
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.volumeSnapshotClassName" data-path-key="|spec|volumeSnapshotClassName|" data-parent-path="spec" data-name="volumeSnapshotClassName" data-text="`VolumeSnapshotClass` used when `copyMethod` snapshots/clones the source.">
+<div class="prop-leaf" data-prop-row data-path="spec.volumeSnapshotClassName" data-path-key="|spec|volumeSnapshotClassName|" data-parent-path="spec" data-name="volumeSnapshotClassName" data-text="`VolumeSnapshotClass` used when `copyMethod` snapshots/clones the source. Absent or
+empty both mean auto-select the default class for the source PVC&#39;s CSI driver, so a
+GitOps-templated value (Flux/Kustomize `${VAR}`) is safe when the variable is unset.">
   <span class="prop-name">volumeSnapshotClassName</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">`VolumeSnapshotClass` used when `copyMethod` snapshots/clones the source.
+  <div class="leaf-desc">`VolumeSnapshotClass` used when `copyMethod` snapshots/clones the source. Absent or
+empty both mean auto-select the default class for the source PVC&#39;s CSI driver, so a
+GitOps-templated value (Flux/Kustomize `${VAR}`) is safe when the variable is unset.
   </div>
 </div>
   </div>

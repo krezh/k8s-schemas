@@ -2083,7 +2083,7 @@
           ]
         },
         "volumeSnapshotClassName": {
-          "description": "`VolumeSnapshotClass` used when `copyMethod` snapshots/clones the source.",
+          "description": "`VolumeSnapshotClass` used when `copyMethod` snapshots/clones the source. Absent or\nempty both mean auto-select the default class for the source PVC's CSI driver, so a\nGitOps-templated value (Flux/Kustomize `${VAR}`) is safe when the variable is unset.",
           "nullable": true,
           "type": [
             "string",

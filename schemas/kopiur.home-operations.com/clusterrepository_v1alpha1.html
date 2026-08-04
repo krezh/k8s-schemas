@@ -3836,6 +3836,100 @@ Localhost - a profile defined in a file on the node should be used. RuntimeDefau
 </summary>
 <div class="prop-content"><div class="prop-desc">Mutable kopia repository parameters, re-applied on bootstrap whenever they drift.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.parameters.blobRetention" data-path-key="|spec|parameters|blobRetention|" data-parent-path="spec.parameters" data-name="blobRetention" data-text="Object-lock blob retention (S3/Azure/GCS) — ransomware protection. Absent means
+&#34;don&#39;t touch it&#34;; use `disabled: true` to actively turn it off.">
+<summary>
+  <span class="prop-name">blobRetention</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Object-lock blob retention (S3/Azure/GCS) — ransomware protection. Absent means
+&#34;don&#39;t touch it&#34;; use `disabled: true` to actively turn it off.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.parameters.blobRetention.compliance" data-path-key="|spec|parameters|blobRetention|compliance|" data-parent-path="spec.parameters.blobRetention" data-name="compliance" data-text="`COMPLIANCE` — **nobody can shorten or remove the lock before it expires**, including
+the account root. An oversized period is an unfixable storage-cost commitment; there
+is no recovery path short of deleting the bucket after expiry.">
+<summary>
+  <span class="prop-name">compliance</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">`COMPLIANCE` — **nobody can shorten or remove the lock before it expires**, including
+the account root. An oversized period is an unfixable storage-cost commitment; there
+is no recovery path short of deleting the bucket after expiry.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.blobRetention.compliance.period" data-path-key="|spec|parameters|blobRetention|compliance|period|" data-parent-path="spec.parameters.blobRetention.compliance" data-name="period" data-text="Go-style duration; kopia&#39;s minimum is `24h` and there is no maximum.
+
+Accepts `h`/`m`/`s` (or a bare number of seconds) — **not `d`**. Note that kopia&#39;s own
+CLI *does* take `30d`, so a period copied from kopia&#39;s documentation is rejected here;
+write 30 days as `720h`. Kopiur deliberately keeps one duration grammar across every
+CRD field rather than matching kopia&#39;s per-flag variations.">
+  <span class="prop-name">period</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Go-style duration; kopia&#39;s minimum is `24h` and there is no maximum.
+
+Accepts `h`/`m`/`s` (or a bare number of seconds) — **not `d`**. Note that kopia&#39;s own
+CLI *does* take `30d`, so a period copied from kopia&#39;s documentation is rejected here;
+write 30 days as `720h`. Kopiur deliberately keeps one duration grammar across every
+CRD field rather than matching kopia&#39;s per-flag variations.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.blobRetention.disabled" data-path-key="|spec|parameters|blobRetention|disabled|" data-parent-path="spec.parameters.blobRetention" data-name="disabled" data-text="Actively disable retention (`--retention-mode=none`). Must be `true`.
+
+A `bool` rather than a unit variant because an externally-tagged unit variant
+serializes as the bare string `&#34;Disabled&#34;`, mixing string and object forms in one
+`oneOf` and breaking the structural schema. Same shape, and same reason, as
+[`crate::cluster_repository::AllowedNamespaces::All`].
+
+This is distinct from omitting `blobRetention` entirely: absent means &#34;leave the
+repository alone&#34;, so deleting the block from a manifest can never silently strip
+ransomware protection someone configured deliberately.">
+  <span class="prop-name">disabled</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Actively disable retention (`--retention-mode=none`). Must be `true`.
+
+A `bool` rather than a unit variant because an externally-tagged unit variant
+serializes as the bare string `&#34;Disabled&#34;`, mixing string and object forms in one
+`oneOf` and breaking the structural schema. Same shape, and same reason, as
+[`crate::cluster_repository::AllowedNamespaces::All`].
+
+This is distinct from omitting `blobRetention` entirely: absent means &#34;leave the
+repository alone&#34;, so deleting the block from a manifest can never silently strip
+ransomware protection someone configured deliberately.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.parameters.blobRetention.governance" data-path-key="|spec|parameters|blobRetention|governance|" data-parent-path="spec.parameters.blobRetention" data-name="governance" data-text="`GOVERNANCE` — locked against ordinary deletes, but a sufficiently privileged
+identity can still shorten or remove the lock. The safe default for most clusters.">
+<summary>
+  <span class="prop-name">governance</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">`GOVERNANCE` — locked against ordinary deletes, but a sufficiently privileged
+identity can still shorten or remove the lock. The safe default for most clusters.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.blobRetention.governance.period" data-path-key="|spec|parameters|blobRetention|governance|period|" data-parent-path="spec.parameters.blobRetention.governance" data-name="period" data-text="Go-style duration; kopia&#39;s minimum is `24h` and there is no maximum.
+
+Accepts `h`/`m`/`s` (or a bare number of seconds) — **not `d`**. Note that kopia&#39;s own
+CLI *does* take `30d`, so a period copied from kopia&#39;s documentation is rejected here;
+write 30 days as `720h`. Kopiur deliberately keeps one duration grammar across every
+CRD field rather than matching kopia&#39;s per-flag variations.">
+  <span class="prop-name">period</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Go-style duration; kopia&#39;s minimum is `24h` and there is no maximum.
+
+Accepts `h`/`m`/`s` (or a bare number of seconds) — **not `d`**. Note that kopia&#39;s own
+CLI *does* take `30d`, so a period copied from kopia&#39;s documentation is rejected here;
+write 30 days as `720h`. Kopiur deliberately keeps one duration grammar across every
+CRD field rather than matching kopia&#39;s per-flag variations.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.parameters.epoch" data-path-key="|spec|parameters|epoch|" data-parent-path="spec.parameters" data-name="epoch" data-text="Epoch-manager tuning — how fast kopia closes epochs and therefore how fast index
 blobs get compacted.">
 <summary>
@@ -4772,6 +4866,40 @@ against `spec.parameters` to see whether a declared value landed.">
 <div class="prop-content"><div class="prop-desc">The kopia repository parameters actually observed at the last bootstrap. Compare
 against `spec.parameters` to see whether a declared value landed.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.parameters.blobRetention" data-path-key="|status|parameters|blobRetention|" data-parent-path="status.parameters" data-name="blobRetention" data-text="The blob retention the repository reports.">
+<summary>
+  <span class="prop-name">blobRetention</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The blob retention the repository reports.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.parameters.blobRetention.enabled" data-path-key="|status|parameters|blobRetention|enabled|" data-parent-path="status.parameters.blobRetention" data-name="enabled" data-text="Whether the repository currently has blob retention in force (kopia&#39;s
+`IsRetentionEnabled()`: a non-empty mode AND a non-zero period).">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Whether the repository currently has blob retention in force (kopia&#39;s
+`IsRetentionEnabled()`: a non-empty mode AND a non-zero period).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.blobRetention.mode" data-path-key="|status|parameters|blobRetention|mode|" data-parent-path="status.parameters.blobRetention" data-name="mode" data-text="Observed retention mode exactly as kopia reports it (`GOVERNANCE`, `COMPLIANCE`, or
+empty when off).">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed retention mode exactly as kopia reports it (`GOVERNANCE`, `COMPLIANCE`, or
+empty when off).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.parameters.blobRetention.period" data-path-key="|status|parameters|blobRetention|period|" data-parent-path="status.parameters.blobRetention" data-name="period" data-text="Observed retention period, as a Go-style duration (`720h`). Empty-equivalent (`0s`)
+when retention is off.">
+  <span class="prop-name">period</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Observed retention period, as a Go-style duration (`720h`). Empty-equivalent (`0s`)
+when retention is off.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.parameters.epoch" data-path-key="|status|parameters|epoch|" data-parent-path="status.parameters" data-name="epoch" data-text="The epoch parameters the repository reports.">
 <summary>
   <span class="prop-name">epoch</span>
