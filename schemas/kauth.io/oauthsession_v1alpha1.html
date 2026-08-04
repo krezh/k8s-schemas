@@ -392,10 +392,10 @@ metadata:
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.lastUsed" data-path-key="|spec|lastUsed|" data-parent-path="spec" data-name="lastUsed" data-text="Timestamp when session was last used (token refresh or API server token-review via the webhook) format: date-time">
+<div class="prop-leaf" data-prop-row data-path="spec.lastUsed" data-path-key="|spec|lastUsed|" data-parent-path="spec" data-name="lastUsed" data-text="Timestamp when the session last refreshed or used the Kubernetes API proxy format: date-time">
   <span class="prop-name">lastUsed</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Timestamp when session was last used (token refresh or API server token-review via the webhook)<div class="leaf-constraints">
+  <div class="leaf-desc">Timestamp when the session last refreshed or used the Kubernetes API proxy<div class="leaf-constraints">
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
@@ -427,6 +427,12 @@ metadata:
 </summary>
 <div class="prop-content">
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.apiToken" data-path-key="|status|apiToken|" data-parent-path="status" data-name="apiToken" data-text="Encrypted credential for the Kubernetes API proxy">
+  <span class="prop-name">apiToken</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Encrypted credential for the Kubernetes API proxy
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.completedAt" data-path-key="|status|completedAt|" data-parent-path="status" data-name="completedAt" data-text="Timestamp when OAuth flow completed format: date-time">
   <span class="prop-name">completedAt</span>
   <span class="type-badge">string</span>
@@ -446,17 +452,30 @@ metadata:
   <div class="leaf-desc">Error message if OAuth flow failed
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.expiredAt" data-path-key="|status|expiredAt|" data-parent-path="status" data-name="expiredAt" data-text="Timestamp when the session expired format: date-time">
+  <span class="prop-name">expiredAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Timestamp when the session expired<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.groups" data-path-key="|status|groups|" data-parent-path="status" data-name="groups" data-text="User&#39;s group memberships from OIDC at login time">
   <span class="prop-name">groups</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">User&#39;s group memberships from OIDC at login time
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Lifecycle phase of the session (Pending, Active, Revoked, Expired) enum: Pending, Active, Revoked, Expired">
+<div class="prop-leaf" data-prop-row data-path="status.issuer" data-path-key="|status|issuer|" data-parent-path="status" data-name="issuer" data-text="OIDC issuer that asserted the subject">
+  <span class="prop-name">issuer</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">OIDC issuer that asserted the subject
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Lifecycle phase of the session enum: Pending, Authenticating, Failed, Active, Revoked, Expired">
   <span class="prop-name">phase</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Lifecycle phase of the session (Pending, Active, Revoked, Expired)<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: Pending, Active, Revoked, Expired"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Active, Revoked, Expired</code></div></div>
+  <div class="leaf-desc">Lifecycle phase of the session<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Pending, Authenticating, Failed, Active, Revoked, Expired"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Authenticating, Failed, Active, Revoked, Expired</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.refreshToken" data-path-key="|status|refreshToken|" data-parent-path="status" data-name="refreshToken" data-text="Encrypted JWT refresh token for token rotation">
@@ -472,16 +491,16 @@ metadata:
 <div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.subject" data-path-key="|status|subject|" data-parent-path="status" data-name="subject" data-text="Immutable OIDC subject identifier">
+  <span class="prop-name">subject</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Immutable OIDC subject identifier
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.username" data-path-key="|status|username|" data-parent-path="status" data-name="username" data-text="Authenticated user&#39;s preferred username">
   <span class="prop-name">username</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Authenticated user&#39;s preferred username
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.webhookToken" data-path-key="|status|webhookToken|" data-parent-path="status" data-name="webhookToken" data-text="Encrypted webhook credential for Kubernetes exec plugin">
-  <span class="prop-name">webhookToken</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Encrypted webhook credential for Kubernetes exec plugin
   </div>
 </div>
   </div>

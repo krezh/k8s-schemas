@@ -12,7 +12,7 @@
           ]
         },
         "lastUsed": {
-          "description": "Timestamp when session was last used (token refresh or API server token-review via the webhook)",
+          "description": "Timestamp when the session last refreshed or used the Kubernetes API proxy",
           "format": "date-time",
           "type": [
             "string",
@@ -47,6 +47,13 @@
     "status": {
       "additionalProperties": false,
       "properties": {
+        "apiToken": {
+          "description": "Encrypted credential for the Kubernetes API proxy",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "completedAt": {
           "description": "Timestamp when OAuth flow completed",
           "format": "date-time",
@@ -69,6 +76,14 @@
             "null"
           ]
         },
+        "expiredAt": {
+          "description": "Timestamp when the session expired",
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "groups": {
           "description": "User's group memberships from OIDC at login time",
           "items": {
@@ -79,10 +94,19 @@
             "null"
           ]
         },
+        "issuer": {
+          "description": "OIDC issuer that asserted the subject",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "phase": {
-          "description": "Lifecycle phase of the session (Pending, Active, Revoked, Expired)",
+          "description": "Lifecycle phase of the session",
           "enum": [
             "Pending",
+            "Authenticating",
+            "Failed",
             "Active",
             "Revoked",
             "Expired"
@@ -107,15 +131,15 @@
             "null"
           ]
         },
-        "username": {
-          "description": "Authenticated user's preferred username",
+        "subject": {
+          "description": "Immutable OIDC subject identifier",
           "type": [
             "string",
             "null"
           ]
         },
-        "webhookToken": {
-          "description": "Encrypted webhook credential for Kubernetes exec plugin",
+        "username": {
+          "description": "Authenticated user's preferred username",
           "type": [
             "string",
             "null"
