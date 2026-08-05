@@ -334,42 +334,6 @@
             "integer",
             "null"
           ]
-        },
-        "referencingWorkloads": {
-          "description": "ReferencingWorkloads lists workloads that reference this MCPTelemetryConfig",
-          "items": {
-            "additionalProperties": false,
-            "description": "WorkloadReference identifies a workload that references a shared configuration resource.\nNamespace is implicit — cross-namespace references are not supported.",
-            "properties": {
-              "kind": {
-                "description": "Kind is the type of workload resource",
-                "enum": [
-                  "MCPServer",
-                  "VirtualMCPServer",
-                  "MCPRemoteProxy"
-                ],
-                "type": "string"
-              },
-              "name": {
-                "description": "Name is the name of the workload resource",
-                "minLength": 1,
-                "type": "string"
-              }
-            },
-            "required": [
-              "kind",
-              "name"
-            ],
-            "type": "object"
-          },
-          "type": [
-            "array",
-            "null"
-          ],
-          "x-kubernetes-list-map-keys": [
-            "name"
-          ],
-          "x-kubernetes-list-type": "map"
         }
       },
       "type": [

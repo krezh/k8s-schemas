@@ -727,45 +727,6 @@ This field may not be empty.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.referenceCount" data-path-key="|status|referenceCount|" data-parent-path="status" data-name="referenceCount" data-text="ReferenceCount is the number of workloads referencing this config. format: int32">
-  <span class="prop-name">referenceCount</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">ReferenceCount is the number of workloads referencing this config.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.referencingWorkloads" data-path-key="|status|referencingWorkloads|" data-parent-path="status" data-name="referencingWorkloads" data-text="ReferencingWorkloads is a list of workload resources that reference this MCPOIDCConfig.
-Each entry identifies the workload by kind and name. The map key is the
-(kind, name) pair so two workloads of different kinds that share a name
-(e.g., an MCPServer &#34;foo&#34; and a VirtualMCPServer &#34;foo&#34;) are distinct
-entries rather than colliding under merge-patch semantics.">
-<summary>
-  <span class="prop-name">referencingWorkloads</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">ReferencingWorkloads is a list of workload resources that reference this MCPOIDCConfig.
-Each entry identifies the workload by kind and name. The map key is the
-(kind, name) pair so two workloads of different kinds that share a name
-(e.g., an MCPServer &#34;foo&#34; and a VirtualMCPServer &#34;foo&#34;) are distinct
-entries rather than colliding under merge-patch semantics.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.referencingWorkloads[].kind" data-path-key="|status|referencingWorkloads[]|kind|" data-parent-path="status.referencingWorkloads" data-name="kind" data-text="Kind is the type of workload resource enum: MCPServer, VirtualMCPServer, MCPRemoteProxy">
-  <span class="prop-name">kind</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Kind is the type of workload resource<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: MCPServer, VirtualMCPServer, MCPRemoteProxy"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">MCPServer, VirtualMCPServer, MCPRemoteProxy</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.referencingWorkloads[].name" data-path-key="|status|referencingWorkloads[]|name|" data-parent-path="status.referencingWorkloads" data-name="name" data-text="Name is the name of the workload resource minLength: 1">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name is the name of the workload resource<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
   </div>
 </div>
 </details>

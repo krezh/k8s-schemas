@@ -7946,7 +7946,7 @@ same shape and this value passes through unchanged.<div class="leaf-constraints"
 </details>
 <details class="prop" data-prop-row data-path="spec.speculativeDecoding" data-path-key="|spec|speculativeDecoding|" data-parent-path="spec" data-name="speculativeDecoding" data-text="SpeculativeDecoding configures speculative decoding for the llama.cpp
 runtime using MTP (Multi-Token Prediction) or draft-model decoding.
-Maps to llama.cpp --spec-type and --draft-n-max flags. Only the
+Maps to llama.cpp --spec-type and --spec-draft-n-max flags. Only the
 &#34;llamacpp&#34; runtime supports this field; other runtimes must not set it.">
 <summary>
   <span class="prop-name">speculativeDecoding</span>
@@ -7954,16 +7954,16 @@ Maps to llama.cpp --spec-type and --draft-n-max flags. Only the
 </summary>
 <div class="prop-content"><div class="prop-desc">SpeculativeDecoding configures speculative decoding for the llama.cpp
 runtime using MTP (Multi-Token Prediction) or draft-model decoding.
-Maps to llama.cpp --spec-type and --draft-n-max flags. Only the
+Maps to llama.cpp --spec-type and --spec-draft-n-max flags. Only the
 &#34;llamacpp&#34; runtime supports this field; other runtimes must not set it.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.nDraftMax" data-path-key="|spec|speculativeDecoding|nDraftMax|" data-parent-path="spec.speculativeDecoding" data-name="nDraftMax" data-text="NDraftMax is the maximum number of draft tokens to propose per step
-(--draft-n-max). Only emitted when set; llama.cpp uses its own default
+(--spec-draft-n-max). Only emitted when set; llama.cpp uses its own default
 otherwise. format: int32 minimum: 1">
   <span class="prop-name">nDraftMax</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">NDraftMax is the maximum number of draft tokens to propose per step
-(--draft-n-max). Only emitted when set; llama.cpp uses its own default
+(--spec-draft-n-max). Only emitted when set; llama.cpp uses its own default
 otherwise.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
@@ -8671,17 +8671,47 @@ Maps to vLLM --max-num-batched-tokens flag.<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.quantization" data-path-key="|spec|vllmConfig|quantization|" data-parent-path="spec.vllmConfig" data-name="quantization" data-text="Quantization method.
 awq, gptq, squeezellm are classic 4-bit formats. fp8 targets 8-bit FP
-checkpoints (Qwen FP8, Llama FP8, etc.). nvfp4 is NVIDIA&#39;s Blackwell-native
-4-bit format. compressed-tensors is the neuralmagic/vLLM cross-format
-loader used by Unsloth and other recent releases. enum: awq, gptq, squeezellm, fp8, nvfp4, compressed-tensors">
+checkpoints (Qwen FP8, Llama FP8, etc.). compressed-tensors is the
+neuralmagic/vLLM cross-format loader used by Unsloth and other recent
+releases.
+
+The two FP4 formats both require Blackwell-class hardware (sm_100 for
+datacenter B200/GB200, sm_120 for consumer RTX 50-series):
+  - nvfp4 is NVIDIA&#39;s own 4-bit format. Ready-made checkpoints are
+    published under nvidia/*-NVFP4 on Hugging Face; local conversion
+    uses NVIDIA/Model-Optimizer (PyPI nvidia-modelopt), which was
+    renamed from NVIDIA/TensorRT-Model-Optimizer.
+  - mxfp4 is the OCP standard 4-bit format, with broader vLLM support.
+
+Both are hardware-supported on sm_100 and sm_120; kernel coverage is the
+practical limit and it is thinner on consumer sm_120. On Blackwell, use
+a vLLM image &gt;= v0.25.0: v0.22.0 through v0.24.0 carry a regression that
+collapses NVFP4 output throughput (vllm-project/vllm#42988, fixed by
+#45739). The chart&#39;s pinned default is safe; see
+docs/operations/b200-validation-matrix.md. enum: awq, gptq, squeezellm, fp8, nvfp4, mxfp4, compressed-tensors">
   <span class="prop-name">quantization</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Quantization method.
 awq, gptq, squeezellm are classic 4-bit formats. fp8 targets 8-bit FP
-checkpoints (Qwen FP8, Llama FP8, etc.). nvfp4 is NVIDIA&#39;s Blackwell-native
-4-bit format. compressed-tensors is the neuralmagic/vLLM cross-format
-loader used by Unsloth and other recent releases.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: awq, gptq, squeezellm, fp8, nvfp4, compressed-tensors"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">awq, gptq, squeezellm, fp8, nvfp4, compressed-tensors</code></div></div>
+checkpoints (Qwen FP8, Llama FP8, etc.). compressed-tensors is the
+neuralmagic/vLLM cross-format loader used by Unsloth and other recent
+releases.
+
+The two FP4 formats both require Blackwell-class hardware (sm_100 for
+datacenter B200/GB200, sm_120 for consumer RTX 50-series):
+  - nvfp4 is NVIDIA&#39;s own 4-bit format. Ready-made checkpoints are
+    published under nvidia/*-NVFP4 on Hugging Face; local conversion
+    uses NVIDIA/Model-Optimizer (PyPI nvidia-modelopt), which was
+    renamed from NVIDIA/TensorRT-Model-Optimizer.
+  - mxfp4 is the OCP standard 4-bit format, with broader vLLM support.
+
+Both are hardware-supported on sm_100 and sm_120; kernel coverage is the
+practical limit and it is thinner on consumer sm_120. On Blackwell, use
+a vLLM image &gt;= v0.25.0: v0.22.0 through v0.24.0 carry a regression that
+collapses NVFP4 output throughput (vllm-project/vllm#42988, fixed by
+#45739). The chart&#39;s pinned default is safe; see
+docs/operations/b200-validation-matrix.md.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: awq, gptq, squeezellm, fp8, nvfp4, mxfp4, compressed-tensors"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">awq, gptq, squeezellm, fp8, nvfp4, mxfp4, compressed-tensors</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.vllmConfig.speculative" data-path-key="|spec|vllmConfig|speculative|" data-parent-path="spec.vllmConfig" data-name="speculative" data-text="Speculative enables draft-model speculative decoding. On single-stream
