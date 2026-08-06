@@ -220,6 +220,14 @@
               "description": "A short human-readable message: what failed, why, and how to fix it.",
               "type": "string"
             },
+            "op": {
+              "description": "The mover operation that failed, as a stable label (e.g.\n`repository connect`, `snapshot create`) — the values of the mover's\n`KopiaOp::as_str()`. Distinguishes a repository-level connect failure\nfrom a source-level failure (a broken PVC), which share\n`kopiaErrorClass` values (e.g. `NotFound`). Absent on failures that\noccurred outside a kopia invocation.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "retryRecommended": {
               "description": "Whether retrying the same operation unchanged could succeed.",
               "type": "boolean"

@@ -1526,40 +1526,71 @@ other than the operator itself reads the `Secret`.
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.health.probe" data-path-key="|spec|health|probe|" data-parent-path="spec.health" data-name="probe" data-text="Opt-in periodic backend health probe: re-connect a `Ready` repository on a
-timer to confirm the kopia repository still exists at the backend.">
+<details class="prop" data-prop-row data-path="spec.health.probe" data-path-key="|spec|health|probe|" data-parent-path="spec.health" data-name="probe" data-text="Periodic backend health probe (on by default): re-connect the repository
+on a timer to confirm the kopia repository still exists at the backend.
+With the default `onFailure: Degrade` it doubles as the repository
+circuit breaker — see `probe.onFailure`. Disable with
+`probe.enabled: false`.">
 <summary>
   <span class="prop-name">probe</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Opt-in periodic backend health probe: re-connect a `Ready` repository on a
-timer to confirm the kopia repository still exists at the backend.</div>
+<div class="prop-content"><div class="prop-desc">Periodic backend health probe (on by default): re-connect the repository
+on a timer to confirm the kopia repository still exists at the backend.
+With the default `onFailure: Degrade` it doubles as the repository
+circuit breaker — see `probe.onFailure`. Disable with
+`probe.enabled: false`.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.health.probe.enabled" data-path-key="|spec|health|probe|enabled|" data-parent-path="spec.health.probe" data-name="enabled" data-text="Turn the probe on. Off by default — existing repositories keep their
-current behavior until a user opts in.">
+<div class="prop-leaf" data-prop-row data-path="spec.health.probe.enabled" data-path-key="|spec|health|probe|enabled|" data-parent-path="spec.health.probe" data-name="enabled" data-text="Whether the probe runs (default `true`). `false` disables probing — and
+with it the circuit breaker, since the probe is its only sensor: a wiped
+or unreachable backend then goes unnoticed until the next backup fails.">
   <span class="prop-name">enabled</span>
   <span class="type-badge">boolean</span>
-  <div class="leaf-desc">Turn the probe on. Off by default — existing repositories keep their
-current behavior until a user opts in.
+  <div class="leaf-desc">Whether the probe runs (default `true`). `false` disables probing — and
+with it the circuit breaker, since the probe is its only sensor: a wiped
+or unreachable backend then goes unnoticed until the next backup fails.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.health.probe.failureThreshold" data-path-key="|spec|health|probe|failureThreshold|" data-parent-path="spec.health.probe" data-name="failureThreshold" data-text="How many *consecutive* failing probes to require before raising the loud
-condition &#43; event (default `3`). Debounces a single transient blip from
-alarming or nudging a destructive manual recreate. Any success resets it. format: int64">
+<div class="prop-leaf" data-prop-row data-path="spec.health.probe.failureThreshold" data-path-key="|spec|health|probe|failureThreshold|" data-parent-path="spec.health.probe" data-name="failureThreshold" data-text="How many *consecutive* failing probes to require before the failure is
+acted on (default `3`): the loud `BackendReachable=False` condition &#43;
+event fire, and — under `onFailure: Degrade` — the repository moves to
+`Degraded`. Debounces a single transient blip from alarming, tripping
+the breaker, or nudging a destructive manual recreate. Any success
+resets it. format: int64">
   <span class="prop-name">failureThreshold</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">How many *consecutive* failing probes to require before raising the loud
-condition &#43; event (default `3`). Debounces a single transient blip from
-alarming or nudging a destructive manual recreate. Any success resets it.<div class="leaf-constraints">
+  <div class="leaf-desc">How many *consecutive* failing probes to require before the failure is
+acted on (default `3`): the loud `BackendReachable=False` condition &#43;
+event fire, and — under `onFailure: Degrade` — the repository moves to
+`Degraded`. Debounces a single transient blip from alarming, tripping
+the breaker, or nudging a destructive manual recreate. Any success
+resets it.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.health.probe.interval" data-path-key="|spec|health|probe|interval|" data-parent-path="spec.health.probe" data-name="interval" data-text="How often to re-probe the backend (Go-style duration like `30m` or `1h`;
-minimum `30s`, default `30m`). Inert unless `enabled`.">
+minimum `30s`, default `30m`). Inert when `enabled: false`.">
   <span class="prop-name">interval</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">How often to re-probe the backend (Go-style duration like `30m` or `1h`;
-minimum `30s`, default `30m`). Inert unless `enabled`.
+minimum `30s`, default `30m`). Inert when `enabled: false`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.health.probe.onFailure" data-path-key="|spec|health|probe|onFailure|" data-parent-path="spec.health.probe" data-name="onFailure" data-text="What sustained backend-probe failure (past `failureThreshold`) does to the
+repository (default `Degrade`). `Degrade` moves it to `Degraded`, pausing
+backups, maintenance, and replication until a re-connect succeeds —
+recovery is automatic. `Alert` keeps the repository `Ready` and only raises
+the `BackendReachable` condition &#43; Warning event &#43; metric; backups keep
+running against the failing backend. Neither ever auto-recreates. enum: Degrade, Alert">
+  <span class="prop-name">onFailure</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">What sustained backend-probe failure (past `failureThreshold`) does to the
+repository (default `Degrade`). `Degrade` moves it to `Degraded`, pausing
+backups, maintenance, and replication until a re-connect succeeds —
+recovery is automatic. `Alert` keeps the repository `Ready` and only raises
+the `BackendReachable` condition &#43; Warning event &#43; metric; backups keep
+running against the failing backend. Neither ever auto-recreates.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Degrade, Alert"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Degrade, Alert</code></div></div>
   </div>
 </div>
   </div>

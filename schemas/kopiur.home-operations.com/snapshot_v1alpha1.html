@@ -621,6 +621,22 @@ workload namespace holding live repository credentials until the CR is pruned
   <div class="leaf-desc">A short human-readable message: what failed, why, and how to fix it.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.failure.op" data-path-key="|status|failure|op|" data-parent-path="status.failure" data-name="op" data-text="The mover operation that failed, as a stable label (e.g.
+`repository connect`, `snapshot create`) — the values of the mover&#39;s
+`KopiaOp::as_str()`. Distinguishes a repository-level connect failure
+from a source-level failure (a broken PVC), which share
+`kopiaErrorClass` values (e.g. `NotFound`). Absent on failures that
+occurred outside a kopia invocation.">
+  <span class="prop-name">op</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The mover operation that failed, as a stable label (e.g.
+`repository connect`, `snapshot create`) — the values of the mover&#39;s
+`KopiaOp::as_str()`. Distinguishes a repository-level connect failure
+from a source-level failure (a broken PVC), which share
+`kopiaErrorClass` values (e.g. `NotFound`). Absent on failures that
+occurred outside a kopia invocation.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.failure.retryRecommended" data-path-key="|status|failure|retryRecommended|" data-parent-path="status.failure" data-name="retryRecommended" data-text="Whether retrying the same operation unchanged could succeed.">
   <span class="prop-name">retryRecommended</span>
   <span class="type-badge">boolean</span> <span class="required-badge">required</span>
