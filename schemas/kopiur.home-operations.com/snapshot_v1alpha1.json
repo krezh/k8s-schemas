@@ -110,6 +110,86 @@
             "null"
           ]
         },
+        "source": {
+          "additionalProperties": false,
+          "description": "The ONE concrete source this `Snapshot` covers, when `policyRef` names a\nrecipe whose `sources[]` expands to many — i.e. a\n[`pvcSelector`](crate::snapshot_policy::PvcSelector).\n\nStamped by whoever minted the CR: a `SnapshotSchedule` fire, or\n`kubectl kopiur snapshot now`. Absent for the ordinary single-source\ncase, where the policy's own `sources[0]` is the target.\n\nAbsent against a *selector* policy is refused rather than guessed. The\noperator must never pick a PVC on the user's behalf: silently backing up\none arbitrary volume out of N looks exactly like success.",
+          "nullable": true,
+          "properties": {
+            "group": {
+              "additionalProperties": false,
+              "description": "The consistency group this child belongs to, present only when the\npolicy asked for one (`groupBy: VolumeGroupSnapshot`) AND the expansion\nproduced more than one member in this namespace.",
+              "nullable": true,
+              "properties": {
+                "namespace": {
+                  "description": "Namespace the `VolumeGroupSnapshot` lives in.\n\nA `VolumeGroupSnapshot` is namespaced and its `source.selector` is\nnamespace-local, so a selector spanning namespaces yields ONE GROUP PER\nNAMESPACE, not one group. The consistency guarantee is per-namespace and\nthis field is where that shows.",
+                  "type": "string"
+                },
+                "volumeGroupSnapshotName": {
+                  "description": "Name of the shared `VolumeGroupSnapshot`.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "namespace",
+                "volumeGroupSnapshotName"
+              ],
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "sourceIndex": {
+              "description": "Zero-based index into `policyRef`'s `spec.sources` this child expanded\nfrom.\n\nPins WHICH source's knobs (`readOnly`, `sourcePathOverride`,\n`sourcePathStrategy`, `acknowledgeLiveMutation`) govern this run, so a\npolicy carrying several sources stays unambiguous. An index that is out\nof range at reconcile time — the policy shrank mid-run — is a named\nterminal failure, never a silent fallback to `sources[0]`.",
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "target": {
+              "additionalProperties": false,
+              "description": "What the expansion resolved to.",
+              "oneOf": [
+                {
+                  "required": [
+                    "pvc"
+                  ]
+                }
+              ],
+              "properties": {
+                "pvc": {
+                  "additionalProperties": false,
+                  "description": "One `PersistentVolumeClaim`, fully qualified.",
+                  "properties": {
+                    "name": {
+                      "description": "Name of the matched `PersistentVolumeClaim`.",
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "description": "Namespace of the matched `PersistentVolumeClaim`.\n\nExplicit rather than inferred from the `Snapshot`'s own namespace: a\n`pvcSelector` under a `ClusterRepository` may match across namespaces.",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "namespace"
+                  ],
+                  "type": [
+                    "object",
+                    "null"
+                  ]
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "sourceIndex",
+            "target"
+          ],
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "tags": {
           "additionalProperties": {
             "type": "string"
@@ -345,7 +425,8 @@
             "Succeeded",
             "Failed",
             "Deleting",
-            "Discovered"
+            "Discovered",
+            "Unchanged"
           ],
           "nullable": true,
           "type": [
@@ -618,6 +699,14 @@
             },
             "storageClassName": {
               "description": "StorageClass of the staged PVC — `spec.staging.storageClassName` when set,\nelse the source PVC's class. Pinned for observability (e.g. confirming a\nCephFS shallow-clone class actually took effect).",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "volumeGroupSnapshotName": {
+              "description": "Name of the shared CSI `VolumeGroupSnapshot` this member staged from,\nwhen the recipe asked for a consistency group\n([`groupBy: VolumeGroupSnapshot`](crate::snapshot_policy::GroupBy)).\n\nRecorded because the group is otherwise invisible: it deliberately\ncarries no ownerReferences (see `io::group_staging`), so this is how an\noperator tells which capture a backup came from — and how `kubectl\nkopiur doctor` finds one that outlived its members.",
               "nullable": true,
               "type": [
                 "string",

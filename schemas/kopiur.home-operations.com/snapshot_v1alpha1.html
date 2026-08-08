@@ -495,6 +495,132 @@ stays, catalog rediscovers it), deliberately NOT the `Orphan` event storm
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.source" data-path-key="|spec|source|" data-parent-path="spec" data-name="source" data-text="The ONE concrete source this `Snapshot` covers, when `policyRef` names a
+recipe whose `sources[]` expands to many — i.e. a
+[`pvcSelector`](crate::snapshot_policy::PvcSelector).
+
+Stamped by whoever minted the CR: a `SnapshotSchedule` fire, or
+`kubectl kopiur snapshot now`. Absent for the ordinary single-source
+case, where the policy&#39;s own `sources[0]` is the target.
+
+Absent against a *selector* policy is refused rather than guessed. The
+operator must never pick a PVC on the user&#39;s behalf: silently backing up
+one arbitrary volume out of N looks exactly like success.">
+<summary>
+  <span class="prop-name">source</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The ONE concrete source this `Snapshot` covers, when `policyRef` names a
+recipe whose `sources[]` expands to many — i.e. a
+[`pvcSelector`](crate::snapshot_policy::PvcSelector).
+
+Stamped by whoever minted the CR: a `SnapshotSchedule` fire, or
+`kubectl kopiur snapshot now`. Absent for the ordinary single-source
+case, where the policy&#39;s own `sources[0]` is the target.
+
+Absent against a *selector* policy is refused rather than guessed. The
+operator must never pick a PVC on the user&#39;s behalf: silently backing up
+one arbitrary volume out of N looks exactly like success.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.source.group" data-path-key="|spec|source|group|" data-parent-path="spec.source" data-name="group" data-text="The consistency group this child belongs to, present only when the
+policy asked for one (`groupBy: VolumeGroupSnapshot`) AND the expansion
+produced more than one member in this namespace.">
+<summary>
+  <span class="prop-name">group</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The consistency group this child belongs to, present only when the
+policy asked for one (`groupBy: VolumeGroupSnapshot`) AND the expansion
+produced more than one member in this namespace.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.source.group.namespace" data-path-key="|spec|source|group|namespace|" data-parent-path="spec.source.group" data-name="namespace" data-text="Namespace the `VolumeGroupSnapshot` lives in.
+
+A `VolumeGroupSnapshot` is namespaced and its `source.selector` is
+namespace-local, so a selector spanning namespaces yields ONE GROUP PER
+NAMESPACE, not one group. The consistency guarantee is per-namespace and
+this field is where that shows.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Namespace the `VolumeGroupSnapshot` lives in.
+
+A `VolumeGroupSnapshot` is namespaced and its `source.selector` is
+namespace-local, so a selector spanning namespaces yields ONE GROUP PER
+NAMESPACE, not one group. The consistency guarantee is per-namespace and
+this field is where that shows.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.source.group.volumeGroupSnapshotName" data-path-key="|spec|source|group|volumeGroupSnapshotName|" data-parent-path="spec.source.group" data-name="volumeGroupSnapshotName" data-text="Name of the shared `VolumeGroupSnapshot`.">
+  <span class="prop-name">volumeGroupSnapshotName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the shared `VolumeGroupSnapshot`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.source.sourceIndex" data-path-key="|spec|source|sourceIndex|" data-parent-path="spec.source" data-name="sourceIndex" data-text="Zero-based index into `policyRef`&#39;s `spec.sources` this child expanded
+from.
+
+Pins WHICH source&#39;s knobs (`readOnly`, `sourcePathOverride`,
+`sourcePathStrategy`, `acknowledgeLiveMutation`) govern this run, so a
+policy carrying several sources stays unambiguous. An index that is out
+of range at reconcile time — the policy shrank mid-run — is a named
+terminal failure, never a silent fallback to `sources[0]`. format: uint32 minimum: 0">
+  <span class="prop-name">sourceIndex</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Zero-based index into `policyRef`&#39;s `spec.sources` this child expanded
+from.
+
+Pins WHICH source&#39;s knobs (`readOnly`, `sourcePathOverride`,
+`sourcePathStrategy`, `acknowledgeLiveMutation`) govern this run, so a
+policy carrying several sources stays unambiguous. An index that is out
+of range at reconcile time — the policy shrank mid-run — is a named
+terminal failure, never a silent fallback to `sources[0]`.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.source.target" data-path-key="|spec|source|target|" data-parent-path="spec.source" data-name="target" data-text="What the expansion resolved to.">
+<summary>
+  <span class="prop-name">target</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">What the expansion resolved to.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.source.target.pvc" data-path-key="|spec|source|target|pvc|" data-parent-path="spec.source.target" data-name="pvc" data-text="One `PersistentVolumeClaim`, fully qualified.">
+<summary>
+  <span class="prop-name">pvc</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">One `PersistentVolumeClaim`, fully qualified.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.source.target.pvc.name" data-path-key="|spec|source|target|pvc|name|" data-parent-path="spec.source.target.pvc" data-name="name" data-text="Name of the matched `PersistentVolumeClaim`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the matched `PersistentVolumeClaim`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.source.target.pvc.namespace" data-path-key="|spec|source|target|pvc|namespace|" data-parent-path="spec.source.target.pvc" data-name="namespace" data-text="Namespace of the matched `PersistentVolumeClaim`.
+
+Explicit rather than inferred from the `Snapshot`&#39;s own namespace: a
+`pvcSelector` under a `ClusterRepository` may match across namespaces.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Namespace of the matched `PersistentVolumeClaim`.
+
+Explicit rather than inferred from the `Snapshot`&#39;s own namespace: a
+`pvcSelector` under a `ClusterRepository` may match across namespaces.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.tags" data-path-key="|spec|tags|" data-parent-path="spec" data-name="tags" data-text="Free-form tags attached to the kopia snapshot manifest itself
 (`snapshot create --tags`), e.g. `reason: pre-upgrade` — durable in the
 repository, independent of this CR. Keys must be non-empty, colon-free
@@ -725,11 +851,11 @@ not create those snapshots.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: scheduled, manual, discovered, adopted"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">scheduled, manual, discovered, adopted</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Lifecycle phase of a `Snapshot`. enum: Pending, Running, Succeeded, Failed, Deleting, Discovered">
+<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Lifecycle phase of a `Snapshot`. enum: Pending, Running, Succeeded, Failed, Deleting, Discovered, Unchanged">
   <span class="prop-name">phase</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Lifecycle phase of a `Snapshot`.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: Pending, Running, Succeeded, Failed, Deleting, Discovered"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Running, Succeeded, Failed, Deleting, Discovered</code></div></div>
+<div class="schema-constraint" title="enum: Pending, Running, Succeeded, Failed, Deleting, Discovered, Unchanged"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Running, Succeeded, Failed, Deleting, Discovered, Unchanged</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.pinned" data-path-key="|status|pinned|" data-parent-path="status" data-name="pinned" data-text="The observed kopia-side pin state: `Some(true)` if pinned, `Some(false)` if unpinned, `None` before any pin reconcile.">
@@ -1016,6 +1142,26 @@ CephFS shallow-clone class actually took effect).">
   <div class="leaf-desc">StorageClass of the staged PVC — `spec.staging.storageClassName` when set,
 else the source PVC&#39;s class. Pinned for observability (e.g. confirming a
 CephFS shallow-clone class actually took effect).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.staged.volumeGroupSnapshotName" data-path-key="|status|staged|volumeGroupSnapshotName|" data-parent-path="status.staged" data-name="volumeGroupSnapshotName" data-text="Name of the shared CSI `VolumeGroupSnapshot` this member staged from,
+when the recipe asked for a consistency group
+([`groupBy: VolumeGroupSnapshot`](crate::snapshot_policy::GroupBy)).
+
+Recorded because the group is otherwise invisible: it deliberately
+carries no ownerReferences (see `io::group_staging`), so this is how an
+operator tells which capture a backup came from — and how `kubectl
+kopiur doctor` finds one that outlived its members.">
+  <span class="prop-name">volumeGroupSnapshotName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name of the shared CSI `VolumeGroupSnapshot` this member staged from,
+when the recipe asked for a consistency group
+([`groupBy: VolumeGroupSnapshot`](crate::snapshot_policy::GroupBy)).
+
+Recorded because the group is otherwise invisible: it deliberately
+carries no ownerReferences (see `io::group_staging`), so this is how an
+operator tells which capture a backup came from — and how `kubectl
+kopiur doctor` finds one that outlived its members.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.staged.volumeSnapshotName" data-path-key="|status|staged|volumeSnapshotName|" data-parent-path="status.staged" data-name="volumeSnapshotName" data-text="Name of the `VolumeSnapshot` created from the source PVC (`copyMethod: Snapshot` only).">
