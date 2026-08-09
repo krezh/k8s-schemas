@@ -941,16 +941,22 @@ S3-compatible stores.
 </summary>
 <div class="prop-content"><div class="prop-desc">CA bundle (PEM) used to verify the endpoint&#39;s certificate, sourced from a `ConfigMap`.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.backend.s3.tls.caBundleRef.configMapName" data-path-key="|spec|backend|s3|tls|caBundleRef|configMapName|" data-parent-path="spec.backend.s3.tls.caBundleRef" data-name="configMapName" data-text="Name of the `ConfigMap` holding the value (e.g. a CA bundle).">
+<div class="prop-leaf" data-prop-row data-path="spec.backend.s3.tls.caBundleRef.configMapName" data-path-key="|spec|backend|s3|tls|caBundleRef|configMapName|" data-parent-path="spec.backend.s3.tls.caBundleRef" data-name="configMapName" data-text="Name of the `ConfigMap` holding the value (e.g. a CA bundle). Resolved in the
+referrer&#39;s namespace for a namespaced `Repository`, and in the operator&#39;s
+namespace (`KOPIUR_NAMESPACE`) for a `ClusterRepository` (cluster-scoped, no
+namespace of its own).">
   <span class="prop-name">configMapName</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Name of the `ConfigMap` holding the value (e.g. a CA bundle).
+  <div class="leaf-desc">Name of the `ConfigMap` holding the value (e.g. a CA bundle). Resolved in the
+referrer&#39;s namespace for a namespaced `Repository`, and in the operator&#39;s
+namespace (`KOPIUR_NAMESPACE`) for a `ClusterRepository` (cluster-scoped, no
+namespace of its own).
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.backend.s3.tls.caBundleRef.key" data-path-key="|spec|backend|s3|tls|caBundleRef|key|" data-parent-path="spec.backend.s3.tls.caBundleRef" data-name="key" data-text="Which key inside the `ConfigMap` to read.">
+<div class="prop-leaf" data-prop-row data-path="spec.backend.s3.tls.caBundleRef.key" data-path-key="|spec|backend|s3|tls|caBundleRef|key|" data-parent-path="spec.backend.s3.tls.caBundleRef" data-name="key" data-text="Which key inside the `ConfigMap` to read; defaults to `ca.crt` when unset.">
   <span class="prop-name">key</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Which key inside the `ConfigMap` to read.
+  <div class="leaf-desc">Which key inside the `ConfigMap` to read; defaults to `ca.crt` when unset.
   </div>
 </div>
   </div>
