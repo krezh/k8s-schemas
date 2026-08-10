@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VirtualMCPCompositeToolDefinition v1alpha1 — toolhive.stacklok.dev</title>
+<title>ModelPool v1alpha1 — inference.llmkube.dev</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
   :root {
@@ -352,11 +352,11 @@
   <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Light mode" aria-pressed="false">☀/☾</button>
 </nav>
 <header>
-  <h1 class="schema-title">VirtualMCPCompositeToolDefinition</h1>
-  <p class="schema-title-group">toolhive.stacklok.dev / v1alpha1</p>
+  <h1 class="schema-title">ModelPool</h1>
+  <p class="schema-title-group">inference.llmkube.dev / v1alpha1</p>
 </header>
-<div class="yaml-block">apiVersion: toolhive.stacklok.dev/v1alpha1
-kind: VirtualMCPCompositeToolDefinition
+<div class="yaml-block">apiVersion: inference.llmkube.dev/v1alpha1
+kind: ModelPool
 metadata:
   name: example</div>
 <div class="search-row">
@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.annotations.destructiveHint for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.default for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -373,8 +373,8 @@ metadata:
     <button id="collapse-all">Collapse all</button>
   </div>
   <div class="toolbar-left">
-    <a href="/toolhive.stacklok.dev/virtualmcpcompositetooldefinition_v1alpha1.json" target="_blank">View raw schema</a>
-    <button id="copy-url" data-url="/toolhive.stacklok.dev/virtualmcpcompositetooldefinition_v1alpha1.json">Copy schema URL</button>
+    <a href="/inference.llmkube.dev/modelpool_v1alpha1.json" target="_blank">View raw schema</a>
+    <button id="copy-url" data-url="/inference.llmkube.dev/modelpool_v1alpha1.json">Copy schema URL</button>
   </div>
 </div>
 <div id="properties">
@@ -410,426 +410,135 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
   <div class="leaf-desc">
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="VirtualMCPCompositeToolDefinitionSpec defines the desired state of VirtualMCPCompositeToolDefinition.
-This embeds the CompositeToolConfig from pkg/vmcp/config to share the configuration model
-between CLI and operator usage.">
+<details class="prop" data-prop-row data-path="spec" data-path-key="|spec|" data-parent-path="" data-name="spec" data-text="spec defines the desired state of ModelPool">
 <summary>
   <span class="prop-name">spec</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">VirtualMCPCompositeToolDefinitionSpec defines the desired state of VirtualMCPCompositeToolDefinition.
-This embeds the CompositeToolConfig from pkg/vmcp/config to share the configuration model
-between CLI and operator usage.</div>
-  <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.annotations" data-path-key="|spec|annotations|" data-parent-path="spec" data-name="annotations" data-text="Annotations declares MCP tool annotations for the composite tool.
-
-Annotation derivation runs at ADVERTISE TIME (when tools/list is served
-and the backend tools are aggregated), not at CRD admission — thv vmcp
-validate does NOT check annotation contradictions. The derived floor is
-fail-closed: when the workflow has one or more tool steps the floor is
-always non-nil, and any step whose annotations are nil/unknown taints the
-floor conservatively (readOnly=false, destructive=true, openWorld=true).
-A workflow with no tool steps (e.g. only elicitation) has no floor.
-
-When nil, annotations are derived from the annotations of the backend tools
-referenced by the workflow&#39;s steps (e.g. readOnlyHint is true only when every
-step tool is read-only). When set, the values are an explicit author
-declaration merged over the derived floor — subject to a safety-floor
-guardrail that drops the composite tool (with a warning naming the offending
-step tools) if an explicit hint would make the tool look safer than its
-steps allow.">
-<summary>
-  <span class="prop-name">annotations</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Annotations declares MCP tool annotations for the composite tool.
-
-Annotation derivation runs at ADVERTISE TIME (when tools/list is served
-and the backend tools are aggregated), not at CRD admission — thv vmcp
-validate does NOT check annotation contradictions. The derived floor is
-fail-closed: when the workflow has one or more tool steps the floor is
-always non-nil, and any step whose annotations are nil/unknown taints the
-floor conservatively (readOnly=false, destructive=true, openWorld=true).
-A workflow with no tool steps (e.g. only elicitation) has no floor.
-
-When nil, annotations are derived from the annotations of the backend tools
-referenced by the workflow&#39;s steps (e.g. readOnlyHint is true only when every
-step tool is read-only). When set, the values are an explicit author
-declaration merged over the derived floor — subject to a safety-floor
-guardrail that drops the composite tool (with a warning naming the offending
-step tools) if an explicit hint would make the tool look safer than its
-steps allow.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.annotations.destructiveHint" data-path-key="|spec|annotations|destructiveHint|" data-parent-path="spec.annotations" data-name="destructiveHint" data-text="DestructiveHint sets the destructive hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.">
-  <span class="prop-name">destructiveHint</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">DestructiveHint sets the destructive hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.annotations.idempotentHint" data-path-key="|spec|annotations|idempotentHint|" data-parent-path="spec.annotations" data-name="idempotentHint" data-text="IdempotentHint sets the idempotent hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.">
-  <span class="prop-name">idempotentHint</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">IdempotentHint sets the idempotent hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.annotations.openWorldHint" data-path-key="|spec|annotations|openWorldHint|" data-parent-path="spec.annotations" data-name="openWorldHint" data-text="OpenWorldHint sets the open-world hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.">
-  <span class="prop-name">openWorldHint</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">OpenWorldHint sets the open-world hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.annotations.readOnlyHint" data-path-key="|spec|annotations|readOnlyHint|" data-parent-path="spec.annotations" data-name="readOnlyHint" data-text="ReadOnlyHint sets the read-only hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.">
-  <span class="prop-name">readOnlyHint</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">ReadOnlyHint sets the read-only hint annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.annotations.title" data-path-key="|spec|annotations|title|" data-parent-path="spec.annotations" data-name="title" data-text="Title sets the human-readable title annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.">
-  <span class="prop-name">title</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Title sets the human-readable title annotation.
-For tool overrides this replaces the backend value; for composite tools
-it is an explicit declaration merged over the derived safety floor.
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.description" data-path-key="|spec|description|" data-parent-path="spec" data-name="description" data-text="Description describes what the workflow does.">
-  <span class="prop-name">description</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Description describes what the workflow does.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.name" data-path-key="|spec|name|" data-parent-path="spec" data-name="name" data-text="Name is the workflow name (unique identifier).">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name is the workflow name (unique identifier).
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.output" data-path-key="|spec|output|" data-parent-path="spec" data-name="output" data-text="Output defines the structured output schema for this workflow.
-If not specified, the workflow returns the last step&#39;s output (backward compatible).">
-<summary>
-  <span class="prop-name">output</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">Output defines the structured output schema for this workflow.
-If not specified, the workflow returns the last step&#39;s output (backward compatible).</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.output.properties" data-path-key="|spec|output|properties|" data-parent-path="spec.output" data-name="properties" data-text="Properties defines the output properties.
-Map key is the property name, value is the property definition.">
-  <span class="prop-name">properties</span>
   <span class="type-badge">object</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Properties defines the output properties.
-Map key is the property name, value is the property definition.
+</summary>
+<div class="prop-content"><div class="prop-desc">spec defines the desired state of ModelPool</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.default" data-path-key="|spec|default|" data-parent-path="spec" data-name="default" data-text="Default names the member to warm on a cold pool (before any request has
+picked an owner). When empty, the first request to arrive selects the
+owner. Must match one of the members&#39; InferenceServiceRef names.">
+  <span class="prop-name">default</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Default names the member to warm on a cold pool (before any request has
+picked an owner). When empty, the first request to arrive selects the
+owner. Must match one of the members&#39; InferenceServiceRef names.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.output.required" data-path-key="|spec|output|required|" data-parent-path="spec.output" data-name="required" data-text="Required lists property names that must be present in the output.">
-  <span class="prop-name">required</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Required lists property names that must be present in the output.
+<div class="prop-leaf" data-prop-row data-path="spec.gpu" data-path-key="|spec|gpu|" data-parent-path="spec" data-name="gpu" data-text="GPU is the number of GPUs the shared slot occupies. Informational for the
+pool invariant (members declare their own resource requests); recorded so
+operators can see the slot size at a glance. format: int32 minimum: 0">
+  <span class="prop-name">gpu</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">GPU is the number of GPUs the shared slot occupies. Informational for the
+pool invariant (members declare their own resource requests); recorded so
+operators can see the slot size at a glance.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.parameters" data-path-key="|spec|parameters|" data-parent-path="spec" data-name="parameters" data-text="Parameters defines input parameter schema in JSON Schema format.
-Should be a JSON Schema object with &#34;type&#34;: &#34;object&#34; and &#34;properties&#34;.
-Example:
-  {
-    &#34;type&#34;: &#34;object&#34;,
-    &#34;properties&#34;: {
-      &#34;param1&#34;: {&#34;type&#34;: &#34;string&#34;, &#34;default&#34;: &#34;value&#34;},
-      &#34;param2&#34;: {&#34;type&#34;: &#34;integer&#34;}
-    },
-    &#34;required&#34;: [&#34;param2&#34;]
-  }
-
-We use json.Map rather than a typed struct because JSON Schema is highly
-flexible with many optional fields (default, enum, minimum, maximum, pattern,
-items, additionalProperties, oneOf, anyOf, allOf, etc.). Using json.Map
-allows full JSON Schema compatibility without needing to define every possible
-field, and matches how the MCP SDK handles inputSchema.">
-  <span class="prop-name">parameters</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">Parameters defines input parameter schema in JSON Schema format.
-Should be a JSON Schema object with &#34;type&#34;: &#34;object&#34; and &#34;properties&#34;.
-Example:
-  {
-    &#34;type&#34;: &#34;object&#34;,
-    &#34;properties&#34;: {
-      &#34;param1&#34;: {&#34;type&#34;: &#34;string&#34;, &#34;default&#34;: &#34;value&#34;},
-      &#34;param2&#34;: {&#34;type&#34;: &#34;integer&#34;}
-    },
-    &#34;required&#34;: [&#34;param2&#34;]
-  }
-
-We use json.Map rather than a typed struct because JSON Schema is highly
-flexible with many optional fields (default, enum, minimum, maximum, pattern,
-items, additionalProperties, oneOf, anyOf, allOf, etc.). Using json.Map
-allows full JSON Schema compatibility without needing to define every possible
-field, and matches how the MCP SDK handles inputSchema.
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.steps" data-path-key="|spec|steps|" data-parent-path="spec" data-name="steps" data-text="Steps are the workflow steps to execute.">
+<details class="prop" data-prop-row data-path="spec.members" data-path-key="|spec|members|" data-parent-path="spec" data-name="members" data-text="Members lists the InferenceServices that share the pool&#39;s GPU slot. Each
+member is an ordinary single-model InferenceService with its own image,
+context size, and runtime. minItems: 1">
 <summary>
-  <span class="prop-name">steps</span>
+  <span class="prop-name">members</span>
   <span class="type-badge">[]object</span> <span class="required-badge">required</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Steps are the workflow steps to execute.</div>
+<div class="prop-content"><div class="prop-desc">Members lists the InferenceServices that share the pool&#39;s GPU slot. Each
+member is an ordinary single-model InferenceService with its own image,
+context size, and runtime.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].arguments" data-path-key="|spec|steps[]|arguments|" data-parent-path="spec.steps" data-name="arguments" data-text="Arguments is a map of argument values with template expansion support.
-Supports Go template syntax with .params and .steps for string values.
-Non-string values (integers, booleans, arrays, objects) are passed as-is.
-Note: the templating is only supported on the first level of the key-value pairs.">
-  <span class="prop-name">arguments</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">Arguments is a map of argument values with template expansion support.
-Supports Go template syntax with .params and .steps for string values.
-Non-string values (integers, booleans, arrays, objects) are passed as-is.
-Note: the templating is only supported on the first level of the key-value pairs.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].collection" data-path-key="|spec|steps[]|collection|" data-parent-path="spec.steps" data-name="collection" data-text="Collection is a Go template expression that resolves to a JSON array or a slice.
-Only used when Type is &#34;forEach&#34;.">
-  <span class="prop-name">collection</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Collection is a Go template expression that resolves to a JSON array or a slice.
-Only used when Type is &#34;forEach&#34;.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].condition" data-path-key="|spec|steps[]|condition|" data-parent-path="spec.steps" data-name="condition" data-text="Condition is a template expression that determines if the step should execute">
-  <span class="prop-name">condition</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Condition is a template expression that determines if the step should execute
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].defaultResults" data-path-key="|spec|steps[]|defaultResults|" data-parent-path="spec.steps" data-name="defaultResults" data-text="DefaultResults provides fallback output values when this step is skipped
-(due to condition evaluating to false) or fails (when onError.action is &#34;continue&#34;).
-Each key corresponds to an output field name referenced by downstream steps.
-Required if the step may be skipped AND downstream steps reference this step&#39;s output.">
-  <span class="prop-name">defaultResults</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">DefaultResults provides fallback output values when this step is skipped
-(due to condition evaluating to false) or fails (when onError.action is &#34;continue&#34;).
-Each key corresponds to an output field name referenced by downstream steps.
-Required if the step may be skipped AND downstream steps reference this step&#39;s output.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].dependsOn" data-path-key="|spec|steps[]|dependsOn|" data-parent-path="spec.steps" data-name="dependsOn" data-text="DependsOn lists step IDs that must complete before this step">
-  <span class="prop-name">dependsOn</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">DependsOn lists step IDs that must complete before this step
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].id" data-path-key="|spec|steps[]|id|" data-parent-path="spec.steps" data-name="id" data-text="ID is the unique identifier for this step.">
-  <span class="prop-name">id</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">ID is the unique identifier for this step.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].itemVar" data-path-key="|spec|steps[]|itemVar|" data-parent-path="spec.steps" data-name="itemVar" data-text="ItemVar is the variable name used to reference the current item in forEach templates.
-Defaults to &#34;item&#34; if not specified.
-Only used when Type is &#34;forEach&#34;.">
-  <span class="prop-name">itemVar</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">ItemVar is the variable name used to reference the current item in forEach templates.
-Defaults to &#34;item&#34; if not specified.
-Only used when Type is &#34;forEach&#34;.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].maxIterations" data-path-key="|spec|steps[]|maxIterations|" data-parent-path="spec.steps" data-name="maxIterations" data-text="MaxIterations limits the number of items that can be iterated over.
-Defaults to 100, hard cap at 1000.
-Only used when Type is &#34;forEach&#34;.">
-  <span class="prop-name">maxIterations</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">MaxIterations limits the number of items that can be iterated over.
-Defaults to 100, hard cap at 1000.
-Only used when Type is &#34;forEach&#34;.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].maxParallel" data-path-key="|spec|steps[]|maxParallel|" data-parent-path="spec.steps" data-name="maxParallel" data-text="MaxParallel limits the number of concurrent iterations in a forEach step.
-Defaults to the DAG executor&#39;s maxParallel (10).
-Only used when Type is &#34;forEach&#34;.">
-  <span class="prop-name">maxParallel</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">MaxParallel limits the number of concurrent iterations in a forEach step.
-Defaults to the DAG executor&#39;s maxParallel (10).
-Only used when Type is &#34;forEach&#34;.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].message" data-path-key="|spec|steps[]|message|" data-parent-path="spec.steps" data-name="message" data-text="Message is the elicitation message
-Only used when Type is &#34;elicitation&#34;">
-  <span class="prop-name">message</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Message is the elicitation message
-Only used when Type is &#34;elicitation&#34;
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="spec.steps[].onCancel" data-path-key="|spec|steps[]|onCancel|" data-parent-path="spec.steps" data-name="onCancel" data-text="OnCancel defines the action to take when the user cancels/dismisses the elicitation
-Only used when Type is &#34;elicitation&#34;">
+<details class="prop" data-prop-row data-path="spec.members[].inferenceServiceRef" data-path-key="|spec|members[]|inferenceServiceRef|" data-parent-path="spec.members" data-name="inferenceServiceRef" data-text="InferenceServiceRef references the member InferenceService by name. The
+InferenceService must live in the same namespace as the ModelPool.">
 <summary>
-  <span class="prop-name">onCancel</span>
-  <span class="type-badge">object</span>
+  <span class="prop-name">inferenceServiceRef</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">OnCancel defines the action to take when the user cancels/dismisses the elicitation
-Only used when Type is &#34;elicitation&#34;</div>
+<div class="prop-content"><div class="prop-desc">InferenceServiceRef references the member InferenceService by name. The
+InferenceService must live in the same namespace as the ModelPool.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].onCancel.action" data-path-key="|spec|steps[]|onCancel|action|" data-parent-path="spec.steps[].onCancel" data-name="action" data-text="Action defines the action to take when the user declines or cancels
-- skip_remaining: Skip remaining steps in the workflow
-- abort: Abort the entire workflow execution
-- continue: Continue to the next step enum: skip_remaining, abort, continue">
-  <span class="prop-name">action</span>
+<div class="prop-leaf" data-prop-row data-path="spec.members[].inferenceServiceRef.name" data-path-key="|spec|members[]|inferenceServiceRef|name|" data-parent-path="spec.members[].inferenceServiceRef" data-name="name" data-text="Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
+  <span class="prop-name">name</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Action defines the action to take when the user declines or cancels
-- skip_remaining: Skip remaining steps in the workflow
-- abort: Abort the entire workflow execution
-- continue: Continue to the next step<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: skip_remaining, abort, continue"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">skip_remaining, abort, continue</code></div></div>
+  <div class="leaf-desc">Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
   </div>
 </div>
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.steps[].onDecline" data-path-key="|spec|steps[]|onDecline|" data-parent-path="spec.steps" data-name="onDecline" data-text="OnDecline defines the action to take when the user explicitly declines the elicitation
-Only used when Type is &#34;elicitation&#34;">
-<summary>
-  <span class="prop-name">onDecline</span>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.nodeSelector" data-path-key="|spec|nodeSelector|" data-parent-path="spec" data-name="nodeSelector" data-text="NodeSelector pins the shared slot to a node (or node class). All members
+are expected to schedule onto the same node so they contend for the same
+device memory. Mirrors a standard Kubernetes node selector.">
+  <span class="prop-name">nodeSelector</span>
   <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">OnDecline defines the action to take when the user explicitly declines the elicitation
-Only used when Type is &#34;elicitation&#34;</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].onDecline.action" data-path-key="|spec|steps[]|onDecline|action|" data-parent-path="spec.steps[].onDecline" data-name="action" data-text="Action defines the action to take when the user declines or cancels
-- skip_remaining: Skip remaining steps in the workflow
-- abort: Abort the entire workflow execution
-- continue: Continue to the next step enum: skip_remaining, abort, continue">
-  <span class="prop-name">action</span>
+  <div class="leaf-desc">NodeSelector pins the shared slot to a node (or node class). All members
+are expected to schedule onto the same node so they contend for the same
+device memory. Mirrors a standard Kubernetes node selector.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.swapBudget" data-path-key="|spec|swapBudget|" data-parent-path="spec" data-name="swapBudget" data-text="SwapBudget bounds how long the router holds a cross-model request open
+while it drains the incumbent and cold-loads the target member. It is
+deliberately decoupled from the router&#39;s response-header (generation)
+timeout: a large model can take minutes to load without forcing operators
+to loosen the per-request generation cap for every request. When the
+budget elapses before the target becomes resident, the held request is
+failed with 503 &#43; Retry-After (the caller can retry; the now-warm member
+serves the next request). Defaults to 300s.">
+  <span class="prop-name">swapBudget</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Action defines the action to take when the user declines or cancels
-- skip_remaining: Skip remaining steps in the workflow
-- abort: Abort the entire workflow execution
-- continue: Continue to the next step<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: skip_remaining, abort, continue"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">skip_remaining, abort, continue</code></div></div>
+  <div class="leaf-desc">SwapBudget bounds how long the router holds a cross-model request open
+while it drains the incumbent and cold-loads the target member. It is
+deliberately decoupled from the router&#39;s response-header (generation)
+timeout: a large model can take minutes to load without forcing operators
+to loosen the per-request generation cap for every request. When the
+budget elapses before the target becomes resident, the held request is
+failed with 503 &#43; Retry-After (the caller can retry; the now-warm member
+serves the next request). Defaults to 300s.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.swapPolicy" data-path-key="|spec|swapPolicy|" data-parent-path="spec" data-name="swapPolicy" data-text="SwapPolicy selects how the slot owner is chosen when demand crosses model
+boundaries. &#34;sticky&#34; (default) keeps the incumbent until a different
+member is requested. It is the only policy in v1; a priority-based reclaim
+policy is a planned follow-up. enum: sticky">
+  <span class="prop-name">swapPolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SwapPolicy selects how the slot owner is chosen when demand crosses model
+boundaries. &#34;sticky&#34; (default) keeps the incumbent until a different
+member is requested. It is the only policy in v1; a priority-based reclaim
+policy is a planned follow-up.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: sticky"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">sticky</code></div></div>
   </div>
 </div>
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.steps[].onError" data-path-key="|spec|steps[]|onError|" data-parent-path="spec.steps" data-name="onError" data-text="OnError defines error handling behavior">
-<summary>
-  <span class="prop-name">onError</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">OnError defines error handling behavior</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].onError.action" data-path-key="|spec|steps[]|onError|action|" data-parent-path="spec.steps[].onError" data-name="action" data-text="Action defines the action to take on error enum: abort, continue, retry">
-  <span class="prop-name">action</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Action defines the action to take on error<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: abort, continue, retry"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">abort, continue, retry</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].onError.retryCount" data-path-key="|spec|steps[]|onError|retryCount|" data-parent-path="spec.steps[].onError" data-name="retryCount" data-text="RetryCount is the maximum number of retries
-Only used when Action is &#34;retry&#34;">
-  <span class="prop-name">retryCount</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">RetryCount is the maximum number of retries
-Only used when Action is &#34;retry&#34;
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].onError.retryDelay" data-path-key="|spec|steps[]|onError|retryDelay|" data-parent-path="spec.steps[].onError" data-name="retryDelay" data-text="RetryDelay is the delay between retry attempts
-Only used when Action is &#34;retry&#34; pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$">
-  <span class="prop-name">retryDelay</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">RetryDelay is the delay between retry attempts
-Only used when Action is &#34;retry&#34;<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].schema" data-path-key="|spec|steps[]|schema|" data-parent-path="spec.steps" data-name="schema" data-text="Schema defines the expected response schema for elicitation">
-  <span class="prop-name">schema</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">Schema defines the expected response schema for elicitation
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].step" data-path-key="|spec|steps[]|step|" data-parent-path="spec.steps" data-name="step" data-text="InnerStep defines the step to execute for each item in the collection.
-Only used when Type is &#34;forEach&#34;. Only tool-type inner steps are supported.">
-  <span class="prop-name">step</span>
-  <span class="type-badge">object</span>
-  <div class="leaf-desc">InnerStep defines the step to execute for each item in the collection.
-Only used when Type is &#34;forEach&#34;. Only tool-type inner steps are supported.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].timeout" data-path-key="|spec|steps[]|timeout|" data-parent-path="spec.steps" data-name="timeout" data-text="Timeout is the maximum execution time for this step pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$">
-  <span class="prop-name">timeout</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Timeout is the maximum execution time for this step<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].tool" data-path-key="|spec|steps[]|tool|" data-parent-path="spec.steps" data-name="tool" data-text="Tool is the tool to call (format: &#34;workload.tool_name&#34;)
-Only used when Type is &#34;tool&#34;">
-  <span class="prop-name">tool</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Tool is the tool to call (format: &#34;workload.tool_name&#34;)
-Only used when Type is &#34;tool&#34;
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="spec.steps[].type" data-path-key="|spec|steps[]|type|" data-parent-path="spec.steps" data-name="type" data-text="Type is the step type (tool, elicitation, etc.) enum: tool, elicitation, forEach">
-  <span class="prop-name">type</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Type is the step type (tool, elicitation, etc.)<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: tool, elicitation, forEach"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">tool, elicitation, forEach</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="spec.timeout" data-path-key="|spec|timeout|" data-parent-path="spec" data-name="timeout" data-text="Timeout is the maximum workflow execution time. pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$">
-  <span class="prop-name">timeout</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">Timeout is the maximum workflow execution time.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;(\.[0-9]&#43;)?(ns|us|µs|ms|s|m|h))&#43;$</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="VirtualMCPCompositeToolDefinitionStatus defines the observed state of VirtualMCPCompositeToolDefinition">
+<details class="prop" data-prop-row data-path="status" data-path-key="|status|" data-parent-path="" data-name="status" data-text="status defines the observed state of ModelPool">
 <summary>
   <span class="prop-name">status</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">VirtualMCPCompositeToolDefinitionStatus defines the observed state of VirtualMCPCompositeToolDefinition</div>
+<div class="prop-content"><div class="prop-desc">status defines the observed state of ModelPool</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions represent the latest available observations of the workflow&#39;s state">
+<details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions represent the current state of the ModelPool resource.">
 <summary>
   <span class="prop-name">conditions</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Conditions represent the latest available observations of the workflow&#39;s state</div>
+<div class="prop-content"><div class="prop-desc">Conditions represent the current state of the ModelPool resource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="status.conditions[].lastTransitionTime" data-path-key="|status|conditions[]|lastTransitionTime|" data-parent-path="status.conditions" data-name="lastTransitionTime" data-text="lastTransitionTime is the last time the condition transitioned from one status to another.
 This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable. format: date-time">
@@ -896,45 +605,69 @@ This field may not be empty.<div class="leaf-constraints">
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="ObservedGeneration is the most recent generation observed for this VirtualMCPCompositeToolDefinition
-It corresponds to the resource&#39;s generation, which is updated on mutation by the API Server format: int64">
+<details class="prop" data-prop-row data-path="status.members" data-path-key="|status|members|" data-parent-path="status" data-name="members" data-text="Members reports the observed state of each pool member.">
+<summary>
+  <span class="prop-name">members</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Members reports the observed state of each pool member.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.members[].name" data-path-key="|status|members[]|name|" data-parent-path="status.members" data-name="name" data-text="Name is the member InferenceService name.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the member InferenceService name.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.members[].phase" data-path-key="|status|members[]|phase|" data-parent-path="status.members" data-name="phase" data-text="Phase mirrors the member InferenceService status.phase.">
+  <span class="prop-name">phase</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Phase mirrors the member InferenceService status.phase.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.members[].resident" data-path-key="|status|members[]|resident|" data-parent-path="status.members" data-name="resident" data-text="Resident is true when this member currently owns the shared GPU slot.">
+  <span class="prop-name">resident</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Resident is true when this member currently owns the shared GPU slot.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="ObservedGeneration is the spec generation the status reflects. format: int64">
   <span class="prop-name">observedGeneration</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">ObservedGeneration is the most recent generation observed for this VirtualMCPCompositeToolDefinition
-It corresponds to the resource&#39;s generation, which is updated on mutation by the API Server<div class="leaf-constraints">
+  <div class="leaf-desc">ObservedGeneration is the spec generation the status reflects.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.referencingVirtualServers" data-path-key="|status|referencingVirtualServers|" data-parent-path="status" data-name="referencingVirtualServers" data-text="ReferencingVirtualServers lists VirtualMCPServer resources that reference this workflow
-This helps track which servers need to be reconciled when this workflow changes">
-  <span class="prop-name">referencingVirtualServers</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">ReferencingVirtualServers lists VirtualMCPServer resources that reference this workflow
-This helps track which servers need to be reconciled when this workflow changes
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.validationErrors" data-path-key="|status|validationErrors|" data-parent-path="status" data-name="validationErrors" data-text="ValidationErrors contains validation error messages if ValidationStatus is Invalid">
-  <span class="prop-name">validationErrors</span>
-  <span class="type-badge">[]string</span>
-  <div class="leaf-desc">ValidationErrors contains validation error messages if ValidationStatus is Invalid
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.validationStatus" data-path-key="|status|validationStatus|" data-parent-path="status" data-name="validationStatus" data-text="ValidationStatus indicates the validation state of the workflow
-- Valid: Workflow structure is valid
-- Invalid: Workflow has validation errors enum: Valid, Invalid, Unknown">
-  <span class="prop-name">validationStatus</span>
+<div class="prop-leaf" data-prop-row data-path="status.pendingMember" data-path-key="|status|pendingMember|" data-parent-path="status" data-name="pendingMember" data-text="PendingMember is the member being loaded during a swap, or empty when the
+pool is not mid-swap.">
+  <span class="prop-name">pendingMember</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">ValidationStatus indicates the validation state of the workflow
-- Valid: Workflow structure is valid
-- Invalid: Workflow has validation errors<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: Valid, Invalid, Unknown"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Valid, Invalid, Unknown</code></div></div>
+  <div class="leaf-desc">PendingMember is the member being loaded during a swap, or empty when the
+pool is not mid-swap.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Phase is the pool lifecycle phase: Pending, Ready, Swapping, or Degraded. enum: Pending, Ready, Swapping, Degraded">
+  <span class="prop-name">phase</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Phase is the pool lifecycle phase: Pending, Ready, Swapping, or Degraded.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Pending, Ready, Swapping, Degraded"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Ready, Swapping, Degraded</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.residentMember" data-path-key="|status|residentMember|" data-parent-path="status" data-name="residentMember" data-text="ResidentMember is the member that currently owns the shared GPU slot, or
+empty when the pool is cold (no member resident).">
+  <span class="prop-name">residentMember</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ResidentMember is the member that currently owns the shared GPU slot, or
+empty when the pool is cold (no member resident).
   </div>
 </div>
   </div>
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.annotations.destructiveHint for an exact path">No matches. Try .spec.annotations.destructiveHint for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.default for an exact path">No matches. Try .spec.default for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

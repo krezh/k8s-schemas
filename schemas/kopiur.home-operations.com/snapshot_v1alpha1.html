@@ -495,6 +495,49 @@ stays, catalog rediscovers it), deliberately NOT the `Orphan` event storm
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.repository" data-path-key="|spec|repository|" data-parent-path="spec" data-name="repository" data-text="The ONE repository this `Snapshot` targets, pinned by value at mint
+time. Stamped by a multi-repository `SnapshotPolicy` fan-out (each child
+covers exactly one member of the policy&#39;s repository set) and by
+`SnapshotReplication` copy CRs (the destination repository). Absent for
+the legacy single-repository case, where the policy&#39;s own
+`spec.repository` (or, for catalog rows, the owning repository CR) is
+the answer — an absent pin resolves exactly as before this field
+existed, so pre-feature `Snapshot`s are untouched.">
+<summary>
+  <span class="prop-name">repository</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The ONE repository this `Snapshot` targets, pinned by value at mint
+time. Stamped by a multi-repository `SnapshotPolicy` fan-out (each child
+covers exactly one member of the policy&#39;s repository set) and by
+`SnapshotReplication` copy CRs (the destination repository). Absent for
+the legacy single-repository case, where the policy&#39;s own
+`spec.repository` (or, for catalog rows, the owning repository CR) is
+the answer — an absent pin resolves exactly as before this field
+existed, so pre-feature `Snapshot`s are untouched.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.repository.kind" data-path-key="|spec|repository|kind|" data-parent-path="spec.repository" data-name="kind" data-text="Which repository CRD this points at; defaults to [`RepositoryKind::Repository`]. enum: Repository, ClusterRepository">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Repository, ClusterRepository"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Repository, ClusterRepository</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.repository.name" data-path-key="|spec|repository|name|" data-parent-path="spec.repository" data-name="name" data-text="Name of the referenced `Repository`/`ClusterRepository`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the referenced `Repository`/`ClusterRepository`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.repository.namespace" data-path-key="|spec|repository|namespace|" data-parent-path="spec.repository" data-name="namespace" data-text="Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.source" data-path-key="|spec|source|" data-parent-path="spec" data-name="source" data-text="The ONE concrete source this `Snapshot` covers, when `policyRef` names a
 recipe whose `sources[]` expands to many — i.e. a
 [`pvcSelector`](crate::snapshot_policy::PvcSelector).
@@ -721,6 +764,77 @@ workload namespace holding live repository credentials until the CR is pruned
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="status.copiedFrom" data-path-key="|status|copiedFrom|" data-parent-path="status" data-name="copiedFrom" data-text="Lineage for `origin: replicated` rows: the source repository, source
+manifest id, and `startTime` the copy was migrated from. Written by the
+`SnapshotReplication` mover in the same atomic PATCH as
+`status.snapshot`; absent on every other origin. See [`CopiedFrom`] for
+why this lives on the CR rather than as kopia tags.">
+<summary>
+  <span class="prop-name">copiedFrom</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Lineage for `origin: replicated` rows: the source repository, source
+manifest id, and `startTime` the copy was migrated from. Written by the
+`SnapshotReplication` mover in the same atomic PATCH as
+`status.snapshot`; absent on every other origin. See [`CopiedFrom`] for
+why this lives on the CR rather than as kopia tags.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.copiedFrom.repository" data-path-key="|status|copiedFrom|repository|" data-parent-path="status.copiedFrom" data-name="repository" data-text="The SOURCE repository the snapshot was migrated from (the
+`SnapshotReplication`&#39;s `sourceRef`, resolved at run time).">
+<summary>
+  <span class="prop-name">repository</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The SOURCE repository the snapshot was migrated from (the
+`SnapshotReplication`&#39;s `sourceRef`, resolved at run time).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.copiedFrom.repository.kind" data-path-key="|status|copiedFrom|repository|kind|" data-parent-path="status.copiedFrom.repository" data-name="kind" data-text="Which repository CRD this points at; defaults to [`RepositoryKind::Repository`]. enum: Repository, ClusterRepository">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Repository, ClusterRepository"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Repository, ClusterRepository</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.copiedFrom.repository.name" data-path-key="|status|copiedFrom|repository|name|" data-parent-path="status.copiedFrom.repository" data-name="name" data-text="Name of the referenced `Repository`/`ClusterRepository`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the referenced `Repository`/`ClusterRepository`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.copiedFrom.repository.namespace" data-path-key="|status|copiedFrom|repository|namespace|" data-parent-path="status.copiedFrom.repository" data-name="namespace" data-text="Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.copiedFrom.sourceManifestId" data-path-key="|status|copiedFrom|sourceManifestId|" data-parent-path="status.copiedFrom" data-name="sourceManifestId" data-text="The kopia manifest id the snapshot had in the SOURCE repository.
+Migrate assigns a NEW manifest id on the destination
+(`status.snapshot.kopiaSnapshotID`); this is the old one, kept for
+cross-repository correlation.">
+  <span class="prop-name">sourceManifestId</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The kopia manifest id the snapshot had in the SOURCE repository.
+Migrate assigns a NEW manifest id on the destination
+(`status.snapshot.kopiaSnapshotID`); this is the old one, kept for
+cross-repository correlation.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.copiedFrom.startTime" data-path-key="|status|copiedFrom|startTime|" data-parent-path="status.copiedFrom" data-name="startTime" data-text="The snapshot&#39;s RFC3339 `startTime` — preserved verbatim by migrate and
+the key (together with the identity triple) both idempotent re-migration
+and `pruning: mirrorSource` correlate source and destination rows on.">
+  <span class="prop-name">startTime</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The snapshot&#39;s RFC3339 `startTime` — preserved verbatim by migrate and
+the key (together with the identity triple) both idempotent re-migration
+and `pruning: mirrorSource` correlate source and destination rows on.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.failure" data-path-key="|status|failure|" data-parent-path="status" data-name="failure" data-text="Structured terminal-failure detail (kopia error class, stderr tail, retry hint).">
 <summary>
   <span class="prop-name">failure</span>
@@ -841,14 +955,14 @@ occurred outside a kopia invocation.
 <div class="prop-leaf" data-prop-row data-path="status.origin" data-path-key="|status|origin|" data-parent-path="status" data-name="origin" data-text="How a `Snapshot` came to exist. Canonical value mirrored from the
 `kopiur.home-operations.com/origin` label. Origin drives the deletion-policy
 default: `discovered` backups are forced to `Retain` because the operator did
-not create those snapshots. enum: scheduled, manual, discovered, adopted">
+not create those snapshots. enum: scheduled, manual, discovered, adopted, replicated">
   <span class="prop-name">origin</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">How a `Snapshot` came to exist. Canonical value mirrored from the
 `kopiur.home-operations.com/origin` label. Origin drives the deletion-policy
 default: `discovered` backups are forced to `Retain` because the operator did
 not create those snapshots.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: scheduled, manual, discovered, adopted"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">scheduled, manual, discovered, adopted</code></div></div>
+<div class="schema-constraint" title="enum: scheduled, manual, discovered, adopted, replicated"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">scheduled, manual, discovered, adopted, replicated</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Lifecycle phase of a `Snapshot`. enum: Pending, Running, Succeeded, Failed, Deleting, Discovered, Unchanged">

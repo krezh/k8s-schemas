@@ -1698,12 +1698,61 @@ zero duration (`0`/`0s`) holds indefinitely (never fail on preflight).
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.repository" data-path-key="|spec|repository|" data-parent-path="spec" data-name="repository" data-text="Discriminated reference to a `Repository` or `ClusterRepository`.">
+<details class="prop" data-prop-row data-path="spec.repositories" data-path-key="|spec|repositories|" data-parent-path="spec" data-name="repositories" data-text="Multi-repository fan-out: every listed `Repository`/`ClusterRepository`
+receives its own independent backup of each source — one `Snapshot` CR &#43;
+one mover Job per (source, repository) pair, so the captures are separate
+kopia snapshots, not copies of one another. Identity resolves per-repo
+under that repository&#39;s `identityDefaults`. Mutually exclusive with
+`repository` (exactly one of the two is set) AND with `hooks`: with N
+concurrent children the first finisher would run the thaw hook while the
+other N-1 movers still read — use a single-repo policy plus a
+`SnapshotReplication` when hooks are needed for a second target. minItems: 1 maxItems: 8">
+<summary>
+  <span class="prop-name">repositories</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Multi-repository fan-out: every listed `Repository`/`ClusterRepository`
+receives its own independent backup of each source — one `Snapshot` CR &#43;
+one mover Job per (source, repository) pair, so the captures are separate
+kopia snapshots, not copies of one another. Identity resolves per-repo
+under that repository&#39;s `identityDefaults`. Mutually exclusive with
+`repository` (exactly one of the two is set) AND with `hooks`: with N
+concurrent children the first finisher would run the thaw hook while the
+other N-1 movers still read — use a single-repo policy plus a
+`SnapshotReplication` when hooks are needed for a second target.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 8"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">8</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.repositories[].kind" data-path-key="|spec|repositories[]|kind|" data-parent-path="spec.repositories" data-name="kind" data-text="Which repository CRD this points at; defaults to [`RepositoryKind::Repository`]. enum: Repository, ClusterRepository">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Repository, ClusterRepository"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Repository, ClusterRepository</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.repositories[].name" data-path-key="|spec|repositories[]|name|" data-parent-path="spec.repositories" data-name="name" data-text="Name of the referenced `Repository`/`ClusterRepository`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the referenced `Repository`/`ClusterRepository`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.repositories[].namespace" data-path-key="|spec|repositories[]|namespace|" data-parent-path="spec.repositories" data-name="namespace" data-text="Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.repository" data-path-key="|spec|repository|" data-parent-path="spec" data-name="repository" data-text="Discriminated reference to a `Repository` or `ClusterRepository`.
+Mutually exclusive with `repositories` (exactly one of the two is set).">
 <summary>
   <span class="prop-name">repository</span>
-  <span class="type-badge">object</span> <span class="required-badge">required</span>
+  <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Discriminated reference to a `Repository` or `ClusterRepository`.</div>
+<div class="prop-content"><div class="prop-desc">Discriminated reference to a `Repository` or `ClusterRepository`.
+Mutually exclusive with `repositories` (exactly one of the two is set).</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.repository.kind" data-path-key="|spec|repository|kind|" data-parent-path="spec.repository" data-name="kind" data-text="Which repository CRD this points at; defaults to [`RepositoryKind::Repository`]. enum: Repository, ClusterRepository">
   <span class="prop-name">kind</span>
@@ -2388,10 +2437,18 @@ withheld. See the `AdoptionSkippedByRetention` event for the levers.<div class="
   <div class="leaf-desc">RFC3339 timestamp of the most recent successful child `Snapshot` from this recipe.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.lastVerified" data-path-key="|status|lastVerified|" data-parent-path="status" data-name="lastVerified" data-text="RFC3339 timestamp of the most recent successful verification (any tier).">
+<div class="prop-leaf" data-prop-row data-path="status.lastVerified" data-path-key="|status|lastVerified|" data-parent-path="status" data-name="lastVerified" data-text="RFC3339 timestamp of the most recent successful verification (any tier).
+Single-repo: stamped directly by the verify mover. Multi-repo: computed
+by the controller as the MINIMUM `lastVerified` across the CURRENT
+repositories (&#34;everything is verified as of T&#34;), absent until every
+current repository has verified at least once.">
   <span class="prop-name">lastVerified</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">RFC3339 timestamp of the most recent successful verification (any tier).
+Single-repo: stamped directly by the verify mover. Multi-repo: computed
+by the controller as the MINIMUM `lastVerified` across the CURRENT
+repositories (&#34;everything is verified as of T&#34;), absent until every
+current repository has verified at least once.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="`metadata.generation` last reconciled, for staleness detection. format: int64">
@@ -2399,6 +2456,18 @@ withheld. See the `AdoptionSkippedByRetention` event for the levers.<div class="
   <span class="type-badge">integer</span>
   <div class="leaf-desc">`metadata.generation` last reconciled, for staleness detection.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.repositorySummary" data-path-key="|status|repositorySummary|" data-parent-path="status" data-name="repositorySummary" data-text="Human-readable summary of the policy&#39;s repository target(s) for the
+`Repositories` print column: the comma-joined repository names (the one
+name for the single-repo shape), capped near a kubectl column width
+with a `&#43;N` overflow marker. Written by the controller.">
+  <span class="prop-name">repositorySummary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Human-readable summary of the policy&#39;s repository target(s) for the
+`Repositories` print column: the comma-joined repository names (the one
+name for the single-repo shape), capped near a kubectl column width
+with a `&#43;N` overflow marker. Written by the controller.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="status.resolved" data-path-key="|status|resolved|" data-parent-path="status" data-name="resolved" data-text="What would be passed to kopia — pinned at admission.">
@@ -2433,6 +2502,93 @@ withheld. See the `AdoptionSkippedByRetention` event for the levers.<div class="
   <div class="leaf-desc">The final `username` kopia records, fixed at admission.
   </div>
 </div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="status.resolved.repositories" data-path-key="|status|resolved|repositories|" data-parent-path="status.resolved" data-name="repositories" data-text="Per-repository resolution for a MULTI-repository policy
+(`spec.repositories`): one entry per member, each carrying the identity
+resolved under THAT repository&#39;s `identityDefaults` (the unit of
+identity is the `(repository, identity)` pair — N members means N
+independent kopia lineages). Empty — and elided from the wire — for the
+classic single-repo shape, whose resolution stays in the top-level
+`identity`/`sources` fields exactly as before this field existed.">
+<summary>
+  <span class="prop-name">repositories</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Per-repository resolution for a MULTI-repository policy
+(`spec.repositories`): one entry per member, each carrying the identity
+resolved under THAT repository&#39;s `identityDefaults` (the unit of
+identity is the `(repository, identity)` pair — N members means N
+independent kopia lineages). Empty — and elided from the wire — for the
+classic single-repo shape, whose resolution stays in the top-level
+`identity`/`sources` fields exactly as before this field existed.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.resolved.repositories[].identity" data-path-key="|status|resolved|repositories[]|identity|" data-parent-path="status.resolved.repositories" data-name="identity" data-text="The `username@hostname` identity resolved under this repository&#39;s
+`identityDefaults`; absent when it could not be resolved (the guard
+treats an absent baseline as &#34;no baseline&#34; and degrades to allow for
+that member only).">
+<summary>
+  <span class="prop-name">identity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The `username@hostname` identity resolved under this repository&#39;s
+`identityDefaults`; absent when it could not be resolved (the guard
+treats an absent baseline as &#34;no baseline&#34; and degrades to allow for
+that member only).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.resolved.repositories[].identity.hostname" data-path-key="|status|resolved|repositories[]|identity|hostname|" data-parent-path="status.resolved.repositories[].identity" data-name="hostname" data-text="The final `hostname` kopia records, fixed at admission.">
+  <span class="prop-name">hostname</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The final `hostname` kopia records, fixed at admission.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.resolved.repositories[].identity.sourcePath" data-path-key="|status|resolved|repositories[]|identity|sourcePath|" data-parent-path="status.resolved.repositories[].identity" data-name="sourcePath" data-text="The resolved snapshot source path, when applicable (`username@hostname:path`).">
+  <span class="prop-name">sourcePath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The resolved snapshot source path, when applicable (`username@hostname:path`).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.resolved.repositories[].identity.username" data-path-key="|status|resolved|repositories[]|identity|username|" data-parent-path="status.resolved.repositories[].identity" data-name="username" data-text="The final `username` kopia records, fixed at admission.">
+  <span class="prop-name">username</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The final `username` kopia records, fixed at admission.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="status.resolved.repositories[].repository" data-path-key="|status|resolved|repositories[]|repository|" data-parent-path="status.resolved.repositories" data-name="repository" data-text="The member repository this entry resolves for (by value, as listed in
+`spec.repositories`).">
+<summary>
+  <span class="prop-name">repository</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The member repository this entry resolves for (by value, as listed in
+`spec.repositories`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.resolved.repositories[].repository.kind" data-path-key="|status|resolved|repositories[]|repository|kind|" data-parent-path="status.resolved.repositories[].repository" data-name="kind" data-text="Which repository CRD this points at; defaults to [`RepositoryKind::Repository`]. enum: Repository, ClusterRepository">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Repository, ClusterRepository"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Repository, ClusterRepository</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.resolved.repositories[].repository.name" data-path-key="|status|resolved|repositories[]|repository|name|" data-parent-path="status.resolved.repositories[].repository" data-name="name" data-text="Name of the referenced `Repository`/`ClusterRepository`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the referenced `Repository`/`ClusterRepository`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.resolved.repositories[].repository.namespace" data-path-key="|status|resolved|repositories[]|repository|namespace|" data-parent-path="status.resolved.repositories[].repository" data-name="namespace" data-text="Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -2491,6 +2647,85 @@ withheld. See the `AdoptionSkippedByRetention` event for the levers.<div class="
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="status.verification" data-path-key="|status|verification|" data-parent-path="status" data-name="verification" data-text="Per-repository verification records for a multi-repository policy
+(#368): one entry per CURRENT `spec.repositories` member, maintained by
+the controller (single writer — entries for repositories no longer in
+the spec are pruned). Empty (elided) for the single-repo shape, whose
+wire stays byte-identical.">
+<summary>
+  <span class="prop-name">verification</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Per-repository verification records for a multi-repository policy
+(#368): one entry per CURRENT `spec.repositories` member, maintained by
+the controller (single writer — entries for repositories no longer in
+the spec are pruned). Empty (elided) for the single-repo shape, whose
+wire stays byte-identical.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.verification[].lastVerified" data-path-key="|status|verification[]|lastVerified|" data-parent-path="status.verification" data-name="lastVerified" data-text="RFC3339 timestamp of the most recent successful verification (any tier)
+against THIS repository; absent until its first successful verify.">
+  <span class="prop-name">lastVerified</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC3339 timestamp of the most recent successful verification (any tier)
+against THIS repository; absent until its first successful verify.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.verification[].repository" data-path-key="|status|verification[]|repository|" data-parent-path="status.verification" data-name="repository" data-text="The repository this record covers, normalized
+([`normalized_repository_ref`](crate::common::normalized_repository_ref))
+so it re-resolves from anywhere.">
+<summary>
+  <span class="prop-name">repository</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The repository this record covers, normalized
+([`normalized_repository_ref`](crate::common::normalized_repository_ref))
+so it re-resolves from anywhere.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.verification[].repository.kind" data-path-key="|status|verification[]|repository|kind|" data-parent-path="status.verification[].repository" data-name="kind" data-text="Which repository CRD this points at; defaults to [`RepositoryKind::Repository`]. enum: Repository, ClusterRepository">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Repository, ClusterRepository"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Repository, ClusterRepository</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.verification[].repository.name" data-path-key="|status|verification[]|repository|name|" data-parent-path="status.verification[].repository" data-name="name" data-text="Name of the referenced `Repository`/`ClusterRepository`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the referenced `Repository`/`ClusterRepository`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.verification[].repository.namespace" data-path-key="|status|verification[]|repository|namespace|" data-parent-path="status.verification[].repository" data-name="namespace" data-text="Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.verificationStamps" data-path-key="|status|verificationStamps|" data-parent-path="status" data-name="verificationStamps" data-text="Internal write channel for per-repository verification (#368): RFC3339
+markers keyed by the normalized repository key
+([`repo_key`](crate::common::repo_key)). Each verify mover merge-patches
+ONLY its own key — a JSON merge patch merges map keys, so two concurrent
+per-repo verifies can never clobber one another (a Vec would be replaced
+wholesale). The controller folds these into `verification` on its next
+pass and prunes keys for repositories no longer in the spec. Never
+written for the single-repo shape.">
+  <span class="prop-name">verificationStamps</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Internal write channel for per-repository verification (#368): RFC3339
+markers keyed by the normalized repository key
+([`repo_key`](crate::common::repo_key)). Each verify mover merge-patches
+ONLY its own key — a JSON merge patch merges map keys, so two concurrent
+per-repo verifies can never clobber one another (a Vec would be replaced
+wholesale). The controller folds these into `verification` on its next
+pass and prunes keys for repositories no longer in the spec. Never
+written for the single-repo shape.
+  </div>
+</div>
   </div>
 </div>
 </details>

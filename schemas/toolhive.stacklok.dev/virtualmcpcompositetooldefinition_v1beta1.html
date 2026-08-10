@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.description for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.annotations.destructiveHint for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -421,6 +421,98 @@ between CLI and operator usage.">
 This embeds the CompositeToolConfig from pkg/vmcp/config to share the configuration model
 between CLI and operator usage.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.annotations" data-path-key="|spec|annotations|" data-parent-path="spec" data-name="annotations" data-text="Annotations declares MCP tool annotations for the composite tool.
+
+Annotation derivation runs at ADVERTISE TIME (when tools/list is served
+and the backend tools are aggregated), not at CRD admission — thv vmcp
+validate does NOT check annotation contradictions. The derived floor is
+fail-closed: when the workflow has one or more tool steps the floor is
+always non-nil, and any step whose annotations are nil/unknown taints the
+floor conservatively (readOnly=false, destructive=true, openWorld=true).
+A workflow with no tool steps (e.g. only elicitation) has no floor.
+
+When nil, annotations are derived from the annotations of the backend tools
+referenced by the workflow&#39;s steps (e.g. readOnlyHint is true only when every
+step tool is read-only). When set, the values are an explicit author
+declaration merged over the derived floor — subject to a safety-floor
+guardrail that drops the composite tool (with a warning naming the offending
+step tools) if an explicit hint would make the tool look safer than its
+steps allow.">
+<summary>
+  <span class="prop-name">annotations</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Annotations declares MCP tool annotations for the composite tool.
+
+Annotation derivation runs at ADVERTISE TIME (when tools/list is served
+and the backend tools are aggregated), not at CRD admission — thv vmcp
+validate does NOT check annotation contradictions. The derived floor is
+fail-closed: when the workflow has one or more tool steps the floor is
+always non-nil, and any step whose annotations are nil/unknown taints the
+floor conservatively (readOnly=false, destructive=true, openWorld=true).
+A workflow with no tool steps (e.g. only elicitation) has no floor.
+
+When nil, annotations are derived from the annotations of the backend tools
+referenced by the workflow&#39;s steps (e.g. readOnlyHint is true only when every
+step tool is read-only). When set, the values are an explicit author
+declaration merged over the derived floor — subject to a safety-floor
+guardrail that drops the composite tool (with a warning naming the offending
+step tools) if an explicit hint would make the tool look safer than its
+steps allow.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.annotations.destructiveHint" data-path-key="|spec|annotations|destructiveHint|" data-parent-path="spec.annotations" data-name="destructiveHint" data-text="DestructiveHint sets the destructive hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.">
+  <span class="prop-name">destructiveHint</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">DestructiveHint sets the destructive hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.annotations.idempotentHint" data-path-key="|spec|annotations|idempotentHint|" data-parent-path="spec.annotations" data-name="idempotentHint" data-text="IdempotentHint sets the idempotent hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.">
+  <span class="prop-name">idempotentHint</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">IdempotentHint sets the idempotent hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.annotations.openWorldHint" data-path-key="|spec|annotations|openWorldHint|" data-parent-path="spec.annotations" data-name="openWorldHint" data-text="OpenWorldHint sets the open-world hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.">
+  <span class="prop-name">openWorldHint</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">OpenWorldHint sets the open-world hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.annotations.readOnlyHint" data-path-key="|spec|annotations|readOnlyHint|" data-parent-path="spec.annotations" data-name="readOnlyHint" data-text="ReadOnlyHint sets the read-only hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.">
+  <span class="prop-name">readOnlyHint</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">ReadOnlyHint sets the read-only hint annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.annotations.title" data-path-key="|spec|annotations|title|" data-parent-path="spec.annotations" data-name="title" data-text="Title sets the human-readable title annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.">
+  <span class="prop-name">title</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Title sets the human-readable title annotation.
+For tool overrides this replaces the backend value; for composite tools
+it is an explicit declaration merged over the derived safety floor.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.description" data-path-key="|spec|description|" data-parent-path="spec" data-name="description" data-text="Description describes what the workflow does.">
   <span class="prop-name">description</span>
   <span class="type-badge">string</span>
@@ -842,7 +934,7 @@ This helps track which servers need to be reconciled when this workflow changes
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.description for an exact path">No matches. Try .spec.description for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.annotations.destructiveHint for an exact path">No matches. Try .spec.annotations.destructiveHint for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

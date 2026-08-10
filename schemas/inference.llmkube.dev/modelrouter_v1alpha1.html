@@ -1271,6 +1271,18 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.proxy.nodeSelector" data-path-key="|spec|proxy|nodeSelector|" data-parent-path="spec.proxy" data-name="nodeSelector" data-text="NodeSelector pins the router-proxy pod to nodes matching these labels.
+Use it when the proxy image is only present on specific nodes (for
+example a node-local registry) or to co-locate the proxy with its
+backends. Passthrough to the Pod spec.">
+  <span class="prop-name">nodeSelector</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">NodeSelector pins the router-proxy pod to nodes matching these labels.
+Use it when the proxy image is only present on specific nodes (for
+example a node-local registry) or to co-locate the proxy with its
+backends. Passthrough to the Pod spec.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.proxy.quarantineDuration" data-path-key="|spec|proxy|quarantineDuration|" data-parent-path="spec.proxy" data-name="quarantineDuration" data-text="QuarantineDuration controls how long the proxy keeps a backend in
 the &#34;skip&#34; state after a 5xx or network error before allowing a
 half-open probe. Default 15s when unset. Shorter windows make the
@@ -1290,13 +1302,27 @@ sub-second to verify recovery without sleeping the full default.
 <div class="prop-leaf" data-prop-row data-path="spec.proxy.replicas" data-path-key="|spec|proxy|replicas|" data-parent-path="spec.proxy" data-name="replicas" data-text="Replicas is the desired number of router-proxy pods. Defaults to 1.
 The proxy is stateless for routing decisions; budget and SLO
 counters live in memory and reset on pod restart until the
-persistence feature lands. format: int32 minimum: 1 maximum: 10">
+persistence feature lands.
+
+When any backend resolves to a ModelPool member, the operator pins
+this to 1 regardless of the value set here: ModelPool activation
+serializes swaps through a single in-process lock, so a second proxy
+replica would race it and thrash the shared GPU slot. Multi-replica
+pooled routers need cross-replica swap coordination (a lease), tracked
+as a follow-up. format: int32 minimum: 1 maximum: 10">
   <span class="prop-name">replicas</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">Replicas is the desired number of router-proxy pods. Defaults to 1.
 The proxy is stateless for routing decisions; budget and SLO
 counters live in memory and reset on pod restart until the
-persistence feature lands.<div class="leaf-constraints">
+persistence feature lands.
+
+When any backend resolves to a ModelPool member, the operator pins
+this to 1 regardless of the value set here: ModelPool activation
+serializes swaps through a single in-process lock, so a second proxy
+replica would race it and thrash the shared GPU slot. Multi-replica
+pooled routers need cross-replica swap coordination (a lease), tracked
+as a follow-up.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maximum: 10"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">10</code></div></div>

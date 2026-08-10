@@ -110,6 +110,44 @@
             "null"
           ]
         },
+        "repository": {
+          "additionalProperties": false,
+          "description": "The ONE repository this `Snapshot` targets, pinned by value at mint\ntime. Stamped by a multi-repository `SnapshotPolicy` fan-out (each child\ncovers exactly one member of the policy's repository set) and by\n`SnapshotReplication` copy CRs (the destination repository). Absent for\nthe legacy single-repository case, where the policy's own\n`spec.repository` (or, for catalog rows, the owning repository CR) is\nthe answer — an absent pin resolves exactly as before this field\nexisted, so pre-feature `Snapshot`s are untouched.",
+          "nullable": true,
+          "properties": {
+            "kind": {
+              "default": "Repository",
+              "description": "Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].",
+              "enum": [
+                "Repository",
+                "ClusterRepository"
+              ],
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "name": {
+              "description": "Name of the referenced `Repository`/`ClusterRepository`.",
+              "type": "string"
+            },
+            "namespace": {
+              "description": "Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "source": {
           "additionalProperties": false,
           "description": "The ONE concrete source this `Snapshot` covers, when `policyRef` names a\nrecipe whose `sources[]` expands to many — i.e. a\n[`pvcSelector`](crate::snapshot_policy::PvcSelector).\n\nStamped by whoever minted the CR: a `SnapshotSchedule` fire, or\n`kubectl kopiur snapshot now`. Absent for the ordinary single-source\ncase, where the policy's own `sources[0]` is the target.\n\nAbsent against a *selector* policy is refused rather than guessed. The\noperator must never pick a PVC on the user's behalf: silently backing up\none arbitrary volume out of N looks exactly like success.",
@@ -278,6 +316,64 @@
             "null"
           ]
         },
+        "copiedFrom": {
+          "additionalProperties": false,
+          "description": "Lineage for `origin: replicated` rows: the source repository, source\nmanifest id, and `startTime` the copy was migrated from. Written by the\n`SnapshotReplication` mover in the same atomic PATCH as\n`status.snapshot`; absent on every other origin. See [`CopiedFrom`] for\nwhy this lives on the CR rather than as kopia tags.",
+          "nullable": true,
+          "properties": {
+            "repository": {
+              "additionalProperties": false,
+              "description": "The SOURCE repository the snapshot was migrated from (the\n`SnapshotReplication`'s `sourceRef`, resolved at run time).",
+              "properties": {
+                "kind": {
+                  "default": "Repository",
+                  "description": "Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].",
+                  "enum": [
+                    "Repository",
+                    "ClusterRepository"
+                  ],
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "name": {
+                  "description": "Name of the referenced `Repository`/`ClusterRepository`.",
+                  "type": "string"
+                },
+                "namespace": {
+                  "description": "Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.",
+                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "sourceManifestId": {
+              "description": "The kopia manifest id the snapshot had in the SOURCE repository.\nMigrate assigns a NEW manifest id on the destination\n(`status.snapshot.kopiaSnapshotID`); this is the old one, kept for\ncross-repository correlation.",
+              "type": "string"
+            },
+            "startTime": {
+              "description": "The snapshot's RFC3339 `startTime` — preserved verbatim by migrate and\nthe key (together with the identity triple) both idempotent re-migration\nand `pruning: mirrorSource` correlate source and destination rows on.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "sourceManifestId",
+            "startTime"
+          ],
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "failure": {
           "additionalProperties": false,
           "description": "Structured terminal-failure detail (kopia error class, stderr tail, retry hint).",
@@ -409,7 +505,8 @@
             "scheduled",
             "manual",
             "discovered",
-            "adopted"
+            "adopted",
+            "replicated"
           ],
           "nullable": true,
           "type": [

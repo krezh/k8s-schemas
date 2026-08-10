@@ -1513,9 +1513,53 @@
             "null"
           ]
         },
+        "repositories": {
+          "description": "Multi-repository fan-out: every listed `Repository`/`ClusterRepository`\nreceives its own independent backup of each source — one `Snapshot` CR +\none mover Job per (source, repository) pair, so the captures are separate\nkopia snapshots, not copies of one another. Identity resolves per-repo\nunder that repository's `identityDefaults`. Mutually exclusive with\n`repository` (exactly one of the two is set) AND with `hooks`: with N\nconcurrent children the first finisher would run the thaw hook while the\nother N-1 movers still read — use a single-repo policy plus a\n`SnapshotReplication` when hooks are needed for a second target.",
+          "items": {
+            "additionalProperties": false,
+            "description": "Reference from a consumer CR to a `Repository` or `ClusterRepository`.",
+            "properties": {
+              "kind": {
+                "default": "Repository",
+                "description": "Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].",
+                "enum": [
+                  "Repository",
+                  "ClusterRepository"
+                ],
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "description": "Name of the referenced `Repository`/`ClusterRepository`.",
+                "type": "string"
+              },
+              "namespace": {
+                "description": "Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "type": "object"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "repository": {
           "additionalProperties": false,
-          "description": "Discriminated reference to a `Repository` or `ClusterRepository`.",
+          "description": "Discriminated reference to a `Repository` or `ClusterRepository`.\nMutually exclusive with `repositories` (exactly one of the two is set).",
+          "nullable": true,
           "properties": {
             "kind": {
               "default": "Repository",
@@ -1545,7 +1589,10 @@
           "required": [
             "name"
           ],
-          "type": "object"
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "retention": {
           "additionalProperties": false,
@@ -2091,10 +2138,13 @@
           ]
         }
       },
-      "required": [
-        "repository"
-      ],
-      "type": "object"
+      "type": "object",
+      "x-kubernetes-validations": [
+        {
+          "message": "exactly one of repository, repositories",
+          "rule": "(has(self.repository) ? 1 : 0) + (has(self.repositories) ? 1 : 0) == 1"
+        }
+      ]
     },
     "status": {
       "additionalProperties": false,
@@ -2225,7 +2275,7 @@
           ]
         },
         "lastVerified": {
-          "description": "RFC3339 timestamp of the most recent successful verification (any tier).",
+          "description": "RFC3339 timestamp of the most recent successful verification (any tier).\nSingle-repo: stamped directly by the verify mover. Multi-repo: computed\nby the controller as the MINIMUM `lastVerified` across the CURRENT\nrepositories (\"everything is verified as of T\"), absent until every\ncurrent repository has verified at least once.",
           "nullable": true,
           "type": [
             "string",
@@ -2238,6 +2288,14 @@
           "nullable": true,
           "type": [
             "integer",
+            "null"
+          ]
+        },
+        "repositorySummary": {
+          "description": "Human-readable summary of the policy's repository target(s) for the\n`Repositories` print column: the comma-joined repository names (the one\nname for the single-repo shape), capped near a kubectl column width\nwith a `+N` overflow marker. Written by the controller.",
+          "nullable": true,
+          "type": [
+            "string",
             "null"
           ]
         },
@@ -2274,6 +2332,88 @@
               ],
               "type": [
                 "object",
+                "null"
+              ]
+            },
+            "repositories": {
+              "description": "Per-repository resolution for a MULTI-repository policy\n(`spec.repositories`): one entry per member, each carrying the identity\nresolved under THAT repository's `identityDefaults` (the unit of\nidentity is the `(repository, identity)` pair — N members means N\nindependent kopia lineages). Empty — and elided from the wire — for the\nclassic single-repo shape, whose resolution stays in the top-level\n`identity`/`sources` fields exactly as before this field existed.",
+              "items": {
+                "additionalProperties": false,
+                "description": "One member repository's resolution within a multi-repository policy: which\nrepository, and what kopia identity this policy resolves to **under that\nrepository's `identityDefaults`**. Consumed by the admission fork guard as\nthe per-repo baseline (`repo_key` → previously-resolved identity), so an\nedit that would re-identify ONE member's lineage is caught even though the\nother members are unaffected.",
+                "properties": {
+                  "identity": {
+                    "additionalProperties": false,
+                    "description": "The `username@hostname` identity resolved under this repository's\n`identityDefaults`; absent when it could not be resolved (the guard\ntreats an absent baseline as \"no baseline\" and degrades to allow for\nthat member only).",
+                    "nullable": true,
+                    "properties": {
+                      "hostname": {
+                        "description": "The final `hostname` kopia records, fixed at admission.",
+                        "type": "string"
+                      },
+                      "sourcePath": {
+                        "description": "The resolved snapshot source path, when applicable (`username@hostname:path`).",
+                        "nullable": true,
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "username": {
+                        "description": "The final `username` kopia records, fixed at admission.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "hostname",
+                      "username"
+                    ],
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  },
+                  "repository": {
+                    "additionalProperties": false,
+                    "description": "The member repository this entry resolves for (by value, as listed in\n`spec.repositories`).",
+                    "properties": {
+                      "kind": {
+                        "default": "Repository",
+                        "description": "Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].",
+                        "enum": [
+                          "Repository",
+                          "ClusterRepository"
+                        ],
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "description": "Name of the referenced `Repository`/`ClusterRepository`.",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.",
+                        "nullable": true,
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "repository"
+                ],
+                "type": "object"
+              },
+              "type": [
+                "array",
                 "null"
               ]
             },
@@ -2345,6 +2485,75 @@
               ]
             }
           },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "verification": {
+          "description": "Per-repository verification records for a multi-repository policy\n(#368): one entry per CURRENT `spec.repositories` member, maintained by\nthe controller (single writer — entries for repositories no longer in\nthe spec are pruned). Empty (elided) for the single-repo shape, whose\nwire stays byte-identical.",
+          "items": {
+            "additionalProperties": false,
+            "description": "One repository's verification record on a multi-repository policy\n(`status.verification`). Entry-keyed by the (normalized) repository ref so\nper-repo verify results never collapse into one flat timestamp.",
+            "properties": {
+              "lastVerified": {
+                "description": "RFC3339 timestamp of the most recent successful verification (any tier)\nagainst THIS repository; absent until its first successful verify.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "repository": {
+                "additionalProperties": false,
+                "description": "The repository this record covers, normalized\n([`normalized_repository_ref`](crate::common::normalized_repository_ref))\nso it re-resolves from anywhere.",
+                "properties": {
+                  "kind": {
+                    "default": "Repository",
+                    "description": "Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].",
+                    "enum": [
+                      "Repository",
+                      "ClusterRepository"
+                    ],
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "description": "Name of the referenced `Repository`/`ClusterRepository`.",
+                    "type": "string"
+                  },
+                  "namespace": {
+                    "description": "Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.",
+                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "repository"
+            ],
+            "type": "object"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "verificationStamps": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Internal write channel for per-repository verification (#368): RFC3339\nmarkers keyed by the normalized repository key\n([`repo_key`](crate::common::repo_key)). Each verify mover merge-patches\nONLY its own key — a JSON merge patch merges map keys, so two concurrent\nper-repo verifies can never clobber one another (a Vec would be replaced\nwholesale). The controller folds these into `verification` on its next\npass and prunes keys for repositories no longer in the spec. Never\nwritten for the single-repo shape.",
           "type": [
             "object",
             "null"
