@@ -434,6 +434,38 @@ IncomingAuth OIDC provider — its issuer must match IncomingAuth.OIDCConfigRef
 so that tokens it issues are accepted by the vMCP&#39;s incoming auth middleware.
 When nil, IncomingAuth uses an external IDP and behavior is unchanged.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.allowConfidentialClientRegistration" data-path-key="|spec|authServerConfig|allowConfidentialClientRegistration|" data-parent-path="spec.authServerConfig" data-name="allowConfidentialClientRegistration" data-text="AllowConfidentialClientRegistration permits RFC 7591 Dynamic Client
+Registration of confidential clients: when true, /oauth/register
+accepts token_endpoint_auth_method values client_secret_basic and
+client_secret_post in addition to &#34;none&#34; (still the default on
+omission) and mints a client_secret returned exactly once.
+Confidential registrations are restricted to https non-loopback
+redirect URIs, and on the Redis storage backend all DCR-issued
+registrations are evicted after 30 days of inactivity and must
+re-register. This gates registration only: disabling it does not
+revoke or reject already-minted secrets at the token endpoint.
+
+Security: registration is unauthenticated, so enabling this lets any
+caller who can reach the endpoint obtain a client credential.
+Combining it with insecureAllowHTTP is rejected at validation.">
+  <span class="prop-name">allowConfidentialClientRegistration</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowConfidentialClientRegistration permits RFC 7591 Dynamic Client
+Registration of confidential clients: when true, /oauth/register
+accepts token_endpoint_auth_method values client_secret_basic and
+client_secret_post in addition to &#34;none&#34; (still the default on
+omission) and mints a client_secret returned exactly once.
+Confidential registrations are restricted to https non-loopback
+redirect URIs, and on the Redis storage backend all DCR-issued
+registrations are evicted after 30 days of inactivity and must
+re-register. This gates registration only: disabling it does not
+revoke or reject already-minted secrets at the token endpoint.
+
+Security: registration is unauthenticated, so enabling this lets any
+caller who can reach the endpoint obtain a client credential.
+Combining it with insecureAllowHTTP is rejected at validation.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.authorizationEndpointBaseUrl" data-path-key="|spec|authServerConfig|authorizationEndpointBaseUrl|" data-parent-path="spec.authServerConfig" data-name="authorizationEndpointBaseUrl" data-text="AuthorizationEndpointBaseURL overrides the base URL used for the authorization_endpoint
 in the OAuth discovery document. When set, the discovery document will advertise
 `{authorizationEndpointBaseUrl}/oauth/authorize` instead of `{issuer}/oauth/authorize`.
@@ -534,6 +566,79 @@ accepts client_id values that were registered via DCR.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.delegateClients" data-path-key="|spec|authServerConfig|delegateClients|" data-parent-path="spec.authServerConfig" data-name="delegateClients" data-text="DelegateClients configures pre-provisioned confidential clients for RFC 8693
+token exchange. Each secret is referenced from a Kubernetes Secret; no
+plaintext secret, redirect URI, or grant selection is accepted here. The
+operator always supplies the token-exchange grant when it converts this
+configuration to the runtime contract.
+
+This is independent of allowConfidentialClientRegistration: it neither
+enables nor requires unauthenticated confidential dynamic client
+registration. maxItems: 10">
+<summary>
+  <span class="prop-name">delegateClients</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">DelegateClients configures pre-provisioned confidential clients for RFC 8693
+token exchange. Each secret is referenced from a Kubernetes Secret; no
+plaintext secret, redirect URI, or grant selection is accepted here. The
+operator always supplies the token-exchange grant when it converts this
+configuration to the runtime contract.
+
+This is independent of allowConfidentialClientRegistration: it neither
+enables nor requires unauthenticated confidential dynamic client
+registration.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.delegateClients[].audiences" data-path-key="|spec|authServerConfig|delegateClients[]|audiences|" data-parent-path="spec.authServerConfig.delegateClients" data-name="audiences" data-text="Audiences is the narrowed set of RFC 8707 resources this client may request. minItems: 1 maxItems: 10">
+  <span class="prop-name">audiences</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Audiences is the narrowed set of RFC 8707 resources this client may request.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.delegateClients[].clientId" data-path-key="|spec|authServerConfig|delegateClients[]|clientId|" data-parent-path="spec.authServerConfig.delegateClients" data-name="clientId" data-text="ClientID is the OAuth client_id presented at the token endpoint. minLength: 1 maxLength: 256">
+  <span class="prop-name">clientId</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ClientID is the OAuth client_id presented at the token endpoint.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 256"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">256</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.delegateClients[].clientSecretRef" data-path-key="|spec|authServerConfig|delegateClients[]|clientSecretRef|" data-parent-path="spec.authServerConfig.delegateClients" data-name="clientSecretRef" data-text="ClientSecretRef references the Kubernetes Secret key containing the client secret.">
+<summary>
+  <span class="prop-name">clientSecretRef</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ClientSecretRef references the Kubernetes Secret key containing the client secret.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.delegateClients[].clientSecretRef.key" data-path-key="|spec|authServerConfig|delegateClients[]|clientSecretRef|key|" data-parent-path="spec.authServerConfig.delegateClients[].clientSecretRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.delegateClients[].clientSecretRef.name" data-path-key="|spec|authServerConfig|delegateClients[]|clientSecretRef|name|" data-parent-path="spec.authServerConfig.delegateClients[].clientSecretRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.delegateClients[].scopes" data-path-key="|spec|authServerConfig|delegateClients[]|scopes|" data-parent-path="spec.authServerConfig.delegateClients" data-name="scopes" data-text="Scopes is the narrowed set of OAuth scopes this client may request. minItems: 1 maxItems: 10">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Scopes is the narrowed set of OAuth scopes this client may request.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.disableUpstreamTokenInjection" data-path-key="|spec|authServerConfig|disableUpstreamTokenInjection|" data-parent-path="spec.authServerConfig" data-name="disableUpstreamTokenInjection" data-text="DisableUpstreamTokenInjection prevents the embedded auth server from injecting
 upstream IdP tokens into requests forwarded to the backend MCP server.
 When true, the embedded auth server still handles OAuth flows for clients,
@@ -558,6 +663,65 @@ backend needs them. Cannot be combined with token exchange or AWS STS,
 which would re-add credentials after the strip.
 This is useful when the backend MCP server does not require authentication
 (e.g., public documentation servers) but you still want client authentication.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.forceConfidentialRedirectUris" data-path-key="|spec|authServerConfig|forceConfidentialRedirectUris|" data-parent-path="spec.authServerConfig" data-name="forceConfidentialRedirectUris" data-text="ForceConfidentialRedirectURIs lists redirect URIs that must be
+registered as confidential clients regardless of the
+token_endpoint_auth_method the DCR request declares. A registration
+whose redirectUris contains an EXACT match for one of these entries is
+issued a real client_secret and reported back as
+token_endpoint_auth_method &#34;client_secret_post&#34;, even if the request
+said &#34;none&#34; or omitted the field.
+
+Intended for MCP clients that declare themselves public
+(token_endpoint_auth_method: &#34;none&#34;) per RFC 7591 but then refuse to
+proceed because the response carries no client_secret — a
+self-contradictory request. RFC 7591 §3.2.1 permits the server to
+substitute client metadata, so this takes such a client at its word
+that it wants a secret. Remove an entry once the client is fixed to
+handle &#34;none&#34; registrations correctly.
+
+Exact matching is deliberate: an attacker who registers with someone
+else&#39;s callback URI is issued a secret for a client whose
+authorization codes are delivered to that someone else&#39;s redirect
+endpoint, not to the attacker, so this is not a way to obtain a usable
+credential for another client.
+
+Requires allowConfidentialClientRegistration to be true. Every entry
+must be an https non-loopback URI — a loopback client is a public
+client by construction (OAuth 2.1 §2.1) and must not be issued a
+secret; this is enforced at reconcile time since CEL cannot express
+the loopback-hostname check. maxItems: 10">
+  <span class="prop-name">forceConfidentialRedirectUris</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">ForceConfidentialRedirectURIs lists redirect URIs that must be
+registered as confidential clients regardless of the
+token_endpoint_auth_method the DCR request declares. A registration
+whose redirectUris contains an EXACT match for one of these entries is
+issued a real client_secret and reported back as
+token_endpoint_auth_method &#34;client_secret_post&#34;, even if the request
+said &#34;none&#34; or omitted the field.
+
+Intended for MCP clients that declare themselves public
+(token_endpoint_auth_method: &#34;none&#34;) per RFC 7591 but then refuse to
+proceed because the response carries no client_secret — a
+self-contradictory request. RFC 7591 §3.2.1 permits the server to
+substitute client metadata, so this takes such a client at its word
+that it wants a secret. Remove an entry once the client is fixed to
+handle &#34;none&#34; registrations correctly.
+
+Exact matching is deliberate: an attacker who registers with someone
+else&#39;s callback URI is issued a secret for a client whose
+authorization codes are delivered to that someone else&#39;s redirect
+endpoint, not to the attacker, so this is not a way to obtain a usable
+credential for another client.
+
+Requires allowConfidentialClientRegistration to be true. Every entry
+must be an https non-loopback URI — a loopback client is a public
+client by construction (OAuth 2.1 §2.1) and must not be issued a
+secret; this is enforced at reconcile time since CEL cannot express
+the loopback-hostname check.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.authServerConfig.hmacSecretRefs" data-path-key="|spec|authServerConfig|hmacSecretRefs|" data-parent-path="spec.authServerConfig" data-name="hmacSecretRefs" data-text="HMACSecretRefs references Kubernetes Secrets containing symmetric secrets for signing
@@ -592,6 +756,32 @@ auth codes and refresh tokens will be invalid after restart).</div>
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.insecureAllowConfidentialOverLoopbackHTTP" data-path-key="|spec|authServerConfig|insecureAllowConfidentialOverLoopbackHTTP|" data-parent-path="spec.authServerConfig" data-name="insecureAllowConfidentialOverLoopbackHTTP" data-text="InsecureAllowConfidentialOverLoopbackHTTP opts in to
+allowConfidentialClientRegistration when issuer is a plain-HTTP loopback
+URL (e.g. &#34;http://localhost:8080&#34;). Without this flag, that combination
+is rejected at reconcile time: a loopback http:// issuer is normally
+fine for local development since the traffic never leaves the machine,
+but combined with confidential registration it means /oauth/register —
+which is unauthenticated — mints client secrets over cleartext. Forcing
+TLS onto every loopback deployment instead would just push operators
+toward insecureAllowHTTP, which is worse: that also disables the
+non-loopback host check. Has no effect when
+allowConfidentialClientRegistration is false or issuer is https.">
+  <span class="prop-name">insecureAllowConfidentialOverLoopbackHTTP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureAllowConfidentialOverLoopbackHTTP opts in to
+allowConfidentialClientRegistration when issuer is a plain-HTTP loopback
+URL (e.g. &#34;http://localhost:8080&#34;). Without this flag, that combination
+is rejected at reconcile time: a loopback http:// issuer is normally
+fine for local development since the traffic never leaves the machine,
+but combined with confidential registration it means /oauth/register —
+which is unauthenticated — mints client secrets over cleartext. Forcing
+TLS onto every loopback deployment instead would just push operators
+toward insecureAllowHTTP, which is worse: that also disables the
+non-loopback host check. Has no effect when
+allowConfidentialClientRegistration is false or issuer is https.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.insecureAllowHTTP" data-path-key="|spec|authServerConfig|insecureAllowHTTP|" data-parent-path="spec.authServerConfig" data-name="insecureAllowHTTP" data-text="InsecureAllowHTTP permits an http:// issuer URL for non-localhost hosts.
 Only set this for in-cluster Kubernetes deployments where traffic between
 pods traverses a trusted network (e.g. the in-cluster service mesh).
@@ -603,7 +793,12 @@ hosts are rejected at reconcile time with an AuthServerConfigValidated=False con
 On MCPServer and MCPRemoteProxy (via MCPExternalAuthConfig): this field is
 structurally present but enforcement is deferred to pod startup via Config.Validate();
 a misconfigured issuer will cause the pod to crash at startup rather than surface
-as an operator condition.">
+as an operator condition.
+
+One combination is rejected at admission on all three CRDs regardless of the
+above: setting this field alongside allowConfidentialClientRegistration, which
+would issue client secrets in cleartext over an unauthenticated registration
+endpoint (see the XValidation rule on EmbeddedAuthServerConfig).">
   <span class="prop-name">insecureAllowHTTP</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">InsecureAllowHTTP permits an http:// issuer URL for non-localhost hosts.
@@ -618,6 +813,11 @@ On MCPServer and MCPRemoteProxy (via MCPExternalAuthConfig): this field is
 structurally present but enforcement is deferred to pod startup via Config.Validate();
 a misconfigured issuer will cause the pod to crash at startup rather than surface
 as an operator condition.
+
+One combination is rejected at admission on all three CRDs regardless of the
+above: setting this field alongside allowConfidentialClientRegistration, which
+would issue client secrets in cleartext over an unauthenticated registration
+endpoint (see the XValidation rule on EmbeddedAuthServerConfig).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.issuer" data-path-key="|spec|authServerConfig|issuer|" data-parent-path="spec.authServerConfig" data-name="issuer" data-text="Issuer is the issuer identifier for this authorization server.
@@ -1088,6 +1288,20 @@ Framework-managed parameters (response_type, client_id, redirect_uri,
 scope, state, code_challenge, code_challenge_method, nonce) are not allowed.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.allowPrivateIPs" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|allowPrivateIPs|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="allowPrivateIPs" data-text="AllowPrivateIPs permits the upstream provider&#39;s HTTP client to connect to
+private IP ranges (RFC-1918, link-local). Use only when the upstream is
+hosted inside the same cluster and has no public endpoint. HTTP-scheme
+restrictions are unchanged — HTTPS is still required for non-localhost
+hosts unless InsecureAllowHTTP is set. Defaults to false.">
+  <span class="prop-name">allowPrivateIPs</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowPrivateIPs permits the upstream provider&#39;s HTTP client to connect to
+private IP ranges (RFC-1918, link-local). Use only when the upstream is
+hosted inside the same cluster and has no public endpoint. HTTP-scheme
+restrictions are unchanged — HTTPS is still required for non-localhost
+hosts unless InsecureAllowHTTP is set. Defaults to false.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.authorizationEndpoint" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|authorizationEndpoint|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="authorizationEndpoint" data-text="AuthorizationEndpoint is the URL for the OAuth authorization endpoint. pattern: ^https?://.*$">
   <span class="prop-name">authorizationEndpoint</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
@@ -1335,6 +1549,18 @@ The &#34;@upstreamjwt&#34; modifier performs no signature verification either.<d
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.insecureAllowHTTP" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|insecureAllowHTTP|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="insecureAllowHTTP" data-text="InsecureAllowHTTP permits plain-HTTP authorization and token endpoint URLs
+for this upstream. Only for in-cluster development environments (e.g. an
+OAuth2 provider served over HTTP in a kind cluster) where TLS is not
+available. Never set this in production.">
+  <span class="prop-name">insecureAllowHTTP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureAllowHTTP permits plain-HTTP authorization and token endpoint URLs
+for this upstream. Only for in-cluster development environments (e.g. an
+OAuth2 provider served over HTTP in a kind cluster) where TLS is not
+available. Never set this in production.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.redirectUri" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|redirectUri|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.">
