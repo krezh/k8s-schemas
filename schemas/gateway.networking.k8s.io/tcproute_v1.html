@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TCPRoute v1alpha2 — gateway.networking.k8s.io</title>
+<title>TCPRoute v1 — gateway.networking.k8s.io</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
   :root {
@@ -353,9 +353,9 @@
 </nav>
 <header>
   <h1 class="schema-title">TCPRoute</h1>
-  <p class="schema-title-group">gateway.networking.k8s.io / v1alpha2</p>
+  <p class="schema-title-group">gateway.networking.k8s.io / v1</p>
 </header>
-<div class="yaml-block">apiVersion: gateway.networking.k8s.io/v1alpha2
+<div class="yaml-block">apiVersion: gateway.networking.k8s.io/v1
 kind: TCPRoute
 metadata:
   name: example</div>
@@ -373,8 +373,8 @@ metadata:
     <button id="collapse-all">Collapse all</button>
   </div>
   <div class="toolbar-left">
-    <a href="/gateway.networking.k8s.io/tcproute_v1alpha2.json" target="_blank">View raw schema</a>
-    <button id="copy-url" data-url="/gateway.networking.k8s.io/tcproute_v1alpha2.json">Copy schema URL</button>
+    <a href="/gateway.networking.k8s.io/tcproute_v1.json" target="_blank">View raw schema</a>
+    <button id="copy-url" data-url="/gateway.networking.k8s.io/tcproute_v1.json">Copy schema URL</button>
   </div>
 </div>
 <div id="properties">
@@ -774,14 +774,14 @@ Support: Core<div class="leaf-constraints">
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.rules" data-path-key="|spec|rules|" data-parent-path="spec" data-name="rules" data-text="Rules are a list of TCP matchers and actions. minItems: 1 maxItems: 16">
+<details class="prop" data-prop-row data-path="spec.rules" data-path-key="|spec|rules|" data-parent-path="spec" data-name="rules" data-text="Rules are a list of TCP matchers and actions. minItems: 1 maxItems: 1">
 <summary>
   <span class="prop-name">rules</span>
   <span class="type-badge">[]object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Rules are a list of TCP matchers and actions.</div><div class="prop-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
-<div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.rules[].backendRefs" data-path-key="|spec|rules[]|backendRefs|" data-parent-path="spec.rules" data-name="backendRefs" data-text="BackendRefs defines the backend(s) where matching requests should be
 sent. If unspecified or invalid (refers to a nonexistent resource or a

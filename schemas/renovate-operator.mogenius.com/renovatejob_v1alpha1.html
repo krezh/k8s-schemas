@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.affinity for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.access for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -417,6 +417,68 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content"><div class="prop-desc">RenovateJobSpec defines the desired state of RenovateJob</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.access" data-path-key="|spec|access|" data-parent-path="spec" data-name="access" data-text="Access control for this RenovateJob in the web UI when authentication is
+enabled. If empty or not set, the job is hidden from all users.">
+<summary>
+  <span class="prop-name">access</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Access control for this RenovateJob in the web UI when authentication is
+enabled. If empty or not set, the job is hidden from all users.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.access.adminGroups" data-path-key="|spec|access|adminGroups|" data-parent-path="spec.access" data-name="adminGroups" data-text="Groups allowed to view this RenovateJob and to trigger, cancel and
+reconfigure its runs.">
+  <span class="prop-name">adminGroups</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Groups allowed to view this RenovateJob and to trigger, cancel and
+reconfigure its runs.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.access.adminUsers" data-path-key="|spec|access|adminUsers|" data-parent-path="spec.access" data-name="adminUsers" data-text="Individual users allowed to view this RenovateJob and to trigger, cancel
+and reconfigure its runs. See ReaderUsers for how a user is matched.">
+  <span class="prop-name">adminUsers</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Individual users allowed to view this RenovateJob and to trigger, cancel
+and reconfigure its runs. See ReaderUsers for how a user is matched.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.access.anonymousRead" data-path-key="|spec|access|anonymousRead|" data-parent-path="spec.access" data-name="anonymousRead" data-text="If true, this RenovateJob is readable without a session. Grants read access
+to every visitor, which group matches can only extend.">
+  <span class="prop-name">anonymousRead</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">If true, this RenovateJob is readable without a session. Grants read access
+to every visitor, which group matches can only extend.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.access.anonymousReadLogs" data-path-key="|spec|access|anonymousReadLogs|" data-parent-path="spec.access" data-name="anonymousReadLogs" data-text="If true, visitors that only hold anonymous read access may also stream
+Renovate logs. Has no effect unless AnonymousRead is in effect. Renovate
+logs are unredacted, so this is opt-in separately from AnonymousRead.">
+  <span class="prop-name">anonymousReadLogs</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">If true, visitors that only hold anonymous read access may also stream
+Renovate logs. Has no effect unless AnonymousRead is in effect. Renovate
+logs are unredacted, so this is opt-in separately from AnonymousRead.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.access.readerGroups" data-path-key="|spec|access|readerGroups|" data-parent-path="spec.access" data-name="readerGroups" data-text="Groups allowed to view this RenovateJob without triggering, cancelling or
+reconfiguring anything.">
+  <span class="prop-name">readerGroups</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Groups allowed to view this RenovateJob without triggering, cancelling or
+reconfiguring anything.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.access.readerUsers" data-path-key="|spec|access|readerUsers|" data-parent-path="spec.access" data-name="readerUsers" data-text="Individual users allowed to view this RenovateJob, named by the email or
+username their identity provider reports. Compared case-insensitively.">
+  <span class="prop-name">readerUsers</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Individual users allowed to view this RenovateJob, named by the email or
+username their identity provider reports. Compared case-insensitively.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.affinity" data-path-key="|spec|affinity|" data-parent-path="spec" data-name="affinity" data-text="Affinity settings for scheduling the resulting pod">
 <summary>
   <span class="prop-name">affinity</span>
@@ -1566,12 +1628,12 @@ Empty topologyKey is not allowed.
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.allowedGroups" data-path-key="|spec|allowedGroups|" data-parent-path="spec" data-name="allowedGroups" data-text="Groups allowed to view this RenovateJob when authentication is enabled.
-If empty or not set, the job is hidden from all users.">
+<div class="prop-leaf" data-prop-row data-path="spec.allowedGroups" data-path-key="|spec|allowedGroups|" data-parent-path="spec" data-name="allowedGroups" data-text="Deprecated: use Access.AdminGroups. Groups granted full access to this
+RenovateJob when authentication is enabled. Mutually exclusive with Access.">
   <span class="prop-name">allowedGroups</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Groups allowed to view this RenovateJob when authentication is enabled.
-If empty or not set, the job is hidden from all users.
+  <div class="leaf-desc">Deprecated: use Access.AdminGroups. Groups granted full access to this
+RenovateJob when authentication is enabled. Mutually exclusive with Access.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.discoverTopics" data-path-key="|spec|discoverTopics|" data-parent-path="spec" data-name="discoverTopics" data-text="Topics to discover projects from, will be concatenated using , separator">
@@ -1901,12 +1963,13 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.extraVolumeMounts" data-path-key="|spec|extraVolumeMounts|" data-parent-path="spec" data-name="extraVolumeMounts" data-text="Additional volume mounts for the renovate pods">
+<details class="prop" data-prop-row data-path="spec.extraVolumeMounts" data-path-key="|spec|extraVolumeMounts|" data-parent-path="spec" data-name="extraVolumeMounts" data-text="Additional volume mounts for the renovate pods maxItems: 64">
 <summary>
   <span class="prop-name">extraVolumeMounts</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Additional volume mounts for the renovate pods</div>
+<div class="prop-content"><div class="prop-desc">Additional volume mounts for the renovate pods</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 64"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">64</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].mountPath" data-path-key="|spec|extraVolumeMounts[]|mountPath|" data-parent-path="spec.extraVolumeMounts" data-name="mountPath" data-text="Path within the container at which the volume should be mounted.  Must
 not contain &#39;:&#39;.">
@@ -2005,12 +2068,15 @@ SubPathExpr and SubPath are mutually exclusive.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.extraVolumes" data-path-key="|spec|extraVolumes|" data-parent-path="spec" data-name="extraVolumes" data-text="Additional volumes to mount in the renovate pods">
+<details class="prop" data-prop-row data-path="spec.extraVolumes" data-path-key="|spec|extraVolumes|" data-parent-path="spec" data-name="extraVolumes" data-text="Additional volumes to mount in the renovate pods.
+hostPath is rejected: it would give the pod the node&#39;s filesystem maxItems: 64">
 <summary>
   <span class="prop-name">extraVolumes</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Additional volumes to mount in the renovate pods</div>
+<div class="prop-content"><div class="prop-desc">Additional volumes to mount in the renovate pods.
+hostPath is rejected: it would give the pod the node&#39;s filesystem</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 64"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">64</code></div></div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].awsElasticBlockStore" data-path-key="|spec|extraVolumes[]|awsElasticBlockStore|" data-parent-path="spec.extraVolumes" data-name="awsElasticBlockStore" data-text="awsElasticBlockStore represents an AWS Disk resource that is attached to a
 kubelet&#39;s host machine and then exposed to the pod.
@@ -5044,10 +5110,13 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
 </summary>
 <div class="prop-content"><div class="prop-desc">Renovate Provider Information to fill &#34;RENOVATE_ENDPOINT&#34; and &#34;RENOVATE_PLATFORM&#34; environment variables in the renovate container</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.provider.endpoint" data-path-key="|spec|provider|endpoint|" data-parent-path="spec.provider" data-name="endpoint" data-text="">
+<div class="prop-leaf" data-prop-row data-path="spec.provider.endpoint" data-path-key="|spec|provider|endpoint|" data-parent-path="spec.provider" data-name="endpoint" data-text="Endpoint is the platform API base URL. Its host must be listed in the
+operator&#39;s policy.allowedHosts, otherwise the job is refused. pattern: ^https?://[^?#]&#43;$">
   <span class="prop-name">endpoint</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">
+  <div class="leaf-desc">Endpoint is the platform API base URL. Its host must be listed in the
+operator&#39;s policy.allowedHosts, otherwise the job is refused.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https?://[^?#]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^?#]&#43;$</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.provider.name" data-path-key="|spec|provider|name|" data-parent-path="spec.provider" data-name="name" data-text="">
@@ -5058,12 +5127,68 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.provider.publicEndpoint" data-path-key="|spec|provider|publicEndpoint|" data-parent-path="spec.provider" data-name="publicEndpoint" data-text="PublicEndpoint is the externally reachable URL for the provider, used only for UI links.
 When set, this overrides Endpoint for dashboard links while Endpoint continues to be
-used for Renovate API calls and cloning. Defaults to Endpoint when omitted.">
+used for Renovate API calls and cloning. Defaults to Endpoint when omitted.
+Its host must be listed in the operator&#39;s policy.allowedHosts. pattern: ^https?://[^?#]&#43;$">
   <span class="prop-name">publicEndpoint</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">PublicEndpoint is the externally reachable URL for the provider, used only for UI links.
 When set, this overrides Endpoint for dashboard links while Endpoint continues to be
 used for Renovate API calls and cloning. Defaults to Endpoint when omitted.
+Its host must be listed in the operator&#39;s policy.allowedHosts.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https?://[^?#]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^?#]&#43;$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.renovateConfig" data-path-key="|spec|renovateConfig|" data-parent-path="spec" data-name="renovateConfig" data-text="Renovate configuration file for the job pods">
+<summary>
+  <span class="prop-name">renovateConfig</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Renovate configuration file for the job pods</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.renovateConfig.configMapRef" data-path-key="|spec|renovateConfig|configMapRef|" data-parent-path="spec.renovateConfig" data-name="configMapRef" data-text="Reference to a key in an existing ConfigMap holding the configuration file">
+<summary>
+  <span class="prop-name">configMapRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Reference to a key in an existing ConfigMap holding the configuration file</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.renovateConfig.configMapRef.key" data-path-key="|spec|renovateConfig|configMapRef|key|" data-parent-path="spec.renovateConfig.configMapRef" data-name="key" data-text="Key holding the configuration file, also used as the mounted file name pattern: ^[a-zA-Z0-9._-]&#43;\.(js|cjs|mjs|json|json5)$ maxLength: 253">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key holding the configuration file, also used as the mounted file name<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-zA-Z0-9._-]&#43;\.(js|cjs|mjs|json|json5)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-zA-Z0-9._-]&#43;\.(js|cjs|mjs|json|json5)$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.renovateConfig.configMapRef.name" data-path-key="|spec|renovateConfig|configMapRef|name|" data-parent-path="spec.renovateConfig.configMapRef" data-name="name" data-text="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.renovateConfig.fileName" data-path-key="|spec|renovateConfig|fileName|" data-parent-path="spec.renovateConfig" data-name="fileName" data-text="File name the inline configuration is mounted as; the extension tells Renovate the format. Defaults to &#34;config.js&#34;. Ignored with configMapRef. pattern: ^[a-zA-Z0-9._-]&#43;\.(js|cjs|mjs|json|json5)$ maxLength: 253">
+  <span class="prop-name">fileName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">File name the inline configuration is mounted as; the extension tells Renovate the format. Defaults to &#34;config.js&#34;. Ignored with configMapRef.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-zA-Z0-9._-]&#43;\.(js|cjs|mjs|json|json5)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-zA-Z0-9._-]&#43;\.(js|cjs|mjs|json|json5)$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.renovateConfig.inline" data-path-key="|spec|renovateConfig|inline|" data-parent-path="spec.renovateConfig" data-name="inline" data-text="Inline Renovate configuration, written to a ConfigMap owned by the RenovateJob minLength: 1 maxLength: 262144">
+  <span class="prop-name">inline</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Inline Renovate configuration, written to a ConfigMap owned by the RenovateJob<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 262144"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">262144</code></div></div>
   </div>
 </div>
   </div>
@@ -5571,16 +5696,18 @@ Empty uses the node&#39;s default medium; Memory uses a tmpfs (corev1.StorageMed
 </summary>
 <div class="prop-content"><div class="prop-desc">Security context for the resulting pod and container</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.securityContext.container" data-path-key="|spec|securityContext|container|" data-parent-path="spec.securityContext" data-name="container" data-text="SecurityContext holds security configuration that will be applied to a container.
-Some fields are present in both SecurityContext and PodSecurityContext.  When both
-are set, the values in SecurityContext take precedence.">
+<details class="prop" data-prop-row data-path="spec.securityContext.container" data-path-key="|spec|securityContext|container|" data-parent-path="spec.securityContext" data-name="container" data-text="Container security context. privileged and allowPrivilegeEscalation are rejected
+outright: both hand the pod a route off the node, which no Renovate use case
+needs. Running as root is governed by the operator&#39;s policy.allowRootUser
+instead, since a custom image may legitimately need it.">
 <summary>
   <span class="prop-name">container</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">SecurityContext holds security configuration that will be applied to a container.
-Some fields are present in both SecurityContext and PodSecurityContext.  When both
-are set, the values in SecurityContext take precedence.</div>
+<div class="prop-content"><div class="prop-desc">Container security context. privileged and allowPrivilegeEscalation are rejected
+outright: both hand the pod a route off the node, which no Renovate use case
+needs. Running as root is governed by the operator&#39;s policy.allowRootUser
+instead, since a custom image may legitimately need it.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.securityContext.container.allowPrivilegeEscalation" data-path-key="|spec|securityContext|container|allowPrivilegeEscalation|" data-parent-path="spec.securityContext.container" data-name="allowPrivilegeEscalation" data-text="AllowPrivilegeEscalation controls whether a process can gain more
 privileges than its parent process. This bool directly controls if
@@ -6787,17 +6914,77 @@ the common Renovate token key names are tried.</div>
 </summary>
 <div class="prop-content"><div class="prop-desc">RenovateJobStatus defines the observed state of RenovateJob</div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="status.executionOptions" data-path-key="|status|executionOptions|" data-parent-path="status" data-name="executionOptions" data-text="">
+<details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="Conditions holds the observed state of the RenovateJob. The operator sets the
+&#34;Accepted&#34; condition to False when the job violates the operator&#39;s policy, with
+a reason and a message naming the value to fix; nothing runs while it is False.">
 <summary>
-  <span class="prop-name">executionOptions</span>
-  <span class="type-badge">object</span>
+  <span class="prop-name">conditions</span>
+  <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content">
+<div class="prop-content"><div class="prop-desc">Conditions holds the observed state of the RenovateJob. The operator sets the
+&#34;Accepted&#34; condition to False when the job violates the operator&#39;s policy, with
+a reason and a message naming the value to fix; nothing runs while it is False.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.executionOptions.debug" data-path-key="|status|executionOptions|debug|" data-parent-path="status.executionOptions" data-name="debug" data-text="If true, the renovate job will be executed with RENOVATE_LOG_LEVEL=debug">
-  <span class="prop-name">debug</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">If true, the renovate job will be executed with RENOVATE_LOG_LEVEL=debug
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].lastTransitionTime" data-path-key="|status|conditions[]|lastTransitionTime|" data-parent-path="status.conditions" data-name="lastTransitionTime" data-text="lastTransitionTime is the last time the condition transitioned from one status to another.
+This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable. format: date-time">
+  <span class="prop-name">lastTransitionTime</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">lastTransitionTime is the last time the condition transitioned from one status to another.
+This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].message" data-path-key="|status|conditions[]|message|" data-parent-path="status.conditions" data-name="message" data-text="message is a human readable message indicating details about the transition.
+This may be an empty string. maxLength: 32768">
+  <span class="prop-name">message</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">message is a human readable message indicating details about the transition.
+This may be an empty string.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 32768"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">32768</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].observedGeneration" data-path-key="|status|conditions[]|observedGeneration|" data-parent-path="status.conditions" data-name="observedGeneration" data-text="observedGeneration represents the .metadata.generation that the condition was set based upon.
+For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+with respect to the current state of the instance. format: int64 minimum: 0">
+  <span class="prop-name">observedGeneration</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">observedGeneration represents the .metadata.generation that the condition was set based upon.
+For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+with respect to the current state of the instance.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].reason" data-path-key="|status|conditions[]|reason|" data-parent-path="status.conditions" data-name="reason" data-text="reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition.
+Producers of specific condition types may define expected values and meanings for this field,
+and whether the values are considered a guaranteed API.
+The value should be a CamelCase string.
+This field may not be empty. pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$ minLength: 1 maxLength: 1024">
+  <span class="prop-name">reason</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition.
+Producers of specific condition types may define expected values and meanings for this field,
+and whether the values are considered a guaranteed API.
+The value should be a CamelCase string.
+This field may not be empty.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].status" data-path-key="|status|conditions[]|status|" data-parent-path="status.conditions" data-name="status" data-text="status of the condition, one of True, False, Unknown. enum: True, False, Unknown">
+  <span class="prop-name">status</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">status of the condition, one of True, False, Unknown.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: True, False, Unknown"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">True, False, Unknown</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.conditions[].type" data-path-key="|status|conditions[]|type|" data-parent-path="status.conditions" data-name="type" data-text="type of condition in CamelCase or in foo.example.com/CamelCase. pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$ maxLength: 316">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">type of condition in CamelCase or in foo.example.com/CamelCase.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 316"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">316</code></div></div>
   </div>
 </div>
   </div>
@@ -6816,6 +7003,22 @@ the common Renovate token key names are tried.</div>
   <div class="leaf-desc">
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.projects[].executionOptions" data-path-key="|status|projects[]|executionOptions|" data-parent-path="status.projects" data-name="executionOptions" data-text="">
+<summary>
+  <span class="prop-name">executionOptions</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content">
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.projects[].executionOptions.debug" data-path-key="|status|projects[]|executionOptions|debug|" data-parent-path="status.projects[].executionOptions" data-name="debug" data-text="If true, the renovate job will be executed with RENOVATE_LOG_LEVEL=debug">
+  <span class="prop-name">debug</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">If true, the renovate job will be executed with RENOVATE_LOG_LEVEL=debug
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="status.projects[].lastTransition" data-path-key="|status|projects[]|lastTransition|" data-parent-path="status.projects" data-name="lastTransition" data-text="LastTransition records when the project most recently changed state. format: date-time">
   <span class="prop-name">lastTransition</span>
   <span class="type-badge">string</span>
@@ -6985,7 +7188,7 @@ the common Renovate token key names are tried.</div>
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.affinity for an exact path">No matches. Try .spec.affinity for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.access for an exact path">No matches. Try .spec.access for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>
