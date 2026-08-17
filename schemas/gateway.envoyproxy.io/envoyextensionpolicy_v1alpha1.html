@@ -1081,6 +1081,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -1149,11 +1219,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.http.method" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.http.path" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -1164,6 +1235,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|extProc[]|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.extProc[].backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -1583,6 +1683,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|extProc[]|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|extProc[]|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|extProc[]|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|extProc[]|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|extProc[]|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.extProc[].backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -2370,6 +2525,35 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attribu
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].shadowMode" data-path-key="|spec|extProc[]|shadowMode|" data-parent-path="spec.extProc" data-name="shadowMode" data-text="ShadowMode sets if envoy gateway should treat this external processor as &#34;send and go&#34;.
+When enabled, Envoy forwards request/response data to the external processor but does
+not wait for or apply any response from it. This maps to Envoy&#39;s `observability_mode`
+on the ext_proc filter.
+Defaults to false.">
+  <span class="prop-name">shadowMode</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">ShadowMode sets if envoy gateway should treat this external processor as &#34;send and go&#34;.
+When enabled, Envoy forwards request/response data to the external processor but does
+not wait for or apply any response from it. This maps to Envoy&#39;s `observability_mode`
+on the ext_proc filter.
+Defaults to false.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extProc[].statusOnError" data-path-key="|spec|extProc[]|statusOnError|" data-parent-path="spec.extProc" data-name="statusOnError" data-text="Sets the HTTP status that is returned to the client when the external processor returns an error
+or cannot be reached. Defaults to 500 Internal Server Error.
+Only 4xx and 5xx status codes are supported. enum: 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 426, 428, 429, 431, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511 format: int32">
+  <span class="prop-name">statusOnError</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Sets the HTTP status that is returned to the client when the external processor returns an error
+or cannot be reached. Defaults to 500 Internal Server Error.
+Only 4xx and 5xx status codes are supported.<div class="leaf-constraints">
+<details class="schema-constraint schema-constraint-long" title="enum: 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 426, 428, 429, 431, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511">
+  <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 426, 428, ...</code></summary>
+  <code class="schema-constraint-value schema-constraint-full">400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 421, 422, 423, 424, 426, 428, 429, 431, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511</code>
+</details></div><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -2383,6 +2567,18 @@ that should be added to the envoy filter chain maxItems: 16">
 that should be added to the envoy filter chain</div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.lua[].filterContext" data-path-key="|spec|lua[]|filterContext|" data-parent-path="spec.lua" data-name="filterContext" data-text="FilterContext is the filter context configuration for the Lua script.
+This must be a JSON object (key/value pairs). The values are made available
+to the Lua script via request_handle:filterContext(). This allows a shared
+script to be parameterized differently per EnvoyExtensionPolicy/route.">
+  <span class="prop-name">filterContext</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">FilterContext is the filter context configuration for the Lua script.
+This must be a JSON object (key/value pairs). The values are made available
+to the Lua script via request_handle:filterContext(). This allows a shared
+script to be parameterized differently per EnvoyExtensionPolicy/route.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.lua[].inline" data-path-key="|spec|lua[]|inline|" data-parent-path="spec.lua" data-name="inline" data-text="Inline contains the source code as an inline string.">
   <span class="prop-name">inline</span>
   <span class="type-badge">string</span>
@@ -2444,6 +2640,24 @@ When unspecified or empty string, core API group is inferred.<div class="leaf-co
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.mergeType" data-path-key="|spec|mergeType|" data-parent-path="spec" data-name="mergeType" data-text="MergeType determines how this configuration is merged with existing EnvoyExtensionPolicy
+configurations targeting a parent resource. When set, this configuration will be merged
+into the closest parent EnvoyExtensionPolicy in the route&#39;s attachment hierarchy (for
+example, one targeting a Gateway, Gateway listener, ListenerSet, or ListenerSet
+listener).
+Currently, this field can only be set when targeting xRoute resources.
+If unset, no merging occurs, and only the most specific configuration takes effect.">
+  <span class="prop-name">mergeType</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">MergeType determines how this configuration is merged with existing EnvoyExtensionPolicy
+configurations targeting a parent resource. When set, this configuration will be merged
+into the closest parent EnvoyExtensionPolicy in the route&#39;s attachment hierarchy (for
+example, one targeting a Gateway, Gateway listener, ListenerSet, or ListenerSet
+listener).
+Currently, this field can only be set when targeting xRoute resources.
+If unset, no merging occurs, and only the most specific configuration takes effect.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.targetRef" data-path-key="|spec|targetRef|" data-parent-path="spec" data-name="targetRef" data-text="TargetRef is the name of the resource this policy is being attached to.
 This policy and the TargetRef MUST be in the same namespace for this
 Policy to have effect

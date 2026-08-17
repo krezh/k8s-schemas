@@ -904,6 +904,12 @@ For example, if Listeners are defined for &#34;foo.example.com&#34; and &#34;*.e
 request to &#34;foo.example.com&#34; SHOULD only be routed using routes attached
 to the &#34;foo.example.com&#34; Listener (and not the &#34;*.example.com&#34; Listener).
 
+If traffic to a Gateway does not match any Listener&#39;s hostname (or if
+the Listener does not specify a hostname and the request does not match
+any attached Route), the request MUST be rejected. The specific mechanism
+for rejection depends on the protocol: HTTP returns a 404 status code,
+while gRPC returns an Unimplemented status code.
+
 This concept is known as &#34;Listener Isolation&#34;, and it is an Extended feature
 of Gateway API. Implementations that do not support Listener Isolation MUST
 clearly document this, and MUST NOT claim support for the
@@ -1068,6 +1074,12 @@ Note that, for all distinct Listeners, requests SHOULD match at most one Listene
 For example, if Listeners are defined for &#34;foo.example.com&#34; and &#34;*.example.com&#34;, a
 request to &#34;foo.example.com&#34; SHOULD only be routed using routes attached
 to the &#34;foo.example.com&#34; Listener (and not the &#34;*.example.com&#34; Listener).
+
+If traffic to a Gateway does not match any Listener&#39;s hostname (or if
+the Listener does not specify a hostname and the request does not match
+any attached Route), the request MUST be rejected. The specific mechanism
+for rejection depends on the protocol: HTTP returns a 404 status code,
+while gRPC returns an Unimplemented status code.
 
 This concept is known as &#34;Listener Isolation&#34;, and it is an Extended feature
 of Gateway API. Implementations that do not support Listener Isolation MUST
@@ -1880,7 +1892,7 @@ Support: Core - A single reference to a Kubernetes ConfigMap, with the
 CA certificate in a key named `ca.crt`.
 
 Support: Implementation-specific - More than one reference, other kinds
-of resources, or a single reference that includes multiple certificates. minItems: 1 maxItems: 8">
+of resources, or a single reference that includes multiple certificates. minItems: 1 maxItems: 16">
 <summary>
   <span class="prop-name">caCertificateRefs</span>
   <span class="type-badge">[]object</span> <span class="required-badge">required</span>
@@ -1929,7 +1941,7 @@ CA certificate in a key named `ca.crt`.
 Support: Implementation-specific - More than one reference, other kinds
 of resources, or a single reference that includes multiple certificates.</div><div class="prop-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
-<div class="schema-constraint" title="maxItems: 8"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">8</code></div></div>
+<div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.tls.frontend.default.validation.caCertificateRefs[].group" data-path-key="|spec|tls|frontend|default|validation|caCertificateRefs[]|group|" data-parent-path="spec.tls.frontend.default.validation.caCertificateRefs" data-name="group" data-text="Group is the group of the referent. For example, &#34;gateway.networking.k8s.io&#34;.
 When set to the empty string, core API group is inferred. pattern: ^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ maxLength: 253">
@@ -2140,7 +2152,7 @@ Support: Core - A single reference to a Kubernetes ConfigMap, with the
 CA certificate in a key named `ca.crt`.
 
 Support: Implementation-specific - More than one reference, other kinds
-of resources, or a single reference that includes multiple certificates. minItems: 1 maxItems: 8">
+of resources, or a single reference that includes multiple certificates. minItems: 1 maxItems: 16">
 <summary>
   <span class="prop-name">caCertificateRefs</span>
   <span class="type-badge">[]object</span> <span class="required-badge">required</span>
@@ -2189,7 +2201,7 @@ CA certificate in a key named `ca.crt`.
 Support: Implementation-specific - More than one reference, other kinds
 of resources, or a single reference that includes multiple certificates.</div><div class="prop-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
-<div class="schema-constraint" title="maxItems: 8"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">8</code></div></div>
+<div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.tls.frontend.perPort[].tls.validation.caCertificateRefs[].group" data-path-key="|spec|tls|frontend|perPort[]|tls|validation|caCertificateRefs[]|group|" data-parent-path="spec.tls.frontend.perPort[].tls.validation.caCertificateRefs" data-name="group" data-text="Group is the group of the referent. For example, &#34;gateway.networking.k8s.io&#34;.
 When set to the empty string, core API group is inferred. pattern: ^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ maxLength: 253">

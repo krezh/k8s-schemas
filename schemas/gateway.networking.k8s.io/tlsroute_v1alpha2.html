@@ -449,7 +449,7 @@ match with the criteria above, then the TLSRoute is not accepted. The
 implementation must raise an &#39;Accepted&#39; Condition with a status of
 `False` in the corresponding RouteParentStatus.
 
-Support: Core maxItems: 16">
+Support: Core maxItems: 1024">
   <span class="prop-name">hostnames</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Hostnames defines a set of SNI names that should match against the
@@ -485,7 +485,7 @@ implementation must raise an &#39;Accepted&#39; Condition with a status of
 `False` in the corresponding RouteParentStatus.
 
 Support: Core<div class="leaf-constraints">
-<div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
+<div class="schema-constraint" title="maxItems: 1024"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.parentRefs" data-path-key="|spec|parentRefs|" data-parent-path="spec" data-name="parentRefs" data-text="ParentRefs references the resources (usually Gateways) that a Route wants
@@ -863,13 +863,18 @@ backend, by rejecting the connection. Request rejections must respect
 weight; if an invalid backend is requested to have 80% of requests, then
 80% of requests must be rejected instead.
 
+When a TLSRoute is attached to a listener in Terminate mode, a BackendTLSPolicy
+can be used to enable re-encryption of the traffic to the backends.
+
 Support: Core for Kubernetes Service
 
 Support: Extended for Kubernetes ServiceImport
 
 Support: Implementation-specific for any other resource
 
-Support for weight: Extended minItems: 1 maxItems: 16">
+Support for weight: Extended
+
+Support for BackendTLSPolicy: Extended minItems: 1 maxItems: 16">
 <summary>
   <span class="prop-name">backendRefs</span>
   <span class="type-badge">[]object</span> <span class="required-badge">required</span>
@@ -883,13 +888,18 @@ backend, by rejecting the connection. Request rejections must respect
 weight; if an invalid backend is requested to have 80% of requests, then
 80% of requests must be rejected instead.
 
+When a TLSRoute is attached to a listener in Terminate mode, a BackendTLSPolicy
+can be used to enable re-encryption of the traffic to the backends.
+
 Support: Core for Kubernetes Service
 
 Support: Extended for Kubernetes ServiceImport
 
 Support: Implementation-specific for any other resource
 
-Support for weight: Extended</div><div class="prop-constraints">
+Support for weight: Extended
+
+Support for BackendTLSPolicy: Extended</div><div class="prop-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
   <div class="prop-children">

@@ -595,6 +595,60 @@ and the second rule denies it, when a request matches both rules, it will be all
 <div class="schema-constraint" title="enum: Allow, Deny"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Allow, Deny</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.authorization.rules[].cel" data-path-key="|spec|authorization|rules[]|cel|" data-parent-path="spec.authorization.rules" data-name="cel" data-text="CEL specifies a Common Expression Language expression to evaluate for the
+request. If specified, the expression must evaluate to true for the rule to match.
+
+The expression can use Envoy attributes exposed to the CEL runtime.
+Request attributes, such as request.path, request.url_path, request.host,
+request.scheme, request.method, request.headers, and request.query, are
+generally available during authorization. Connection attributes, such as
+source.address, source.port, destination.address, destination.port,
+connection.mtls, and connection.requested_server_name, may also be used.
+Dynamic metadata and filter state produced by earlier filters may also be
+available through attributes such as metadata and filter_state.
+Response attributes are only available after the request completes and
+should not be used for authorization decisions.
+
+For more details, see:
+https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes
+
+The rule matches only when the expression evaluates to a boolean true.
+Non-boolean results, false, null, and CEL evaluation errors are treated as
+no match.
+
+Examples:
+`request.headers[&#39;x-tenant&#39;] == &#39;team-a&#39;`
+`request.method == &#39;POST&#39; &amp;&amp; request.path.startsWith(&#39;/admin&#39;)` minLength: 1 maxLength: 4096">
+  <span class="prop-name">cel</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CEL specifies a Common Expression Language expression to evaluate for the
+request. If specified, the expression must evaluate to true for the rule to match.
+
+The expression can use Envoy attributes exposed to the CEL runtime.
+Request attributes, such as request.path, request.url_path, request.host,
+request.scheme, request.method, request.headers, and request.query, are
+generally available during authorization. Connection attributes, such as
+source.address, source.port, destination.address, destination.port,
+connection.mtls, and connection.requested_server_name, may also be used.
+Dynamic metadata and filter state produced by earlier filters may also be
+available through attributes such as metadata and filter_state.
+Response attributes are only available after the request completes and
+should not be used for authorization decisions.
+
+For more details, see:
+https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes
+
+The rule matches only when the expression evaluates to a boolean true.
+Non-boolean results, false, null, and CEL evaluation errors are treated as
+no match.
+
+Examples:
+`request.headers[&#39;x-tenant&#39;] == &#39;team-a&#39;`
+`request.method == &#39;POST&#39; &amp;&amp; request.path.startsWith(&#39;/admin&#39;)`<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 4096"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">4096</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.authorization.rules[].name" data-path-key="|spec|authorization|rules[]|name|" data-parent-path="spec.authorization.rules" data-name="name" data-text="Name is a user-friendly name for the rule.
 If not specified, Envoy Gateway will generate a unique name for the rule. minLength: 1 maxLength: 253">
   <span class="prop-name">name</span>
@@ -617,13 +671,45 @@ If not specified, all operations are matched on.</div>
 <div class="prop-leaf" data-prop-row data-path="spec.authorization.rules[].operation.methods" data-path-key="|spec|authorization|rules[]|operation|methods|" data-parent-path="spec.authorization.rules[].operation" data-name="methods" data-text="Methods are the HTTP methods of the request.
 If multiple methods are specified, all specified methods are allowed or denied, based on the action of the rule. minItems: 1 maxItems: 16">
   <span class="prop-name">methods</span>
-  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <span class="type-badge">[]string</span>
   <div class="leaf-desc">Methods are the HTTP methods of the request.
 If multiple methods are specified, all specified methods are allowed or denied, based on the action of the rule.<div class="leaf-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.authorization.rules[].operation.path" data-path-key="|spec|authorization|rules[]|operation|path|" data-parent-path="spec.authorization.rules[].operation" data-name="path" data-text="Path is the HTTP path of the request.
+Support Exact, PathPrefix and RegularExpression match types.">
+<summary>
+  <span class="prop-name">path</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Path is the HTTP path of the request.
+Support Exact, PathPrefix and RegularExpression match types.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authorization.rules[].operation.path.invert" data-path-key="|spec|authorization|rules[]|operation|path|invert|" data-parent-path="spec.authorization.rules[].operation.path" data-name="invert" data-text="Invert specifies whether the value match result will be inverted.">
+  <span class="prop-name">invert</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Invert specifies whether the value match result will be inverted.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authorization.rules[].operation.path.type" data-path-key="|spec|authorization|rules[]|operation|path|type|" data-parent-path="spec.authorization.rules[].operation.path" data-name="type" data-text="Type specifies how to match against the value of the path. enum: Exact, PathPrefix, RegularExpression">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Type specifies how to match against the value of the path.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Exact, PathPrefix, RegularExpression"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Exact, PathPrefix, RegularExpression</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authorization.rules[].operation.path.value" data-path-key="|spec|authorization|rules[]|operation|path|value|" data-parent-path="spec.authorization.rules[].operation.path" data-name="value" data-text="Value specifies the HTTP path. maxLength: 1024">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Value specifies the HTTP path.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -633,7 +719,7 @@ For example, if there are two principals: one for client IP and one for JWT clai
 the rule will match only if both the client IP and the JWT claim match.">
 <summary>
   <span class="prop-name">principal</span>
-  <span class="type-badge">object</span> <span class="required-badge">required</span>
+  <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Principal specifies the client identity of a request.
 If there are multiple principal types, all principals must match for the rule to match.
@@ -689,7 +775,8 @@ It is not supported for TCPRoute targets.
 
 If multiple entries are specified,  one of the ClientIPGeoLocation entries must match for the rule to match.
 
-The client IP is inferred from the X-Forwarded-For header or a custom header.
+The client IP is inferred from the X-Forwarded-For header, a custom header, or the
+direct downstream connection source address (the TCP peer of the connection terminated by Envoy).
 You can use the `ClientIPDetection` field in the `ClientTrafficPolicy` to configure the client IP detection. minItems: 1">
 <summary>
   <span class="prop-name">clientIPGeoLocations</span>
@@ -701,7 +788,8 @@ It is not supported for TCPRoute targets.
 
 If multiple entries are specified,  one of the ClientIPGeoLocation entries must match for the rule to match.
 
-The client IP is inferred from the X-Forwarded-For header or a custom header.
+The client IP is inferred from the X-Forwarded-For header, a custom header, or the
+direct downstream connection source address (the TCP peer of the connection terminated by Envoy).
 You can use the `ClientIPDetection` field in the `ClientTrafficPolicy` to configure the client IP detection.</div><div class="prop-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   <div class="prop-children">
@@ -1108,6 +1196,87 @@ It specifies the value in the Access-Control-Max-Age CORS response header..<div 
 <div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
   </div>
 </div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.csrf" data-path-key="|spec|csrf|" data-parent-path="spec" data-name="csrf" data-text="CSRF defines the configuration for Cross-Site Request Forgery (CSRF) protection.
+When enabled, the CSRF filter checks that the Origin header matches the destination
+or one of the additional allowed origins on mutating requests (POST, PUT, DELETE, PATCH).">
+<summary>
+  <span class="prop-name">csrf</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CSRF defines the configuration for Cross-Site Request Forgery (CSRF) protection.
+When enabled, the CSRF filter checks that the Origin header matches the destination
+or one of the additional allowed origins on mutating requests (POST, PUT, DELETE, PATCH).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.csrf.additionalOrigins" data-path-key="|spec|csrf|additionalOrigins|" data-parent-path="spec.csrf" data-name="additionalOrigins" data-text="AdditionalOrigins specifies additional origins that are allowed to make mutating
+requests, beyond the destination origin. A request whose Origin header matches one
+of them is allowed. The value &#34;*&#34; allows any origin, which effectively disables
+origin validation.
+
+Note: Envoy&#39;s CSRF filter compares the host and port of the origin only, so the
+scheme is ignored: &#34;https://www.example.com&#34; and &#34;http://www.example.com&#34; are
+equivalent here, and both allow the request regardless of the scheme the client
+used. maxItems: 16">
+  <span class="prop-name">additionalOrigins</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">AdditionalOrigins specifies additional origins that are allowed to make mutating
+requests, beyond the destination origin. A request whose Origin header matches one
+of them is allowed. The value &#34;*&#34; allows any origin, which effectively disables
+origin validation.
+
+Note: Envoy&#39;s CSRF filter compares the host and port of the origin only, so the
+scheme is ignored: &#34;https://www.example.com&#34; and &#34;http://www.example.com&#34; are
+equivalent here, and both allow the request regardless of the scheme the client
+used.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.csrf.shadowFraction" data-path-key="|spec|csrf|shadowFraction|" data-parent-path="spec.csrf" data-name="shadowFraction" data-text="ShadowFraction represents the fraction of requests for which the CSRF policy is
+evaluated in shadow (dry-run) mode. For these requests, the filter records whether
+the request would have been allowed or rejected in the `csrf.request_valid` and
+`csrf.request_invalid` stats, but always lets the request through. The remaining
+requests are enforced, i.e. a mutating request with a missing or non-matching
+Origin header is rejected with a 403.
+
+Defaults to 0% (all requests are enforced) if not specified. Set it to 100% to
+dry run the filter, watch the stats to find origins that would be rejected, then
+lower it to roll enforcement out gradually.">
+<summary>
+  <span class="prop-name">shadowFraction</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ShadowFraction represents the fraction of requests for which the CSRF policy is
+evaluated in shadow (dry-run) mode. For these requests, the filter records whether
+the request would have been allowed or rejected in the `csrf.request_valid` and
+`csrf.request_invalid` stats, but always lets the request through. The remaining
+requests are enforced, i.e. a mutating request with a missing or non-matching
+Origin header is rejected with a 403.
+
+Defaults to 0% (all requests are enforced) if not specified. Set it to 100% to
+dry run the filter, watch the stats to find origins that would be rejected, then
+lower it to roll enforcement out gradually.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.csrf.shadowFraction.denominator" data-path-key="|spec|csrf|shadowFraction|denominator|" data-parent-path="spec.csrf.shadowFraction" data-name="denominator" data-text="format: int32 minimum: 1">
+  <span class="prop-name">denominator</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.csrf.shadowFraction.numerator" data-path-key="|spec|csrf|shadowFraction|numerator|" data-parent-path="spec.csrf.shadowFraction" data-name="numerator" data-text="format: int32 minimum: 0">
+  <span class="prop-name">numerator</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -1838,6 +2007,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -1906,11 +2145,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.method" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.path" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -1921,6 +2161,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|extAuth|grpc|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.extAuth.grpc.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -2340,6 +2609,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|extAuth|grpc|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|extAuth|grpc|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|extAuth|grpc|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|extAuth|grpc|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|extAuth|grpc|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.extAuth.grpc.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -3606,6 +3930,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -3674,11 +4068,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.http.method" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.http.path" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -3689,6 +4084,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|extAuth|http|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.extAuth.http.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -4108,6 +4532,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|extAuth|http|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|extAuth|http|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|extAuth|http|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|extAuth|http|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|extAuth|http|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.extAuth.http.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -4892,12 +5371,42 @@ If not specified, defaults to 10 seconds.<div class="leaf-constraints">
 </summary>
 <div class="prop-content"><div class="prop-desc">JWT defines the configuration for JSON Web Token (JWT) authentication.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.failOpen" data-path-key="|spec|jwt|failOpen|" data-parent-path="spec.jwt" data-name="failOpen" data-text="FailOpen lets a request pass JWT authentication even when its JWT is
+missing or invalid, rather than being rejected. This helps when a header
+that clients use to carry a JWT may also legitimately hold a non-JWT value
+that the backend relies on.
+
+A valid JWT is still verified and its claims forwarded as usual; only the
+rejection of requests with a missing or invalid JWT is relaxed. Because this
+does not enforce authentication on its own, pair it with an Authorization
+policy when access needs to be restricted.
+
+This is broader than Optional (which tolerates a missing JWT but still
+rejects an invalid one) and takes precedence over it.">
+  <span class="prop-name">failOpen</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">FailOpen lets a request pass JWT authentication even when its JWT is
+missing or invalid, rather than being rejected. This helps when a header
+that clients use to carry a JWT may also legitimately hold a non-JWT value
+that the backend relies on.
+
+A valid JWT is still verified and its claims forwarded as usual; only the
+rejection of requests with a missing or invalid JWT is relaxed. Because this
+does not enforce authentication on its own, pair it with an Authorization
+policy when access needs to be restricted.
+
+This is broader than Optional (which tolerates a missing JWT but still
+rejects an invalid one) and takes precedence over it.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.jwt.optional" data-path-key="|spec|jwt|optional|" data-parent-path="spec.jwt" data-name="optional" data-text="Optional determines whether a missing JWT is acceptable, defaulting to false if not specified.
-Note: Even if optional is set to true, JWT authentication will still fail if an invalid JWT is presented.">
+Note: Even if optional is set to true, JWT authentication will still fail if an invalid JWT
+is presented. See FailOpen if this is necessary for your use case.">
   <span class="prop-name">optional</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">Optional determines whether a missing JWT is acceptable, defaulting to false if not specified.
-Note: Even if optional is set to true, JWT authentication will still fail if an invalid JWT is presented.
+Note: Even if optional is set to true, JWT authentication will still fail if an invalid JWT
+is presented. See FailOpen if this is necessary for your use case.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.jwt.providers" data-path-key="|spec|jwt|providers|" data-parent-path="spec.jwt" data-name="providers" data-text="Providers defines the JSON Web Token (JWT) authentication provider type.
@@ -5705,6 +6214,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -5773,11 +6352,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.method" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.path" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -5788,6 +6368,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -6207,6 +6816,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|jwt|providers[]|remoteJWKS|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.jwt.providers[].remoteJWKS.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -6859,6 +7523,21 @@ in GEP-2257, a strict subset of the syntax parsed by Golang time.ParseDuration.<
 <div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.failedRefetchDuration" data-path-key="|spec|jwt|providers[]|remoteJWKS|failedRefetchDuration|" data-parent-path="spec.jwt.providers[].remoteJWKS" data-name="failedRefetchDuration" data-text="FailedRefetchDuration is the duration Envoy waits before re-fetching the JWKS
+after a failed fetch.
+This does not control retries within a single fetch attempt (see BackendSettings.Retry),
+only the interval between fetch attempts after a failure.
+If not specified, Envoy&#39;s default of 1 second is used. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">failedRefetchDuration</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">FailedRefetchDuration is the duration Envoy waits before re-fetching the JWKS
+after a failed fetch.
+This does not control retries within a single fetch attempt (see BackendSettings.Retry),
+only the interval between fetch attempts after a failure.
+If not specified, Envoy&#39;s default of 1 second is used.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.jwt.providers[].remoteJWKS.uri" data-path-key="|spec|jwt|providers[]|remoteJWKS|uri|" data-parent-path="spec.jwt.providers[].remoteJWKS" data-name="uri" data-text="URI is the HTTPS URI to fetch the JWKS. Envoy&#39;s system trust bundle is used to validate the server certificate.
 If a custom trust bundle is needed, it can be specified in a BackendTLSConfig resource and target the BackendRefs. minLength: 1 maxLength: 253">
   <span class="prop-name">uri</span>
@@ -6880,15 +7559,19 @@ If a custom trust bundle is needed, it can be specified in a BackendTLSConfig re
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.mergeType" data-path-key="|spec|mergeType|" data-parent-path="spec" data-name="mergeType" data-text="MergeType determines how this configuration is merged with existing SecurityPolicy
 configurations targeting a parent resource. When set, this configuration will be merged
-into a parent SecurityPolicy (i.e. the one targeting a Gateway or Listener).
-This field cannot be set when targeting a parent resource (Gateway).
+into the closest parent SecurityPolicy in the route&#39;s attachment hierarchy (for
+example, one targeting a Gateway, Gateway listener, ListenerSet, or ListenerSet
+listener).
+Currently, this field can only be set when targeting xRoute resources.
 If unset, no merging occurs, and only the most specific configuration takes effect.">
   <span class="prop-name">mergeType</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">MergeType determines how this configuration is merged with existing SecurityPolicy
 configurations targeting a parent resource. When set, this configuration will be merged
-into a parent SecurityPolicy (i.e. the one targeting a Gateway or Listener).
-This field cannot be set when targeting a parent resource (Gateway).
+into the closest parent SecurityPolicy in the route&#39;s attachment hierarchy (for
+example, one targeting a Gateway, Gateway listener, ListenerSet, or ListenerSet
+listener).
+Currently, this field can only be set when targeting xRoute resources.
 If unset, no merging occurs, and only the most specific configuration takes effect.
   </div>
 </div>
@@ -7076,14 +7759,14 @@ By default, its unset.</div>
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.cookieDomain" data-path-key="|spec|oidc|cookieDomain|" data-parent-path="spec.oidc" data-name="cookieDomain" data-text="The optional domain to set the access and ID token cookies on.
 If not set, the cookies will default to the host of the request, not including the subdomains.
 If set, the cookies will be set on the specified domain and all subdomains.
-This means that requests to any subdomain will not require reauthentication after users log in to the parent domain. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9]))*$">
+This means that requests to any subdomain will not require reauthentication after users log in to the parent domain. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$">
   <span class="prop-name">cookieDomain</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">The optional domain to set the access and ID token cookies on.
 If not set, the cookies will default to the host of the request, not including the subdomains.
 If set, the cookies will be set on the specified domain and all subdomains.
 This means that requests to any subdomain will not require reauthentication after users log in to the parent domain.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9]))*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9]))*$</code></div></div>
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div>
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.oidc.cookieNames" data-path-key="|spec|oidc|cookieNames|" data-parent-path="spec.oidc" data-name="cookieNames" data-text="The optional cookie name overrides to be used for Bearer and IdToken cookies in the
@@ -7245,7 +7928,12 @@ If not specified, defaults to false.
 
 If the configured header is &#34;Authorization&#34;, EG forwards the ID token using
 the &#34;Bearer &#34; prefix. For any other header, EG forwards the raw token value.
-If not specified, the ID token will not be forwarded.">
+If not specified, the ID token will not be forwarded.
+
+Note: when passThroughAuthHeader is enabled, this header must not be the same
+as a header a JWT provider extracts from (the &#34;Authorization&#34; header by
+default). The forwarded ID token header is owned by Envoy, and Envoy rejects
+an OAuth2 configuration whose pass-through matcher keys on it.">
 <summary>
   <span class="prop-name">forwardIDToken</span>
   <span class="type-badge">object</span>
@@ -7254,13 +7942,24 @@ If not specified, the ID token will not be forwarded.">
 
 If the configured header is &#34;Authorization&#34;, EG forwards the ID token using
 the &#34;Bearer &#34; prefix. For any other header, EG forwards the raw token value.
-If not specified, the ID token will not be forwarded.</div>
+If not specified, the ID token will not be forwarded.
+
+Note: when passThroughAuthHeader is enabled, this header must not be the same
+as a header a JWT provider extracts from (the &#34;Authorization&#34; header by
+default). The forwarded ID token header is owned by Envoy, and Envoy rejects
+an OAuth2 configuration whose pass-through matcher keys on it.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.oidc.forwardIDToken.header" data-path-key="|spec|oidc|forwardIDToken|header|" data-parent-path="spec.oidc.forwardIDToken" data-name="header" data-text="Header is the upstream request header that will carry the ID token. minLength: 1">
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.forwardIDToken.header" data-path-key="|spec|oidc|forwardIDToken|header|" data-parent-path="spec.oidc.forwardIDToken" data-name="header" data-text="Header is the upstream request header that will carry the ID token.
+It must be a valid HTTP header name. Pseudo-headers (names starting with &#34;:&#34;)
+and the &#34;Host&#34; header are not allowed. pattern: ^[A-Za-z0-9!#$%&amp;&#39;*&#43;\-.^_\x60|~]&#43;$ minLength: 1 maxLength: 256">
   <span class="prop-name">header</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Header is the upstream request header that will carry the ID token.<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="leaf-desc">Header is the upstream request header that will carry the ID token.
+It must be a valid HTTP header name. Pseudo-headers (names starting with &#34;:&#34;)
+and the &#34;Host&#34; header are not allowed.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[A-Za-z0-9!#$%&amp;&#39;*&#43;\-.^_\x60|~]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[A-Za-z0-9!#$%&amp;&#39;*&#43;\-.^_\x60|~]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 256"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">256</code></div></div>
   </div>
 </div>
   </div>
@@ -7894,6 +8593,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -7962,11 +8731,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.http.method" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.http.path" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -7977,6 +8747,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|oidc|provider|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.oidc.provider.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -8396,6 +9195,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|oidc|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|oidc|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|oidc|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|oidc|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|oidc|provider|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.oidc.provider.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>

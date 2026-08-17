@@ -1067,36 +1067,36 @@ Default filter order is:
 Note: &#34;envoy.filters.http.router&#34; cannot be reordered, it&#39;s always the last filter in the chain.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.filterOrder[].after" data-path-key="|spec|filterOrder[]|after|" data-parent-path="spec.filterOrder" data-name="after" data-text="After defines the filter that should come after the filter.
-Only one of Before or After must be set. enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
+Only one of Before or After must be set. enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
   <span class="prop-name">after</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">After defines the filter that should come after the filter.
 Only one of Before or After must be set.<div class="leaf-constraints">
-<details class="schema-constraint schema-constraint-long" title="enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
+<details class="schema-constraint schema-constraint-long" title="enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
   <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, ...</code></summary>
-  <code class="schema-constraint-value schema-constraint-full">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy</code>
+  <code class="schema-constraint-value schema-constraint-full">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy</code>
 </details></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.filterOrder[].before" data-path-key="|spec|filterOrder[]|before|" data-parent-path="spec.filterOrder" data-name="before" data-text="Before defines the filter that should come before the filter.
-Only one of Before or After must be set. enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
+Only one of Before or After must be set. enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
   <span class="prop-name">before</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Before defines the filter that should come before the filter.
 Only one of Before or After must be set.<div class="leaf-constraints">
-<details class="schema-constraint schema-constraint-long" title="enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
+<details class="schema-constraint schema-constraint-long" title="enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
   <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, ...</code></summary>
-  <code class="schema-constraint-value schema-constraint-full">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy</code>
+  <code class="schema-constraint-value schema-constraint-full">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy</code>
 </details></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.filterOrder[].name" data-path-key="|spec|filterOrder[]|name|" data-parent-path="spec.filterOrder" data-name="name" data-text="Name of the filter. enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
+<div class="prop-leaf" data-prop-row data-path="spec.filterOrder[].name" data-path-key="|spec|filterOrder[]|name|" data-parent-path="spec.filterOrder" data-name="name" data-text="Name of the filter. enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Name of the filter.<div class="leaf-constraints">
-<details class="schema-constraint schema-constraint-long" title="enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
+<details class="schema-constraint schema-constraint-long" title="enum: envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy">
   <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, ...</code></summary>
-  <code class="schema-constraint-value schema-constraint-full">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy</code>
+  <code class="schema-constraint-value schema-constraint-full">envoy.filters.http.custom_response, envoy.filters.http.health_check, envoy.filters.http.fault, envoy.filters.http.cors, envoy.filters.http.csrf, envoy.filters.http.header_mutation, envoy.filters.http.ext_authz, envoy.filters.http.api_key_auth, envoy.filters.http.basic_auth, envoy.filters.http.oauth2, envoy.filters.http.jwt_authn, envoy.filters.http.stateful_session, envoy.filters.http.buffer, envoy.filters.http.lua, envoy.filters.http.ext_proc, envoy.filters.http.wasm, envoy.filters.http.dynamic_modules, envoy.filters.http.geoip, envoy.filters.http.rbac, envoy.filters.http.local_ratelimit, envoy.filters.http.ratelimit, envoy.filters.http.bandwidth_limit, envoy.filters.http.grpc_web, envoy.filters.http.grpc_stats, envoy.filters.http.credential_injector, envoy.filters.http.compressor, envoy.filters.http.dynamic_forward_proxy</code>
 </details></div>
   </div>
 </div>
@@ -1321,16 +1321,104 @@ Default: Strict<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: Strict, InsecureSyntax, Disabled"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Strict, InsecureSyntax, Disabled</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.mergeBackends" data-path-key="|spec|mergeBackends|" data-parent-path="spec" data-name="mergeBackends" data-text="MergeBackends configures cluster deduplication: routes that reference the same backend
+share a single Envoy cluster instead of Envoy Gateway generating one cluster per route
+rule. This reduces xDS size, active health-check traffic, and stats cardinality, and
+improves upstream connection pooling.
+
+Disabled when unset; specifying this field at all (even without further configuration)
+enables it. Mutually exclusive with MergeGateways.">
+<summary>
+  <span class="prop-name">mergeBackends</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">MergeBackends configures cluster deduplication: routes that reference the same backend
+share a single Envoy cluster instead of Envoy Gateway generating one cluster per route
+rule. This reduces xDS size, active health-check traffic, and stats cardinality, and
+improves upstream connection pooling.
+
+Disabled when unset; specifying this field at all (even without further configuration)
+enables it. Mutually exclusive with MergeGateways.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.mergeBackends.selector" data-path-key="|spec|mergeBackends|selector|" data-parent-path="spec.mergeBackends" data-name="selector" data-text="Selector restricts cluster deduplication to backends whose target Service, ServiceImport,
+or Backend resource matches this label selector. When unset, every otherwise-eligible
+backend is merged. Use this to opt individual backends into deduplication gradually
+instead of enabling it for every backend at once.">
+<summary>
+  <span class="prop-name">selector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Selector restricts cluster deduplication to backends whose target Service, ServiceImport,
+or Backend resource matches this label selector. When unset, every otherwise-eligible
+backend is merged. Use this to opt individual backends into deduplication gradually
+instead of enabling it for every backend at once.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.mergeBackends.selector.matchExpressions" data-path-key="|spec|mergeBackends|selector|matchExpressions|" data-parent-path="spec.mergeBackends.selector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mergeBackends.selector.matchExpressions[].key" data-path-key="|spec|mergeBackends|selector|matchExpressions[]|key|" data-parent-path="spec.mergeBackends.selector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mergeBackends.selector.matchExpressions[].operator" data-path-key="|spec|mergeBackends|selector|matchExpressions[]|operator|" data-parent-path="spec.mergeBackends.selector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values.
+Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mergeBackends.selector.matchExpressions[].values" data-path-key="|spec|mergeBackends|selector|matchExpressions[]|values|" data-parent-path="spec.mergeBackends.selector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn,
+the values array must be non-empty. If the operator is Exists or DoesNotExist,
+the values array must be empty. This array is replaced during a strategic
+merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mergeBackends.selector.matchLabels" data-path-key="|spec|mergeBackends|selector|matchLabels|" data-parent-path="spec.mergeBackends.selector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the
+operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.mergeGateways" data-path-key="|spec|mergeGateways|" data-parent-path="spec" data-name="mergeGateways" data-text="MergeGateways defines if Gateway resources should be merged onto the same Envoy Proxy Infrastructure.
 Setting this field to true would merge all Gateway Listeners under the parent Gateway Class.
 This means that the port, protocol and hostname tuple must be unique for every listener.
-If a duplicate listener is detected, the newer listener (based on timestamp) will be rejected and its status will be updated with a &#34;Accepted=False&#34; condition.">
+If a duplicate listener is detected, the newer listener (based on timestamp) will be rejected and its status will be updated with a &#34;Accepted=False&#34; condition.
+
+Mutually exclusive with MergeBackends.">
   <span class="prop-name">mergeGateways</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">MergeGateways defines if Gateway resources should be merged onto the same Envoy Proxy Infrastructure.
 Setting this field to true would merge all Gateway Listeners under the parent Gateway Class.
 This means that the port, protocol and hostname tuple must be unique for every listener.
 If a duplicate listener is detected, the newer listener (based on timestamp) will be rejected and its status will be updated with a &#34;Accepted=False&#34; condition.
+
+Mutually exclusive with MergeBackends.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.mergeType" data-path-key="|spec|mergeType|" data-parent-path="spec" data-name="mergeType" data-text="MergeType controls how this EnvoyProxy merges with less specific configurations
@@ -1347,13 +1435,13 @@ Note: this field has no effect when set in EnvoyGateway&#39;s default EnvoyProxy
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.preserveRouteOrder" data-path-key="|spec|preserveRouteOrder|" data-parent-path="spec" data-name="preserveRouteOrder" data-text="PreserveRouteOrder determines if the order of matching for HTTPRoutes is determined by Gateway-API
-specification (https://gateway-api.sigs.k8s.io/reference/1.4/spec/#httprouterule)
+specification (https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#httprouterule)
 or preserves the order defined by users in the HTTPRoute&#39;s HTTPRouteRule list.
 Default: False">
   <span class="prop-name">preserveRouteOrder</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">PreserveRouteOrder determines if the order of matching for HTTPRoutes is determined by Gateway-API
-specification (https://gateway-api.sigs.k8s.io/reference/1.4/spec/#httprouterule)
+specification (https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#httprouterule)
 or preserves the order defined by users in the HTTPRoute&#39;s HTTPRouteRule list.
 Default: False
   </div>
@@ -15237,12 +15325,18 @@ least 70% of desired pods.
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.provider.kubernetes.envoyHpa" data-path-key="|spec|provider|kubernetes|envoyHpa|" data-parent-path="spec.provider.kubernetes" data-name="envoyHpa" data-text="EnvoyHpa defines the Horizontal Pod Autoscaler settings for Envoy Proxy Deployment.">
+<details class="prop" data-prop-row data-path="spec.provider.kubernetes.envoyHpa" data-path-key="|spec|provider|kubernetes|envoyHpa|" data-parent-path="spec.provider.kubernetes" data-name="envoyHpa" data-text="EnvoyHpa defines the Horizontal Pod Autoscaler settings for Envoy Proxy Deployment.
+If the HPA is set, the Replicas field from EnvoyDeployment will be ignored, and the
+number of replicas is solely managed by the HPA. Use MinReplicas to control the
+lower bound of the replica count instead.">
 <summary>
   <span class="prop-name">envoyHpa</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">EnvoyHpa defines the Horizontal Pod Autoscaler settings for Envoy Proxy Deployment.</div>
+<div class="prop-content"><div class="prop-desc">EnvoyHpa defines the Horizontal Pod Autoscaler settings for Envoy Proxy Deployment.
+If the HPA is set, the Replicas field from EnvoyDeployment will be ignored, and the
+number of replicas is solely managed by the HPA. Use MinReplicas to control the
+lower bound of the replica count instead.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.provider.kubernetes.envoyHpa.behavior" data-path-key="|spec|provider|kubernetes|envoyHpa|behavior|" data-parent-path="spec.provider.kubernetes.envoyHpa" data-name="behavior" data-text="behavior configures the scaling behavior of the target
 in both Up and Down directions (scaleUp and scaleDown fields respectively).
@@ -16371,12 +16465,12 @@ This allows the container to bind to the port without needing a CAP_NET_BIND_SER
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.provider.type" data-path-key="|spec|provider|type|" data-parent-path="spec.provider" data-name="type" data-text="Type is the type of resource provider to use. A resource provider provides
 infrastructure resources for running the data plane, e.g. Envoy proxy, and
-optional auxiliary control planes. Supported types are &#34;Kubernetes&#34;and &#34;Host&#34;. enum: Kubernetes, Host">
+optional auxiliary control planes. Supported types are &#34;Kubernetes&#34; and &#34;Host&#34;. enum: Kubernetes, Host">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Type is the type of resource provider to use. A resource provider provides
 infrastructure resources for running the data plane, e.g. Envoy proxy, and
-optional auxiliary control planes. Supported types are &#34;Kubernetes&#34;and &#34;Host&#34;.<div class="leaf-constraints">
+optional auxiliary control planes. Supported types are &#34;Kubernetes&#34; and &#34;Host&#34;.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: Kubernetes, Host"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Kubernetes, Host</code></div></div>
   </div>
 </div>
@@ -16404,6 +16498,15 @@ If unspecified, defaults to 60 seconds. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="type-badge">string</span>
   <div class="leaf-desc">DrainTimeout defines the graceful drain timeout. This should be less than the pod&#39;s terminationGracePeriodSeconds.
 If unspecified, defaults to 60 seconds.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.shutdown.healthCheckFailureDelay" data-path-key="|spec|shutdown|healthCheckFailureDelay|" data-parent-path="spec.shutdown" data-name="healthCheckFailureDelay" data-text="HealthCheckFailureDelay defines the delay before failing health checks during the graceful drain process.
+If unspecified, defaults to 0 seconds. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">healthCheckFailureDelay</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">HealthCheckFailureDelay defines the delay before failing health checks during the graceful drain process.
+If unspecified, defaults to 0 seconds.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
   </div>
 </div>
@@ -17109,6 +17212,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -17177,11 +17350,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.method" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.path" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -17192,6 +17366,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -17611,6 +17814,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|als|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].als.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -18912,6 +19170,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -18980,11 +19308,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.method" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.path" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -18995,6 +19324,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -19414,6 +19772,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|telemetry|accessLog|settings[]|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.telemetry.accessLog.settings[].sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -20182,6 +20595,72 @@ If type not defined, the setting would apply to:
 (2) Listeners if and only if Envoy does not find a matching route for a request.
 If type is defined, the accesslog settings would apply to the relevant component (as-is).<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: Listener, Route, Upstream"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Listener, Route, Upstream</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.telemetry.healthCheckLog" data-path-key="|spec|telemetry|healthCheckLog|" data-parent-path="spec.telemetry" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging for xRoute-backed clusters.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging for xRoute-backed clusters.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.healthCheckLog.matches" data-path-key="|spec|telemetry|healthCheckLog|matches|" data-parent-path="spec.telemetry.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.telemetry.healthCheckLog.sinks" data-path-key="|spec|telemetry|healthCheckLog|sinks|" data-parent-path="spec.telemetry.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.telemetry.healthCheckLog.sinks[].file" data-path-key="|spec|telemetry|healthCheckLog|sinks[]|file|" data-parent-path="spec.telemetry.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.healthCheckLog.sinks[].file.path" data-path-key="|spec|telemetry|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.telemetry.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.healthCheckLog.sinks[].type" data-path-key="|spec|telemetry|healthCheckLog|sinks[]|type|" data-parent-path="spec.telemetry.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
   </div>
 </div>
   </div>
@@ -20961,6 +21440,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -21029,11 +21578,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.method" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.path" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -21044,6 +21594,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -21463,6 +22042,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|telemetry|metrics|sinks[]|openTelemetry|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.telemetry.metrics.sinks[].openTelemetry.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -22268,6 +22902,38 @@ If unspecified, will not send tracing data.">
 <div class="prop-content"><div class="prop-desc">Tracing defines tracing configuration for managed proxies.
 If unspecified, will not send tracing data.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.clientSamplingFraction" data-path-key="|spec|telemetry|tracing|clientSamplingFraction|" data-parent-path="spec.telemetry.tracing" data-name="clientSamplingFraction" data-text="ClientSamplingFraction represents the fraction of requests that should be
+selected for tracing when requested by the client.
+If unspecified, client-forced tracing is disabled by default and users must
+set this field to opt in.">
+<summary>
+  <span class="prop-name">clientSamplingFraction</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ClientSamplingFraction represents the fraction of requests that should be
+selected for tracing when requested by the client.
+If unspecified, client-forced tracing is disabled by default and users must
+set this field to opt in.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.clientSamplingFraction.denominator" data-path-key="|spec|telemetry|tracing|clientSamplingFraction|denominator|" data-parent-path="spec.telemetry.tracing.clientSamplingFraction" data-name="denominator" data-text="format: int32 minimum: 1">
+  <span class="prop-name">denominator</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.clientSamplingFraction.numerator" data-path-key="|spec|telemetry|tracing|clientSamplingFraction|numerator|" data-parent-path="spec.telemetry.tracing.clientSamplingFraction" data-name="numerator" data-text="format: int32 minimum: 0">
+  <span class="prop-name">numerator</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.customTags" data-path-key="|spec|telemetry|tracing|customTags|" data-parent-path="spec.telemetry.tracing" data-name="customTags" data-text="CustomTags defines the custom tags to add to each span.
 If provider is kubernetes, pod name and namespace are added by default.
 
@@ -22280,6 +22946,34 @@ If provider is kubernetes, pod name and namespace are added by default.
 Deprecated: Use Tags instead.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.overallSamplingFraction" data-path-key="|spec|telemetry|tracing|overallSamplingFraction|" data-parent-path="spec.telemetry.tracing" data-name="overallSamplingFraction" data-text="OverallSamplingFraction represents the fraction of requests that should be
+selected for tracing after all other sampling checks have been applied.">
+<summary>
+  <span class="prop-name">overallSamplingFraction</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OverallSamplingFraction represents the fraction of requests that should be
+selected for tracing after all other sampling checks have been applied.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.overallSamplingFraction.denominator" data-path-key="|spec|telemetry|tracing|overallSamplingFraction|denominator|" data-parent-path="spec.telemetry.tracing.overallSamplingFraction" data-name="denominator" data-text="format: int32 minimum: 1">
+  <span class="prop-name">denominator</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.overallSamplingFraction.numerator" data-path-key="|spec|telemetry|tracing|overallSamplingFraction|numerator|" data-parent-path="spec.telemetry.tracing.overallSamplingFraction" data-name="numerator" data-text="format: int32 minimum: 0">
+  <span class="prop-name">numerator</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.telemetry.tracing.provider" data-path-key="|spec|telemetry|tracing|provider|" data-parent-path="spec.telemetry.tracing" data-name="provider" data-text="Provider defines the tracing provider.">
 <summary>
   <span class="prop-name">provider</span>
@@ -22872,6 +23566,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|healthCheckLog|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.healthyThreshold" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|healthyThreshold|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -22940,11 +23704,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.method" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|http|method|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.path" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|http|path|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -22955,6 +23720,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.requestBody" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|http|requestBody|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.requestBody.binary" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.requestBody.text" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|http|requestBody|text|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.requestBody.type" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|http|requestBody|type|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http.retriableStatuses" data-path-key="|spec|telemetry|tracing|provider|backendSettings|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -23374,6 +24168,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|telemetry|tracing|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|telemetry|tracing|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|telemetry|tracing|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|telemetry|tracing|provider|backendSettings|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|telemetry|tracing|provider|backendSettings|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.telemetry.tracing.provider.backendSettings.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>

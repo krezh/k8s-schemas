@@ -109,11 +109,11 @@
         "from",
         "to"
       ],
-      "type": [
-        "object",
-        "null"
-      ]
+      "type": "object"
     }
   },
+  "required": [
+    "spec"
+  ],
   "type": "object"
 }

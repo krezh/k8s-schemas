@@ -439,11 +439,11 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content"><div class="prop-desc">FQDN defines a FQDN endpoint</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].fqdn.hostname" data-path-key="|spec|endpoints[]|fqdn|hostname|" data-parent-path="spec.endpoints[].fqdn" data-name="hostname" data-text="Hostname defines the FQDN hostname of the backend endpoint. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
+<div class="prop-leaf" data-prop-row data-path="spec.endpoints[].fqdn.hostname" data-path-key="|spec|endpoints[]|fqdn|hostname|" data-parent-path="spec.endpoints[].fqdn" data-name="hostname" data-text="Hostname defines the FQDN hostname of the backend endpoint. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*\.?$ minLength: 1 maxLength: 253">
   <span class="prop-name">hostname</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Hostname defines the FQDN hostname of the backend endpoint.<div class="leaf-constraints">
-<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*\.?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*\.?$</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
   </div>
@@ -586,6 +586,24 @@ Typical Supported values are:
 - http/1.0
 - http/1.1
 - h2
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.tls.autoSNIFromEndpointHostname" data-path-key="|spec|tls|autoSNIFromEndpointHostname|" data-parent-path="spec.tls" data-name="autoSNIFromEndpointHostname" data-text="AutoSNIFromEndpointHostname indicates whether the upstream endpoint&#39;s hostname should be used as the SNI value
+when establishing a TLS connection to the backend.
+This uses the resolved hostname of the upstream endpoint (e.g., from the Backend Endpoints list),
+rather than a static value.
+
+Mutually exclusive with SNI. When a BackendTLSPolicy is attached, its Hostname value takes
+precedence and AutoSNIFromEndpointHostname is ignored.">
+  <span class="prop-name">autoSNIFromEndpointHostname</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AutoSNIFromEndpointHostname indicates whether the upstream endpoint&#39;s hostname should be used as the SNI value
+when establishing a TLS connection to the backend.
+This uses the resolved hostname of the upstream endpoint (e.g., from the Backend Endpoints list),
+rather than a static value.
+
+Mutually exclusive with SNI. When a BackendTLSPolicy is attached, its Hostname value takes
+precedence and AutoSNIFromEndpointHostname is ignored.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.tls.caCertificateRefs" data-path-key="|spec|tls|caCertificateRefs|" data-parent-path="spec.tls" data-name="caCertificateRefs" data-text="CACertificateRefs contains one or more references to Kubernetes objects that
@@ -880,24 +898,30 @@ support.">
 support.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.tls.sni" data-path-key="|spec|tls|sni|" data-parent-path="spec.tls" data-name="sni" data-text="SNI is specifies the SNI value used when establishing an upstream TLS connection to the backend.
+<div class="prop-leaf" data-prop-row data-path="spec.tls.sni" data-path-key="|spec|tls|sni|" data-parent-path="spec.tls" data-name="sni" data-text="SNI specifies the fixed SNI value used when establishing an upstream TLS connection to the backend.
 
 Envoy Gateway will use the HTTP host header value for SNI, when all resources referenced in BackendRefs are:
 1. Backend resources that do not set SNI, or
 2. Service/ServiceImport resources that do not have a BackendTLSPolicy attached to them
 
-When a BackendTLSPolicy attaches to a Backend resource, the BackendTLSPolicy&#39;s Hostname value takes precedence
-over this value. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
+If a BackendTLSPolicy is attached to the Backend resource, the BackendTLSPolicy&#39;s validation.hostname
+value takes precedence over this field.
+
+If no BackendTLSPolicy validation.hostname applies and both this field and AutoSNIFromEndpointHostname
+are unset, Envoy Gateway configures Envoy to set the upstream SNI from the downstream HTTP host/authority header. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
   <span class="prop-name">sni</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">SNI is specifies the SNI value used when establishing an upstream TLS connection to the backend.
+  <div class="leaf-desc">SNI specifies the fixed SNI value used when establishing an upstream TLS connection to the backend.
 
 Envoy Gateway will use the HTTP host header value for SNI, when all resources referenced in BackendRefs are:
 1. Backend resources that do not set SNI, or
 2. Service/ServiceImport resources that do not have a BackendTLSPolicy attached to them
 
-When a BackendTLSPolicy attaches to a Backend resource, the BackendTLSPolicy&#39;s Hostname value takes precedence
-over this value.<div class="leaf-constraints">
+If a BackendTLSPolicy is attached to the Backend resource, the BackendTLSPolicy&#39;s validation.hostname
+value takes precedence over this field.
+
+If no BackendTLSPolicy validation.hostname applies and both this field and AutoSNIFromEndpointHostname
+are unset, Envoy Gateway configures Envoy to set the upstream SNI from the downstream HTTP host/authority header.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>

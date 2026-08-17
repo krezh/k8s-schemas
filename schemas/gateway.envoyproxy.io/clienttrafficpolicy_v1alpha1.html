@@ -459,6 +459,28 @@ IP address cannot be determined.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.clientIPDetection.directSourceIP" data-path-key="|spec|clientIPDetection|directSourceIP|" data-parent-path="spec.clientIPDetection" data-name="directSourceIP" data-text="DirectSourceIP configures the geoip filter to use the downstream connection
+source address (the TCP peer of the connection terminated by Envoy) as the client IP.
+
+Use this in L4-transparent topologies where a load balancer preserves the original
+client source IP at TCP level and does not populate XFF or a custom header — for
+example, AWS NLB with target-type=instance &#43; externalTrafficPolicy=Local, or
+Azure Standard Load Balancer.
+
+Mutually exclusive with XForwardedFor and CustomHeader.">
+  <span class="prop-name">directSourceIP</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">DirectSourceIP configures the geoip filter to use the downstream connection
+source address (the TCP peer of the connection terminated by Envoy) as the client IP.
+
+Use this in L4-transparent topologies where a load balancer preserves the original
+client source IP at TCP level and does not populate XFF or a custom header — for
+example, AWS NLB with target-type=instance &#43; externalTrafficPolicy=Local, or
+Azure Standard Load Balancer.
+
+Mutually exclusive with XForwardedFor and CustomHeader.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.clientIPDetection.xForwardedFor" data-path-key="|spec|clientIPDetection|xForwardedFor|" data-parent-path="spec.clientIPDetection" data-name="xForwardedFor" data-text="XForwardedForSettings provides configuration for using X-Forwarded-For headers for determining the client IP address.">
 <summary>
   <span class="prop-name">xForwardedFor</span>
@@ -466,6 +488,20 @@ IP address cannot be determined.
 </summary>
 <div class="prop-content"><div class="prop-desc">XForwardedForSettings provides configuration for using X-Forwarded-For headers for determining the client IP address.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.clientIPDetection.xForwardedFor.disableXForwardedForAppend" data-path-key="|spec|clientIPDetection|xForwardedFor|disableXForwardedForAppend|" data-parent-path="spec.clientIPDetection.xForwardedFor" data-name="disableXForwardedForAppend" data-text="DisableXForwardedForAppend configures Envoy Proxy to stop appending the downstream address
+to the X-Forwarded-For header.
+
+This only disables the automatic append behavior. It does not remove or sanitize
+an incoming X-Forwarded-For header.">
+  <span class="prop-name">disableXForwardedForAppend</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">DisableXForwardedForAppend configures Envoy Proxy to stop appending the downstream address
+to the X-Forwarded-For header.
+
+This only disables the automatic append behavior. It does not remove or sanitize
+an incoming X-Forwarded-For header.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.clientIPDetection.xForwardedFor.numTrustedHops" data-path-key="|spec|clientIPDetection|xForwardedFor|numTrustedHops|" data-parent-path="spec.clientIPDetection.xForwardedFor" data-name="numTrustedHops" data-text="NumTrustedHops specifies how many trusted hops to count from the rightmost side of
 the X-Forwarded-For (XFF) header when determining the original client’s IP address.
 
@@ -1032,6 +1068,34 @@ and responses.">
 and responses.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.headers.host" data-path-key="|spec|headers|host|" data-parent-path="spec.headers" data-name="host" data-text="Host enables managing how the Host/Authority header set by clients can be normalized.">
+<summary>
+  <span class="prop-name">host</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Host enables managing how the Host/Authority header set by clients can be normalized.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.headers.host.stripTrailingHostDot" data-path-key="|spec|headers|host|stripTrailingHostDot|" data-parent-path="spec.headers.host" data-name="stripTrailingHostDot" data-text="StripTrailingHostDot determines if the trailing dot of the host should be removed
+from the Host/Authority header before any processing of the request.
+This affects the upstream host header as well. Without this option, incoming requests
+with host &#34;example.com.&#34; will not match routes with domains set to &#34;example.com&#34;.
+When the host includes a port (for example &#34;example.com.:443&#34;), only the trailing dot
+from the host section is stripped, leaving the port as-is (&#34;example.com:443&#34;).
+Defaults to false.">
+  <span class="prop-name">stripTrailingHostDot</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">StripTrailingHostDot determines if the trailing dot of the host should be removed
+from the Host/Authority header before any processing of the request.
+This affects the upstream host header as well. Without this option, incoming requests
+with host &#34;example.com.&#34; will not match routes with domains set to &#34;example.com&#34;.
+When the host includes a port (for example &#34;example.com.:443&#34;), only the trailing dot
+from the host section is stripped, leaving the port as-is (&#34;example.com:443&#34;).
+Defaults to false.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.headers.lateResponseHeaders" data-path-key="|spec|headers|lateResponseHeaders|" data-parent-path="spec.headers" data-name="lateResponseHeaders" data-text="LateResponseHeaders defines settings for global response header modification.">
 <summary>
   <span class="prop-name">lateResponseHeaders</span>
@@ -2147,6 +2211,19 @@ Default: 1 hour.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.timeout.http.requestHeadersReceivedTimeout" data-path-key="|spec|timeout|http|requestHeadersReceivedTimeout|" data-parent-path="spec.timeout.http" data-name="requestHeadersReceivedTimeout" data-text="RequestHeadersReceivedTimeout is the duration envoy waits for the request headers to arrive.
+The timer is activated when the first byte of the headers is received,
+and is disarmed when the last byte of the headers has been received.
+If not specified or set to 0, this timeout is disabled. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">requestHeadersReceivedTimeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RequestHeadersReceivedTimeout is the duration envoy waits for the request headers to arrive.
+The timer is activated when the first byte of the headers is received,
+and is disarmed when the last byte of the headers has been received.
+If not specified or set to 0, this timeout is disabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.timeout.http.requestReceivedTimeout" data-path-key="|spec|timeout|http|requestReceivedTimeout|" data-parent-path="spec.timeout.http" data-name="requestReceivedTimeout" data-text="RequestReceivedTimeout is the duration envoy waits for the complete request reception. This timer starts upon request
 initiation and stops when either the last byte of the request is sent upstream or when the response begins. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">requestReceivedTimeout</span>
@@ -2175,6 +2252,19 @@ initiation and stops when either the last byte of the request is sent upstream o
 </summary>
 <div class="prop-content"><div class="prop-desc">Timeout settings for TCP.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.timeout.tcp.connectionInspectionTimeout" data-path-key="|spec|timeout|tcp|connectionInspectionTimeout|" data-parent-path="spec.timeout.tcp" data-name="connectionInspectionTimeout" data-text="ConnectionInspectionTimeout is the maximum time to wait for initial inspection
+(TLS / SNI and protocol detection, or HTTP protocol parsing) of an incoming connection on the listener socket.
+If exceeded, the connection is dropped.
+Default: 15 seconds. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">connectionInspectionTimeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ConnectionInspectionTimeout is the maximum time to wait for initial inspection
+(TLS / SNI and protocol detection, or HTTP protocol parsing) of an incoming connection on the listener socket.
+If exceeded, the connection is dropped.
+Default: 15 seconds.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.timeout.tcp.idleTimeout" data-path-key="|spec|timeout|tcp|idleTimeout|" data-parent-path="spec.timeout.tcp" data-name="idleTimeout" data-text="IdleTimeout for a TCP connection. Idle time is defined as a period in which there are no
 bytes sent or received on either the upstream or downstream connection.
 Default: 1 hour. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
@@ -2183,6 +2273,17 @@ Default: 1 hour. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <div class="leaf-desc">IdleTimeout for a TCP connection. Idle time is defined as a period in which there are no
 bytes sent or received on either the upstream or downstream connection.
 Default: 1 hour.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.timeout.tcp.tlsHandshakeTimeout" data-path-key="|spec|timeout|tcp|tlsHandshakeTimeout|" data-parent-path="spec.timeout.tcp" data-name="tlsHandshakeTimeout" data-text="TLSHandshakeTimeout for a TCP connection. The maximum time to complete transport level connection negotiation
+(e.g. the TLS handshake) after a connection is accepted.
+If this expires before the transport reports connection establishment, the connection is summarily closed. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">tlsHandshakeTimeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TLSHandshakeTimeout for a TCP connection. The maximum time to complete transport level connection negotiation
+(e.g. the TLS handshake) after a connection is accepted.
+If this expires before the transport reports connection establishment, the connection is summarily closed.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
   </div>
 </div>
@@ -2334,6 +2435,18 @@ initiating the TLS connection to the Gateway listener.">
 <div class="prop-content"><div class="prop-desc">ClientValidation specifies the configuration to validate the client
 initiating the TLS connection to the Gateway listener.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.tls.clientValidation.allowExpiredCertificate" data-path-key="|spec|tls|clientValidation|allowExpiredCertificate|" data-parent-path="spec.tls.clientValidation" data-name="allowExpiredCertificate" data-text="AllowExpiredCertificate permits client certificates that have expired
+but are otherwise valid (CA chain, signature). When true, Envoy skips
+the NotAfter check during client certificate validation.
+Defaults to false.">
+  <span class="prop-name">allowExpiredCertificate</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowExpiredCertificate permits client certificates that have expired
+but are otherwise valid (CA chain, signature). When true, Envoy skips
+the NotAfter check during client certificate validation.
+Defaults to false.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.tls.clientValidation.caCertificateRefs" data-path-key="|spec|tls|clientValidation|caCertificateRefs|" data-parent-path="spec.tls.clientValidation" data-name="caCertificateRefs" data-text="CACertificateRefs contains one or more references to
 Kubernetes objects that contain TLS certificates of
 the Certificate Authorities that can be used

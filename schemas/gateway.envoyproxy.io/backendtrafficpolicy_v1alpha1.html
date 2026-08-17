@@ -1140,6 +1140,76 @@ server and not to a specific service.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.healthCheck.active.healthCheckLog" data-path-key="|spec|healthCheck|active|healthCheckLog|" data-parent-path="spec.healthCheck.active" data-name="healthCheckLog" data-text="HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.">
+<summary>
+  <span class="prop-name">healthCheckLog</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HealthCheckLog defines health check event logging configuration for this cluster.
+When set, HC probe outcomes are logged to the configured sinks.
+Takes precedence over the gateway-level EnvoyProxy.spec.telemetry.healthCheckLog.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.healthCheckLog.matches" data-path-key="|spec|healthCheck|active|healthCheckLog|matches|" data-parent-path="spec.healthCheck.active.healthCheckLog" data-name="matches" data-text="Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa. maxItems: 4">
+  <span class="prop-name">matches</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Matches defines which health check probe outcomes produce a log entry.
+When omitted or empty, all events are logged.
+
+Each value must be unique. Multiple values are ORed. If any failure type is
+specified then a success type must also be specified, and vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 4"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">4</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.healthCheck.active.healthCheckLog.sinks" data-path-key="|spec|healthCheck|active|healthCheckLog|sinks|" data-parent-path="spec.healthCheck.active.healthCheckLog" data-name="sinks" data-text="Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout. maxItems: 1">
+<summary>
+  <span class="prop-name">sinks</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sinks defines where health check events are written.
+When omitted, events are written to /dev/stdout.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 1"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.healthCheck.active.healthCheckLog.sinks[].file" data-path-key="|spec|healthCheck|active|healthCheckLog|sinks[]|file|" data-parent-path="spec.healthCheck.active.healthCheckLog.sinks" data-name="file" data-text="File defines the file sink configuration.
+Required when type is File.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File defines the file sink configuration.
+Required when type is File.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.healthCheckLog.sinks[].file.path" data-path-key="|spec|healthCheck|active|healthCheckLog|sinks[]|file|path|" data-parent-path="spec.healthCheck.active.healthCheckLog.sinks[].file" data-name="path" data-text="Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output. minLength: 1">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Path specifies the file path for health check event output.
+Use /dev/stdout to write to standard output.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.healthCheckLog.sinks[].type" data-path-key="|spec|healthCheck|active|healthCheckLog|sinks[]|type|" data-parent-path="spec.healthCheck.active.healthCheckLog.sinks" data-name="type" data-text="Type defines the type of sink. enum: File">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of sink.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: File"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">File</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.healthyThreshold" data-path-key="|spec|healthCheck|active|healthyThreshold|" data-parent-path="spec.healthCheck.active" data-name="healthyThreshold" data-text="HealthyThreshold defines the number of healthy health checks required before a backend host is marked healthy. format: int32 minimum: 1">
   <span class="prop-name">healthyThreshold</span>
   <span class="type-badge">integer</span>
@@ -1208,11 +1278,12 @@ hostname if available, then the effective Route hostname.<div class="leaf-constr
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.http.method" data-path-key="|spec|healthCheck|active|http|method|" data-parent-path="spec.healthCheck.active.http" data-name="method" data-text="Method defines the HTTP method used for health checking.
-Defaults to GET">
+Defaults to GET maxLength: 16">
   <span class="prop-name">method</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Method defines the HTTP method used for health checking.
-Defaults to GET
+Defaults to GET<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.http.path" data-path-key="|spec|healthCheck|active|http|path|" data-parent-path="spec.healthCheck.active.http" data-name="path" data-text="Path defines the HTTP path that will be requested during health checking. minLength: 1 maxLength: 1024">
@@ -1223,6 +1294,35 @@ Defaults to GET
 <div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.healthCheck.active.http.requestBody" data-path-key="|spec|healthCheck|active|http|requestBody|" data-parent-path="spec.healthCheck.active.http" data-name="requestBody" data-text="RequestBody defines the HTTP request body payload sent during health checking.">
+<summary>
+  <span class="prop-name">requestBody</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">RequestBody defines the HTTP request body payload sent during health checking.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.http.requestBody.binary" data-path-key="|spec|healthCheck|active|http|requestBody|binary|" data-parent-path="spec.healthCheck.active.http.requestBody" data-name="binary" data-text="Binary payload base64 encoded. format: byte">
+  <span class="prop-name">binary</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Binary payload base64 encoded.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: byte"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">byte</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.http.requestBody.text" data-path-key="|spec|healthCheck|active|http|requestBody|text|" data-parent-path="spec.healthCheck.active.http.requestBody" data-name="text" data-text="Text payload in plain text.">
+  <span class="prop-name">text</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Text payload in plain text.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.http.requestBody.type" data-path-key="|spec|healthCheck|active|http|requestBody|type|" data-parent-path="spec.healthCheck.active.http.requestBody" data-name="type" data-text="Type defines the type of the payload.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type defines the type of the payload.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.healthCheck.active.http.retriableStatuses" data-path-key="|spec|healthCheck|active|http|retriableStatuses|" data-parent-path="spec.healthCheck.active.http" data-name="retriableStatuses" data-text="RetriableStatuses defines a list of HTTP response statuses considered retriable.
 Responses matching these statuses count towards the unhealthy threshold but
 do not result in the host being considered immediately unhealthy.
@@ -1684,6 +1784,61 @@ For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#3
 For map fields in ORCA proto, use the form &#34;&lt;map_field&gt;.&lt;key&gt;&#34;, e.g., &#34;named_metrics.foo&#34;.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.loadBalancer.backendUtilization.outOfBand" data-path-key="|spec|loadBalancer|backendUtilization|outOfBand|" data-parent-path="spec.loadBalancer.backendUtilization" data-name="outOfBand" data-text="OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.">
+<summary>
+  <span class="prop-name">outOfBand</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OutOfBand enables out-of-band ORCA load reporting. When set, Envoy opens a
+server-streaming gRPC connection to each endpoint&#39;s
+xds.service.orca.v3.OpenRcaService/StreamCoreMetrics and pulls load
+reports periodically, instead of relying on in-band ORCA metrics
+carried in response headers/trailers.
+
+The backend must implement OpenRcaService for this to take effect.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.loadBalancer.backendUtilization.outOfBand.authority" data-path-key="|spec|loadBalancer|backendUtilization|outOfBand|authority|" data-parent-path="spec.loadBalancer.backendUtilization.outOfBand" data-name="authority" data-text="Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name. pattern: ^[^\x00\n\r]*$ minLength: 1 maxLength: 259">
+  <span class="prop-name">authority</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Authority overrides the :authority header on the OutOfBand gRPC stream.
+If unset, Envoy uses the endpoint hostname, then the dialed address, then
+the cluster name.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^\x00\n\r]*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^\x00\n\r]*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 259"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">259</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.loadBalancer.backendUtilization.outOfBand.port" data-path-key="|spec|loadBalancer|backendUtilization|outOfBand|port|" data-parent-path="spec.loadBalancer.backendUtilization.outOfBand" data-name="port" data-text="Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port. format: int32 minimum: 1 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Port overrides the port used for the OutOfBand reporting connection, e.g. to
+reach a separate reporting sidecar. Defaults to the endpoint&#39;s port.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.loadBalancer.backendUtilization.outOfBand.reportingPeriod" data-path-key="|spec|loadBalancer|backendUtilization|outOfBand|reportingPeriod|" data-parent-path="spec.loadBalancer.backendUtilization.outOfBand" data-name="reportingPeriod" data-text="ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
+  <span class="prop-name">reportingPeriod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReportingPeriod is how often Envoy requests load reports from the server.
+Must be greater than 0. Defaults to 10s.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]{1,5}(h|m|s|ms)){1,4}$</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.loadBalancer.backendUtilization.weightExpirationPeriod" data-path-key="|spec|loadBalancer|backendUtilization|weightExpirationPeriod|" data-parent-path="spec.loadBalancer.backendUtilization" data-name="weightExpirationPeriod" data-text="If a given endpoint has not reported load metrics in this long, stop using the reported weight. Defaults to 3m. pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$">
   <span class="prop-name">weightExpirationPeriod</span>
   <span class="type-badge">string</span>
@@ -2066,15 +2221,17 @@ Zones not listed in the configuration receive a default weight of 1.
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.mergeType" data-path-key="|spec|mergeType|" data-parent-path="spec" data-name="mergeType" data-text="MergeType determines how this configuration is merged with existing BackendTrafficPolicy
 configurations targeting a parent resource. When set, this configuration will be merged
-into a parent BackendTrafficPolicy (i.e. the one targeting a Gateway or Listener).
-This field cannot be set when targeting a parent resource (Gateway).
+into the closest parent BackendTrafficPolicy in the route&#39;s attachment hierarchy (for
+example, one targeting a Gateway, Gateway listener, ListenerSet, or ListenerSet listener).
+Currently, this field can only be set when targeting xRoute resources.
 If unset, no merging occurs, and only the most specific configuration takes effect.">
   <span class="prop-name">mergeType</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">MergeType determines how this configuration is merged with existing BackendTrafficPolicy
 configurations targeting a parent resource. When set, this configuration will be merged
-into a parent BackendTrafficPolicy (i.e. the one targeting a Gateway or Listener).
-This field cannot be set when targeting a parent resource (Gateway).
+into the closest parent BackendTrafficPolicy in the route&#39;s attachment hierarchy (for
+example, one targeting a Gateway, Gateway listener, ListenerSet, or ListenerSet listener).
+Currently, this field can only be set when targeting xRoute resources.
 If unset, no merging occurs, and only the most specific configuration takes effect.
   </div>
 </div>
@@ -2170,14 +2327,14 @@ each Route will have its own 10rps limit.</div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 8"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">8</code></div></div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.rateLimit.global.rules[].clientSelectors[].headers" data-path-key="|spec|rateLimit|global|rules[]|clientSelectors[]|headers|" data-parent-path="spec.rateLimit.global.rules[].clientSelectors" data-name="headers" data-text="Headers is a list of request headers to match. Multiple header values are ANDed together,
-meaning, a request MUST match all the specified headers. maxItems: 64">
+meaning, a request MUST match all the specified headers. maxItems: 128">
 <summary>
   <span class="prop-name">headers</span>
   <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Headers is a list of request headers to match. Multiple header values are ANDed together,
 meaning, a request MUST match all the specified headers.</div><div class="prop-constraints">
-<div class="schema-constraint" title="maxItems: 64"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">64</code></div></div>
+<div class="schema-constraint" title="maxItems: 128"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">128</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.rateLimit.global.rules[].clientSelectors[].headers[].invert" data-path-key="|spec|rateLimit|global|rules[]|clientSelectors[]|headers[]|invert|" data-parent-path="spec.rateLimit.global.rules[].clientSelectors[].headers" data-name="invert" data-text="Invert specifies whether the value match result will be inverted.
 Do not set this field when Type=&#34;Distinct&#34;, implying matching on any/all unique
@@ -2529,24 +2686,64 @@ The limit is enforced and the request is ratelimited, i.e. a response with
 429 HTTP status code is sent back to the client when
 the selected requests have reached the limit.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.rateLimit.global.rules[].limit.fromMetadata" data-path-key="|spec|rateLimit|global|rules[]|limit|fromMetadata|" data-parent-path="spec.rateLimit.global.rules[].limit" data-name="fromMetadata" data-text="FromMetadata sources the limit value from per-request dynamic metadata.
+When the referenced metadata value is present, it overrides Requests/Unit for that
+request; otherwise Requests/Unit are used as the default.
+
+The referenced metadata value must be a struct containing an integer &#34;requests_per_unit&#34;
+property and a &#34;unit&#34; property with a value parseable to a RateLimitUnit. An upstream
+filter (e.g. ext_proc) is responsible for writing this struct into dynamic metadata.
+
+Only supported for Global Rate Limits.">
+<summary>
+  <span class="prop-name">fromMetadata</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">FromMetadata sources the limit value from per-request dynamic metadata.
+When the referenced metadata value is present, it overrides Requests/Unit for that
+request; otherwise Requests/Unit are used as the default.
+
+The referenced metadata value must be a struct containing an integer &#34;requests_per_unit&#34;
+property and a &#34;unit&#34; property with a value parseable to a RateLimitUnit. An upstream
+filter (e.g. ext_proc) is responsible for writing this struct into dynamic metadata.
+
+Only supported for Global Rate Limits.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.rateLimit.global.rules[].limit.fromMetadata.key" data-path-key="|spec|rateLimit|global|rules[]|limit|fromMetadata|key|" data-parent-path="spec.rateLimit.global.rules[].limit.fromMetadata" data-name="key" data-text="Key is the key to retrieve the limit value from within the namespaced filter metadata. minLength: 1">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key to retrieve the limit value from within the namespaced filter metadata.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.rateLimit.global.rules[].limit.fromMetadata.namespace" data-path-key="|spec|rateLimit|global|rules[]|limit|fromMetadata|namespace|" data-parent-path="spec.rateLimit.global.rules[].limit.fromMetadata" data-name="namespace" data-text="Namespace is the namespace of the dynamic metadata. minLength: 1">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Namespace is the namespace of the dynamic metadata.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.rateLimit.global.rules[].limit.requests" data-path-key="|spec|rateLimit|global|rules[]|limit|requests|" data-parent-path="spec.rateLimit.global.rules[].limit" data-name="requests" data-text="Requests is the number of requests (or cost units, when used with
-cost-based rate limiting) allowed per Unit. format: int64 minimum: 1 maximum: 4.294967295e&#43;09">
+cost-based rate limiting) allowed per Unit. format: int64 minimum: 0 maximum: 4.294967295e&#43;09">
   <span class="prop-name">requests</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Requests is the number of requests (or cost units, when used with
 cost-based rate limiting) allowed per Unit.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maximum: 4.294967295e&#43;09"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">4.294967295e&#43;09</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.rateLimit.global.rules[].limit.unit" data-path-key="|spec|rateLimit|global|rules[]|limit|unit|" data-parent-path="spec.rateLimit.global.rules[].limit" data-name="unit" data-text="RateLimitUnit specifies the intervals for setting rate limits.
-Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Month&#34; and &#34;Year&#34;. enum: Second, Minute, Hour, Day, Month, Year">
+Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Week&#34;, &#34;Month&#34; and &#34;Year&#34;. enum: Second, Minute, Hour, Day, Week, Month, Year">
   <span class="prop-name">unit</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">RateLimitUnit specifies the intervals for setting rate limits.
-Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Month&#34; and &#34;Year&#34;.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: Second, Minute, Hour, Day, Month, Year"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Second, Minute, Hour, Day, Month, Year</code></div></div>
+Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Week&#34;, &#34;Month&#34; and &#34;Year&#34;.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Second, Minute, Hour, Day, Week, Month, Year"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Second, Minute, Hour, Day, Week, Month, Year</code></div></div>
   </div>
 </div>
   </div>
@@ -2647,14 +2844,14 @@ each Route will have its own 10rps limit.</div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 8"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">8</code></div></div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.rateLimit.local.rules[].clientSelectors[].headers" data-path-key="|spec|rateLimit|local|rules[]|clientSelectors[]|headers|" data-parent-path="spec.rateLimit.local.rules[].clientSelectors" data-name="headers" data-text="Headers is a list of request headers to match. Multiple header values are ANDed together,
-meaning, a request MUST match all the specified headers. maxItems: 64">
+meaning, a request MUST match all the specified headers. maxItems: 128">
 <summary>
   <span class="prop-name">headers</span>
   <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Headers is a list of request headers to match. Multiple header values are ANDed together,
 meaning, a request MUST match all the specified headers.</div><div class="prop-constraints">
-<div class="schema-constraint" title="maxItems: 64"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">64</code></div></div>
+<div class="schema-constraint" title="maxItems: 128"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">128</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.rateLimit.local.rules[].clientSelectors[].headers[].invert" data-path-key="|spec|rateLimit|local|rules[]|clientSelectors[]|headers[]|invert|" data-parent-path="spec.rateLimit.local.rules[].clientSelectors[].headers" data-name="invert" data-text="Invert specifies whether the value match result will be inverted.
 Do not set this field when Type=&#34;Distinct&#34;, implying matching on any/all unique
@@ -3006,24 +3203,64 @@ The limit is enforced and the request is ratelimited, i.e. a response with
 429 HTTP status code is sent back to the client when
 the selected requests have reached the limit.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.rateLimit.local.rules[].limit.fromMetadata" data-path-key="|spec|rateLimit|local|rules[]|limit|fromMetadata|" data-parent-path="spec.rateLimit.local.rules[].limit" data-name="fromMetadata" data-text="FromMetadata sources the limit value from per-request dynamic metadata.
+When the referenced metadata value is present, it overrides Requests/Unit for that
+request; otherwise Requests/Unit are used as the default.
+
+The referenced metadata value must be a struct containing an integer &#34;requests_per_unit&#34;
+property and a &#34;unit&#34; property with a value parseable to a RateLimitUnit. An upstream
+filter (e.g. ext_proc) is responsible for writing this struct into dynamic metadata.
+
+Only supported for Global Rate Limits.">
+<summary>
+  <span class="prop-name">fromMetadata</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">FromMetadata sources the limit value from per-request dynamic metadata.
+When the referenced metadata value is present, it overrides Requests/Unit for that
+request; otherwise Requests/Unit are used as the default.
+
+The referenced metadata value must be a struct containing an integer &#34;requests_per_unit&#34;
+property and a &#34;unit&#34; property with a value parseable to a RateLimitUnit. An upstream
+filter (e.g. ext_proc) is responsible for writing this struct into dynamic metadata.
+
+Only supported for Global Rate Limits.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.rateLimit.local.rules[].limit.fromMetadata.key" data-path-key="|spec|rateLimit|local|rules[]|limit|fromMetadata|key|" data-parent-path="spec.rateLimit.local.rules[].limit.fromMetadata" data-name="key" data-text="Key is the key to retrieve the limit value from within the namespaced filter metadata. minLength: 1">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key to retrieve the limit value from within the namespaced filter metadata.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.rateLimit.local.rules[].limit.fromMetadata.namespace" data-path-key="|spec|rateLimit|local|rules[]|limit|fromMetadata|namespace|" data-parent-path="spec.rateLimit.local.rules[].limit.fromMetadata" data-name="namespace" data-text="Namespace is the namespace of the dynamic metadata. minLength: 1">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Namespace is the namespace of the dynamic metadata.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.rateLimit.local.rules[].limit.requests" data-path-key="|spec|rateLimit|local|rules[]|limit|requests|" data-parent-path="spec.rateLimit.local.rules[].limit" data-name="requests" data-text="Requests is the number of requests (or cost units, when used with
-cost-based rate limiting) allowed per Unit. format: int64 minimum: 1 maximum: 4.294967295e&#43;09">
+cost-based rate limiting) allowed per Unit. format: int64 minimum: 0 maximum: 4.294967295e&#43;09">
   <span class="prop-name">requests</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Requests is the number of requests (or cost units, when used with
 cost-based rate limiting) allowed per Unit.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
-<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maximum: 4.294967295e&#43;09"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">4.294967295e&#43;09</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.rateLimit.local.rules[].limit.unit" data-path-key="|spec|rateLimit|local|rules[]|limit|unit|" data-parent-path="spec.rateLimit.local.rules[].limit" data-name="unit" data-text="RateLimitUnit specifies the intervals for setting rate limits.
-Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Month&#34; and &#34;Year&#34;. enum: Second, Minute, Hour, Day, Month, Year">
+Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Week&#34;, &#34;Month&#34; and &#34;Year&#34;. enum: Second, Minute, Hour, Day, Week, Month, Year">
   <span class="prop-name">unit</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">RateLimitUnit specifies the intervals for setting rate limits.
-Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Month&#34; and &#34;Year&#34;.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: Second, Minute, Hour, Day, Month, Year"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Second, Minute, Hour, Day, Month, Year</code></div></div>
+Valid RateLimitUnit values are &#34;Second&#34;, &#34;Minute&#34;, &#34;Hour&#34;, &#34;Day&#34;, &#34;Week&#34;, &#34;Month&#34; and &#34;Year&#34;.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Second, Minute, Hour, Day, Week, Month, Year"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Second, Minute, Hour, Day, Week, Month, Year</code></div></div>
   </div>
 </div>
   </div>
@@ -3146,10 +3383,60 @@ If multiple configurations are specified, the first one to match wins.</div>
 </summary>
 <div class="prop-content"><div class="prop-desc">Match configuration.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.responseOverride[].match.responseHeaders" data-path-key="|spec|responseOverride[]|match|responseHeaders|" data-parent-path="spec.responseOverride[].match" data-name="responseHeaders" data-text="Response headers to match on. The match evaluates to true if all matches are successful. minItems: 1 maxItems: 16">
+<summary>
+  <span class="prop-name">responseHeaders</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Response headers to match on. The match evaluates to true if all matches are successful.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 16"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">16</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.responseOverride[].match.responseHeaders[].name" data-path-key="|spec|responseOverride[]|match|responseHeaders[]|name|" data-parent-path="spec.responseOverride[].match.responseHeaders" data-name="name" data-text="Name of the HTTP header.
+The header name is case-insensitive.
+For example, &#34;Foo&#34; and &#34;foo&#34; are considered the same header. pattern: ^[A-Za-z0-9!#$%&amp;&#39;*&#43;\-.^_\x60|~]&#43;$ minLength: 1 maxLength: 256">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the HTTP header.
+The header name is case-insensitive.
+For example, &#34;Foo&#34; and &#34;foo&#34; are considered the same header.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[A-Za-z0-9!#$%&amp;&#39;*&#43;\-.^_\x60|~]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[A-Za-z0-9!#$%&amp;&#39;*&#43;\-.^_\x60|~]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 256"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">256</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.responseOverride[].match.responseHeaders[].value" data-path-key="|spec|responseOverride[]|match|responseHeaders[]|value|" data-parent-path="spec.responseOverride[].match.responseHeaders" data-name="value" data-text="Value within the HTTP header to match against.">
+<summary>
+  <span class="prop-name">value</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Value within the HTTP header to match against.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.responseOverride[].match.responseHeaders[].value.type" data-path-key="|spec|responseOverride[]|match|responseHeaders[]|value|type|" data-parent-path="spec.responseOverride[].match.responseHeaders[].value" data-name="type" data-text="Type specifies how to match against a string. enum: Exact, Prefix, Suffix, RegularExpression">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Type specifies how to match against a string.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Exact, Prefix, Suffix, RegularExpression"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Exact, Prefix, Suffix, RegularExpression</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.responseOverride[].match.responseHeaders[].value.value" data-path-key="|spec|responseOverride[]|match|responseHeaders[]|value|value|" data-parent-path="spec.responseOverride[].match.responseHeaders[].value" data-name="value" data-text="Value specifies the string value that the match must have. minLength: 1 maxLength: 1024">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Value specifies the string value that the match must have.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.responseOverride[].match.statusCodes" data-path-key="|spec|responseOverride[]|match|statusCodes|" data-parent-path="spec.responseOverride[].match" data-name="statusCodes" data-text="Status code to match on. The match evaluates to true if any of the matches are successful. minItems: 1 maxItems: 50">
 <summary>
   <span class="prop-name">statusCodes</span>
-  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
+  <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">Status code to match on. The match evaluates to true if any of the matches are successful.</div><div class="prop-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
@@ -4195,6 +4482,38 @@ This takes precedence over EnvoyProxy tracing when set.">
 
 This takes precedence over EnvoyProxy tracing when set.</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.clientSamplingFraction" data-path-key="|spec|telemetry|tracing|clientSamplingFraction|" data-parent-path="spec.telemetry.tracing" data-name="clientSamplingFraction" data-text="ClientSamplingFraction represents the fraction of requests that should be
+selected for tracing when requested by the client.
+If unspecified, client-forced tracing is disabled by default and users must
+set this field to opt in.">
+<summary>
+  <span class="prop-name">clientSamplingFraction</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ClientSamplingFraction represents the fraction of requests that should be
+selected for tracing when requested by the client.
+If unspecified, client-forced tracing is disabled by default and users must
+set this field to opt in.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.clientSamplingFraction.denominator" data-path-key="|spec|telemetry|tracing|clientSamplingFraction|denominator|" data-parent-path="spec.telemetry.tracing.clientSamplingFraction" data-name="denominator" data-text="format: int32 minimum: 1">
+  <span class="prop-name">denominator</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.clientSamplingFraction.numerator" data-path-key="|spec|telemetry|tracing|clientSamplingFraction|numerator|" data-parent-path="spec.telemetry.tracing.clientSamplingFraction" data-name="numerator" data-text="format: int32 minimum: 0">
+  <span class="prop-name">numerator</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.customTags" data-path-key="|spec|telemetry|tracing|customTags|" data-parent-path="spec.telemetry.tracing" data-name="customTags" data-text="CustomTags defines the custom tags to add to each span.
 If provider is kubernetes, pod name and namespace are added by default.
 
@@ -4207,6 +4526,34 @@ If provider is kubernetes, pod name and namespace are added by default.
 Deprecated: Use Tags instead.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.telemetry.tracing.overallSamplingFraction" data-path-key="|spec|telemetry|tracing|overallSamplingFraction|" data-parent-path="spec.telemetry.tracing" data-name="overallSamplingFraction" data-text="OverallSamplingFraction represents the fraction of requests that should be
+selected for tracing after all other sampling checks have been applied.">
+<summary>
+  <span class="prop-name">overallSamplingFraction</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">OverallSamplingFraction represents the fraction of requests that should be
+selected for tracing after all other sampling checks have been applied.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.overallSamplingFraction.denominator" data-path-key="|spec|telemetry|tracing|overallSamplingFraction|denominator|" data-parent-path="spec.telemetry.tracing.overallSamplingFraction" data-name="denominator" data-text="format: int32 minimum: 1">
+  <span class="prop-name">denominator</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.telemetry.tracing.overallSamplingFraction.numerator" data-path-key="|spec|telemetry|tracing|overallSamplingFraction|numerator|" data-parent-path="spec.telemetry.tracing.overallSamplingFraction" data-name="numerator" data-text="format: int32 minimum: 0">
+  <span class="prop-name">numerator</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.telemetry.tracing.samplingFraction" data-path-key="|spec|telemetry|tracing|samplingFraction|" data-parent-path="spec.telemetry.tracing" data-name="samplingFraction" data-text="SamplingFraction represents the fraction of requests that should be
 selected for tracing if no prior sampling decision has been made.">
 <summary>
