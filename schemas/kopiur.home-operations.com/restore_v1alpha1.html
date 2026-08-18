@@ -1798,6 +1798,28 @@ occurred outside a kopia invocation.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="status.waitStartedAt" data-path-key="|status|waitStartedAt|" data-parent-path="status" data-name="waitStartedAt" data-text="When the `policy.waitTimeout` window OPENED (RFC3339) — the first reconcile on which
+the restore could actually proceed (its repository reached `Ready`, and for a
+`target.populator` a PVC already claims it), NOT when the Restore was created. If the
+referenced `Repository`/`SnapshotPolicy` object doesn&#39;t exist yet, the readiness gate
+falls through unverified and the anchor can be stamped as early as creation. Stamped
+once and then honored verbatim, so the window survives controller restarts and Job pod
+retries; cleared when a populator re-opens resolution for a re-created claim, so that
+claim gets the full window again. Absent means the window has not opened yet (or no
+`policy.waitTimeout` is configured, in which case there is no window to anchor).">
+  <span class="prop-name">waitStartedAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">When the `policy.waitTimeout` window OPENED (RFC3339) — the first reconcile on which
+the restore could actually proceed (its repository reached `Ready`, and for a
+`target.populator` a PVC already claims it), NOT when the Restore was created. If the
+referenced `Repository`/`SnapshotPolicy` object doesn&#39;t exist yet, the readiness gate
+falls through unverified and the anchor can be stamped as early as creation. Stamped
+once and then honored verbatim, so the window survives controller restarts and Job pod
+retries; cleared when a populator re-opens resolution for a re-created claim, so that
+claim gets the full window again. Absent means the window has not opened yet (or no
+`policy.waitTimeout` is configured, in which case there is no window to anchor).
+  </div>
+</div>
   </div>
 </div>
 </details>

@@ -1703,6 +1703,47 @@
             "null"
           ]
         },
+        "manualRun": {
+          "additionalProperties": false,
+          "description": "State of the most recent annotation-requested out-of-band run\n(`kopiur.home-operations.com/run-requested`); absent until one is\nrequested.",
+          "nullable": true,
+          "properties": {
+            "completedAt": {
+              "description": "RFC3339 instant the run reached a terminal phase.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "phase": {
+              "description": "Lifecycle of a manual replication run. Closed enum.",
+              "enum": [
+                "Pending",
+                "Running",
+                "Succeeded",
+                "Failed"
+              ],
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "requestedAt": {
+              "description": "The `run-requested` annotation value this status reflects (RFC3339),\nverbatim as the user wrote it — it pins WHICH request is answered.",
+              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "nextScheduledAt": {
           "description": "RFC3339 timestamp of the next scheduled replication run (cron + jitter, pinned).",
           "nullable": true,

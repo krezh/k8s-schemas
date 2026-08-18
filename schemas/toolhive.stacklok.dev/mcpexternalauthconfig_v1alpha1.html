@@ -1429,6 +1429,140 @@ If empty, defaults to 7 days (168h).<div class="leaf-constraints">
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers" data-path-key="|spec|embeddedAuthServer|trustedIssuers|" data-parent-path="spec.embeddedAuthServer" data-name="trustedIssuers" data-text="TrustedIssuers configures external OIDC issuers whose tokens are
+accepted as RFC 8693 subject tokens during token exchange, in addition
+to self-issued subject tokens. Empty (the default) means only
+self-issued subject tokens are accepted. See
+docs/arch/17-token-exchange-delegation.md for the trust model. maxItems: 20">
+<summary>
+  <span class="prop-name">trustedIssuers</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TrustedIssuers configures external OIDC issuers whose tokens are
+accepted as RFC 8693 subject tokens during token exchange, in addition
+to self-issued subject tokens. Empty (the default) means only
+self-issued subject tokens are accepted. See
+docs/arch/17-token-exchange-delegation.md for the trust model.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 20"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">20</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].actorClaim" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|actorClaim|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="actorClaim" data-text="ActorClaim names the claim identifying the client that requested the
+subject token from this external issuer (used by allowedActors below).
+Defaults to &#34;azp&#34; when empty; use &#34;appid&#34; for Microsoft Entra v1, &#34;cid&#34;
+for Okta. The special value &#34;client_id&#34; reads the subject token&#39;s
+client_id claim instead. maxLength: 64">
+  <span class="prop-name">actorClaim</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ActorClaim names the claim identifying the client that requested the
+subject token from this external issuer (used by allowedActors below).
+Defaults to &#34;azp&#34; when empty; use &#34;appid&#34; for Microsoft Entra v1, &#34;cid&#34;
+for Okta. The special value &#34;client_id&#34; reads the subject token&#39;s
+client_id claim instead.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 64"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].allowMayAct" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|allowMayAct|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="allowMayAct" data-text="AllowMayAct permits this external issuer&#39;s may_act claim to authorize
+delegation. Defaults to false; external issuers must be opted in
+explicitly because may_act bypasses allowedActors. Does not affect
+self-issued subject tokens. The wildcard is never permitted alongside
+specific allowedDelegateClients, regardless of this setting.">
+  <span class="prop-name">allowMayAct</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowMayAct permits this external issuer&#39;s may_act claim to authorize
+delegation. Defaults to false; external issuers must be opted in
+explicitly because may_act bypasses allowedActors. Does not affect
+self-issued subject tokens. The wildcard is never permitted alongside
+specific allowedDelegateClients, regardless of this setting.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].allowPrivateIPs" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|allowPrivateIPs|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="allowPrivateIPs" data-text="AllowPrivateIPs permits OIDC discovery and JWKS fetches for THIS issuer
+to resolve to a private or loopback address. Use only when the issuer
+is hosted inside the same cluster and has no public endpoint. Requires
+jwksUrl to be set explicitly (enforced at reconcile time), since
+otherwise OIDC discovery — fetched from the external issuer itself —
+would choose the private dial target.">
+  <span class="prop-name">allowPrivateIPs</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowPrivateIPs permits OIDC discovery and JWKS fetches for THIS issuer
+to resolve to a private or loopback address. Use only when the issuer
+is hosted inside the same cluster and has no public endpoint. Requires
+jwksUrl to be set explicitly (enforced at reconcile time), since
+otherwise OIDC discovery — fetched from the external issuer itself —
+would choose the private dial target.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].allowedActors" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|allowedActors|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="allowedActors" data-text="AllowedActors is the allowlist of actorClaim values authorized to
+exchange a subject token from this issuer when it carries no
+&#34;may_act&#34; claim. Empty denies every token unless allowMayAct is true
+and the token carries a permitted may_act claim. maxItems: 50">
+  <span class="prop-name">allowedActors</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">AllowedActors is the allowlist of actorClaim values authorized to
+exchange a subject token from this issuer when it carries no
+&#34;may_act&#34; claim. Empty denies every token unless allowMayAct is true
+and the token carries a permitted may_act claim.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].allowedDelegateClients" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|allowedDelegateClients|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="allowedDelegateClients" data-text="AllowedDelegateClients restricts which ToolHive client IDs may
+exchange a subject token from this issuer. Required; set it to [&#34;*&#34;]
+to permit any confidential client holding the token-exchange grant. The
+wildcard must be the only entry; otherwise list specific client IDs to
+bind delegation to them. minItems: 1 maxItems: 50">
+  <span class="prop-name">allowedDelegateClients</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">AllowedDelegateClients restricts which ToolHive client IDs may
+exchange a subject token from this issuer. Required; set it to [&#34;*&#34;]
+to permit any confidential client holding the token-exchange grant. The
+wildcard must be the only entry; otherwise list specific client IDs to
+bind delegation to them.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].expectedAudience" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|expectedAudience|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="expectedAudience" data-text="ExpectedAudience is the expected &#34;aud&#34; claim value that must appear in
+the token&#39;s audience list. This should be a resource/API identifier
+(e.g. a URI), not a client ID. minLength: 1 maxLength: 2048">
+  <span class="prop-name">expectedAudience</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ExpectedAudience is the expected &#34;aud&#34; claim value that must appear in
+the token&#39;s audience list. This should be a resource/API identifier
+(e.g. a URI), not a client ID.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].insecureAllowHTTP" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|insecureAllowHTTP|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="insecureAllowHTTP" data-text="InsecureAllowHTTP permits plain-HTTP OIDC discovery and JWKS fetches
+for THIS issuer only. Development and testing only — never set in
+production.">
+  <span class="prop-name">insecureAllowHTTP</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureAllowHTTP permits plain-HTTP OIDC discovery and JWKS fetches
+for THIS issuer only. Development and testing only — never set in
+production.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].issuerUrl" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|issuerUrl|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="issuerUrl" data-text="IssuerURL is the expected &#34;iss&#34; claim value (exact match). minLength: 1 maxLength: 2048">
+  <span class="prop-name">issuerUrl</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">IssuerURL is the expected &#34;iss&#34; claim value (exact match).<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.trustedIssuers[].jwksUrl" data-path-key="|spec|embeddedAuthServer|trustedIssuers[]|jwksUrl|" data-parent-path="spec.embeddedAuthServer.trustedIssuers" data-name="jwksUrl" data-text="JWKSURL is the URL to fetch the issuer&#39;s JSON Web Key Set from. If
+empty, it is resolved via OIDC discovery at
+{issuerUrl}/.well-known/openid-configuration. maxLength: 2048">
+  <span class="prop-name">jwksUrl</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">JWKSURL is the URL to fetch the issuer&#39;s JSON Web Key Set from. If
+empty, it is resolved via OIDC discovery at
+{issuerUrl}/.well-known/openid-configuration.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.embeddedAuthServer.upstreamProviders" data-path-key="|spec|embeddedAuthServer|upstreamProviders|" data-parent-path="spec.embeddedAuthServer" data-name="upstreamProviders" data-text="UpstreamProviders configures connections to upstream Identity Providers.
 The embedded auth server delegates authentication to these providers.
 MCPServer and MCPRemoteProxy support a single upstream; VirtualMCPServer supports multiple. minItems: 1">

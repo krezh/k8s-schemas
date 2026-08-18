@@ -4066,6 +4066,1024 @@ on every `SnapshotPolicy.verification`, `RepositoryReplication.schedule`, and
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.seed" data-path-key="|spec|seed|" data-parent-path="spec" data-name="seed" data-text="Initialize this repository from an existing replica on its FIRST
+bootstrap (issue #380) — a disaster-recovery entry point.
+
+Armed only while the repository has never been initialized
+(`status.uniqueId` unset) **and** the mover&#39;s connect reports the backend
+uninitialized; on an already-initialized repository it is a documented
+no-op (`Seeded=True`, reason `AlreadyInitialized`), so it is safe to
+leave standing in a GitOps manifest. When armed it also replaces
+`spec.create`&#39;s fallback: the repository is seeded or the bootstrap
+fails, never silently created empty.">
+<summary>
+  <span class="prop-name">seed</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Initialize this repository from an existing replica on its FIRST
+bootstrap (issue #380) — a disaster-recovery entry point.
+
+Armed only while the repository has never been initialized
+(`status.uniqueId` unset) **and** the mover&#39;s connect reports the backend
+uninitialized; on an already-initialized repository it is a documented
+no-op (`Seeded=True`, reason `AlreadyInitialized`), so it is safe to
+leave standing in a GitOps manifest. When armed it also replaces
+`spec.create`&#39;s fallback: the repository is seeded or the bootstrap
+fails, never silently created empty.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.allowEmptySource" data-path-key="|spec|seed|allowEmptySource|" data-parent-path="spec.seed" data-name="allowEmptySource" data-text="Accept a source that holds zero snapshots (default `false`).
+
+A mirror that answers but is empty is almost always a mis-pointed
+bucket/prefix, and silently seeding nothing would hand you a `Ready`
+repository with no history — the failure mode #380 is about. By default
+the bootstrap fails loudly and retries; set this when an empty source is
+genuinely expected (e.g. re-homing a repository whose history was
+deliberately pruned to nothing).">
+  <span class="prop-name">allowEmptySource</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Accept a source that holds zero snapshots (default `false`).
+
+A mirror that answers but is empty is almost always a mis-pointed
+bucket/prefix, and silently seeding nothing would hand you a `Ready`
+repository with no history — the failure mode #380 is about. By default
+the bootstrap fails loudly and retries; set this when an empty source is
+genuinely expected (e.g. re-homing a repository whose history was
+deliberately pruned to nothing).
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.seed.credentialProjection" data-path-key="|spec|seed|credentialProjection|" data-parent-path="spec.seed" data-name="credentialProjection" data-text="Opt-in projection of the SOURCE repository&#39;s credential Secrets into the
+seeding mover Job&#39;s namespace. **Migrate mode only in practice** — a
+blob-mode source&#39;s credentials must already be in the namespace the
+bootstrap Job runs in (this CR&#39;s own namespace for a `Repository`; for a
+`ClusterRepository` the operator&#39;s namespace, unless
+`encryption.passwordSecretRef.namespace` pins another, in which case the
+Job runs there). Requires the operator&#39;s `features.credentialProjection`
+install flag.">
+<summary>
+  <span class="prop-name">credentialProjection</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Opt-in projection of the SOURCE repository&#39;s credential Secrets into the
+seeding mover Job&#39;s namespace. **Migrate mode only in practice** — a
+blob-mode source&#39;s credentials must already be in the namespace the
+bootstrap Job runs in (this CR&#39;s own namespace for a `Repository`; for a
+`ClusterRepository` the operator&#39;s namespace, unless
+`encryption.passwordSecretRef.namespace` pins another, in which case the
+Job runs there). Requires the operator&#39;s `features.credentialProjection`
+install flag.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.credentialProjection.enabled" data-path-key="|spec|seed|credentialProjection|enabled|" data-parent-path="spec.seed.credentialProjection" data-name="enabled" data-text="Copy the repository&#39;s credential Secret(s) into the namespace of each mover Job; off by default.">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Copy the repository&#39;s credential Secret(s) into the namespace of each mover Job; off by default.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.failurePolicy" data-path-key="|spec|seed|failurePolicy|" data-parent-path="spec.seed" data-name="failurePolicy" data-text="Deadline/backoff for the **seeding** bootstrap Job. An absent
+`activeDeadlineSeconds` means **24h** here, rather than the 120s a
+routine connect gets — a seed copies a whole repository, once. Only
+applied while the seed is armed; later connects to the now-initialized
+repository use `spec.bootstrap.failurePolicy` as before.">
+<summary>
+  <span class="prop-name">failurePolicy</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Deadline/backoff for the **seeding** bootstrap Job. An absent
+`activeDeadlineSeconds` means **24h** here, rather than the 120s a
+routine connect gets — a seed copies a whole repository, once. Only
+applied while the seed is armed; later connects to the now-initialized
+repository use `spec.bootstrap.failurePolicy` as before.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.failurePolicy.activeDeadlineSeconds" data-path-key="|spec|seed|failurePolicy|activeDeadlineSeconds|" data-parent-path="spec.seed.failurePolicy" data-name="activeDeadlineSeconds" data-text="Mover `Job.spec.activeDeadlineSeconds` — wall-clock cap after which a running run is killed. format: int64">
+  <span class="prop-name">activeDeadlineSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Mover `Job.spec.activeDeadlineSeconds` — wall-clock cap after which a running run is killed.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.failurePolicy.backoffLimit" data-path-key="|spec|seed|failurePolicy|backoffLimit|" data-parent-path="spec.seed.failurePolicy" data-name="backoffLimit" data-text="Mover `Job.spec.backoffLimit` — retries before a failed run is marked failed. format: int32">
+  <span class="prop-name">backoffLimit</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Mover `Job.spec.backoffLimit` — retries before a failed run is marked failed.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.failurePolicy.podStartupDeadlineSeconds" data-path-key="|spec|seed|failurePolicy|podStartupDeadlineSeconds|" data-parent-path="spec.seed.failurePolicy" data-name="podStartupDeadlineSeconds" data-text="Seconds a non-starting (wedged) mover pod may sit before the run is failed; default 300s. format: int64">
+  <span class="prop-name">podStartupDeadlineSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Seconds a non-starting (wedged) mover pod may sit before the run is failed; default 300s.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from" data-path-key="|spec|seed|from|" data-parent-path="spec.seed" data-name="from" data-text="Where the seed data comes from: exactly one of a bare storage backend
+(blob mode) or another repository CR (migrate mode).">
+<summary>
+  <span class="prop-name">from</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Where the seed data comes from: exactly one of a bare storage backend
+(blob mode) or another repository CR (migrate mode).</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend" data-path-key="|spec|seed|from|backend|" data-parent-path="spec.seed.from" data-name="backend" data-text="A bare storage backend holding a byte-for-byte mirror of a kopia
+repository (blob mode, `kopia repository sync-to`). The mirror&#39;s format
+and encryption password are inherited verbatim, so this repository&#39;s
+`encryption.passwordSecretRef` must already hold the MIRROR&#39;s password
+and `spec.create`&#39;s format knobs are refused as inert.">
+<summary>
+  <span class="prop-name">backend</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A bare storage backend holding a byte-for-byte mirror of a kopia
+repository (blob mode, `kopia repository sync-to`). The mirror&#39;s format
+and encryption password are inherited verbatim, so this repository&#39;s
+`encryption.passwordSecretRef` must already hold the MIRROR&#39;s password
+and `spec.create`&#39;s format knobs are refused as inert.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.azure" data-path-key="|spec|seed|from|backend|azure|" data-parent-path="spec.seed.from.backend" data-name="azure" data-text="Azure Blob Storage.">
+<summary>
+  <span class="prop-name">azure</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Azure Blob Storage.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.azure.auth" data-path-key="|spec|seed|from|backend|azure|auth|" data-parent-path="spec.seed.from.backend.azure" data-name="auth" data-text="Access credentials (Secret ref / workload identity).">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Access credentials (Secret ref / workload identity).</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.azure.auth.secretRef" data-path-key="|spec|seed|from|backend|azure|auth|secretRef|" data-parent-path="spec.seed.from.backend.azure.auth" data-name="secretRef" data-text="Secret holding the backend&#39;s static access credentials (mutually exclusive with `workloadIdentity`).">
+<summary>
+  <span class="prop-name">secretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the backend&#39;s static access credentials (mutually exclusive with `workloadIdentity`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.azure.auth.secretRef.name" data-path-key="|spec|seed|from|backend|azure|auth|secretRef|name|" data-parent-path="spec.seed.from.backend.azure.auth.secretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.azure.auth.secretRef.namespace" data-path-key="|spec|seed|from|backend|azure|auth|secretRef|namespace|" data-parent-path="spec.seed.from.backend.azure.auth.secretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.azure.auth.workloadIdentity" data-path-key="|spec|seed|from|backend|azure|auth|workloadIdentity|" data-parent-path="spec.seed.from.backend.azure.auth" data-name="workloadIdentity" data-text="Use a cloud-federated ServiceAccount instead of static keys (mutually exclusive with `secretRef`).">
+<summary>
+  <span class="prop-name">workloadIdentity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Use a cloud-federated ServiceAccount instead of static keys (mutually exclusive with `secretRef`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.azure.auth.workloadIdentity.serviceAccountName" data-path-key="|spec|seed|from|backend|azure|auth|workloadIdentity|serviceAccountName|" data-parent-path="spec.seed.from.backend.azure.auth.workloadIdentity" data-name="serviceAccountName" data-text="Name of the `ServiceAccount` the mover pod runs as, resolved in the Job&#39;s own namespace.">
+  <span class="prop-name">serviceAccountName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `ServiceAccount` the mover pod runs as, resolved in the Job&#39;s own namespace.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.azure.container" data-path-key="|spec|seed|from|backend|azure|container|" data-parent-path="spec.seed.from.backend.azure" data-name="container" data-text="Blob container holding the kopia repository.">
+  <span class="prop-name">container</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Blob container holding the kopia repository.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.azure.prefix" data-path-key="|spec|seed|from|backend|azure|prefix|" data-parent-path="spec.seed.from.backend.azure" data-name="prefix" data-text="Blob-name prefix within the container; empty/absent means the container root.">
+  <span class="prop-name">prefix</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Blob-name prefix within the container; empty/absent means the container root.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.azure.storageAccount" data-path-key="|spec|seed|from|backend|azure|storageAccount|" data-parent-path="spec.seed.from.backend.azure" data-name="storageAccount" data-text="Storage-account name (when not inferred from credentials).">
+  <span class="prop-name">storageAccount</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Storage-account name (when not inferred from credentials).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.b2" data-path-key="|spec|seed|from|backend|b2|" data-parent-path="spec.seed.from.backend" data-name="b2" data-text="Backblaze B2.">
+<summary>
+  <span class="prop-name">b2</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Backblaze B2.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.b2.auth" data-path-key="|spec|seed|from|backend|b2|auth|" data-parent-path="spec.seed.from.backend.b2" data-name="auth" data-text="Access credentials (application key ID/key Secret); Secret-only.">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Access credentials (application key ID/key Secret); Secret-only.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.b2.auth.secretRef" data-path-key="|spec|seed|from|backend|b2|auth|secretRef|" data-parent-path="spec.seed.from.backend.b2.auth" data-name="secretRef" data-text="Secret holding the backend&#39;s access credentials, read by well-known keys.">
+<summary>
+  <span class="prop-name">secretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the backend&#39;s access credentials, read by well-known keys.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.b2.auth.secretRef.name" data-path-key="|spec|seed|from|backend|b2|auth|secretRef|name|" data-parent-path="spec.seed.from.backend.b2.auth.secretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.b2.auth.secretRef.namespace" data-path-key="|spec|seed|from|backend|b2|auth|secretRef|namespace|" data-parent-path="spec.seed.from.backend.b2.auth.secretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.b2.bucket" data-path-key="|spec|seed|from|backend|b2|bucket|" data-parent-path="spec.seed.from.backend.b2" data-name="bucket" data-text="B2 bucket holding the kopia repository.">
+  <span class="prop-name">bucket</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">B2 bucket holding the kopia repository.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.b2.prefix" data-path-key="|spec|seed|from|backend|b2|prefix|" data-parent-path="spec.seed.from.backend.b2" data-name="prefix" data-text="Object-name prefix within the bucket; empty/absent means the bucket root.">
+  <span class="prop-name">prefix</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Object-name prefix within the bucket; empty/absent means the bucket root.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.filesystem" data-path-key="|spec|seed|from|backend|filesystem|" data-parent-path="spec.seed.from.backend" data-name="filesystem" data-text="A local filesystem path, backed by a PVC the operator mounts into the mover.">
+<summary>
+  <span class="prop-name">filesystem</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A local filesystem path, backed by a PVC the operator mounts into the mover.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.filesystem.path" data-path-key="|spec|seed|from|backend|filesystem|path|" data-parent-path="spec.seed.from.backend.filesystem" data-name="path" data-text="Mount path inside the mover pod where kopia writes the repository (e.g. `/repo`).">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Mount path inside the mover pod where kopia writes the repository (e.g. `/repo`).
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.filesystem.volume" data-path-key="|spec|seed|from|backend|filesystem|volume|" data-parent-path="spec.seed.from.backend.filesystem" data-name="volume" data-text="What backs `path`: a PVC or an inline NFS export; absent for a path already on the node/image.">
+<summary>
+  <span class="prop-name">volume</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">What backs `path`: a PVC or an inline NFS export; absent for a path already on the node/image.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.filesystem.volume.nfs" data-path-key="|spec|seed|from|backend|filesystem|volume|nfs|" data-parent-path="spec.seed.from.backend.filesystem.volume" data-name="nfs" data-text="An inline NFS export mounted directly (no PVC).">
+<summary>
+  <span class="prop-name">nfs</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">An inline NFS export mounted directly (no PVC).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.filesystem.volume.nfs.path" data-path-key="|spec|seed|from|backend|filesystem|volume|nfs|path|" data-parent-path="spec.seed.from.backend.filesystem.volume.nfs" data-name="path" data-text="Exported path on the NFS server (e.g. `/export/kopia` or `/mnt/eros/Media`).">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Exported path on the NFS server (e.g. `/export/kopia` or `/mnt/eros/Media`).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.filesystem.volume.nfs.server" data-path-key="|spec|seed|from|backend|filesystem|volume|nfs|server|" data-parent-path="spec.seed.from.backend.filesystem.volume.nfs" data-name="server" data-text="NFS server hostname or IP (e.g. `nas.lan` or `expanse.internal`).">
+  <span class="prop-name">server</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">NFS server hostname or IP (e.g. `nas.lan` or `expanse.internal`).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.filesystem.volume.pvc" data-path-key="|spec|seed|from|backend|filesystem|volume|pvc|" data-parent-path="spec.seed.from.backend.filesystem.volume" data-name="pvc" data-text="A `PersistentVolumeClaim` mounted read-write at the repo path.">
+<summary>
+  <span class="prop-name">pvc</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">A `PersistentVolumeClaim` mounted read-write at the repo path.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.filesystem.volume.pvc.name" data-path-key="|spec|seed|from|backend|filesystem|volume|pvc|name|" data-parent-path="spec.seed.from.backend.filesystem.volume.pvc" data-name="name" data-text="Name of the `PersistentVolumeClaim` to mount (in the mover&#39;s namespace).">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `PersistentVolumeClaim` to mount (in the mover&#39;s namespace).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.gcs" data-path-key="|spec|seed|from|backend|gcs|" data-parent-path="spec.seed.from.backend" data-name="gcs" data-text="Google Cloud Storage.">
+<summary>
+  <span class="prop-name">gcs</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Google Cloud Storage.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.gcs.auth" data-path-key="|spec|seed|from|backend|gcs|auth|" data-parent-path="spec.seed.from.backend.gcs" data-name="auth" data-text="Access credentials (service-account key Secret / workload identity).">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Access credentials (service-account key Secret / workload identity).</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.gcs.auth.secretRef" data-path-key="|spec|seed|from|backend|gcs|auth|secretRef|" data-parent-path="spec.seed.from.backend.gcs.auth" data-name="secretRef" data-text="Secret holding the backend&#39;s static access credentials (mutually exclusive with `workloadIdentity`).">
+<summary>
+  <span class="prop-name">secretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the backend&#39;s static access credentials (mutually exclusive with `workloadIdentity`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gcs.auth.secretRef.name" data-path-key="|spec|seed|from|backend|gcs|auth|secretRef|name|" data-parent-path="spec.seed.from.backend.gcs.auth.secretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gcs.auth.secretRef.namespace" data-path-key="|spec|seed|from|backend|gcs|auth|secretRef|namespace|" data-parent-path="spec.seed.from.backend.gcs.auth.secretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.gcs.auth.workloadIdentity" data-path-key="|spec|seed|from|backend|gcs|auth|workloadIdentity|" data-parent-path="spec.seed.from.backend.gcs.auth" data-name="workloadIdentity" data-text="Use a cloud-federated ServiceAccount instead of static keys (mutually exclusive with `secretRef`).">
+<summary>
+  <span class="prop-name">workloadIdentity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Use a cloud-federated ServiceAccount instead of static keys (mutually exclusive with `secretRef`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gcs.auth.workloadIdentity.serviceAccountName" data-path-key="|spec|seed|from|backend|gcs|auth|workloadIdentity|serviceAccountName|" data-parent-path="spec.seed.from.backend.gcs.auth.workloadIdentity" data-name="serviceAccountName" data-text="Name of the `ServiceAccount` the mover pod runs as, resolved in the Job&#39;s own namespace.">
+  <span class="prop-name">serviceAccountName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `ServiceAccount` the mover pod runs as, resolved in the Job&#39;s own namespace.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gcs.bucket" data-path-key="|spec|seed|from|backend|gcs|bucket|" data-parent-path="spec.seed.from.backend.gcs" data-name="bucket" data-text="GCS bucket holding the kopia repository.">
+  <span class="prop-name">bucket</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">GCS bucket holding the kopia repository.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gcs.prefix" data-path-key="|spec|seed|from|backend|gcs|prefix|" data-parent-path="spec.seed.from.backend.gcs" data-name="prefix" data-text="Object-name prefix within the bucket; empty/absent means the bucket root.">
+  <span class="prop-name">prefix</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Object-name prefix within the bucket; empty/absent means the bucket root.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.gdrive" data-path-key="|spec|seed|from|backend|gdrive|" data-parent-path="spec.seed.from.backend" data-name="gdrive" data-text="Google Drive via kopia&#39;s native `gdrive` provider (service-account JSON).
+kopia marks this provider experimental / not maintained, and a native
+gdrive repository is not interchangeable with an rclone-backed Drive remote.">
+<summary>
+  <span class="prop-name">gdrive</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Google Drive via kopia&#39;s native `gdrive` provider (service-account JSON).
+kopia marks this provider experimental / not maintained, and a native
+gdrive repository is not interchangeable with an rclone-backed Drive remote.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.gdrive.credentialsSecretRef" data-path-key="|spec|seed|from|backend|gdrive|credentialsSecretRef|" data-parent-path="spec.seed.from.backend.gdrive" data-name="credentialsSecretRef" data-text="Secret holding the Google service-account JSON used to reach the folder,
+read by the well-known key `KOPIA_GDRIVE_CREDENTIALS`. Absent means kopia
+falls back to ambient credentials (`GOOGLE_APPLICATION_CREDENTIALS` or
+instance metadata).">
+<summary>
+  <span class="prop-name">credentialsSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the Google service-account JSON used to reach the folder,
+read by the well-known key `KOPIA_GDRIVE_CREDENTIALS`. Absent means kopia
+falls back to ambient credentials (`GOOGLE_APPLICATION_CREDENTIALS` or
+instance metadata).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gdrive.credentialsSecretRef.name" data-path-key="|spec|seed|from|backend|gdrive|credentialsSecretRef|name|" data-parent-path="spec.seed.from.backend.gdrive.credentialsSecretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gdrive.credentialsSecretRef.namespace" data-path-key="|spec|seed|from|backend|gdrive|credentialsSecretRef|namespace|" data-parent-path="spec.seed.from.backend.gdrive.credentialsSecretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.gdrive.folderId" data-path-key="|spec|seed|from|backend|gdrive|folderId|" data-parent-path="spec.seed.from.backend.gdrive" data-name="folderId" data-text="Google Drive folder ID that holds the kopia repository.">
+  <span class="prop-name">folderId</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Google Drive folder ID that holds the kopia repository.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.rclone" data-path-key="|spec|seed|from|backend|rclone|" data-parent-path="spec.seed.from.backend" data-name="rclone" data-text="Any rclone remote (kopia shells out to `rclone`), broadening reach to
+providers without a native kopia backend.">
+<summary>
+  <span class="prop-name">rclone</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Any rclone remote (kopia shells out to `rclone`), broadening reach to
+providers without a native kopia backend.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.rclone.configSecretRef" data-path-key="|spec|seed|from|backend|rclone|configSecretRef|" data-parent-path="spec.seed.from.backend.rclone" data-name="configSecretRef" data-text="Secret holding the `rclone.conf` that defines the remote referenced by
+`remote_path`.">
+<summary>
+  <span class="prop-name">configSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the `rclone.conf` that defines the remote referenced by
+`remote_path`.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.rclone.configSecretRef.name" data-path-key="|spec|seed|from|backend|rclone|configSecretRef|name|" data-parent-path="spec.seed.from.backend.rclone.configSecretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.rclone.configSecretRef.namespace" data-path-key="|spec|seed|from|backend|rclone|configSecretRef|namespace|" data-parent-path="spec.seed.from.backend.rclone.configSecretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.rclone.remotePath" data-path-key="|spec|seed|from|backend|rclone|remotePath|" data-parent-path="spec.seed.from.backend.rclone" data-name="remotePath" data-text="rclone path in `remote:path` form (the remote name must exist in the
+supplied rclone config).">
+  <span class="prop-name">remotePath</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">rclone path in `remote:path` form (the remote name must exist in the
+supplied rclone config).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.rclone.startupTimeout" data-path-key="|spec|seed|from|backend|rclone|startupTimeout|" data-parent-path="spec.seed.from.backend.rclone" data-name="startupTimeout" data-text="How long kopia waits for its embedded `rclone serve` to come up before
+failing the connect, as a Go duration (e.g. `2m`). kopia&#39;s default is
+`15s`; raise it for slow remotes whose repository metadata/indexes load
+through the rclone/WebDAV bridge and take longer than the default budget.">
+  <span class="prop-name">startupTimeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">How long kopia waits for its embedded `rclone serve` to come up before
+failing the connect, as a Go duration (e.g. `2m`). kopia&#39;s default is
+`15s`; raise it for slow remotes whose repository metadata/indexes load
+through the rclone/WebDAV bridge and take longer than the default budget.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.s3" data-path-key="|spec|seed|from|backend|s3|" data-parent-path="spec.seed.from.backend" data-name="s3" data-text="Amazon S3 or any S3-compatible object store (MinIO, RustFS, Ceph RGW, …).">
+<summary>
+  <span class="prop-name">s3</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Amazon S3 or any S3-compatible object store (MinIO, RustFS, Ceph RGW, …).</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.s3.auth" data-path-key="|spec|seed|from|backend|s3|auth|" data-parent-path="spec.seed.from.backend.s3" data-name="auth" data-text="Access credentials (Secret ref / workload identity).">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Access credentials (Secret ref / workload identity).</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.s3.auth.secretRef" data-path-key="|spec|seed|from|backend|s3|auth|secretRef|" data-parent-path="spec.seed.from.backend.s3.auth" data-name="secretRef" data-text="Secret holding the backend&#39;s static access credentials (mutually exclusive with `workloadIdentity`).">
+<summary>
+  <span class="prop-name">secretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the backend&#39;s static access credentials (mutually exclusive with `workloadIdentity`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.auth.secretRef.name" data-path-key="|spec|seed|from|backend|s3|auth|secretRef|name|" data-parent-path="spec.seed.from.backend.s3.auth.secretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.auth.secretRef.namespace" data-path-key="|spec|seed|from|backend|s3|auth|secretRef|namespace|" data-parent-path="spec.seed.from.backend.s3.auth.secretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.s3.auth.workloadIdentity" data-path-key="|spec|seed|from|backend|s3|auth|workloadIdentity|" data-parent-path="spec.seed.from.backend.s3.auth" data-name="workloadIdentity" data-text="Use a cloud-federated ServiceAccount instead of static keys (mutually exclusive with `secretRef`).">
+<summary>
+  <span class="prop-name">workloadIdentity</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Use a cloud-federated ServiceAccount instead of static keys (mutually exclusive with `secretRef`).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.auth.workloadIdentity.serviceAccountName" data-path-key="|spec|seed|from|backend|s3|auth|workloadIdentity|serviceAccountName|" data-parent-path="spec.seed.from.backend.s3.auth.workloadIdentity" data-name="serviceAccountName" data-text="Name of the `ServiceAccount` the mover pod runs as, resolved in the Job&#39;s own namespace.">
+  <span class="prop-name">serviceAccountName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `ServiceAccount` the mover pod runs as, resolved in the Job&#39;s own namespace.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.bucket" data-path-key="|spec|seed|from|backend|s3|bucket|" data-parent-path="spec.seed.from.backend.s3" data-name="bucket" data-text="Bucket holding the kopia repository.">
+  <span class="prop-name">bucket</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Bucket holding the kopia repository.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.endpoint" data-path-key="|spec|seed|from|backend|s3|endpoint|" data-parent-path="spec.seed.from.backend.s3" data-name="endpoint" data-text="S3 endpoint host. Omit for AWS; set it for MinIO/RustFS/other
+S3-compatible stores.">
+  <span class="prop-name">endpoint</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">S3 endpoint host. Omit for AWS; set it for MinIO/RustFS/other
+S3-compatible stores.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.prefix" data-path-key="|spec|seed|from|backend|s3|prefix|" data-parent-path="spec.seed.from.backend.s3" data-name="prefix" data-text="Key prefix under the bucket, letting several repositories share one bucket
+(e.g. `clusters/prod/`). Empty/absent means the bucket root.">
+  <span class="prop-name">prefix</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Key prefix under the bucket, letting several repositories share one bucket
+(e.g. `clusters/prod/`). Empty/absent means the bucket root.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.region" data-path-key="|spec|seed|from|backend|s3|region|" data-parent-path="spec.seed.from.backend.s3" data-name="region" data-text="S3 region. Required by AWS and some compatible providers.">
+  <span class="prop-name">region</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">S3 region. Required by AWS and some compatible providers.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.s3.tls" data-path-key="|spec|seed|from|backend|s3|tls|" data-parent-path="spec.seed.from.backend.s3" data-name="tls" data-text="TLS overrides for self-signed CAs or HTTP-only endpoints.">
+<summary>
+  <span class="prop-name">tls</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TLS overrides for self-signed CAs or HTTP-only endpoints.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.s3.tls.caBundleRef" data-path-key="|spec|seed|from|backend|s3|tls|caBundleRef|" data-parent-path="spec.seed.from.backend.s3.tls" data-name="caBundleRef" data-text="CA bundle (PEM) used to verify the endpoint&#39;s certificate, sourced from a `ConfigMap`.">
+<summary>
+  <span class="prop-name">caBundleRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CA bundle (PEM) used to verify the endpoint&#39;s certificate, sourced from a `ConfigMap`.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.tls.caBundleRef.configMapName" data-path-key="|spec|seed|from|backend|s3|tls|caBundleRef|configMapName|" data-parent-path="spec.seed.from.backend.s3.tls.caBundleRef" data-name="configMapName" data-text="Name of the `ConfigMap` holding the value (e.g. a CA bundle). Resolved in the
+referrer&#39;s namespace for a namespaced `Repository`, and in the operator&#39;s
+namespace (`KOPIUR_NAMESPACE`) for a `ClusterRepository` (cluster-scoped, no
+namespace of its own).">
+  <span class="prop-name">configMapName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name of the `ConfigMap` holding the value (e.g. a CA bundle). Resolved in the
+referrer&#39;s namespace for a namespaced `Repository`, and in the operator&#39;s
+namespace (`KOPIUR_NAMESPACE`) for a `ClusterRepository` (cluster-scoped, no
+namespace of its own).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.tls.caBundleRef.key" data-path-key="|spec|seed|from|backend|s3|tls|caBundleRef|key|" data-parent-path="spec.seed.from.backend.s3.tls.caBundleRef" data-name="key" data-text="Which key inside the `ConfigMap` to read; defaults to `ca.crt` when unset.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which key inside the `ConfigMap` to read; defaults to `ca.crt` when unset.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.tls.disableTls" data-path-key="|spec|seed|from|backend|s3|tls|disableTls|" data-parent-path="spec.seed.from.backend.s3.tls" data-name="disableTls" data-text="Disable TLS entirely and talk plain HTTP; maps to kopia&#39;s `--disable-tls`.">
+  <span class="prop-name">disableTls</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Disable TLS entirely and talk plain HTTP; maps to kopia&#39;s `--disable-tls`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.s3.tls.insecureSkipVerify" data-path-key="|spec|seed|from|backend|s3|tls|insecureSkipVerify|" data-parent-path="spec.seed.from.backend.s3.tls" data-name="insecureSkipVerify" data-text="Skip TLS certificate verification (still uses TLS); maps to kopia&#39;s `--disable-tls-verification`.">
+  <span class="prop-name">insecureSkipVerify</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Skip TLS certificate verification (still uses TLS); maps to kopia&#39;s `--disable-tls-verification`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.sftp" data-path-key="|spec|seed|from|backend|sftp|" data-parent-path="spec.seed.from.backend" data-name="sftp" data-text="SFTP server.">
+<summary>
+  <span class="prop-name">sftp</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SFTP server.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.sftp.auth" data-path-key="|spec|seed|from|backend|sftp|auth|" data-parent-path="spec.seed.from.backend.sftp" data-name="auth" data-text="Credentials (SSH private key / known-hosts) sourced from a Secret; Secret-only.">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Credentials (SSH private key / known-hosts) sourced from a Secret; Secret-only.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.sftp.auth.secretRef" data-path-key="|spec|seed|from|backend|sftp|auth|secretRef|" data-parent-path="spec.seed.from.backend.sftp.auth" data-name="secretRef" data-text="Secret holding the backend&#39;s access credentials, read by well-known keys.">
+<summary>
+  <span class="prop-name">secretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the backend&#39;s access credentials, read by well-known keys.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.sftp.auth.secretRef.name" data-path-key="|spec|seed|from|backend|sftp|auth|secretRef|name|" data-parent-path="spec.seed.from.backend.sftp.auth.secretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.sftp.auth.secretRef.namespace" data-path-key="|spec|seed|from|backend|sftp|auth|secretRef|namespace|" data-parent-path="spec.seed.from.backend.sftp.auth.secretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.sftp.host" data-path-key="|spec|seed|from|backend|sftp|host|" data-parent-path="spec.seed.from.backend.sftp" data-name="host" data-text="SFTP server hostname or IP.">
+  <span class="prop-name">host</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">SFTP server hostname or IP.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.sftp.path" data-path-key="|spec|seed|from|backend|sftp|path|" data-parent-path="spec.seed.from.backend.sftp" data-name="path" data-text="Remote path on the server that holds the kopia repository.">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Remote path on the server that holds the kopia repository.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.sftp.port" data-path-key="|spec|seed|from|backend|sftp|port|" data-parent-path="spec.seed.from.backend.sftp" data-name="port" data-text="TCP port; defaults to 22 when absent. format: uint16 minimum: 0 maximum: 65535">
+  <span class="prop-name">port</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">TCP port; defaults to 22 when absent.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint16"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint16</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.sftp.username" data-path-key="|spec|seed|from|backend|sftp|username|" data-parent-path="spec.seed.from.backend.sftp" data-name="username" data-text="SSH username to connect as.">
+  <span class="prop-name">username</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SSH username to connect as.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.webDav" data-path-key="|spec|seed|from|backend|webDav|" data-parent-path="spec.seed.from.backend" data-name="webDav" data-text="WebDAV endpoint.">
+<summary>
+  <span class="prop-name">webDav</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">WebDAV endpoint.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.webDav.auth" data-path-key="|spec|seed|from|backend|webDav|auth|" data-parent-path="spec.seed.from.backend.webDav" data-name="auth" data-text="HTTP basic-auth credentials sourced from a Secret; Secret-only.">
+<summary>
+  <span class="prop-name">auth</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">HTTP basic-auth credentials sourced from a Secret; Secret-only.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.from.backend.webDav.auth.secretRef" data-path-key="|spec|seed|from|backend|webDav|auth|secretRef|" data-parent-path="spec.seed.from.backend.webDav.auth" data-name="secretRef" data-text="Secret holding the backend&#39;s access credentials, read by well-known keys.">
+<summary>
+  <span class="prop-name">secretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Secret holding the backend&#39;s access credentials, read by well-known keys.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.webDav.auth.secretRef.name" data-path-key="|spec|seed|from|backend|webDav|auth|secretRef|name|" data-parent-path="spec.seed.from.backend.webDav.auth.secretRef" data-name="name" data-text="Name of the `Secret`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the `Secret`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.webDav.auth.secretRef.namespace" data-path-key="|spec|seed|from|backend|webDav|auth|secretRef|namespace|" data-parent-path="spec.seed.from.backend.webDav.auth.secretRef" data-name="namespace" data-text="Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Namespace of the `Secret`; absent = same namespace as the referrer. A
+`ClusterRepository` is cluster-scoped and has no namespace of its own, so when IT
+reads the `Secret` (to connect, to bootstrap, or to run its repository server) an
+absent namespace means the operator&#39;s namespace (`KOPIUR_NAMESPACE`). A workload
+mover (Snapshot/Restore/Maintenance) still needs the `Secret` in its OWN namespace —
+`envFrom` is namespace-local — so put it there, or use `credentialProjection`, which
+needs this namespace set EXPLICITLY to know what to copy. Set it whenever anything
+other than the operator itself reads the `Secret`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.backend.webDav.url" data-path-key="|spec|seed|from|backend|webDav|url|" data-parent-path="spec.seed.from.backend.webDav" data-name="url" data-text="WebDAV collection URL holding the kopia repository.">
+  <span class="prop-name">url</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">WebDAV collection URL holding the kopia repository.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.from.repository" data-path-key="|spec|seed|from|repository|" data-parent-path="spec.seed.from" data-name="repository" data-text="Another `Repository`/`ClusterRepository`, opened read-only (migrate mode,
+`kopia snapshot migrate`). Snapshot identities and times are preserved,
+so seeded history is restorable by `identity`/`fromPolicy`.
+
+A `kind: Repository` reference with no `namespace` resolves in the
+referrer&#39;s own namespace — and, on a cluster-scoped `ClusterRepository`
+(which has none), in the operator&#39;s namespace, the same rule its
+credential `secretRef`s follow. Set `namespace` explicitly whenever the
+source lives anywhere else.">
+<summary>
+  <span class="prop-name">repository</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Another `Repository`/`ClusterRepository`, opened read-only (migrate mode,
+`kopia snapshot migrate`). Snapshot identities and times are preserved,
+so seeded history is restorable by `identity`/`fromPolicy`.
+
+A `kind: Repository` reference with no `namespace` resolves in the
+referrer&#39;s own namespace — and, on a cluster-scoped `ClusterRepository`
+(which has none), in the operator&#39;s namespace, the same rule its
+credential `secretRef`s follow. Set `namespace` explicitly whenever the
+source lives anywhere else.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.repository.kind" data-path-key="|spec|seed|from|repository|kind|" data-parent-path="spec.seed.from.repository" data-name="kind" data-text="Which repository CRD this points at; defaults to [`RepositoryKind::Repository`]. enum: Repository, ClusterRepository">
+  <span class="prop-name">kind</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Repository, ClusterRepository"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Repository, ClusterRepository</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.repository.name" data-path-key="|spec|seed|from|repository|name|" data-parent-path="spec.seed.from.repository" data-name="name" data-text="Name of the referenced `Repository`/`ClusterRepository`.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the referenced `Repository`/`ClusterRepository`.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.from.repository.namespace" data-path-key="|spec|seed|from|repository|namespace|" data-parent-path="spec.seed.from.repository" data-name="namespace" data-text="Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.">
+  <span class="prop-name">namespace</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.migrate" data-path-key="|spec|seed|migrate|" data-parent-path="spec.seed" data-name="migrate" data-text="Tuning for the `kopia snapshot migrate` copy. **Migrate mode only**
+(`from.repository`); rejected at admission alongside `from.backend`.">
+<summary>
+  <span class="prop-name">migrate</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Tuning for the `kopia snapshot migrate` copy. **Migrate mode only**
+(`from.repository`); rejected at admission alongside `from.backend`.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.latestOnly" data-path-key="|spec|seed|migrate|latestOnly|" data-parent-path="spec.seed.migrate" data-name="latestOnly" data-text="Copy only each source identity&#39;s most recent snapshot instead of its full
+history (`kopia snapshot migrate --latest`). Default `false` — a seed
+exists to recover history, so the full copy is the sane default; set this
+when you only need the latest restore point back quickly.">
+  <span class="prop-name">latestOnly</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Copy only each source identity&#39;s most recent snapshot instead of its full
+history (`kopia snapshot migrate --latest`). Default `false` — a seed
+exists to recover history, so the full copy is the sane default; set this
+when you only need the latest restore point back quickly.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.parallel" data-path-key="|spec|seed|migrate|parallel|" data-parent-path="spec.seed.migrate" data-name="parallel" data-text="`--parallel`: snapshots migrated concurrently (kopia default `1` —
+sequential). Must be &gt;= 1 when set. format: uint32 minimum: 0">
+  <span class="prop-name">parallel</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">`--parallel`: snapshots migrated concurrently (kopia default `1` —
+sequential). Must be &gt;= 1 when set.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.policies" data-path-key="|spec|seed|migrate|policies|" data-parent-path="spec.seed.migrate" data-name="policies" data-text="Whether the source&#39;s kopia **policies** are copied along with the
+snapshots. Defaults to `PolicyCopyMode::None` (an explicit
+`--no-policies`), not kopia&#39;s own copy-by-default: retention in a
+kopiur-managed repository is driven by `Snapshot` CRs, and importing the
+source&#39;s kopia-side policies could delete manifests behind the
+operator&#39;s back. enum: none, copy, copyOverwrite">
+  <span class="prop-name">policies</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Whether the source&#39;s kopia **policies** are copied along with the
+snapshots. Defaults to `PolicyCopyMode::None` (an explicit
+`--no-policies`), not kopia&#39;s own copy-by-default: retention in a
+kopiur-managed repository is driven by `Snapshot` CRs, and importing the
+source&#39;s kopia-side policies could delete manifests behind the
+operator&#39;s back.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: none, copy, copyOverwrite"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">none, copy, copyOverwrite</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.sync" data-path-key="|spec|seed|sync|" data-parent-path="spec.seed" data-name="sync" data-text="Tuning for the `kopia repository sync-to` blob copy. **Blob mode only**
+(`from.backend`); rejected at admission alongside `from.repository`.">
+<summary>
+  <span class="prop-name">sync</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Tuning for the `kopia repository sync-to` blob copy. **Blob mode only**
+(`from.backend`); rejected at admission alongside `from.repository`.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.sync.maxDownloadSpeedBytesPerSecond" data-path-key="|spec|seed|sync|maxDownloadSpeedBytesPerSecond|" data-parent-path="spec.seed.sync" data-name="maxDownloadSpeedBytesPerSecond" data-text="`--max-download-speed`: cap read throughput from the seed source, in
+bytes/sec (kopia default: unlimited). format: int64">
+  <span class="prop-name">maxDownloadSpeedBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">`--max-download-speed`: cap read throughput from the seed source, in
+bytes/sec (kopia default: unlimited).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.sync.maxUploadSpeedBytesPerSecond" data-path-key="|spec|seed|sync|maxUploadSpeedBytesPerSecond|" data-parent-path="spec.seed.sync" data-name="maxUploadSpeedBytesPerSecond" data-text="`--max-upload-speed`: cap write throughput into this repository, in
+bytes/sec (kopia default: unlimited). format: int64">
+  <span class="prop-name">maxUploadSpeedBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">`--max-upload-speed`: cap write throughput into this repository, in
+bytes/sec (kopia default: unlimited).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.sync.parallel" data-path-key="|spec|seed|sync|parallel|" data-parent-path="spec.seed.sync" data-name="parallel" data-text="`--parallel`: concurrent blob-copy workers (kopia default `1` —
+sequential). Raise it: a first-time seed of a large repository over a
+WAN is exactly the workload sequential copying is worst at. format: uint32 minimum: 0">
+  <span class="prop-name">parallel</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">`--parallel`: concurrent blob-copy workers (kopia default `1` —
+sequential). Raise it: a first-time seed of a large repository over a
+WAN is exactly the workload sequential copying is worst at.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.server" data-path-key="|spec|server|" data-parent-path="spec" data-name="server" data-text="Optional kopia web-UI server (the target `namespace` is required).">
 <summary>
   <span class="prop-name">server</span>
@@ -5017,6 +6035,95 @@ not settable through `spec.parameters`.
   <div class="leaf-desc">`resourceVersion` of the password Secret observed at the last connect attempt.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.seed" data-path-key="|status|seed|" data-parent-path="status" data-name="seed" data-text="What the last seed attempt did (`spec.seed`); absent on a repository that
+was never seeded.">
+<summary>
+  <span class="prop-name">seed</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">What the last seed attempt did (`spec.seed`); absent on a repository that
+was never seeded.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.seed.mode" data-path-key="|status|seed|mode|" data-parent-path="status.seed" data-name="mode" data-text="Which copy mechanism a seed ran. Mirrors the `SeedSource` variant, named
+after the operation rather than the input so status, metrics
+(`kopiur_repository_seed_total{mode}`) and docs share one vocabulary. enum: blob, migrate">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which copy mechanism a seed ran. Mirrors the `SeedSource` variant, named
+after the operation rather than the input so status, metrics
+(`kopiur_repository_seed_total{mode}`) and docs share one vocabulary.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: blob, migrate"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">blob, migrate</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.seed.seededAt" data-path-key="|status|seed|seededAt|" data-parent-path="status.seed" data-name="seededAt" data-text="RFC 3339 timestamp the seed completed. Set once: a repository is seeded
+exactly once, at its first bootstrap.">
+  <span class="prop-name">seededAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC 3339 timestamp the seed completed. Set once: a repository is seeded
+exactly once, at its first bootstrap.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.seed.snapshotCount" data-path-key="|status|seed|snapshotCount|" data-parent-path="status.seed" data-name="snapshotCount" data-text="Snapshots observed at the SOURCE when the seed ran. Zero is only ever
+recorded when `allowEmptySource` permitted it. format: int64">
+  <span class="prop-name">snapshotCount</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Snapshots observed at the SOURCE when the seed ran. Zero is only ever
+recorded when `allowEmptySource` permitted it.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.seed.snapshotsCopied" data-path-key="|status|seed|snapshotsCopied|" data-parent-path="status.seed" data-name="snapshotsCopied" data-text="Snapshots actually copied into this repository. Migrate mode only — a
+blob copy moves storage, not manifests, so there is no per-snapshot copy
+count to report and it leaves this unset; its `snapshotCount` is the
+listing taken at the SOURCE before the copy, which for a byte-for-byte
+mirror is also what this repository ends up holding. format: int64">
+  <span class="prop-name">snapshotsCopied</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Snapshots actually copied into this repository. Migrate mode only — a
+blob copy moves storage, not manifests, so there is no per-snapshot copy
+count to report and it leaves this unset; its `snapshotCount` is the
+listing taken at the SOURCE before the copy, which for a byte-for-byte
+mirror is also what this repository ends up holding.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.seed.source" data-path-key="|status|seed|source|" data-parent-path="status.seed" data-name="source" data-text="The source the data came from, rendered by `SeedSource::describe` —
+the backend discriminant (`S3`, `Filesystem`, …) for blob mode,
+`Kind/name` for migrate mode. Never a credential or a bucket path.">
+  <span class="prop-name">source</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The source the data came from, rendered by `SeedSource::describe` —
+the backend discriminant (`S3`, `Filesystem`, …) for blob mode,
+`Kind/name` for migrate mode. Never a credential or a bucket path.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.seed.startedAt" data-path-key="|status|seed|startedAt|" data-parent-path="status.seed" data-name="startedAt" data-text="RFC 3339 timestamp the operator LAUNCHED a seeding bootstrap Job for
+this repository — the durable **seed-attempt marker**.
+
+Stamped before the Job is created, and never cleared. Its whole job is
+to distinguish &#34;a seed this operator started did not finish&#34; from &#34;this
+backend was initialized by somebody else&#34;: the first must resume the
+copy, the second must keep the no-clobber `AlreadyInitialized` path.
+See `seed_resume` — the marker is the ONLY input the resume decision is
+allowed to take, because a resuming migrate writes into whatever
+repository is at the backend and then re-stamps its maintenance owner.">
+  <span class="prop-name">startedAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC 3339 timestamp the operator LAUNCHED a seeding bootstrap Job for
+this repository — the durable **seed-attempt marker**.
+
+Stamped before the Job is created, and never cleared. Its whole job is
+to distinguish &#34;a seed this operator started did not finish&#34; from &#34;this
+backend was initialized by somebody else&#34;: the first must resume the
+copy, the second must keep the no-clobber `AlreadyInitialized` path.
+See `seed_resume` — the marker is the ONLY input the resume decision is
+allowed to take, because a resuming migrate writes into whatever
+repository is at the backend and then re-stamps its maintenance owner.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.server" data-path-key="|status|server|" data-parent-path="status" data-name="server" data-text="Resolved kopia server endpoint/auth, pinned by the reconciler.">
 <summary>
   <span class="prop-name">server</span>

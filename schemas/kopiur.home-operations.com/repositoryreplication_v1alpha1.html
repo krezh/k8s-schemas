@@ -2060,6 +2060,41 @@ source copy is newer (kopia default `true`).
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.manualRun" data-path-key="|status|manualRun|" data-parent-path="status" data-name="manualRun" data-text="State of the most recent annotation-requested out-of-band run
+(`kopiur.home-operations.com/run-requested`); absent until one is
+requested.">
+<summary>
+  <span class="prop-name">manualRun</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">State of the most recent annotation-requested out-of-band run
+(`kopiur.home-operations.com/run-requested`); absent until one is
+requested.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.manualRun.completedAt" data-path-key="|status|manualRun|completedAt|" data-parent-path="status.manualRun" data-name="completedAt" data-text="RFC3339 instant the run reached a terminal phase.">
+  <span class="prop-name">completedAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC3339 instant the run reached a terminal phase.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.manualRun.phase" data-path-key="|status|manualRun|phase|" data-parent-path="status.manualRun" data-name="phase" data-text="Lifecycle of a manual replication run. Closed enum. enum: Pending, Running, Succeeded, Failed">
+  <span class="prop-name">phase</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Lifecycle of a manual replication run. Closed enum.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Pending, Running, Succeeded, Failed"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Running, Succeeded, Failed</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.manualRun.requestedAt" data-path-key="|status|manualRun|requestedAt|" data-parent-path="status.manualRun" data-name="requestedAt" data-text="The `run-requested` annotation value this status reflects (RFC3339),
+verbatim as the user wrote it — it pins WHICH request is answered.">
+  <span class="prop-name">requestedAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The `run-requested` annotation value this status reflects (RFC3339),
+verbatim as the user wrote it — it pins WHICH request is answered.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="status.nextScheduledAt" data-path-key="|status|nextScheduledAt|" data-parent-path="status" data-name="nextScheduledAt" data-text="RFC3339 timestamp of the next scheduled replication run (cron &#43; jitter, pinned).">
   <span class="prop-name">nextScheduledAt</span>
   <span class="type-badge">string</span>
