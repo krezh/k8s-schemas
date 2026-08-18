@@ -8085,27 +8085,97 @@ runtime using MTP (Multi-Token Prediction) or draft-model decoding.
 Maps to llama.cpp --spec-type and --spec-draft-n-max flags. Only the
 &#34;llamacpp&#34; runtime supports this field; other runtimes must not set it.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.draftModel" data-path-key="|spec|speculativeDecoding|draftModel|" data-parent-path="spec.speculativeDecoding" data-name="draftModel" data-text="DraftModel names a file already present in the target model&#39;s spec.files
+that holds the draft weights (e.g. the dflash-kquant.gguf companion
+drafter Meta ships next to the main GGUF for Muse Glimmer). The operator
+resolves its staged in-container path the same way it does for
+Model.mmproj and passes it to llama.cpp as -md, so the manifest never
+has to name a content-hash cache directory that is unknowable before the
+first reconcile and moves whenever the file set changes (#1495).
+
+Use DraftModel when the drafter is a companion file in the same Model and
+DraftModelRef when it is a separate Model CR; the two are mutually
+exclusive. minLength: 1 maxLength: 253">
+  <span class="prop-name">draftModel</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">DraftModel names a file already present in the target model&#39;s spec.files
+that holds the draft weights (e.g. the dflash-kquant.gguf companion
+drafter Meta ships next to the main GGUF for Muse Glimmer). The operator
+resolves its staged in-container path the same way it does for
+Model.mmproj and passes it to llama.cpp as -md, so the manifest never
+has to name a content-hash cache directory that is unknowable before the
+first reconcile and moves whenever the file set changes (#1495).
+
+Use DraftModel when the drafter is a companion file in the same Model and
+DraftModelRef when it is a separate Model CR; the two are mutually
+exclusive.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.draftModelRef" data-path-key="|spec|speculativeDecoding|draftModelRef|" data-parent-path="spec.speculativeDecoding" data-name="draftModelRef" data-text="DraftModelRef names the Model CR holding the draft weights, resolved in
+the InferenceService&#39;s own namespace and mounted into the serving pod
+alongside the target model. Required for the draft-model types when the
+drafter ships as its own model rather than a companion file.
+
+Deliberately a Model reference rather than the raw in-container path
+SGLang&#39;s block uses (SpeculativeConfig.DraftModelPath): the operator
+downloads and caches the draft exactly like the target model, and a path
+has no readiness to gate on.">
+  <span class="prop-name">draftModelRef</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">DraftModelRef names the Model CR holding the draft weights, resolved in
+the InferenceService&#39;s own namespace and mounted into the serving pod
+alongside the target model. Required for the draft-model types when the
+drafter ships as its own model rather than a companion file.
+
+Deliberately a Model reference rather than the raw in-container path
+SGLang&#39;s block uses (SpeculativeConfig.DraftModelPath): the operator
+downloads and caches the draft exactly like the target model, and a path
+has no readiness to gate on.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.nDraftMax" data-path-key="|spec|speculativeDecoding|nDraftMax|" data-parent-path="spec.speculativeDecoding" data-name="nDraftMax" data-text="NDraftMax is the maximum number of draft tokens to propose per step
 (--spec-draft-n-max). Only emitted when set; llama.cpp uses its own default
-otherwise. format: int32 minimum: 1">
+otherwise.
+
+The optimum is per-model and per-topology and must be measured, not
+copied. On two GB10 Sparks serving DeepSeek-V4-Flash MXFP4, 3 was optimal
+at 19.01 tok/s and 4 was worse than disabling speculation entirely
+(14.89 against a 16.13 baseline). See defilantech/LLMKube#1423. format: int32 minimum: 1">
   <span class="prop-name">nDraftMax</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">NDraftMax is the maximum number of draft tokens to propose per step
 (--spec-draft-n-max). Only emitted when set; llama.cpp uses its own default
-otherwise.<div class="leaf-constraints">
+otherwise.
+
+The optimum is per-model and per-topology and must be measured, not
+copied. On two GB10 Sparks serving DeepSeek-V4-Flash MXFP4, 3 was optimal
+at 19.01 tok/s and 4 was worse than disabling speculation entirely
+(14.89 against a 16.13 baseline). See defilantech/LLMKube#1423.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.type" data-path-key="|spec|speculativeDecoding|type|" data-parent-path="spec.speculativeDecoding" data-name="type" data-text="Type is the speculative decoding method (--spec-type). &#34;mtp&#34; maps to
-draft-mtp, &#34;draft&#34; maps to draft-simple, and &#34;disabled&#34; (or omitting the
-entire SpeculativeDecoding block) means no speculative decoding. enum: mtp, draft, disabled">
+<div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.pMin" data-path-key="|spec|speculativeDecoding|pMin|" data-parent-path="spec.speculativeDecoding" data-name="pMin" data-text="PMin is the minimum probability a drafted token needs for the draft to
+continue (--spec-draft-p-min). Only emitted when set. minimum: 0 maximum: 1">
+  <span class="prop-name">pMin</span>
+  <span class="type-badge">number</span>
+  <div class="leaf-desc">PMin is the minimum probability a drafted token needs for the draft to
+continue (--spec-draft-p-min). Only emitted when set.<div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 1"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.speculativeDecoding.type" data-path-key="|spec|speculativeDecoding|type|" data-parent-path="spec.speculativeDecoding" data-name="type" data-text="Type is the speculative decoding method (--spec-type). The aliases map
+as: &#34;mtp&#34; to draft-mtp, &#34;draft&#34; to draft-simple, and &#34;disabled&#34; to no
+speculative decoding (as does omitting the whole block, or &#34;none&#34;). enum: none, disabled, mtp, draft, draft-simple, draft-eagle3, draft-mtp, draft-dflash, draft-dspark, ngram-simple, ngram-map-k, ngram-map-k4v, ngram-mod, ngram-cache">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Type is the speculative decoding method (--spec-type). &#34;mtp&#34; maps to
-draft-mtp, &#34;draft&#34; maps to draft-simple, and &#34;disabled&#34; (or omitting the
-entire SpeculativeDecoding block) means no speculative decoding.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: mtp, draft, disabled"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">mtp, draft, disabled</code></div></div>
+  <div class="leaf-desc">Type is the speculative decoding method (--spec-type). The aliases map
+as: &#34;mtp&#34; to draft-mtp, &#34;draft&#34; to draft-simple, and &#34;disabled&#34; to no
+speculative decoding (as does omitting the whole block, or &#34;none&#34;).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: none, disabled, mtp, draft, draft-simple, draft-eagle3, draft-mtp, draft-dflash, draft-dspark, ngram-simple, ngram-map-k, ngram-map-k4v, ngram-mod, ngram-cache"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">none, disabled, mtp, draft, draft-simple, draft-eagle3, draft-mtp, draft-dflash, draft-dspark, ngram-simple, ngram-map-k, ngram-map-k4v, ngram-mod, ngram-cache</code></div></div>
   </div>
 </div>
   </div>
@@ -8915,6 +8985,60 @@ Maps to vLLM --num-speculative-tokens flag.<div class="leaf-constraints">
 </summary>
 <div class="prop-content"><div class="prop-desc">status defines the observed state of InferenceService</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.acceleration" data-path-key="|status|acceleration|" data-parent-path="status" data-name="acceleration" data-text="Acceleration reports the offload result the serving engine (llama.cpp)
+produced at load time: which device actually served the model and how
+many of its layers were offloaded onto it. This makes a silent CPU
+fallback visible in the API: a service that requested an accelerator but
+ended up with zero offloaded layers is otherwise indistinguishable from
+a healthy GPU service in status. Optional and additive: an absent value
+means the offload result is unknown (e.g. CPU-only serving or a runtime
+that does not report it).">
+<summary>
+  <span class="prop-name">acceleration</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Acceleration reports the offload result the serving engine (llama.cpp)
+produced at load time: which device actually served the model and how
+many of its layers were offloaded onto it. This makes a silent CPU
+fallback visible in the API: a service that requested an accelerator but
+ended up with zero offloaded layers is otherwise indistinguishable from
+a healthy GPU service in status. Optional and additive: an absent value
+means the offload result is unknown (e.g. CPU-only serving or a runtime
+that does not report it).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.acceleration.device" data-path-key="|status|acceleration|device|" data-parent-path="status.acceleration" data-name="device" data-text="Device is the device that served the model, as the engine reported it,
+e.g. &#34;Vulkan0 (AMD Radeon 8060S)&#34; or &#34;CPU&#34;. Empty when the offload
+result is unknown.">
+  <span class="prop-name">device</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Device is the device that served the model, as the engine reported it,
+e.g. &#34;Vulkan0 (AMD Radeon 8060S)&#34; or &#34;CPU&#34;. Empty when the offload
+result is unknown.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.acceleration.layersOffloaded" data-path-key="|status|acceleration|layersOffloaded|" data-parent-path="status.acceleration" data-name="layersOffloaded" data-text="LayersOffloaded is how many of the model&#39;s layers the engine offloaded
+onto an accelerator. 0 means every layer ran on CPU, which is a silent
+fallback when an accelerator was requested. format: int32">
+  <span class="prop-name">layersOffloaded</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">LayersOffloaded is how many of the model&#39;s layers the engine offloaded
+onto an accelerator. 0 means every layer ran on CPU, which is a silent
+fallback when an accelerator was requested.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.acceleration.layersTotal" data-path-key="|status|acceleration|layersTotal|" data-parent-path="status.acceleration" data-name="layersTotal" data-text="LayersTotal is the model&#39;s total layer count. Compared against
+LayersOffloaded to express the offload as a fraction (e.g. 63/63). format: int32">
+  <span class="prop-name">layersTotal</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">LayersTotal is the model&#39;s total layer count. Compared against
+LayersOffloaded to express the offload as a fraction (e.g. 63/63).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.conditions" data-path-key="|status|conditions|" data-parent-path="status" data-name="conditions" data-text="conditions represent the current state of the InferenceService resource.
 Each condition has a unique type and reflects the status of a specific aspect of the resource.
 

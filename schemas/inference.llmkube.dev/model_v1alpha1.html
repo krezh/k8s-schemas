@@ -419,12 +419,14 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.files" data-path-key="|spec|files|" data-parent-path="spec" data-name="files" data-text="Files lists model weight artifacts to stage from Source. Entries are
 repo-relative for repository sources. The first entry is the primary model
-file passed to the runtime.">
+file passed to the runtime. When Files is empty, Source must name a single
+object directly.">
   <span class="prop-name">files</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Files lists model weight artifacts to stage from Source. Entries are
 repo-relative for repository sources. The first entry is the primary model
-file passed to the runtime.
+file passed to the runtime. When Files is empty, Source must name a single
+object directly.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.format" data-path-key="|spec|format|" data-parent-path="spec" data-name="format" data-text="Format specifies the model file format.
@@ -882,6 +884,16 @@ Examples:
   - s3://my-bucket/models/llama-3.1-8b-q4_k_m.gguf (S3-compatible object store)
   - /mnt/models/Llama-3.2-3B-Instruct-4bit (MLX model directory)
 
+Source may also name a repository or bucket PREFIX rather than a single
+object. In that case spec.files selects which artifacts to stage from it,
+and files[0] is the primary file handed to the runtime. This is how a
+sharded GGUF, an mmproj, or draft weights are expressed. Example:
+
+  source: s3://models/org/Repo-GGUF
+  files:
+    - Model-00001-of-00002.gguf
+    - Model-00002-of-00002.gguf
+
 file:// caveat for hybrid topologies: the controller pod must be
 able to read the path. In Mac kind / k3s / GKE deployments where
 the metal-agent runs on the host and the controller runs inside a
@@ -904,6 +916,16 @@ Examples:
   - pvc://my-models-pvc/path/to/model.gguf (pre-staged on a PersistentVolumeClaim)
   - s3://my-bucket/models/llama-3.1-8b-q4_k_m.gguf (S3-compatible object store)
   - /mnt/models/Llama-3.2-3B-Instruct-4bit (MLX model directory)
+
+Source may also name a repository or bucket PREFIX rather than a single
+object. In that case spec.files selects which artifacts to stage from it,
+and files[0] is the primary file handed to the runtime. This is how a
+sharded GGUF, an mmproj, or draft weights are expressed. Example:
+
+  source: s3://models/org/Repo-GGUF
+  files:
+    - Model-00001-of-00002.gguf
+    - Model-00002-of-00002.gguf
 
 file:// caveat for hybrid topologies: the controller pod must be
 able to read the path. In Mac kind / k3s / GKE deployments where
