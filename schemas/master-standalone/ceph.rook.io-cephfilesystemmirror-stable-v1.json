@@ -1172,6 +1172,15 @@
                     "integer",
                     "null"
                   ]
+                },
+                "keyType": {
+                  "description": "KeyType identifies the CephX key type for the current generation's keys, if known.\nIf unknown, the value will be empty.",
+                  "maxLength": 7,
+                  "minLength": 3,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "type": [

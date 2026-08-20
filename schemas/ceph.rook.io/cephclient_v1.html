@@ -464,7 +464,7 @@ is KeyGeneration and ignored for other policies. If this is set to greater than 
 key generation, relevant keys will be rotated, and the generation value will be updated to
 this new value (generation values are not necessarily incremental, though that is the
 intended use case). If this is set to less than or equal to the current key generation, keys
-are not rotated. format: int32 minimum: 0 maximum: 4.294967295e&#43;09">
+are not rotated. format: int64 minimum: 0 maximum: 4.294967295e&#43;09">
   <span class="prop-name">keyGeneration</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">KeyGeneration specifies the desired CephX key generation. This is used when KeyRotationPolicy
@@ -473,7 +473,7 @@ key generation, relevant keys will be rotated, and the generation value will be 
 this new value (generation values are not necessarily incremental, though that is the
 intended use case). If this is set to less than or equal to the current key generation, keys
 are not rotated.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maximum: 4.294967295e&#43;09"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">4.294967295e&#43;09</code></div></div>
   </div>
@@ -485,6 +485,25 @@ One of Disabled, or KeyGeneration. Default Disabled. enum: , Disabled, KeyGenera
   <div class="leaf-desc">KeyRotationPolicy controls if and when CephX keys are rotated after initial creation.
 One of Disabled, or KeyGeneration. Default Disabled.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: , Disabled, KeyGeneration"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">, Disabled, KeyGeneration</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.security.cephx.keyType" data-path-key="|spec|security|cephx|keyType|" data-parent-path="spec.security.cephx" data-name="keyType" data-text="KeyType specifies the desired CephX key cipher type.
+If unspecified, Ceph&#39;s default will be used.
+If KeyRotationPolicy is Disabled or unspecified (default), modifying this value will never
+initiate key rotation.
+If KeyRotationPolicy is set to an enabled value (any other value), modifying this may
+initiate key rotation. enum: aes, aes256k minLength: 3 maxLength: 7">
+  <span class="prop-name">keyType</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">KeyType specifies the desired CephX key cipher type.
+If unspecified, Ceph&#39;s default will be used.
+If KeyRotationPolicy is Disabled or unspecified (default), modifying this value will never
+initiate key rotation.
+If KeyRotationPolicy is set to an enabled value (any other value), modifying this may
+initiate key rotation.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: aes, aes256k"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">aes, aes256k</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 3"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">3</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 7"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">7</code></div></div>
   </div>
 </div>
   </div>
@@ -539,6 +558,16 @@ When keys are rotated due to any rotation policy, the generation is incremented 
 the configured policy generation.
 Generation `0` indicates that keys existed prior to the implementation of key tracking.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.cephx.keyType" data-path-key="|status|cephx|keyType|" data-parent-path="status.cephx" data-name="keyType" data-text="KeyType identifies the CephX key type for the current generation&#39;s keys, if known.
+If unknown, the value will be empty. minLength: 3 maxLength: 7">
+  <span class="prop-name">keyType</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">KeyType identifies the CephX key type for the current generation&#39;s keys, if known.
+If unknown, the value will be empty.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 3"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">3</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 7"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">7</code></div></div>
   </div>
 </div>
   </div>
