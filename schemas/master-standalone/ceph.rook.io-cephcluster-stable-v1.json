@@ -785,6 +785,39 @@
                 "null"
               ]
             },
+            "muteHealthWarning": {
+              "additionalProperties": {
+                "additionalProperties": false,
+                "description": "MuteHealthWarningSpec configures muting of a Ceph health warning.",
+                "properties": {
+                  "policy": {
+                    "description": "Policy controls whether to mute or unmute a Ceph health warning.",
+                    "enum": [
+                      "mute",
+                      "unmute"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "policy"
+                ],
+                "type": "object"
+              },
+              "description": "MuteHealthWarning configures muting of Ceph health warnings.",
+              "maxProperties": 10,
+              "minProperties": 0,
+              "type": [
+                "object",
+                "null"
+              ],
+              "x-kubernetes-validations": [
+                {
+                  "message": "keys must be valid Ceph health check codes",
+                  "rule": "self.all(k, k.matches('^[A-Z]+(_[A-Z]+)+$'))"
+                }
+              ]
+            },
             "startupProbe": {
               "additionalProperties": {
                 "additionalProperties": false,
