@@ -806,6 +806,79 @@ source remains the alternative there. Ignored for local and pvc://
 sources, which need no remote fetch.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.prefetchTolerations" data-path-key="|spec|prefetchTolerations|" data-parent-path="spec" data-name="prefetchTolerations" data-text="PrefetchTolerations are applied to the prefetch Job&#39;s pod, and govern
+nothing else: they say where the download may run, not where the model
+will be served. A fleet whose GPU nodes are tainted needs the prefetch
+download to schedule onto those nodes when the shared cache lives on
+node-local storage (#1621). Inheriting from an InferenceService would
+be ill-defined here: prefetch runs before the first InferenceService
+exists by design.">
+<summary>
+  <span class="prop-name">prefetchTolerations</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">PrefetchTolerations are applied to the prefetch Job&#39;s pod, and govern
+nothing else: they say where the download may run, not where the model
+will be served. A fleet whose GPU nodes are tainted needs the prefetch
+download to schedule onto those nodes when the shared cache lives on
+node-local storage (#1621). Inheriting from an InferenceService would
+be ill-defined here: prefetch runs before the first InferenceService
+exists by design.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.prefetchTolerations[].effect" data-path-key="|spec|prefetchTolerations[]|effect|" data-parent-path="spec.prefetchTolerations" data-name="effect" data-text="Effect indicates the taint effect to match. Empty means match all taint effects.
+When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.">
+  <span class="prop-name">effect</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Effect indicates the taint effect to match. Empty means match all taint effects.
+When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.prefetchTolerations[].key" data-path-key="|spec|prefetchTolerations[]|key|" data-parent-path="spec.prefetchTolerations" data-name="key" data-text="Key is the taint key that the toleration applies to. Empty means match all taint keys.
+If the key is empty, operator must be Exists; this combination means to match all values and all keys.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Key is the taint key that the toleration applies to. Empty means match all taint keys.
+If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.prefetchTolerations[].operator" data-path-key="|spec|prefetchTolerations[]|operator|" data-parent-path="spec.prefetchTolerations" data-name="operator" data-text="Operator represents a key&#39;s relationship to the value.
+Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.
+Exists is equivalent to wildcard for value, so that a pod can
+tolerate all taints of a particular category.
+Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Operator represents a key&#39;s relationship to the value.
+Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.
+Exists is equivalent to wildcard for value, so that a pod can
+tolerate all taints of a particular category.
+Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.prefetchTolerations[].tolerationSeconds" data-path-key="|spec|prefetchTolerations[]|tolerationSeconds|" data-parent-path="spec.prefetchTolerations" data-name="tolerationSeconds" data-text="TolerationSeconds represents the period of time the toleration (which must be
+of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+it is not set, which means tolerate the taint forever (do not evict). Zero and
+negative values will be treated as 0 (evict immediately) by the system. format: int64">
+  <span class="prop-name">tolerationSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">TolerationSeconds represents the period of time the toleration (which must be
+of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+it is not set, which means tolerate the taint forever (do not evict). Zero and
+negative values will be treated as 0 (evict immediately) by the system.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.prefetchTolerations[].value" data-path-key="|spec|prefetchTolerations[]|value|" data-parent-path="spec.prefetchTolerations" data-name="value" data-text="Value is the taint value the toleration matches to.
+If the operator is Exists, the value should be empty, otherwise just a regular string.">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Value is the taint value the toleration matches to.
+If the operator is Exists, the value should be empty, otherwise just a regular string.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.quantization" data-path-key="|spec|quantization|" data-parent-path="spec" data-name="quantization" data-text="Quantization describes the quantization level (e.g., Q4_0, Q5_K_M, F16)">
   <span class="prop-name">quantization</span>
   <span class="type-badge">string</span>
