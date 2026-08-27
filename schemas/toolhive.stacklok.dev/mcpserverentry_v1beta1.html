@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.caBundleRef for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.allowPrivateEndpoint for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -421,6 +421,26 @@ server endpoint. Unlike MCPRemoteProxy, it creates no pods, services, or deploym
 MCPServerEntry is a zero-infrastructure catalog entry that declares a remote MCP
 server endpoint. Unlike MCPRemoteProxy, it creates no pods, services, or deployments.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.allowPrivateEndpoint" data-path-key="|spec|allowPrivateEndpoint|" data-parent-path="spec" data-name="allowPrivateEndpoint" data-text="AllowPrivateEndpoint permits RemoteURL to point at a private or
+in-cluster endpoint: RFC 1918 and IPv6 unique-local addresses, and
+hostnames ending in &#34;cluster.local&#34;. (Bare &#34;.svc&#34; hostnames are never
+blocked, since no DNS resolution is performed.) Enable this to reach a
+co-located in-cluster backend in-mesh so the backend&#39;s workload-identity
+authorization policy still applies. Loopback, link-local, cloud-metadata,
+and kubernetes.default endpoints remain blocked regardless of this
+setting.">
+  <span class="prop-name">allowPrivateEndpoint</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowPrivateEndpoint permits RemoteURL to point at a private or
+in-cluster endpoint: RFC 1918 and IPv6 unique-local addresses, and
+hostnames ending in &#34;cluster.local&#34;. (Bare &#34;.svc&#34; hostnames are never
+blocked, since no DNS resolution is performed.) Enable this to reach a
+co-located in-cluster backend in-mesh so the backend&#39;s workload-identity
+authorization policy still applies. Loopback, link-local, cloud-metadata,
+and kubernetes.default endpoints remain blocked regardless of this
+setting.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.caBundleRef" data-path-key="|spec|caBundleRef|" data-parent-path="spec" data-name="caBundleRef" data-text="CABundleRef references a ConfigMap containing CA certificates for TLS verification
 when connecting to the remote MCP server.">
 <summary>
@@ -692,7 +712,7 @@ This field may not be empty.<div class="leaf-constraints">
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.caBundleRef for an exact path">No matches. Try .spec.caBundleRef for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.allowPrivateEndpoint for an exact path">No matches. Try .spec.allowPrivateEndpoint for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>

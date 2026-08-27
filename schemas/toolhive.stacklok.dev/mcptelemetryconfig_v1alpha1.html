@@ -628,6 +628,32 @@ This will change to false in a future release and eventually be removed.
   <div class="leaf-desc">Enabled controls whether Prometheus metrics endpoint is exposed
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.prometheus.metricsOnTransportPort" data-path-key="|spec|prometheus|metricsOnTransportPort|" data-parent-path="spec.prometheus" data-name="metricsOnTransportPort" data-text="MetricsOnTransportPort controls whether /metrics is ALSO served on the main
+transport port, in addition to the dedicated diagnostics port. It exists to
+give deployments a migration window: while true, an existing scrape
+configuration aimed at the transport port keeps working, so a scraper can be
+moved to the diagnostics port and verified before the old location goes away.
+
+Leave unset to follow the current default, which is true during the migration
+window and becomes false when it closes. Setting it explicitly opts out of
+that change: an explicit value is honoured before and after the cutover.
+
+See https://github.com/stacklok/toolhive/issues/6384 for the removal timeline.">
+  <span class="prop-name">metricsOnTransportPort</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">MetricsOnTransportPort controls whether /metrics is ALSO served on the main
+transport port, in addition to the dedicated diagnostics port. It exists to
+give deployments a migration window: while true, an existing scrape
+configuration aimed at the transport port keeps working, so a scraper can be
+moved to the diagnostics port and verified before the old location goes away.
+
+Leave unset to follow the current default, which is true during the migration
+window and becomes false when it closes. Setting it explicitly opts out of
+that change: an explicit value is honoured before and after the cutover.
+
+See https://github.com/stacklok/toolhive/issues/6384 for the removal timeline.
+  </div>
+</div>
   </div>
 </div>
 </details>
