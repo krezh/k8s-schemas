@@ -9908,14 +9908,14 @@ EG will also try to discover the end session endpoint from the provider&#39;s [W
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.issuer" data-path-key="|spec|oidc|provider|issuer|" data-parent-path="spec.oidc.provider" data-name="issuer" data-text="The OIDC Provider&#39;s [issuer identifier](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
 Issuer MUST be a URI RFC 3986 [RFC3986] with a scheme component that MUST
 be https, a host component, and optionally, port and path components and
-no query or fragment components. minLength: 1">
+no query or fragment components. pattern: ^https://[^/?#@]&#43;(/[^?#]*)?$">
   <span class="prop-name">issuer</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">The OIDC Provider&#39;s [issuer identifier](https://openid.net/specs/openid-connect-discovery-1_0.html#IssuerDiscovery).
 Issuer MUST be a URI RFC 3986 [RFC3986] with a scheme component that MUST
 be https, a host component, and optionally, port and path components and
 no query or fragment components.<div class="leaf-constraints">
-<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+<div class="schema-constraint" title="pattern: ^https://[^/?#@]&#43;(/[^?#]*)?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https://[^/?#@]&#43;(/[^?#]*)?$</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.oidc.provider.tokenEndpoint" data-path-key="|spec|oidc|provider|tokenEndpoint|" data-parent-path="spec.oidc.provider" data-name="tokenEndpoint" data-text="The OIDC Provider&#39;s [token endpoint](https://openid.net/specs/openid-connect-core-1_0.html#TokenEndpoint).

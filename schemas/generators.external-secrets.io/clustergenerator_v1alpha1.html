@@ -579,13 +579,13 @@ that should be used when authenticating with WorkloadIdentity.">
 that should be used when authenticating with WorkloadIdentity.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.acrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef.audiences" data-path-key="|spec|generator|acrAccessTokenSpec|auth|workloadIdentity|serviceAccountRef|audiences|" data-parent-path="spec.generator.acrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.acrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef.name" data-path-key="|spec|generator|acrAccessTokenSpec|auth|workloadIdentity|serviceAccountRef|name|" data-parent-path="spec.generator.acrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -949,13 +949,13 @@ If not specified, uses the default retry settings.</div>
 <div class="prop-content"><div class="prop-desc">Name of the service account you are federating with</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.cloudsmithAccessTokenSpec.serviceAccountRef.audiences" data-path-key="|spec|generator|cloudsmithAccessTokenSpec|serviceAccountRef|audiences|" data-parent-path="spec.generator.cloudsmithAccessTokenSpec.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.cloudsmithAccessTokenSpec.serviceAccountRef.name" data-path-key="|spec|generator|cloudsmithAccessTokenSpec|serviceAccountRef|name|" data-parent-path="spec.generator.cloudsmithAccessTokenSpec.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -1019,13 +1019,13 @@ Ignored if referent is not cluster-scoped, otherwise defaults to the namespace o
 <div class="prop-content"><div class="prop-desc">ServiceAccountSelector is a reference to a ServiceAccount resource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.ecrAuthorizationTokenSpec.auth.jwt.serviceAccountRef.audiences" data-path-key="|spec|generator|ecrAuthorizationTokenSpec|auth|jwt|serviceAccountRef|audiences|" data-parent-path="spec.generator.ecrAuthorizationTokenSpec.auth.jwt.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.ecrAuthorizationTokenSpec.auth.jwt.serviceAccountRef.name" data-path-key="|spec|generator|ecrAuthorizationTokenSpec|auth|jwt|serviceAccountRef|name|" data-parent-path="spec.generator.ecrAuthorizationTokenSpec.auth.jwt.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -1345,13 +1345,13 @@ Ignored if referent is not cluster-scoped, otherwise defaults to the namespace o
 <div class="prop-content"><div class="prop-desc">ServiceAccountSelector is a reference to a ServiceAccount resource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef.audiences" data-path-key="|spec|generator|gcrAccessTokenSpec|auth|workloadIdentity|serviceAccountRef|audiences|" data-parent-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef.name" data-path-key="|spec|generator|gcrAccessTokenSpec|auth|workloadIdentity|serviceAccountRef|name|" data-parent-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentity.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -1533,13 +1533,13 @@ when Kubernetes is configured as provider in workload identity pool.">
 when Kubernetes is configured as provider in workload identity pool.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentityFederation.serviceAccountRef.audiences" data-path-key="|spec|generator|gcrAccessTokenSpec|auth|workloadIdentityFederation|serviceAccountRef|audiences|" data-parent-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentityFederation.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentityFederation.serviceAccountRef.name" data-path-key="|spec|generator|gcrAccessTokenSpec|auth|workloadIdentityFederation|serviceAccountRef|name|" data-parent-path="spec.generator.gcrAccessTokenSpec.auth.workloadIdentityFederation.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -2150,13 +2150,13 @@ password. If omitted it defaults to 25% of the length of the password
 <div class="prop-content"><div class="prop-desc">Name of the service account you are federating with</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.quayAccessTokenSpec.serviceAccountRef.audiences" data-path-key="|spec|generator|quayAccessTokenSpec|serviceAccountRef|audiences|" data-parent-path="spec.generator.quayAccessTokenSpec.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.quayAccessTokenSpec.serviceAccountRef.name" data-path-key="|spec|generator|quayAccessTokenSpec|serviceAccountRef|name|" data-parent-path="spec.generator.quayAccessTokenSpec.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -2257,13 +2257,13 @@ Ignored for ed25519 keys<div class="leaf-constraints">
 <div class="prop-content"><div class="prop-desc">ServiceAccountSelector is a reference to a ServiceAccount resource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.stsSessionTokenSpec.auth.jwt.serviceAccountRef.audiences" data-path-key="|spec|generator|stsSessionTokenSpec|auth|jwt|serviceAccountRef|audiences|" data-parent-path="spec.generator.stsSessionTokenSpec.auth.jwt.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.stsSessionTokenSpec.auth.jwt.serviceAccountRef.name" data-path-key="|spec|generator|stsSessionTokenSpec|auth|jwt|serviceAccountRef|name|" data-parent-path="spec.generator.stsSessionTokenSpec.auth.jwt.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -2881,13 +2881,13 @@ Ignored if referent is not cluster-scoped, otherwise defaults to the namespace o
 <div class="prop-content"><div class="prop-desc">ServiceAccountRef to a service account for impersonation</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.serviceAccountRef.audiences" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|gcp|serviceAccountRef|audiences|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.serviceAccountRef.name" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|gcp|serviceAccountRef|name|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -2952,13 +2952,13 @@ If not specified, it fetches information from the metadata server
 <div class="prop-content"><div class="prop-desc">ServiceAccountSelector is a reference to a ServiceAccount resource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.workloadIdentity.serviceAccountRef.audiences" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|gcp|workloadIdentity|serviceAccountRef|audiences|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.workloadIdentity.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.workloadIdentity.serviceAccountRef.name" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|gcp|workloadIdentity|serviceAccountRef|name|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.gcp.workloadIdentity.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -3020,13 +3020,13 @@ AWS IAM authentication method</div>
 <div class="prop-content"><div class="prop-desc">ServiceAccountSelector is a reference to a ServiceAccount resource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.iam.jwt.serviceAccountRef.audiences" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|iam|jwt|serviceAccountRef|audiences|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.iam.jwt.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.iam.jwt.serviceAccountRef.name" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|iam|jwt|serviceAccountRef|name|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.iam.jwt.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -3282,13 +3282,13 @@ Defaults to 10 minutes.<div class="leaf-constraints">
 <div class="prop-content"><div class="prop-desc">Service account field containing the name of a kubernetes ServiceAccount.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.jwt.kubernetesServiceAccountToken.serviceAccountRef.audiences" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|jwt|kubernetesServiceAccountToken|serviceAccountRef|audiences|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.jwt.kubernetesServiceAccountToken.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.jwt.kubernetesServiceAccountToken.serviceAccountRef.name" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|jwt|kubernetesServiceAccountToken|serviceAccountRef|name|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.jwt.kubernetesServiceAccountToken.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
@@ -3465,13 +3465,13 @@ for authenticating with Vault. If the service account selector is not supplied,
 the secretRef will be used instead.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.kubernetes.serviceAccountRef.audiences" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|kubernetes|serviceAccountRef|audiences|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.kubernetes.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.generator.vaultDynamicSecretSpec.provider.auth.kubernetes.serviceAccountRef.name" data-path-key="|spec|generator|vaultDynamicSecretSpec|provider|auth|kubernetes|serviceAccountRef|name|" data-parent-path="spec.generator.vaultDynamicSecretSpec.provider.auth.kubernetes.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">

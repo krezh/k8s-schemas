@@ -437,13 +437,13 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 <div class="prop-content"><div class="prop-desc">Name of the service account you are federating with</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.serviceAccountRef.audiences" data-path-key="|spec|serviceAccountRef|audiences|" data-parent-path="spec.serviceAccountRef" data-name="audiences" data-text="Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list">
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)">
   <span class="prop-name">audiences</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">Audience specifies the `aud` claim for the service account token
-If the service account uses a well-known annotation for e.g. IRSA or GCP Workload Identity
-then this audiences will be appended to the list
+Some providers automatically extend the audience field based on well-known annotations for workload
+identity (e.g. IRSA or GCP Workload Identity)
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.serviceAccountRef.name" data-path-key="|spec|serviceAccountRef|name|" data-parent-path="spec.serviceAccountRef" data-name="name" data-text="The name of the ServiceAccount resource being referred to. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">

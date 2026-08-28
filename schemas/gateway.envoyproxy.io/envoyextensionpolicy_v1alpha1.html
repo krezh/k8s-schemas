@@ -3004,12 +3004,14 @@ If not specified, Envoy Gateway will not verify the downloaded Wasm code.
 kubebuilder:validation:Pattern=`^[a-f0-9]{64}$`
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.wasm[].code.http.tls" data-path-key="|spec|wasm[]|code|http|tls|" data-parent-path="spec.wasm[].code.http" data-name="tls" data-text="TLS configuration when connecting to the Wasm code source.">
+<details class="prop" data-prop-row data-path="spec.wasm[].code.http.tls" data-path-key="|spec|wasm[]|code|http|tls|" data-parent-path="spec.wasm[].code.http" data-name="tls" data-text="TLS configuration when connecting to the Wasm code source.
+If unset, system trust store is used for HTTPS url.">
 <summary>
   <span class="prop-name">tls</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">TLS configuration when connecting to the Wasm code source.</div>
+<div class="prop-content"><div class="prop-desc">TLS configuration when connecting to the Wasm code source.
+If unset, system trust store is used for HTTPS url.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.wasm[].code.http.tls.caCertificateRef" data-path-key="|spec|wasm[]|code|http|tls|caCertificateRef|" data-parent-path="spec.wasm[].code.http.tls" data-name="caCertificateRef" data-text="CACertificateRef contains a reference to
 Kubernetes objects that contain TLS certificates of
@@ -3185,12 +3187,14 @@ If not specified, Envoy Gateway will not verify the downloaded OCI image.
 kubebuilder:validation:Pattern=`^[a-f0-9]{64}$`
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.wasm[].code.image.tls" data-path-key="|spec|wasm[]|code|image|tls|" data-parent-path="spec.wasm[].code.image" data-name="tls" data-text="TLS configuration when connecting to the Wasm code source.">
+<details class="prop" data-prop-row data-path="spec.wasm[].code.image.tls" data-path-key="|spec|wasm[]|code|image|tls|" data-parent-path="spec.wasm[].code.image" data-name="tls" data-text="TLS configuration when connecting to the Wasm code source.
+If unset, system trust store is used.">
 <summary>
   <span class="prop-name">tls</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">TLS configuration when connecting to the Wasm code source.</div>
+<div class="prop-content"><div class="prop-desc">TLS configuration when connecting to the Wasm code source.
+If unset, system trust store is used.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.wasm[].code.image.tls.caCertificateRef" data-path-key="|spec|wasm[]|code|image|tls|caCertificateRef|" data-parent-path="spec.wasm[].code.image.tls" data-name="caCertificateRef" data-text="CACertificateRef contains a reference to
 Kubernetes objects that contain TLS certificates of
