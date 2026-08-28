@@ -440,13 +440,15 @@ When specified, ToolHive auto-mounts the ConfigMap and auto-computes ThvCABundle
 When specified, ToolHive auto-mounts the ConfigMap and auto-computes ThvCABundlePath.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.inline.caBundleRef.configMapRef" data-path-key="|spec|inline|caBundleRef|configMapRef|" data-parent-path="spec.inline.caBundleRef" data-name="configMapRef" data-text="ConfigMapRef references a ConfigMap containing the CA certificate bundle.
-If Key is not specified, it defaults to &#34;ca.crt&#34;.">
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.">
 <summary>
   <span class="prop-name">configMapRef</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">ConfigMapRef references a ConfigMap containing the CA certificate bundle.
-If Key is not specified, it defaults to &#34;ca.crt&#34;.</div>
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.inline.caBundleRef.configMapRef.key" data-path-key="|spec|inline|caBundleRef|configMapRef|key|" data-parent-path="spec.inline.caBundleRef.configMapRef" data-name="key" data-text="The key to select.">
   <span class="prop-name">key</span>

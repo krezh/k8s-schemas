@@ -1564,6 +1564,62 @@ hosts unless InsecureAllowHTTP is set. Defaults to false.
 <div class="schema-constraint" title="pattern: ^https?://.*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://.*$</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|caBundleRef|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="caBundleRef" data-text="CABundleRef references a ConfigMap containing a CA bundle added to the
+system roots when connecting to this upstream; it does not restrict trust
+to this bundle or disable public-root trust. The selected key is projected
+as ca.crt.">
+<summary>
+  <span class="prop-name">caBundleRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CABundleRef references a ConfigMap containing a CA bundle added to the
+system roots when connecting to this upstream; it does not restrict trust
+to this bundle or disable public-root trust. The selected key is projected
+as ca.crt.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef.configMapRef" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|caBundleRef|configMapRef|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef" data-name="configMapRef" data-text="ConfigMapRef references a ConfigMap containing the CA certificate bundle.
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.">
+<summary>
+  <span class="prop-name">configMapRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ConfigMapRef references a ConfigMap containing the CA certificate bundle.
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef.configMapRef.key" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|caBundleRef|configMapRef|key|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef.configMapRef" data-name="key" data-text="The key to select.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key to select.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef.configMapRef.name" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|caBundleRef|configMapRef|name|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef.configMapRef" data-name="name" data-text="Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef.configMapRef.optional" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|caBundleRef|configMapRef|optional|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config.caBundleRef.configMapRef" data-name="optional" data-text="Specify whether the ConfigMap or its key must be defined">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the ConfigMap or its key must be defined
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.clientId" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|clientId|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="clientId" data-text="ClientID is the OAuth 2.0 client identifier registered with the upstream IDP.
 Mutually exclusive with DCRConfig: when DCRConfig is set, ClientID is obtained
 at runtime via RFC 7591 Dynamic Client Registration and must be left empty.">
@@ -2014,6 +2070,72 @@ Framework-managed parameters (response_type, client_id, redirect_uri,
 scope, state, code_challenge, code_challenge_method, nonce) are not allowed.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.allowPrivateIPs" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|allowPrivateIPs|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="allowPrivateIPs" data-text="AllowPrivateIPs permits the upstream provider&#39;s HTTP client to connect to
+private IP ranges (RFC-1918, link-local). Use only when the upstream is
+hosted inside the same cluster and has no public endpoint.">
+  <span class="prop-name">allowPrivateIPs</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowPrivateIPs permits the upstream provider&#39;s HTTP client to connect to
+private IP ranges (RFC-1918, link-local). Use only when the upstream is
+hosted inside the same cluster and has no public endpoint.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|caBundleRef|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="caBundleRef" data-text="CABundleRef references a ConfigMap containing a CA bundle added to the
+system roots when connecting to this upstream; it does not restrict trust
+to this bundle or disable public-root trust. The selected key is projected
+as ca.crt.">
+<summary>
+  <span class="prop-name">caBundleRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CABundleRef references a ConfigMap containing a CA bundle added to the
+system roots when connecting to this upstream; it does not restrict trust
+to this bundle or disable public-root trust. The selected key is projected
+as ca.crt.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef.configMapRef" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|caBundleRef|configMapRef|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef" data-name="configMapRef" data-text="ConfigMapRef references a ConfigMap containing the CA certificate bundle.
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.">
+<summary>
+  <span class="prop-name">configMapRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ConfigMapRef references a ConfigMap containing the CA certificate bundle.
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef.configMapRef.key" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|caBundleRef|configMapRef|key|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef.configMapRef" data-name="key" data-text="The key to select.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key to select.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef.configMapRef.name" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|caBundleRef|configMapRef|name|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef.configMapRef" data-name="name" data-text="Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef.configMapRef.optional" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|caBundleRef|configMapRef|optional|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.caBundleRef.configMapRef" data-name="optional" data-text="Specify whether the ConfigMap or its key must be defined">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the ConfigMap or its key must be defined
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.clientId" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|clientId|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="clientId" data-text="ClientID is the OAuth 2.0 client identifier registered with the upstream IdP.">
   <span class="prop-name">clientId</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
