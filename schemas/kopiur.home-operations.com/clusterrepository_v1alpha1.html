@@ -1208,7 +1208,12 @@ in-process (and re-runs for catalog re-scans).</div>
 <details class="prop" data-prop-row data-path="spec.bootstrap.failurePolicy" data-path-key="|spec|bootstrap|failurePolicy|" data-parent-path="spec.bootstrap" data-name="failurePolicy" data-text="Failure policy for the bootstrap Job. `activeDeadlineSeconds` caps how long
 a connect may run before the Job is marked failed (default 120s); raise it
 for a slow backend — e.g. an rclone remote whose repository metadata and
-indexes load through kopia&#39;s embedded `rclone serve`/WebDAV bridge.
+indexes load through kopia&#39;s embedded `rclone serve`/WebDAV bridge, or a
+large repository whose cold-cache connect outgrows the default. The value
+is a BASE, not a ceiling: after consecutive deadline-killed attempts the
+operator escalates the effective deadline itself (doubling per attempt, up
+to 30 minutes or the configured value, whichever is larger — never below
+it), so a slow-but-alive backend self-heals without a spec edit.
 `backoffLimit` bounds retries. `podStartupDeadlineSeconds` is accepted for
 shape parity but is not honored by the bootstrap Job.">
 <summary>
@@ -1218,7 +1223,12 @@ shape parity but is not honored by the bootstrap Job.">
 <div class="prop-content"><div class="prop-desc">Failure policy for the bootstrap Job. `activeDeadlineSeconds` caps how long
 a connect may run before the Job is marked failed (default 120s); raise it
 for a slow backend — e.g. an rclone remote whose repository metadata and
-indexes load through kopia&#39;s embedded `rclone serve`/WebDAV bridge.
+indexes load through kopia&#39;s embedded `rclone serve`/WebDAV bridge, or a
+large repository whose cold-cache connect outgrows the default. The value
+is a BASE, not a ceiling: after consecutive deadline-killed attempts the
+operator escalates the effective deadline itself (doubling per attempt, up
+to 30 minutes or the configured value, whichever is larger — never below
+it), so a slow-but-alive backend self-heals without a spec edit.
 `backoffLimit` bounds retries. `podStartupDeadlineSeconds` is accepted for
 shape parity but is not honored by the bootstrap Job.</div>
   <div class="prop-children">
@@ -1584,18 +1594,24 @@ minimum `30s`, default `30m`). Inert when `enabled: false`.
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.health.probe.onFailure" data-path-key="|spec|health|probe|onFailure|" data-parent-path="spec.health.probe" data-name="onFailure" data-text="What sustained backend-probe failure (past `failureThreshold`) does to the
 repository (default `Degrade`). `Degrade` moves it to `Degraded`, pausing
-backups, maintenance, and replication until a re-connect succeeds —
-recovery is automatic. `Alert` keeps the repository `Ready` and only raises
-the `BackendReachable` condition &#43; Warning event &#43; metric; backups keep
-running against the failing backend. Neither ever auto-recreates. enum: Degrade, Alert">
+backups and replication until a re-connect succeeds — recovery is
+automatic (maintenance also pauses for a confirmed-unreachable/vanished
+backend, but keeps running for a probe deadline kill, where index
+compaction is often the cure). `Alert` keeps the repository `Ready` and
+only raises the `BackendReachable` condition &#43; Warning event &#43; metric;
+backups keep running against the failing backend. Neither ever
+auto-recreates. enum: Degrade, Alert">
   <span class="prop-name">onFailure</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">What sustained backend-probe failure (past `failureThreshold`) does to the
 repository (default `Degrade`). `Degrade` moves it to `Degraded`, pausing
-backups, maintenance, and replication until a re-connect succeeds —
-recovery is automatic. `Alert` keeps the repository `Ready` and only raises
-the `BackendReachable` condition &#43; Warning event &#43; metric; backups keep
-running against the failing backend. Neither ever auto-recreates.<div class="leaf-constraints">
+backups and replication until a re-connect succeeds — recovery is
+automatic (maintenance also pauses for a confirmed-unreachable/vanished
+backend, but keeps running for a probe deadline kill, where index
+compaction is often the cure). `Alert` keeps the repository `Ready` and
+only raises the `BackendReachable` condition &#43; Warning event &#43; metric;
+backups keep running against the failing backend. Neither ever
+auto-recreates.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: Degrade, Alert"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Degrade, Alert</code></div></div>
   </div>
 </div>
@@ -5036,6 +5052,134 @@ operator&#39;s back.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: none, copy, copyOverwrite"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">none, copy, copyOverwrite</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.seed.migrate.throttle" data-path-key="|spec|seed|migrate|throttle|" data-parent-path="spec.seed.migrate" data-name="throttle" data-text="Bandwidth/ops caps for THIS seed&#39;s copy, per side. A migrate seed opens
+two repositories under two kopia connections and `snapshot migrate` has
+no speed flags of its own, so each side is applied as `kopia repository
+throttle set` on that side&#39;s connection:
+
+* `source` caps the REPLICA — the repository named by
+  `spec.seed.from.repository`, opened read-only — overriding **its**
+  `moverDefaults.throttle`;
+* `destination` caps THIS repository, the one being seeded, overriding
+  **its own** `moverDefaults.throttle`.
+
+Each side overrides field by field: a knob set here wins, a knob left
+unset keeps that repository&#39;s default. Absent: both sides use their
+repository&#39;s defaults. Applies only while the seed is armed — an
+ordinary connect to the now-initialized repository is capped by
+`moverDefaults.throttle` alone.">
+<summary>
+  <span class="prop-name">throttle</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Bandwidth/ops caps for THIS seed&#39;s copy, per side. A migrate seed opens
+two repositories under two kopia connections and `snapshot migrate` has
+no speed flags of its own, so each side is applied as `kopia repository
+throttle set` on that side&#39;s connection:
+
+* `source` caps the REPLICA — the repository named by
+  `spec.seed.from.repository`, opened read-only — overriding **its**
+  `moverDefaults.throttle`;
+* `destination` caps THIS repository, the one being seeded, overriding
+  **its own** `moverDefaults.throttle`.
+
+Each side overrides field by field: a knob set here wins, a knob left
+unset keeps that repository&#39;s default. Absent: both sides use their
+repository&#39;s defaults. Applies only while the seed is armed — an
+ordinary connect to the now-initialized repository is capped by
+`moverDefaults.throttle` alone.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.seed.migrate.throttle.destination" data-path-key="|spec|seed|migrate|throttle|destination|" data-parent-path="spec.seed.migrate.throttle" data-name="destination" data-text="Caps for the DESTINATION (write) side, overriding the destination
+repository&#39;s `moverDefaults.throttle` field by field. Applied with
+`repository throttle set` on the destination connection the migrate
+writes through.">
+<summary>
+  <span class="prop-name">destination</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Caps for the DESTINATION (write) side, overriding the destination
+repository&#39;s `moverDefaults.throttle` field by field. Applied with
+`repository throttle set` on the destination connection the migrate
+writes through.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.destination.downloadBytesPerSecond" data-path-key="|spec|seed|migrate|throttle|destination|downloadBytesPerSecond|" data-parent-path="spec.seed.migrate.throttle.destination" data-name="downloadBytesPerSecond" data-text="Cap download throughput in bytes/sec (`--download-bytes-per-second`). format: int64">
+  <span class="prop-name">downloadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap download throughput in bytes/sec (`--download-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.destination.readOpsPerSecond" data-path-key="|spec|seed|migrate|throttle|destination|readOpsPerSecond|" data-parent-path="spec.seed.migrate.throttle.destination" data-name="readOpsPerSecond" data-text="Cap read/list ops/sec (`--read-requests-per-second`). format: int64">
+  <span class="prop-name">readOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap read/list ops/sec (`--read-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.destination.uploadBytesPerSecond" data-path-key="|spec|seed|migrate|throttle|destination|uploadBytesPerSecond|" data-parent-path="spec.seed.migrate.throttle.destination" data-name="uploadBytesPerSecond" data-text="Cap upload throughput in bytes/sec (`--upload-bytes-per-second`). format: int64">
+  <span class="prop-name">uploadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap upload throughput in bytes/sec (`--upload-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.destination.writeOpsPerSecond" data-path-key="|spec|seed|migrate|throttle|destination|writeOpsPerSecond|" data-parent-path="spec.seed.migrate.throttle.destination" data-name="writeOpsPerSecond" data-text="Cap write ops/sec (`--write-requests-per-second`). format: int64">
+  <span class="prop-name">writeOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap write ops/sec (`--write-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.seed.migrate.throttle.source" data-path-key="|spec|seed|migrate|throttle|source|" data-parent-path="spec.seed.migrate.throttle" data-name="source" data-text="Caps for the SOURCE (read) side, overriding the source repository&#39;s
+`moverDefaults.throttle` field by field. Applied with `repository
+throttle set` on the migrate&#39;s read-only source connection — accepted
+there, so a read-only source is throttled like any other.">
+<summary>
+  <span class="prop-name">source</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Caps for the SOURCE (read) side, overriding the source repository&#39;s
+`moverDefaults.throttle` field by field. Applied with `repository
+throttle set` on the migrate&#39;s read-only source connection — accepted
+there, so a read-only source is throttled like any other.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.source.downloadBytesPerSecond" data-path-key="|spec|seed|migrate|throttle|source|downloadBytesPerSecond|" data-parent-path="spec.seed.migrate.throttle.source" data-name="downloadBytesPerSecond" data-text="Cap download throughput in bytes/sec (`--download-bytes-per-second`). format: int64">
+  <span class="prop-name">downloadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap download throughput in bytes/sec (`--download-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.source.readOpsPerSecond" data-path-key="|spec|seed|migrate|throttle|source|readOpsPerSecond|" data-parent-path="spec.seed.migrate.throttle.source" data-name="readOpsPerSecond" data-text="Cap read/list ops/sec (`--read-requests-per-second`). format: int64">
+  <span class="prop-name">readOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap read/list ops/sec (`--read-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.source.uploadBytesPerSecond" data-path-key="|spec|seed|migrate|throttle|source|uploadBytesPerSecond|" data-parent-path="spec.seed.migrate.throttle.source" data-name="uploadBytesPerSecond" data-text="Cap upload throughput in bytes/sec (`--upload-bytes-per-second`). format: int64">
+  <span class="prop-name">uploadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap upload throughput in bytes/sec (`--upload-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.seed.migrate.throttle.source.writeOpsPerSecond" data-path-key="|spec|seed|migrate|throttle|source|writeOpsPerSecond|" data-parent-path="spec.seed.migrate.throttle.source" data-name="writeOpsPerSecond" data-text="Cap write ops/sec (`--write-requests-per-second`). format: int64">
+  <span class="prop-name">writeOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap write ops/sec (`--write-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>

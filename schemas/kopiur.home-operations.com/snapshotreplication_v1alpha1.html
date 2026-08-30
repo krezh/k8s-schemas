@@ -476,6 +476,114 @@ to the destination. Defaults to [`PolicyCopyMode::None`].<div class="leaf-constr
 <div class="schema-constraint" title="enum: none, copy, copyOverwrite"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">none, copy, copyOverwrite</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.migrate.throttle" data-path-key="|spec|migrate|throttle|" data-parent-path="spec.migrate" data-name="throttle" data-text="Bandwidth/ops caps for THIS replication&#39;s runs, per side. `snapshot
+migrate` has no speed flags, so each side is applied as `kopia repository
+throttle set` on that side&#39;s connection; `source` overrides the source
+repository&#39;s `moverDefaults.throttle` and `destination` the destination
+repository&#39;s, field by field (a field left unset keeps that repository&#39;s
+default). Absent: both sides use their repository&#39;s defaults.">
+<summary>
+  <span class="prop-name">throttle</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Bandwidth/ops caps for THIS replication&#39;s runs, per side. `snapshot
+migrate` has no speed flags, so each side is applied as `kopia repository
+throttle set` on that side&#39;s connection; `source` overrides the source
+repository&#39;s `moverDefaults.throttle` and `destination` the destination
+repository&#39;s, field by field (a field left unset keeps that repository&#39;s
+default). Absent: both sides use their repository&#39;s defaults.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.migrate.throttle.destination" data-path-key="|spec|migrate|throttle|destination|" data-parent-path="spec.migrate.throttle" data-name="destination" data-text="Caps for the DESTINATION (write) side, overriding the destination
+repository&#39;s `moverDefaults.throttle` field by field. Applied with
+`repository throttle set` on the destination connection the migrate
+writes through.">
+<summary>
+  <span class="prop-name">destination</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Caps for the DESTINATION (write) side, overriding the destination
+repository&#39;s `moverDefaults.throttle` field by field. Applied with
+`repository throttle set` on the destination connection the migrate
+writes through.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.destination.downloadBytesPerSecond" data-path-key="|spec|migrate|throttle|destination|downloadBytesPerSecond|" data-parent-path="spec.migrate.throttle.destination" data-name="downloadBytesPerSecond" data-text="Cap download throughput in bytes/sec (`--download-bytes-per-second`). format: int64">
+  <span class="prop-name">downloadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap download throughput in bytes/sec (`--download-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.destination.readOpsPerSecond" data-path-key="|spec|migrate|throttle|destination|readOpsPerSecond|" data-parent-path="spec.migrate.throttle.destination" data-name="readOpsPerSecond" data-text="Cap read/list ops/sec (`--read-requests-per-second`). format: int64">
+  <span class="prop-name">readOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap read/list ops/sec (`--read-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.destination.uploadBytesPerSecond" data-path-key="|spec|migrate|throttle|destination|uploadBytesPerSecond|" data-parent-path="spec.migrate.throttle.destination" data-name="uploadBytesPerSecond" data-text="Cap upload throughput in bytes/sec (`--upload-bytes-per-second`). format: int64">
+  <span class="prop-name">uploadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap upload throughput in bytes/sec (`--upload-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.destination.writeOpsPerSecond" data-path-key="|spec|migrate|throttle|destination|writeOpsPerSecond|" data-parent-path="spec.migrate.throttle.destination" data-name="writeOpsPerSecond" data-text="Cap write ops/sec (`--write-requests-per-second`). format: int64">
+  <span class="prop-name">writeOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap write ops/sec (`--write-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.migrate.throttle.source" data-path-key="|spec|migrate|throttle|source|" data-parent-path="spec.migrate.throttle" data-name="source" data-text="Caps for the SOURCE (read) side, overriding the source repository&#39;s
+`moverDefaults.throttle` field by field. Applied with `repository
+throttle set` on the migrate&#39;s read-only source connection — accepted
+there, so a read-only source is throttled like any other.">
+<summary>
+  <span class="prop-name">source</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Caps for the SOURCE (read) side, overriding the source repository&#39;s
+`moverDefaults.throttle` field by field. Applied with `repository
+throttle set` on the migrate&#39;s read-only source connection — accepted
+there, so a read-only source is throttled like any other.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.source.downloadBytesPerSecond" data-path-key="|spec|migrate|throttle|source|downloadBytesPerSecond|" data-parent-path="spec.migrate.throttle.source" data-name="downloadBytesPerSecond" data-text="Cap download throughput in bytes/sec (`--download-bytes-per-second`). format: int64">
+  <span class="prop-name">downloadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap download throughput in bytes/sec (`--download-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.source.readOpsPerSecond" data-path-key="|spec|migrate|throttle|source|readOpsPerSecond|" data-parent-path="spec.migrate.throttle.source" data-name="readOpsPerSecond" data-text="Cap read/list ops/sec (`--read-requests-per-second`). format: int64">
+  <span class="prop-name">readOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap read/list ops/sec (`--read-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.source.uploadBytesPerSecond" data-path-key="|spec|migrate|throttle|source|uploadBytesPerSecond|" data-parent-path="spec.migrate.throttle.source" data-name="uploadBytesPerSecond" data-text="Cap upload throughput in bytes/sec (`--upload-bytes-per-second`). format: int64">
+  <span class="prop-name">uploadBytesPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap upload throughput in bytes/sec (`--upload-bytes-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.migrate.throttle.source.writeOpsPerSecond" data-path-key="|spec|migrate|throttle|source|writeOpsPerSecond|" data-parent-path="spec.migrate.throttle.source" data-name="writeOpsPerSecond" data-text="Cap write ops/sec (`--write-requests-per-second`). format: int64">
+  <span class="prop-name">writeOpsPerSecond</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Cap write ops/sec (`--write-requests-per-second`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
