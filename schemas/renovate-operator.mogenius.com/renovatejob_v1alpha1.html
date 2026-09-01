@@ -1705,10 +1705,12 @@ Defaults to &#34;&#34;.
 </summary>
 <div class="prop-content"><div class="prop-desc">Selects a key of a ConfigMap.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.extraEnv[].valueFrom.configMapKeyRef.key" data-path-key="|spec|extraEnv[]|valueFrom|configMapKeyRef|key|" data-parent-path="spec.extraEnv[].valueFrom.configMapKeyRef" data-name="key" data-text="The key to select.">
+<div class="prop-leaf" data-prop-row data-path="spec.extraEnv[].valueFrom.configMapKeyRef.key" data-path-key="|spec|extraEnv[]|valueFrom|configMapKeyRef|key|" data-parent-path="spec.extraEnv[].valueFrom.configMapKeyRef" data-name="key" data-text="The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.">
   <span class="prop-name">key</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The key to select.
+  <div class="leaf-desc">The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extraEnv[].valueFrom.configMapKeyRef.name" data-path-key="|spec|extraEnv[]|valueFrom|configMapKeyRef|name|" data-parent-path="spec.extraEnv[].valueFrom.configMapKeyRef" data-name="name" data-text="Name of the referent.
@@ -1971,12 +1973,26 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
 <div class="prop-content"><div class="prop-desc">Additional volume mounts for the renovate pods</div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 64"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">64</code></div></div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].mountPath" data-path-key="|spec|extraVolumeMounts[]|mountPath|" data-parent-path="spec.extraVolumeMounts" data-name="mountPath" data-text="Path within the container at which the volume should be mounted.  Must
-not contain &#39;:&#39;.">
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].bindMountOptions" data-path-key="|spec|extraVolumeMounts[]|bindMountOptions|" data-parent-path="spec.extraVolumeMounts" data-name="bindMountOptions" data-text="bindMountOptions is the list of additional bind mount options to apply when
+mounting this volume into the container. Allowed values are noexec,
+nodev, and nosuid. These are Linux mount options and have no effect on
+Windows nodes.
+This field is not supported with image volumes.
+This is an alpha field and requires enabling the VolumeBindMountOptions feature gate.">
+  <span class="prop-name">bindMountOptions</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">bindMountOptions is the list of additional bind mount options to apply when
+mounting this volume into the container. Allowed values are noexec,
+nodev, and nosuid. These are Linux mount options and have no effect on
+Windows nodes.
+This field is not supported with image volumes.
+This is an alpha field and requires enabling the VolumeBindMountOptions feature gate.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].mountPath" data-path-key="|spec|extraVolumeMounts[]|mountPath|" data-parent-path="spec.extraVolumeMounts" data-name="mountPath" data-text="Path within the container at which the volume should be mounted.">
   <span class="prop-name">mountPath</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Path within the container at which the volume should be mounted.  Must
-not contain &#39;:&#39;.
+  <div class="leaf-desc">Path within the container at which the volume should be mounted.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].mountPropagation" data-path-key="|spec|extraVolumeMounts[]|mountPropagation|" data-parent-path="spec.extraVolumeMounts" data-name="mountPropagation" data-text="mountPropagation determines how mounts are propagated from the host
@@ -2403,6 +2419,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].configMap.defaultUser" data-path-key="|spec|extraVolumes[]|configMap|defaultUser|" data-parent-path="spec.extraVolumes[].configMap" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].configMap.items" data-path-key="|spec|extraVolumes[]|configMap|items|" data-parent-path="spec.extraVolumes[].configMap" data-name="items" data-text="items if unspecified, each key-value pair in the Data field of the referenced
 ConfigMap will be projected into the volume as a file whose name is the
 key and content is the value. If specified, the listed keys will be
@@ -2455,6 +2482,17 @@ May not start with the string &#39;..&#39;.">
 May not be an absolute path.
 May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].configMap.items[].user" data-path-key="|spec|extraVolumes[]|configMap|items[]|user|" data-parent-path="spec.extraVolumes[].configMap.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -2587,6 +2625,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].downwardAPI.defaultUser" data-path-key="|spec|extraVolumes[]|downwardAPI|defaultUser|" data-parent-path="spec.extraVolumes[].downwardAPI" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].downwardAPI.items" data-path-key="|spec|extraVolumes[]|downwardAPI|items|" data-parent-path="spec.extraVolumes[].downwardAPI" data-name="items" data-text="Items is a list of downward API volume file">
 <summary>
   <span class="prop-name">items</span>
@@ -2670,6 +2719,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].downwardAPI.items[].user" data-path-key="|spec|extraVolumes[]|downwardAPI|items[]|user|" data-parent-path="spec.extraVolumes[].downwardAPI.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -2695,6 +2755,27 @@ More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir">
 The default is &#34;&#34; which means to use the node&#39;s default medium.
 Must be an empty string (default) or Memory.
 More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].emptyDir.mode" data-path-key="|spec|extraVolumes[]|emptyDir|mode|" data-parent-path="spec.extraVolumes[].emptyDir" data-name="mode" data-text="mode specifies the permission bits for the emptyDir directory, in numeric
+notation (e.g., 0755, 01777). Must be a value between 0000 and 01777.
+If not specified, defaults to 0777.
+This might be in conflict with other options that affect the file
+mode, like fsGroup. If fsGroup is specified, the fsGroup permissions
+will override the mode specified here.
+This field has no effect on Windows.
+This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled. format: int32">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">mode specifies the permission bits for the emptyDir directory, in numeric
+notation (e.g., 0755, 01777). Must be a value between 0000 and 01777.
+If not specified, defaults to 0777.
+This might be in conflict with other options that affect the file
+mode, like fsGroup. If fsGroup is specified, the fsGroup permissions
+will override the mode specified here.
+This field has no effect on Windows.
+This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].emptyDir.sizeLimit" data-path-key="|spec|extraVolumes[]|emptyDir|sizeLimit|" data-parent-path="spec.extraVolumes[].emptyDir" data-name="sizeLimit" data-text="sizeLimit is the total amount of local storage required for this EmptyDir volume.
@@ -2853,8 +2934,8 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access
 * An existing PVC (PersistentVolumeClaim)
 If the provisioner or an external controller can support the specified data source,
 it will create a new volume based on the contents of the specified data source.
-When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef,
-and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified.
+dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be
+copied to dataSource when dataSourceRef.namespace is not specified.
 If the namespace is specified, then dataSourceRef will not be copied to dataSource.">
 <summary>
   <span class="prop-name">dataSource</span>
@@ -2865,8 +2946,8 @@ If the namespace is specified, then dataSourceRef will not be copied to dataSour
 * An existing PVC (PersistentVolumeClaim)
 If the provisioner or an external controller can support the specified data source,
 it will create a new volume based on the contents of the specified data source.
-When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef,
-and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified.
+dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be
+copied to dataSource when dataSourceRef.namespace is not specified.
 If the namespace is specified, then dataSourceRef will not be copied to dataSource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSource.apiGroup" data-path-key="|spec|extraVolumes[]|ephemeral|volumeClaimTemplate|spec|dataSource|apiGroup|" data-parent-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSource" data-name="apiGroup" data-text="APIGroup is the group for the resource being referenced.
@@ -2915,7 +2996,6 @@ There are three important differences between dataSource and dataSourceRef:
   specified.
 * While dataSource only allows local objects, dataSourceRef allows objects
   in any namespaces.
-(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.
 (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.">
 <summary>
   <span class="prop-name">dataSourceRef</span>
@@ -2942,7 +3022,6 @@ There are three important differences between dataSource and dataSourceRef:
   specified.
 * While dataSource only allows local objects, dataSourceRef allows objects
   in any namespaces.
-(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.
 (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSourceRef.apiGroup" data-path-key="|spec|extraVolumes[]|ephemeral|volumeClaimTemplate|spec|dataSourceRef|apiGroup|" data-parent-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSourceRef" data-name="apiGroup" data-text="APIGroup is the group for the resource being referenced.
@@ -3808,6 +3887,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.defaultUser" data-path-key="|spec|extraVolumes[]|projected|defaultUser|" data-parent-path="spec.extraVolumes[].projected" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].projected.sources" data-path-key="|spec|extraVolumes[]|projected|sources|" data-parent-path="spec.extraVolumes[].projected" data-name="sources" data-text="sources is the list of volume projections. Each entry in this list
 handles one source.">
 <summary>
@@ -3948,6 +4038,17 @@ Mutually-exclusive with name.  The contents of all selected
 ClusterTrustBundles will be unified and deduplicated.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].clusterTrustBundle.user" data-path-key="|spec|extraVolumes[]|projected|sources[]|clusterTrustBundle|user|" data-parent-path="spec.extraVolumes[].projected.sources[].clusterTrustBundle" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -4010,6 +4111,17 @@ May not start with the string &#39;..&#39;.">
 May not be an absolute path.
 May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].configMap.items[].user" data-path-key="|spec|extraVolumes[]|projected|sources[]|configMap|items[]|user|" data-parent-path="spec.extraVolumes[].projected.sources[].configMap.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -4128,6 +4240,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].downwardAPI.items[].user" data-path-key="|spec|extraVolumes[]|projected|sources[]|downwardAPI|items[]|user|" data-parent-path="spec.extraVolumes[].projected.sources[].downwardAPI.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -4322,6 +4445,17 @@ longer than 24 hours.<div class="leaf-constraints">
   <div class="leaf-desc">Kubelet&#39;s generated CSRs will be addressed to this signer.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].podCertificate.user" data-path-key="|spec|extraVolumes[]|projected|sources[]|podCertificate|user|" data-parent-path="spec.extraVolumes[].projected.sources[].podCertificate" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].podCertificate.userAnnotations" data-path-key="|spec|extraVolumes[]|projected|sources[]|podCertificate|userAnnotations|" data-parent-path="spec.extraVolumes[].projected.sources[].podCertificate" data-name="userAnnotations" data-text="userAnnotations allow pod authors to pass additional information to
 the signer implementation.  Kubernetes does not restrict or validate this
 metadata in any way.
@@ -4416,6 +4550,17 @@ May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].secret.items[].user" data-path-key="|spec|extraVolumes[]|projected|sources[]|secret|items[]|user|" data-parent-path="spec.extraVolumes[].projected.sources[].secret.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -4484,6 +4629,17 @@ token into.">
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">path is the path relative to the mount point of the file to project the
 token into.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].serviceAccountToken.user" data-path-key="|spec|extraVolumes[]|projected|sources[]|serviceAccountToken|user|" data-parent-path="spec.extraVolumes[].projected.sources[].serviceAccountToken" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -4797,6 +4953,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].secret.defaultUser" data-path-key="|spec|extraVolumes[]|secret|defaultUser|" data-parent-path="spec.extraVolumes[].secret" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].secret.items" data-path-key="|spec|extraVolumes[]|secret|items|" data-parent-path="spec.extraVolumes[].secret" data-name="items" data-text="items If unspecified, each key-value pair in the Data field of the referenced
 Secret will be projected into the volume as a file whose name is the
 key and content is the value. If specified, the listed keys will be
@@ -4849,6 +5016,17 @@ May not start with the string &#39;..&#39;.">
 May not be an absolute path.
 May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].secret.items[].user" data-path-key="|spec|extraVolumes[]|secret|items[]|user|" data-parent-path="spec.extraVolumes[].secret.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -5383,8 +5561,8 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access
 * An existing PVC (PersistentVolumeClaim)
 If the provisioner or an external controller can support the specified data source,
 it will create a new volume based on the contents of the specified data source.
-When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef,
-and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified.
+dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be
+copied to dataSource when dataSourceRef.namespace is not specified.
 If the namespace is specified, then dataSourceRef will not be copied to dataSource.">
 <summary>
   <span class="prop-name">dataSource</span>
@@ -5395,8 +5573,8 @@ If the namespace is specified, then dataSourceRef will not be copied to dataSour
 * An existing PVC (PersistentVolumeClaim)
 If the provisioner or an external controller can support the specified data source,
 it will create a new volume based on the contents of the specified data source.
-When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef,
-and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified.
+dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be
+copied to dataSource when dataSourceRef.namespace is not specified.
 If the namespace is specified, then dataSourceRef will not be copied to dataSource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.scratchVolume.ephemeral.volumeClaimTemplate.spec.dataSource.apiGroup" data-path-key="|spec|scratchVolume|ephemeral|volumeClaimTemplate|spec|dataSource|apiGroup|" data-parent-path="spec.scratchVolume.ephemeral.volumeClaimTemplate.spec.dataSource" data-name="apiGroup" data-text="APIGroup is the group for the resource being referenced.
@@ -5445,7 +5623,6 @@ There are three important differences between dataSource and dataSourceRef:
   specified.
 * While dataSource only allows local objects, dataSourceRef allows objects
   in any namespaces.
-(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.
 (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.">
 <summary>
   <span class="prop-name">dataSourceRef</span>
@@ -5472,7 +5649,6 @@ There are three important differences between dataSource and dataSourceRef:
   specified.
 * While dataSource only allows local objects, dataSourceRef allows objects
   in any namespaces.
-(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.
 (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.scratchVolume.ephemeral.volumeClaimTemplate.spec.dataSourceRef.apiGroup" data-path-key="|spec|scratchVolume|ephemeral|volumeClaimTemplate|spec|dataSourceRef|apiGroup|" data-parent-path="spec.scratchVolume.ephemeral.volumeClaimTemplate.spec.dataSourceRef" data-name="apiGroup" data-text="APIGroup is the group for the resource being referenced.
@@ -6173,11 +6349,8 @@ It is not possible to share the same volume among privileged and unprivileged Po
 Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
 whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
 CSIDriver instance. Other volumes are always re-labelled recursively.
-&#34;MountOption&#34; value is allowed only when SELinuxMount feature gate is enabled.
 
-If not specified and SELinuxMount feature gate is enabled, &#34;MountOption&#34; is used.
-If not specified and SELinuxMount feature gate is disabled, &#34;MountOption&#34; is used for ReadWriteOncePod volumes
-and &#34;Recursive&#34; for all other volumes.
+If not specified, &#34;MountOption&#34; is used.
 
 This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
 
@@ -6198,11 +6371,8 @@ It is not possible to share the same volume among privileged and unprivileged Po
 Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
 whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
 CSIDriver instance. Other volumes are always re-labelled recursively.
-&#34;MountOption&#34; value is allowed only when SELinuxMount feature gate is enabled.
 
-If not specified and SELinuxMount feature gate is enabled, &#34;MountOption&#34; is used.
-If not specified and SELinuxMount feature gate is disabled, &#34;MountOption&#34; is used for ReadWriteOncePod volumes
-and &#34;Recursive&#34; for all other volumes.
+If not specified, &#34;MountOption&#34; is used.
 
 This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
 
@@ -6985,200 +7155,6 @@ This field may not be empty.<div class="leaf-constraints">
   <div class="leaf-desc">type of condition in CamelCase or in foo.example.com/CamelCase.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maxLength: 316"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">316</code></div></div>
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<details class="prop" data-prop-row data-path="status.projects" data-path-key="|status|projects|" data-parent-path="status" data-name="projects" data-text="">
-<summary>
-  <span class="prop-name">projects</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content">
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.projects[].duration" data-path-key="|status|projects[]|duration|" data-parent-path="status.projects" data-name="duration" data-text="">
-  <span class="prop-name">duration</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.projects[].executionOptions" data-path-key="|status|projects[]|executionOptions|" data-parent-path="status.projects" data-name="executionOptions" data-text="">
-<summary>
-  <span class="prop-name">executionOptions</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content">
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.projects[].executionOptions.debug" data-path-key="|status|projects[]|executionOptions|debug|" data-parent-path="status.projects[].executionOptions" data-name="debug" data-text="If true, the renovate job will be executed with RENOVATE_LOG_LEVEL=debug">
-  <span class="prop-name">debug</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">If true, the renovate job will be executed with RENOVATE_LOG_LEVEL=debug
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].lastTransition" data-path-key="|status|projects[]|lastTransition|" data-parent-path="status.projects" data-name="lastTransition" data-text="LastTransition records when the project most recently changed state. format: date-time">
-  <span class="prop-name">lastTransition</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">LastTransition records when the project most recently changed state.<div class="leaf-constraints">
-<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.projects[].logIssues" data-path-key="|status|projects[]|logIssues|" data-parent-path="status.projects" data-name="logIssues" data-text="LogIssues contains aggregate counts and individual issue messages from a Renovate run.">
-<summary>
-  <span class="prop-name">logIssues</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">LogIssues contains aggregate counts and individual issue messages from a Renovate run.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.projects[].logIssues.errorCount" data-path-key="|status|projects[]|logIssues|errorCount|" data-parent-path="status.projects[].logIssues" data-name="errorCount" data-text="">
-  <span class="prop-name">errorCount</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.projects[].logIssues.issues" data-path-key="|status|projects[]|logIssues|issues|" data-parent-path="status.projects[].logIssues" data-name="issues" data-text="">
-<summary>
-  <span class="prop-name">issues</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content">
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.projects[].logIssues.issues[].level" data-path-key="|status|projects[]|logIssues|issues[]|level|" data-parent-path="status.projects[].logIssues.issues" data-name="level" data-text="">
-  <span class="prop-name">level</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].logIssues.issues[].message" data-path-key="|status|projects[]|logIssues|issues[]|message|" data-parent-path="status.projects[].logIssues.issues" data-name="message" data-text="">
-  <span class="prop-name">message</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].logIssues.truncated" data-path-key="|status|projects[]|logIssues|truncated|" data-parent-path="status.projects[].logIssues" data-name="truncated" data-text="">
-  <span class="prop-name">truncated</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].logIssues.warnCount" data-path-key="|status|projects[]|logIssues|warnCount|" data-parent-path="status.projects[].logIssues" data-name="warnCount" data-text="">
-  <span class="prop-name">warnCount</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].name" data-path-key="|status|projects[]|name|" data-parent-path="status.projects" data-name="name" data-text="">
-  <span class="prop-name">name</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.projects[].prActivity" data-path-key="|status|projects[]|prActivity|" data-parent-path="status.projects" data-name="prActivity" data-text="PRActivity contains aggregate counts and individual details of PR activity from a run.">
-<summary>
-  <span class="prop-name">prActivity</span>
-  <span class="type-badge">object</span>
-</summary>
-<div class="prop-content"><div class="prop-desc">PRActivity contains aggregate counts and individual details of PR activity from a run.</div>
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.automerged" data-path-key="|status|projects[]|prActivity|automerged|" data-parent-path="status.projects[].prActivity" data-name="automerged" data-text="">
-  <span class="prop-name">automerged</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.created" data-path-key="|status|projects[]|prActivity|created|" data-parent-path="status.projects[].prActivity" data-name="created" data-text="">
-  <span class="prop-name">created</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.needsApproval" data-path-key="|status|projects[]|prActivity|needsApproval|" data-parent-path="status.projects[].prActivity" data-name="needsApproval" data-text="">
-  <span class="prop-name">needsApproval</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<details class="prop" data-prop-row data-path="status.projects[].prActivity.prs" data-path-key="|status|projects[]|prActivity|prs|" data-parent-path="status.projects[].prActivity" data-name="prs" data-text="">
-<summary>
-  <span class="prop-name">prs</span>
-  <span class="type-badge">[]object</span>
-</summary>
-<div class="prop-content">
-  <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.prs[].action" data-path-key="|status|projects[]|prActivity|prs[]|action|" data-parent-path="status.projects[].prActivity.prs" data-name="action" data-text="PRAction represents what happened to a PR in a Renovate run.">
-  <span class="prop-name">action</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">PRAction represents what happened to a PR in a Renovate run.
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.prs[].branch" data-path-key="|status|projects[]|prActivity|prs[]|branch|" data-parent-path="status.projects[].prActivity.prs" data-name="branch" data-text="">
-  <span class="prop-name">branch</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.prs[].number" data-path-key="|status|projects[]|prActivity|prs[]|number|" data-parent-path="status.projects[].prActivity.prs" data-name="number" data-text="">
-  <span class="prop-name">number</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.prs[].title" data-path-key="|status|projects[]|prActivity|prs[]|title|" data-parent-path="status.projects[].prActivity.prs" data-name="title" data-text="">
-  <span class="prop-name">title</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.truncated" data-path-key="|status|projects[]|prActivity|truncated|" data-parent-path="status.projects[].prActivity" data-name="truncated" data-text="">
-  <span class="prop-name">truncated</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.unchanged" data-path-key="|status|projects[]|prActivity|unchanged|" data-parent-path="status.projects[].prActivity" data-name="unchanged" data-text="">
-  <span class="prop-name">unchanged</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].prActivity.updated" data-path-key="|status|projects[]|prActivity|updated|" data-parent-path="status.projects[].prActivity" data-name="updated" data-text="">
-  <span class="prop-name">updated</span>
-  <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-  </div>
-</div>
-</details>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].priority" data-path-key="|status|projects[]|priority|" data-parent-path="status.projects" data-name="priority" data-text="format: int32">
-  <span class="prop-name">priority</span>
-  <span class="type-badge">integer</span>
-  <div class="leaf-desc"><div class="leaf-constraints">
-<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].renovateResultStatus" data-path-key="|status|projects[]|renovateResultStatus|" data-parent-path="status.projects" data-name="renovateResultStatus" data-text="">
-  <span class="prop-name">renovateResultStatus</span>
-  <span class="type-badge">string</span>
-  <div class="leaf-desc">
-  </div>
-</div>
-<div class="prop-leaf" data-prop-row data-path="status.projects[].status" data-path-key="|status|projects[]|status|" data-parent-path="status.projects" data-name="status" data-text="">
-  <span class="prop-name">status</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">
   </div>
 </div>
   </div>

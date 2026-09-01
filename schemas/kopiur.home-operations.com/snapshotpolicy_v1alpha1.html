@@ -2338,6 +2338,52 @@ GitOps-templated value (Flux/Kustomize `${VAR}`) is safe when the variable is un
   <div class="leaf-desc">RFC3339 timestamp of the last adoption pass that adopted at least one snapshot.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.adoption.lastScanMatched" data-path-key="|status|adoption|lastScanMatched|" data-parent-path="status.adoption" data-name="lastScanMatched" data-text="Discovered snapshots whose kopia identity matched this policy at the most
+recent adoption pass, counted BEFORE the own-id and retention filters —
+so it reads &#34;history relevant to me exists in the catalog&#34;, independent
+of whether that pass adopted anything. A multi-repository policy SUMS
+this across the ready repositories of the pass. `0` together with
+`lastScanUnmatched: 0` means the catalog was empty at that pass; absent
+means no adoption pass has run yet. Neutral inventory, not a verdict:
+`0` matched beside a non-zero `lastScanUnmatched` is the ordinary shape
+of a new policy on a shared repository, and is also what a
+post-disaster-recovery identity mismatch looks like — compare
+`status.resolved.identity` with the pre-disaster configuration to tell
+them apart. format: uint32 minimum: 0">
+  <span class="prop-name">lastScanMatched</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Discovered snapshots whose kopia identity matched this policy at the most
+recent adoption pass, counted BEFORE the own-id and retention filters —
+so it reads &#34;history relevant to me exists in the catalog&#34;, independent
+of whether that pass adopted anything. A multi-repository policy SUMS
+this across the ready repositories of the pass. `0` together with
+`lastScanUnmatched: 0` means the catalog was empty at that pass; absent
+means no adoption pass has run yet. Neutral inventory, not a verdict:
+`0` matched beside a non-zero `lastScanUnmatched` is the ordinary shape
+of a new policy on a shared repository, and is also what a
+post-disaster-recovery identity mismatch looks like — compare
+`status.resolved.identity` with the pre-disaster configuration to tell
+them apart.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.adoption.lastScanUnmatched" data-path-key="|status|adoption|lastScanUnmatched|" data-parent-path="status.adoption" data-name="lastScanUnmatched" data-text="Discovered snapshots the most recent adoption pass saw that did NOT match
+this policy&#39;s identity (other policies&#39; or other clusters&#39; history in a
+shared repository). Same counting rules as `lastScanMatched`: pre-filter,
+summed across a multi-repository policy&#39;s ready repositories, `0`/`0`
+for an empty catalog, absent when no pass has run. format: uint32 minimum: 0">
+  <span class="prop-name">lastScanUnmatched</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Discovered snapshots the most recent adoption pass saw that did NOT match
+this policy&#39;s identity (other policies&#39; or other clusters&#39; history in a
+shared repository). Same counting rules as `lastScanMatched`: pre-filter,
+summed across a multi-repository policy&#39;s ready repositories, `0`/`0`
+for an empty catalog, absent when no pass has run.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.adoption.scanRequestedAt" data-path-key="|status|adoption|scanRequestedAt|" data-parent-path="status.adoption" data-name="scanRequestedAt" data-text="RFC3339 token echoing an in-flight on-demand adoption scan request for
 this policy&#39;s identity; cleared once honored.">
   <span class="prop-name">scanRequestedAt</span>
