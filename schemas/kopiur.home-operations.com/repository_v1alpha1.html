@@ -1299,6 +1299,66 @@ rely on discovered snapshots reflecting changes made outside this operator.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.concurrency" data-path-key="|spec|concurrency|" data-parent-path="spec" data-name="concurrency" data-text="Concurrency limits for mover Jobs against this repository (absent = unlimited).">
+<summary>
+  <span class="prop-name">concurrency</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Concurrency limits for mover Jobs against this repository (absent = unlimited).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.concurrency.maxConcurrentJobs" data-path-key="|spec|concurrency|maxConcurrentJobs|" data-parent-path="spec.concurrency" data-name="maxConcurrentJobs" data-text="Ceiling on how many of this repository&#39;s mover Jobs may be in flight at
+once. Backup snapshots, restores, and replication runs that READ FROM this
+repository all draw from ONE pool — a repository&#39;s backend (and the
+bandwidth to it) is the shared resource, so splitting the budget per work
+kind would let three &#34;safe&#34; limits still saturate it.
+
+Restores are **always admitted** and never parked: a restore is a recovery
+in progress, and holding one behind a queue of routine backups is exactly
+backwards. An in-flight restore still COUNTS toward the pool, so it
+displaces backups rather than adding to them.
+
+Excluded from the pool entirely: maintenance (already single-flight per
+repository), verification, pin, and snapshot-delete batch Jobs. These are
+operator-driven housekeeping that must not be starved by a saturated
+backup pool.
+
+Absent or `0` means unlimited — the default, and today&#39;s behavior.
+
+No schema `default:` is emitted for this field (api-conventions §4a):
+absent and `0` are the SAME state (unlimited), so a materialized default
+would stamp `{maxConcurrentJobs: 0}` onto every stored repository — GitOps
+diff noise for a value that changes nothing. format: uint32 minimum: 0">
+  <span class="prop-name">maxConcurrentJobs</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Ceiling on how many of this repository&#39;s mover Jobs may be in flight at
+once. Backup snapshots, restores, and replication runs that READ FROM this
+repository all draw from ONE pool — a repository&#39;s backend (and the
+bandwidth to it) is the shared resource, so splitting the budget per work
+kind would let three &#34;safe&#34; limits still saturate it.
+
+Restores are **always admitted** and never parked: a restore is a recovery
+in progress, and holding one behind a queue of routine backups is exactly
+backwards. An in-flight restore still COUNTS toward the pool, so it
+displaces backups rather than adding to them.
+
+Excluded from the pool entirely: maintenance (already single-flight per
+repository), verification, pin, and snapshot-delete batch Jobs. These are
+operator-driven housekeeping that must not be starved by a saturated
+backup pool.
+
+Absent or `0` means unlimited — the default, and today&#39;s behavior.
+
+No schema `default:` is emitted for this field (api-conventions §4a):
+absent and `0` are the SAME state (unlimited), so a materialized default
+would stamp `{maxConcurrentJobs: 0}` onto every stored repository — GitOps
+diff noise for a value that changes nothing.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.create" data-path-key="|spec|create|" data-parent-path="spec" data-name="create" data-text="What to do when the repository does not yet exist (absent means it must already exist).">
 <summary>
   <span class="prop-name">create</span>
@@ -3196,6 +3256,56 @@ the enclosing schedule&#39;s timezone, else the controller default (UTC).
   <div class="leaf-desc">Pod `nodeSelector` for every mover.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.moverDefaults.podAnnotations" data-path-key="|spec|moverDefaults|podAnnotations|" data-parent-path="spec.moverDefaults" data-name="podAnnotations" data-text="Extra annotations for every mover pod. Unlike `podLabels`
+these are **pod-template-only** — they are not mirrored onto the `Job`
+object, because the common case is a sidecar-injection opt-out
+(`sidecar.istio.io/inject: &#34;false&#34;`, `linkerd.io/inject: disabled`,
+`vault.hashicorp.com/agent-inject: &#34;false&#34;`) that only means anything on
+the pod a mesh webhook actually sees. A mover is a short-lived batch pod;
+an injected sidecar that never exits keeps its Job running forever.
+
+Same reserved keys as `podLabels`, rejected at admission.">
+  <span class="prop-name">podAnnotations</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Extra annotations for every mover pod. Unlike `podLabels`
+these are **pod-template-only** — they are not mirrored onto the `Job`
+object, because the common case is a sidecar-injection opt-out
+(`sidecar.istio.io/inject: &#34;false&#34;`, `linkerd.io/inject: disabled`,
+`vault.hashicorp.com/agent-inject: &#34;false&#34;`) that only means anything on
+the pod a mesh webhook actually sees. A mover is a short-lived batch pod;
+an injected sidecar that never exits keeps its Job running forever.
+
+Same reserved keys as `podLabels`, rejected at admission.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.moverDefaults.podLabels" data-path-key="|spec|moverDefaults|podLabels|" data-parent-path="spec.moverDefaults" data-name="podLabels" data-text="Extra labels for every mover POD (and the `Job` that owns it), merged
+UNDER kopiur&#39;s own labels — a key kopiur sets always wins, so a
+user-supplied value can never break the selectors the controller counts
+and reaps by.
+
+This is the hook for cluster machinery that keys off pod labels and that
+kopiur has no field of its own for: a Kueue `kueue.x-k8s.io/queue-name` to
+put movers under a cluster queue, a monitoring/`NetworkPolicy` selector, a
+service-mesh exclusion label.
+
+Keys under `kopiur.home-operations.com/` and the exact key
+`app.kubernetes.io/managed-by` are reserved and rejected at admission.">
+  <span class="prop-name">podLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Extra labels for every mover POD (and the `Job` that owns it), merged
+UNDER kopiur&#39;s own labels — a key kopiur sets always wins, so a
+user-supplied value can never break the selectors the controller counts
+and reaps by.
+
+This is the hook for cluster machinery that keys off pod labels and that
+kopiur has no field of its own for: a Kueue `kueue.x-k8s.io/queue-name` to
+put movers under a cluster queue, a monitoring/`NetworkPolicy` selector, a
+service-mesh exclusion label.
+
+Keys under `kopiur.home-operations.com/` and the exact key
+`app.kubernetes.io/managed-by` are reserved and rejected at admission.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.moverDefaults.podSecurityContext" data-path-key="|spec|moverDefaults|podSecurityContext|" data-parent-path="spec.moverDefaults" data-name="podSecurityContext" data-text="Pod security-context base (notably `fsGroup`) for every mover.">
 <summary>
   <span class="prop-name">podSecurityContext</span>
@@ -3988,17 +4098,43 @@ this field&#39;s main hazard; the API surface should not reproduce it.<div class
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.scheduleDefaults" data-path-key="|spec|scheduleDefaults|" data-parent-path="spec" data-name="scheduleDefaults" data-text="Scheduling defaults (e.g. `timezone`) inherited by consumers that don&#39;t set
-their own equivalent field — verification, replication, and maintenance
-schedules today; set once here instead of repeating it on every cron.">
+<details class="prop" data-prop-row data-path="spec.scheduleDefaults" data-path-key="|spec|scheduleDefaults|" data-parent-path="spec" data-name="scheduleDefaults" data-text="Scheduling defaults (`timezone`, `jitter`) inherited by consumers that don&#39;t
+set their own equivalent field — backup, verification, replication, and
+maintenance schedules; set once here instead of repeating it on every cron.">
 <summary>
   <span class="prop-name">scheduleDefaults</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Scheduling defaults (e.g. `timezone`) inherited by consumers that don&#39;t set
-their own equivalent field — verification, replication, and maintenance
-schedules today; set once here instead of repeating it on every cron.</div>
+<div class="prop-content"><div class="prop-desc">Scheduling defaults (`timezone`, `jitter`) inherited by consumers that don&#39;t
+set their own equivalent field — backup, verification, replication, and
+maintenance schedules; set once here instead of repeating it on every cron.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.scheduleDefaults.jitter" data-path-key="|spec|scheduleDefaults|jitter|" data-parent-path="spec.scheduleDefaults" data-name="jitter" data-text="Deterministic jitter window (Go-style duration, e.g. `10m`) applied to every
+consuming cron that doesn&#39;t set its own `jitter` — `SnapshotSchedule`,
+`Maintenance` (quick and full), `SnapshotPolicy` verification (quick and
+deep), and both replication kinds. Set once here instead of repeating it on
+every cron, so a whole repository&#39;s schedules spread their load off the
+top-of-the-hour thundering herd.
+
+The spread is deterministic per `(scheduleUID, slot)`, not random: the same
+slot always lands on the same instant, so a restart never re-rolls it.
+Capped at 24h by validation — jitter is a spread WITHIN a cron period, not a
+schedule offset.">
+  <span class="prop-name">jitter</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Deterministic jitter window (Go-style duration, e.g. `10m`) applied to every
+consuming cron that doesn&#39;t set its own `jitter` — `SnapshotSchedule`,
+`Maintenance` (quick and full), `SnapshotPolicy` verification (quick and
+deep), and both replication kinds. Set once here instead of repeating it on
+every cron, so a whole repository&#39;s schedules spread their load off the
+top-of-the-hour thundering herd.
+
+The spread is deterministic per `(scheduleUID, slot)`, not random: the same
+slot always lands on the same instant, so a restart never re-rolls it.
+Capped at 24h by validation — jitter is a spread WITHIN a cron period, not a
+schedule offset.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.scheduleDefaults.timezone" data-path-key="|spec|scheduleDefaults|timezone|" data-parent-path="spec.scheduleDefaults" data-name="timezone" data-text="IANA timezone name applied to every consuming cron that doesn&#39;t set its own
 `timezone` (e.g. `America/New_York`). Set once here instead of repeating it
 on every `SnapshotPolicy.verification`, `RepositoryReplication.schedule`, and

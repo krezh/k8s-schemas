@@ -614,6 +614,36 @@ or replaced. Absent resolves to `Retain`.<div class="leaf-constraints">
   <div class="leaf-desc">The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.lastSchedule.jitter" data-path-key="|status|lastSchedule|jitter|" data-parent-path="status.lastSchedule" data-name="jitter" data-text="The deterministic jitter window (Go-style duration, e.g. `10m`) the cron was
+spread by when this slot was pinned. This struct is shared by `nextSchedule`,
+`lastSchedule` and `lastSuccessfulSchedule`, so the field appears on all
+three, but the controller only ever WRITES it on `nextSchedule` — it is a
+property of a pin the controller may still have to invalidate, not a record
+of a slot that already fired. Recorded for the
+same reason as the pinned `timezone`: the window may be INHERITED from the
+target repository&#39;s `scheduleDefaults.jitter`, so a change to that default (or
+to `spec.schedule.jitter`) must invalidate the pinned wall-clock slot and
+recompute it in the new window — otherwise the edit would only take effect an
+arbitrary slot later. Absent both when no jitter applies and on legacy pins
+written before this field existed; an absent recorded window is treated as
+&#34;unchanged&#34; so an upgrade never churns an established pin.">
+  <span class="prop-name">jitter</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The deterministic jitter window (Go-style duration, e.g. `10m`) the cron was
+spread by when this slot was pinned. This struct is shared by `nextSchedule`,
+`lastSchedule` and `lastSuccessfulSchedule`, so the field appears on all
+three, but the controller only ever WRITES it on `nextSchedule` — it is a
+property of a pin the controller may still have to invalidate, not a record
+of a slot that already fired. Recorded for the
+same reason as the pinned `timezone`: the window may be INHERITED from the
+target repository&#39;s `scheduleDefaults.jitter`, so a change to that default (or
+to `spec.schedule.jitter`) must invalidate the pinned wall-clock slot and
+recompute it in the new window — otherwise the edit would only take effect an
+arbitrary slot later. Absent both when no jitter applies and on legacy pins
+written before this field existed; an absent recorded window is treated as
+&#34;unchanged&#34; so an upgrade never churns an established pin.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="status.lastSchedule.snapshotRef" data-path-key="|status|lastSchedule|snapshotRef|" data-parent-path="status.lastSchedule" data-name="snapshotRef" data-text="The `Snapshot` CR this slot produced, when one was created.">
 <summary>
   <span class="prop-name">snapshotRef</span>
@@ -630,16 +660,24 @@ or replaced. Absent resolves to `Retain`.<div class="leaf-constraints">
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="status.lastSchedule.timezone" data-path-key="|status|lastSchedule|timezone|" data-parent-path="status.lastSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned
-(`nextSchedule` only). Recorded so the controller can detect an
+<div class="prop-leaf" data-prop-row data-path="status.lastSchedule.timezone" data-path-key="|status|lastSchedule|timezone|" data-parent-path="status.lastSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned. This
+struct is shared by `nextSchedule`, `lastSchedule` and
+`lastSuccessfulSchedule`, so the field appears on all three, but the
+controller only ever WRITES it on `nextSchedule` — it is a property of a pin
+the controller may still have to invalidate, not a record of a slot that
+already fired. Recorded so the controller can detect an
 effective-timezone change — a `spec.schedule.timezone` edit or a change to
 the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
 pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
 pins written before this field existed (treated as &#34;unchanged&#34;).">
   <span class="prop-name">timezone</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned
-(`nextSchedule` only). Recorded so the controller can detect an
+  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned. This
+struct is shared by `nextSchedule`, `lastSchedule` and
+`lastSuccessfulSchedule`, so the field appears on all three, but the
+controller only ever WRITES it on `nextSchedule` — it is a property of a pin
+the controller may still have to invalidate, not a record of a slot that
+already fired. Recorded so the controller can detect an
 effective-timezone change — a `spec.schedule.timezone` edit or a change to
 the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
 pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
@@ -662,6 +700,36 @@ pins written before this field existed (treated as &#34;unchanged&#34;).
   <div class="leaf-desc">The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.lastSuccessfulSchedule.jitter" data-path-key="|status|lastSuccessfulSchedule|jitter|" data-parent-path="status.lastSuccessfulSchedule" data-name="jitter" data-text="The deterministic jitter window (Go-style duration, e.g. `10m`) the cron was
+spread by when this slot was pinned. This struct is shared by `nextSchedule`,
+`lastSchedule` and `lastSuccessfulSchedule`, so the field appears on all
+three, but the controller only ever WRITES it on `nextSchedule` — it is a
+property of a pin the controller may still have to invalidate, not a record
+of a slot that already fired. Recorded for the
+same reason as the pinned `timezone`: the window may be INHERITED from the
+target repository&#39;s `scheduleDefaults.jitter`, so a change to that default (or
+to `spec.schedule.jitter`) must invalidate the pinned wall-clock slot and
+recompute it in the new window — otherwise the edit would only take effect an
+arbitrary slot later. Absent both when no jitter applies and on legacy pins
+written before this field existed; an absent recorded window is treated as
+&#34;unchanged&#34; so an upgrade never churns an established pin.">
+  <span class="prop-name">jitter</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The deterministic jitter window (Go-style duration, e.g. `10m`) the cron was
+spread by when this slot was pinned. This struct is shared by `nextSchedule`,
+`lastSchedule` and `lastSuccessfulSchedule`, so the field appears on all
+three, but the controller only ever WRITES it on `nextSchedule` — it is a
+property of a pin the controller may still have to invalidate, not a record
+of a slot that already fired. Recorded for the
+same reason as the pinned `timezone`: the window may be INHERITED from the
+target repository&#39;s `scheduleDefaults.jitter`, so a change to that default (or
+to `spec.schedule.jitter`) must invalidate the pinned wall-clock slot and
+recompute it in the new window — otherwise the edit would only take effect an
+arbitrary slot later. Absent both when no jitter applies and on legacy pins
+written before this field existed; an absent recorded window is treated as
+&#34;unchanged&#34; so an upgrade never churns an established pin.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="status.lastSuccessfulSchedule.snapshotRef" data-path-key="|status|lastSuccessfulSchedule|snapshotRef|" data-parent-path="status.lastSuccessfulSchedule" data-name="snapshotRef" data-text="The `Snapshot` CR this slot produced, when one was created.">
 <summary>
   <span class="prop-name">snapshotRef</span>
@@ -678,16 +746,24 @@ pins written before this field existed (treated as &#34;unchanged&#34;).
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="status.lastSuccessfulSchedule.timezone" data-path-key="|status|lastSuccessfulSchedule|timezone|" data-parent-path="status.lastSuccessfulSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned
-(`nextSchedule` only). Recorded so the controller can detect an
+<div class="prop-leaf" data-prop-row data-path="status.lastSuccessfulSchedule.timezone" data-path-key="|status|lastSuccessfulSchedule|timezone|" data-parent-path="status.lastSuccessfulSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned. This
+struct is shared by `nextSchedule`, `lastSchedule` and
+`lastSuccessfulSchedule`, so the field appears on all three, but the
+controller only ever WRITES it on `nextSchedule` — it is a property of a pin
+the controller may still have to invalidate, not a record of a slot that
+already fired. Recorded so the controller can detect an
 effective-timezone change — a `spec.schedule.timezone` edit or a change to
 the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
 pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
 pins written before this field existed (treated as &#34;unchanged&#34;).">
   <span class="prop-name">timezone</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned
-(`nextSchedule` only). Recorded so the controller can detect an
+  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned. This
+struct is shared by `nextSchedule`, `lastSchedule` and
+`lastSuccessfulSchedule`, so the field appears on all three, but the
+controller only ever WRITES it on `nextSchedule` — it is a property of a pin
+the controller may still have to invalidate, not a record of a slot that
+already fired. Recorded so the controller can detect an
 effective-timezone change — a `spec.schedule.timezone` edit or a change to
 the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
 pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
@@ -710,6 +786,36 @@ pins written before this field existed (treated as &#34;unchanged&#34;).
   <div class="leaf-desc">The RFC3339 instant this slot fired (or is scheduled to); also accepts the `scheduledAt` alias.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.nextSchedule.jitter" data-path-key="|status|nextSchedule|jitter|" data-parent-path="status.nextSchedule" data-name="jitter" data-text="The deterministic jitter window (Go-style duration, e.g. `10m`) the cron was
+spread by when this slot was pinned. This struct is shared by `nextSchedule`,
+`lastSchedule` and `lastSuccessfulSchedule`, so the field appears on all
+three, but the controller only ever WRITES it on `nextSchedule` — it is a
+property of a pin the controller may still have to invalidate, not a record
+of a slot that already fired. Recorded for the
+same reason as the pinned `timezone`: the window may be INHERITED from the
+target repository&#39;s `scheduleDefaults.jitter`, so a change to that default (or
+to `spec.schedule.jitter`) must invalidate the pinned wall-clock slot and
+recompute it in the new window — otherwise the edit would only take effect an
+arbitrary slot later. Absent both when no jitter applies and on legacy pins
+written before this field existed; an absent recorded window is treated as
+&#34;unchanged&#34; so an upgrade never churns an established pin.">
+  <span class="prop-name">jitter</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The deterministic jitter window (Go-style duration, e.g. `10m`) the cron was
+spread by when this slot was pinned. This struct is shared by `nextSchedule`,
+`lastSchedule` and `lastSuccessfulSchedule`, so the field appears on all
+three, but the controller only ever WRITES it on `nextSchedule` — it is a
+property of a pin the controller may still have to invalidate, not a record
+of a slot that already fired. Recorded for the
+same reason as the pinned `timezone`: the window may be INHERITED from the
+target repository&#39;s `scheduleDefaults.jitter`, so a change to that default (or
+to `spec.schedule.jitter`) must invalidate the pinned wall-clock slot and
+recompute it in the new window — otherwise the edit would only take effect an
+arbitrary slot later. Absent both when no jitter applies and on legacy pins
+written before this field existed; an absent recorded window is treated as
+&#34;unchanged&#34; so an upgrade never churns an established pin.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="status.nextSchedule.snapshotRef" data-path-key="|status|nextSchedule|snapshotRef|" data-parent-path="status.nextSchedule" data-name="snapshotRef" data-text="The `Snapshot` CR this slot produced, when one was created.">
 <summary>
   <span class="prop-name">snapshotRef</span>
@@ -726,16 +832,24 @@ pins written before this field existed (treated as &#34;unchanged&#34;).
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="status.nextSchedule.timezone" data-path-key="|status|nextSchedule|timezone|" data-parent-path="status.nextSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned
-(`nextSchedule` only). Recorded so the controller can detect an
+<div class="prop-leaf" data-prop-row data-path="status.nextSchedule.timezone" data-path-key="|status|nextSchedule|timezone|" data-parent-path="status.nextSchedule" data-name="timezone" data-text="The IANA timezone the cron was evaluated in when this slot was pinned. This
+struct is shared by `nextSchedule`, `lastSchedule` and
+`lastSuccessfulSchedule`, so the field appears on all three, but the
+controller only ever WRITES it on `nextSchedule` — it is a property of a pin
+the controller may still have to invalidate, not a record of a slot that
+already fired. Recorded so the controller can detect an
 effective-timezone change — a `spec.schedule.timezone` edit or a change to
 the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
 pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
 pins written before this field existed (treated as &#34;unchanged&#34;).">
   <span class="prop-name">timezone</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned
-(`nextSchedule` only). Recorded so the controller can detect an
+  <div class="leaf-desc">The IANA timezone the cron was evaluated in when this slot was pinned. This
+struct is shared by `nextSchedule`, `lastSchedule` and
+`lastSuccessfulSchedule`, so the field appears on all three, but the
+controller only ever WRITES it on `nextSchedule` — it is a property of a pin
+the controller may still have to invalidate, not a record of a slot that
+already fired. Recorded so the controller can detect an
 effective-timezone change — a `spec.schedule.timezone` edit or a change to
 the target repository&#39;s `scheduleDefaults.timezone` — and invalidate the
 pinned wall-clock slot, recomputing it in the new zone. Absent on legacy
