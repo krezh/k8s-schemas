@@ -1069,10 +1069,12 @@ Defaults to &#34;&#34;.
 </summary>
 <div class="prop-content"><div class="prop-desc">Selects a key of a ConfigMap.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.instanceSidecarConfiguration.env[].valueFrom.configMapKeyRef.key" data-path-key="|spec|instanceSidecarConfiguration|env[]|valueFrom|configMapKeyRef|key|" data-parent-path="spec.instanceSidecarConfiguration.env[].valueFrom.configMapKeyRef" data-name="key" data-text="The key to select.">
+<div class="prop-leaf" data-prop-row data-path="spec.instanceSidecarConfiguration.env[].valueFrom.configMapKeyRef.key" data-path-key="|spec|instanceSidecarConfiguration|env[]|valueFrom|configMapKeyRef|key|" data-parent-path="spec.instanceSidecarConfiguration.env[].valueFrom.configMapKeyRef" data-name="key" data-text="The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.">
   <span class="prop-name">key</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The key to select.
+  <div class="leaf-desc">The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.instanceSidecarConfiguration.env[].valueFrom.configMapKeyRef.name" data-path-key="|spec|instanceSidecarConfiguration|env[]|valueFrom|configMapKeyRef|name|" data-parent-path="spec.instanceSidecarConfiguration.env[].valueFrom.configMapKeyRef" data-name="name" data-text="Name of the referent.
