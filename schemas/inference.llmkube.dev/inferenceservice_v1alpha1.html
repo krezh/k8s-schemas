@@ -5568,6 +5568,125 @@ hardware by keeping attention layers on GPU while expert weights use system RAM.
 Maps to llama.cpp --cpu-moe flag. Requires sufficient system RAM via resources.memory.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.multiNode" data-path-key="|spec|multiNode|" data-parent-path="spec" data-name="multiNode" data-text="MultiNode serves this model across several nodes as one gang of pods.
+Rank 0 serves the endpoint; the Service selects it as usual. Replicas
+must be 1 or unset. See docs/multi-node-inference.md.">
+<summary>
+  <span class="prop-name">multiNode</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">MultiNode serves this model across several nodes as one gang of pods.
+Rank 0 serves the endpoint; the Service selects it as usual. Replicas
+must be 1 or unset. See docs/multi-node-inference.md.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.ibGIDIndex" data-path-key="|spec|multiNode|ibGIDIndex|" data-parent-path="spec.multiNode" data-name="ibGIDIndex" data-text="IBGIDIndex sets NCCL_IB_GID_INDEX for every member (3 is RoCE v2 on the
+ConnectX-7 parts we run). Unset leaves NCCL&#39;s default. format: int32 minimum: 0">
+  <span class="prop-name">ibGIDIndex</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">IBGIDIndex sets NCCL_IB_GID_INDEX for every member (3 is RoCE v2 on the
+ConnectX-7 parts we run). Unset leaves NCCL&#39;s default.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.multiNode.members" data-path-key="|spec|multiNode|members|" data-parent-path="spec.multiNode" data-name="members" data-text="Members lists the ranks in order. At least two. minItems: 2 maxItems: 64">
+<summary>
+  <span class="prop-name">members</span>
+  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Members lists the ranks in order. At least two.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 2"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">2</code></div></div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 64"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">64</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.multiNode.members[].fabric" data-path-key="|spec|multiNode|members[]|fabric|" data-parent-path="spec.multiNode.members" data-name="fabric" data-text="Fabric is this member&#39;s fabric configuration.">
+<summary>
+  <span class="prop-name">fabric</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Fabric is this member&#39;s fabric configuration.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.members[].fabric.address" data-path-key="|spec|multiNode|members[]|fabric|address|" data-parent-path="spec.multiNode.members[].fabric" data-name="address" data-text="Address is the member&#39;s IP on the fabric. Rank 0&#39;s address is the
+rendezvous address every other rank dials; for other ranks it seeds the
+runtime&#39;s own host IP (vLLM: VLLM_HOST_IP). Optional on ranks &gt;= 1.">
+  <span class="prop-name">address</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Address is the member&#39;s IP on the fabric. Rank 0&#39;s address is the
+rendezvous address every other rank dials; for other ranks it seeds the
+runtime&#39;s own host IP (vLLM: VLLM_HOST_IP). Optional on ranks &gt;= 1.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.members[].fabric.ibHCA" data-path-key="|spec|multiNode|members[]|fabric|ibHCA|" data-parent-path="spec.multiNode.members[].fabric" data-name="ibHCA" data-text="IBHCA is the RDMA device NCCL may use (NCCL_IB_HCA). An exact device
+name (rocep1s0f0) or a prefix (mlx5). Unset lets NCCL enumerate.">
+  <span class="prop-name">ibHCA</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">IBHCA is the RDMA device NCCL may use (NCCL_IB_HCA). An exact device
+name (rocep1s0f0) or a prefix (mlx5). Unset lets NCCL enumerate.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.members[].fabric.socketInterface" data-path-key="|spec|multiNode|members[]|fabric|socketInterface|" data-parent-path="spec.multiNode.members[].fabric" data-name="socketInterface" data-text="SocketInterface is the NIC that carries the bootstrap traffic
+(NCCL_SOCKET_IFNAME, GLOO_SOCKET_IFNAME, TP_SOCKET_IFNAME).">
+  <span class="prop-name">socketInterface</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SocketInterface is the NIC that carries the bootstrap traffic
+(NCCL_SOCKET_IFNAME, GLOO_SOCKET_IFNAME, TP_SOCKET_IFNAME).
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.multiNode.members[].modelCache" data-path-key="|spec|multiNode|members[]|modelCache|" data-parent-path="spec.multiNode.members" data-name="modelCache" data-text="ModelCache overrides spec.modelCache for this member.">
+<summary>
+  <span class="prop-name">modelCache</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ModelCache overrides spec.modelCache for this member.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.members[].modelCache.claimName" data-path-key="|spec|multiNode|members[]|modelCache|claimName|" data-parent-path="spec.multiNode.members[].modelCache" data-name="claimName" data-text="ClaimName is an existing PersistentVolumeClaim in the service namespace
+holding the model files for this member. minLength: 1">
+  <span class="prop-name">claimName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ClaimName is an existing PersistentVolumeClaim in the service namespace
+holding the model files for this member.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.members[].node" data-path-key="|spec|multiNode|members[]|node|" data-parent-path="spec.multiNode.members" data-name="node" data-text="Node is the Kubernetes node this rank is pinned to. minLength: 1">
+  <span class="prop-name">node</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Node is the Kubernetes node this rank is pinned to.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.rdmaResource" data-path-key="|spec|multiNode|rdmaResource|" data-parent-path="spec.multiNode" data-name="rdmaResource" data-text="RDMAResource is an extended resource name advertised by an RDMA device
+plugin (e.g. rdma/rdma_shared_device_a). When set, every member requests
+one and gets CAP_IPC_LOCK, which NCCL needs to pin registered memory.">
+  <span class="prop-name">rdmaResource</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RDMAResource is an extended resource name advertised by an RDMA device
+plugin (e.g. rdma/rdma_shared_device_a). When set, every member requests
+one and gets CAP_IPC_LOCK, which NCCL needs to pin registered memory.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.multiNode.rendezvousPort" data-path-key="|spec|multiNode|rendezvousPort|" data-parent-path="spec.multiNode" data-name="rendezvousPort" data-text="RendezvousPort is the port rank 0 listens on for torch.distributed.
+Defaults to 29500. format: int32 minimum: 1024 maximum: 65535">
+  <span class="prop-name">rendezvousPort</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">RendezvousPort is the port rank 0 listens on for torch.distributed.
+Defaults to 29500.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1024"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1024</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.noKvOffload" data-path-key="|spec|noKvOffload|" data-parent-path="spec" data-name="noKvOffload" data-text="NoKvOffload keeps the KV cache in system RAM instead of VRAM.
 Useful for extended context windows when VRAM is constrained by model weights.
 Maps to llama.cpp --no-kv-offload flag. Requires sufficient system RAM via resources.memory.">
@@ -6912,10 +7031,7 @@ distributions and machine types, so there is no default that is safe
 everywhere and none is applied.
 
 The pattern is the Kubernetes quantity format, so a malformed value is
-rejected at admission. The sibling quantity fields above predate this and
-carry no pattern; they reach resource.MustParse, which panics on
-malformed input and takes the controller down for every workload rather
-than failing the one object at fault. pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
+rejected at admission. pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
   <span class="prop-name">ephemeralStorage</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">EphemeralStorage is the node local-disk budget for this pod (e.g. &#34;40Gi&#34;).
@@ -6938,10 +7054,7 @@ distributions and machine types, so there is no default that is safe
 everywhere and none is applied.
 
 The pattern is the Kubernetes quantity format, so a malformed value is
-rejected at admission. The sibling quantity fields above predate this and
-carry no pattern; they reach resource.MustParse, which panics on
-malformed input and takes the controller down for every workload rather
-than failing the one object at fault.<div class="leaf-constraints">
+rejected at admission.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$</code></div></div>
   </div>
 </div>
@@ -7053,20 +7166,22 @@ the extended resource nvidia.com/mig-&lt;profile&gt;.
 Used when MoE expert weights or KV cache are offloaded to CPU via moeCPUOffload or noKvOffload.
 Translated to pod resources.requests.memory, taking precedence over Memory when set.
 Without this, the K8s scheduler has no visibility into the pod&#39;s actual RAM consumption,
-which can lead to OOM kills after model load.">
+which can lead to OOM kills after model load. pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
   <span class="prop-name">hostMemory</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">HostMemory specifies the system RAM required for hybrid GPU/CPU offloading (e.g., &#34;64Gi&#34;).
 Used when MoE expert weights or KV cache are offloaded to CPU via moeCPUOffload or noKvOffload.
 Translated to pod resources.requests.memory, taking precedence over Memory when set.
 Without this, the K8s scheduler has no visibility into the pod&#39;s actual RAM consumption,
-which can lead to OOM kills after model load.
+which can lead to OOM kills after model load.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.resources.memory" data-path-key="|spec|resources|memory|" data-parent-path="spec.resources" data-name="memory" data-text="Memory requests (e.g., &#34;4Gi&#34;)">
+<div class="prop-leaf" data-prop-row data-path="spec.resources.memory" data-path-key="|spec|resources|memory|" data-parent-path="spec.resources" data-name="memory" data-text="Memory requests (e.g., &#34;4Gi&#34;) pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
   <span class="prop-name">memory</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Memory requests (e.g., &#34;4Gi&#34;)
+  <div class="leaf-desc">Memory requests (e.g., &#34;4Gi&#34;)<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$</code></div></div>
   </div>
 </div>
   </div>
@@ -8867,6 +8982,20 @@ Maps to vLLM --max-num-batched-tokens flag.<div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 512"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">512</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.pipelineParallelSize" data-path-key="|spec|vllmConfig|pipelineParallelSize|" data-parent-path="spec.vllmConfig" data-name="pipelineParallelSize" data-text="PipelineParallelSize is the number of pipeline stages (vLLM
+--pipeline-parallel-size). Together with tensorParallelSize it defines the
+world size; for a multiNode service tensorParallelSize x
+pipelineParallelSize must equal members x resources.gpu. format: int32 minimum: 1">
+  <span class="prop-name">pipelineParallelSize</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">PipelineParallelSize is the number of pipeline stages (vLLM
+--pipeline-parallel-size). Together with tensorParallelSize it defines the
+world size; for a multiNode service tensorParallelSize x
+pipelineParallelSize must equal members x resources.gpu.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.quantization" data-path-key="|spec|vllmConfig|quantization|" data-parent-path="spec.vllmConfig" data-name="quantization" data-text="Quantization method.
 awq, gptq, squeezellm are classic 4-bit formats. fp8 targets 8-bit FP
 checkpoints (Qwen FP8, Llama FP8, etc.). compressed-tensors is the
@@ -9226,6 +9355,78 @@ when set, otherwise inferred from the runtime flags and endpoint path.
   <div class="leaf-desc">ModelReady indicates if the referenced Model is in Ready state
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.multiNode" data-path-key="|status|multiNode|" data-parent-path="status" data-name="multiNode" data-text="MultiNode is the observed state of a multi-node serving group.">
+<summary>
+  <span class="prop-name">multiNode</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">MultiNode is the observed state of a multi-node serving group.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="status.multiNode.members" data-path-key="|status|multiNode|members|" data-parent-path="status.multiNode" data-name="members" data-text="Members is per-rank detail in rank order.">
+<summary>
+  <span class="prop-name">members</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Members is per-rank detail in rank order.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.members[].node" data-path-key="|status|multiNode|members[]|node|" data-parent-path="status.multiNode.members" data-name="node" data-text="">
+  <span class="prop-name">node</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.members[].phase" data-path-key="|status|multiNode|members[]|phase|" data-parent-path="status.multiNode.members" data-name="phase" data-text="">
+  <span class="prop-name">phase</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.members[].pod" data-path-key="|status|multiNode|members[]|pod|" data-parent-path="status.multiNode.members" data-name="pod" data-text="">
+  <span class="prop-name">pod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.members[].rank" data-path-key="|status|multiNode|members[]|rank|" data-parent-path="status.multiNode.members" data-name="rank" data-text="format: int32">
+  <span class="prop-name">rank</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.members[].ready" data-path-key="|status|multiNode|members[]|ready|" data-parent-path="status.multiNode.members" data-name="ready" data-text="">
+  <span class="prop-name">ready</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.members[].restarts" data-path-key="|status|multiNode|members[]|restarts|" data-parent-path="status.multiNode.members" data-name="restarts" data-text="format: int32">
+  <span class="prop-name">restarts</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.readyMembers" data-path-key="|status|multiNode|readyMembers|" data-parent-path="status.multiNode" data-name="readyMembers" data-text="ReadyMembers counts members that are Running (rank 0 must also be Ready). format: int32">
+  <span class="prop-name">readyMembers</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ReadyMembers counts members that are Running (rank 0 must also be Ready).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.size" data-path-key="|status|multiNode|size|" data-parent-path="status.multiNode" data-name="size" data-text="Size is the number of members in the spec. format: int32">
+  <span class="prop-name">size</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Size is the number of members in the spec.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Phase represents the current lifecycle phase of the InferenceService.
 Possible values: Pending, Creating, Progressing, Ready, WaitingForGPU,
 Stopped, Suspended, Failed. Stopped is the terminal state when
