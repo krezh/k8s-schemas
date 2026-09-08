@@ -74,6 +74,12 @@
           "type": [
             "object",
             "null"
+          ],
+          "x-kubernetes-validations": [
+            {
+              "message": "configMapRef.name is required and must be non-empty",
+              "rule": "has(self.configMapRef) \u0026\u0026 size(self.configMapRef.name) \u003e 0"
+            }
           ]
         },
         "externalAuthConfigRef": {

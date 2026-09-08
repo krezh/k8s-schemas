@@ -1026,6 +1026,15 @@
                     "integer",
                     "null"
                   ]
+                },
+                "sourcePath": {
+                  "description": "The kopia source path to restore FROM, overriding the path kopiur derives\nfrom the policy.\n\nNormally the path is derived: a policy with one plain `pvc:`/`nfs` source\ncontributes its own path, and a `pvcSelector` policy contributes the path\nits `sourcePathStrategy` would have produced for the PVC being restored\n(`/pvc/\u003cname\u003e` or `/pvc/\u003cnamespace\u003e/\u003cname\u003e`) — the same rule the backup\nside used when it wrote the snapshot, so a fan-out restore fills each PVC\nfrom ITS OWN snapshot instead of the newest snapshot of any member.\n\nSet this when the derivation is ambiguous or wrong: selector sources that\ndisagree on `sourcePathStrategy`/`sourcePathOverride` (kopiur fails closed\nrather than guess), a policy whose selector sources share one\n`sourcePathOverride`, or a cross-namespace `target.pvcRef` whose derived\n`/pvc/\u003cnamespace\u003e/\u003cname\u003e` names a namespace the repository never saw.\n\nMirrors `IdentitySource::source_path`: it selects which kopia source to\nREAD, it does not change where the data is written.",
+                  "maxLength": 4096,
+                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
@@ -1243,6 +1252,295 @@
       "description": "Observed state of a Restore, written by the controller/mover.",
       "nullable": true,
       "properties": {
+        "claims": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "description": "The state of ONE claiming PVC of a `target.populator` restore (#443).\n\nWritten by the controller (every field except `resolved`/`observedAt`/\n`logTail`/`failure`) and by that claim's mover `Job`, which nests its status\npatch under `status.claims.\u003cpvc\u003e` and deliberately omits `phase` — the\ncontroller owns claim phase exactly as it owns the top-level one.",
+            "properties": {
+              "failure": {
+                "additionalProperties": false,
+                "description": "Structured terminal-failure detail for this claim. Mover-owned.",
+                "nullable": true,
+                "properties": {
+                  "exitCode": {
+                    "description": "The process exit code, if one was reported.",
+                    "format": "int32",
+                    "nullable": true,
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "kopiaErrorClass": {
+                    "description": "kopia error class (e.g. `RepositoryUnavailable`, `AuthFailure`).",
+                    "type": "string"
+                  },
+                  "message": {
+                    "description": "A short human-readable message: what failed, why, and how to fix it.",
+                    "type": "string"
+                  },
+                  "op": {
+                    "description": "The mover operation that failed, as a stable label (e.g.\n`repository connect`, `snapshot create`) — the values of the mover's\n`KopiaOp::as_str()`. Distinguishes a repository-level connect failure\nfrom a source-level failure (a broken PVC), which share\n`kopiaErrorClass` values (e.g. `NotFound`). Absent on failures that\noccurred outside a kopia invocation.",
+                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "retryRecommended": {
+                    "description": "Whether retrying the same operation unchanged could succeed.",
+                    "type": "boolean"
+                  },
+                  "stderrTail": {
+                    "description": "The last lines of kopia's stderr, if any were captured (bounded by\n[`MAX_LOG_TAIL_BYTES`]).",
+                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "kopiaErrorClass",
+                  "message",
+                  "retryRecommended"
+                ],
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "job": {
+                "description": "The mover `Job` populating this claim's prime PVC.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "logTail": {
+                "description": "The last lines of this claim's mover output, written once at its terminal\ntransition. Mover-owned.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "message": {
+                "description": "Human-readable what / why / fix for the current phase.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "observedAt": {
+                "description": "When this claim's mover last patched (RFC3339). Mover-owned: every\n`StatusUpdate` carries it, and the field must exist here or the schema's\n`additionalProperties` pruning would silently drop the mover's whole patch.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "phase": {
+                "description": "Lifecycle phase of one claiming PVC of a populator restore.",
+                "enum": [
+                  "Pending",
+                  "Populating",
+                  "Rebinding",
+                  "Populated",
+                  "AlreadyBound",
+                  "Failed"
+                ],
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "pvcPrime": {
+                "description": "The prime PVC provisioned for this claim's populate handshake.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "description": "Machine-readable reason for the current phase (`PopulatingPrimePvc`,\n`MoverJobFailed`, `SourcePathAmbiguous`, …).",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "resolved": {
+                "additionalProperties": false,
+                "description": "The source this claim resolved and pinned; never re-resolved.",
+                "nullable": true,
+                "properties": {
+                  "identity": {
+                    "additionalProperties": false,
+                    "description": "The resolved kopia identity (`username@hostname:path`) of the snapshot.",
+                    "nullable": true,
+                    "properties": {
+                      "hostname": {
+                        "description": "The final `hostname` kopia records, fixed at admission.",
+                        "type": "string"
+                      },
+                      "sourcePath": {
+                        "description": "The resolved snapshot source path, when applicable (`username@hostname:path`).",
+                        "nullable": true,
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "username": {
+                        "description": "The final `username` kopia records, fixed at admission.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "hostname",
+                      "username"
+                    ],
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  },
+                  "kopiaSnapshotID": {
+                    "description": "The exact kopia snapshot manifest id the source resolved to; pinned once.",
+                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "pinnedAt": {
+                    "description": "Timestamp at which the source was pinned (RFC3339).",
+                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "repository": {
+                    "additionalProperties": false,
+                    "description": "The repository the snapshot lives in, resolved from the source.",
+                    "nullable": true,
+                    "properties": {
+                      "kind": {
+                        "default": "Repository",
+                        "description": "Which repository CRD this points at; defaults to [`RepositoryKind::Repository`].",
+                        "enum": [
+                          "Repository",
+                          "ClusterRepository"
+                        ],
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "name": {
+                        "description": "Name of the referenced `Repository`/`ClusterRepository`.",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Cross-namespace `Repository` reference; ignored/forbidden for `ClusterRepository`.",
+                        "nullable": true,
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  },
+                  "resolution": {
+                    "description": "Which outcome the source resolution pinned, once and never re-resolved.",
+                    "enum": [
+                      "Snapshot",
+                      "NoSnapshot"
+                    ],
+                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "snapshotRef": {
+                    "additionalProperties": false,
+                    "description": "The concrete `Snapshot` CR the source resolved to, when applicable.",
+                    "nullable": true,
+                    "properties": {
+                      "name": {
+                        "description": "Name of the referenced object.",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Namespace of the referenced object; absent = same namespace as the referrer.",
+                        "nullable": true,
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  }
+                },
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "sourcePath": {
+                "description": "The kopia source path this claim restores FROM, derived from the policy's\n`sourcePathStrategy` (or pinned from `source.fromPolicy.sourcePath`).\nRecorded so a fan-out restore is auditable: each claim shows which member's\ndata it read.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "uid": {
+                "description": "`metadata.uid` of the claiming PVC this record describes. A record whose\nuid no longer matches the live claimant is STALE — the PVC was deleted and\nre-created — so the claim re-arms and the old claim's prime PVC / Job / PV\nare reaped under the recorded uid.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "waitStartedAt": {
+                "description": "When THIS claim's `policy.waitTimeout` window opened (RFC3339) — the first\npass on which this claim could actually proceed. Per-claim because\nclaimants appear at different times: a sibling created an hour later gets\nits own full window.",
+                "nullable": true,
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "type": "object"
+          },
+          "description": "Per-claimant state for a `target.populator` restore, keyed by the claiming\nPVC's name (#443).\n\nA populator `Restore` is claimed by EVERY PVC whose `spec.dataSourceRef`\nnames it, not just the first, and each claimant gets its own prime PVC, its\nown mover `Job` and its own kopia source path — so each needs its own state.\nA **map**, not a list, because an RFC-7386 merge patch merges map keys but\nREPLACES arrays: N concurrent populate movers each patch only their own key\nand can never clobber a sibling (the same reason as\n`SnapshotPolicyStatus.verificationStamps`).\n\nAbsent for a direct `target.pvc`/`target.pvcRef` restore, which keeps using\nthe top-level `resolved`/`target`/`waitStartedAt`/`logTail`/`failure`.\n\nThe schema renders as an object with `additionalProperties`, which PRUNES\nunknown keys — so every field any writer (controller or mover) puts under\n`claims.\u003cpvc\u003e` must exist on `RestoreClaimStatus`.",
+          "type": [
+            "object",
+            "null"
+          ]
+        },
         "conditions": {
           "description": "Standard Kubernetes conditions carrying the human-readable status/reason.",
           "items": {

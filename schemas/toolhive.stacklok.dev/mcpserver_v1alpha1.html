@@ -740,6 +740,16 @@ The referenced MCPGroup must be in the same namespace.</div>
   <div class="leaf-desc">Image is the container image for the MCP server
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.maxRequestBodySize" data-path-key="|spec|maxRequestBodySize|" data-parent-path="spec" data-name="maxRequestBodySize" data-text="MaxRequestBodySize is the maximum inbound MCP proxy request body size in bytes.
+Zero uses the default limit of 8 MiB. format: int64 minimum: 0">
+  <span class="prop-name">maxRequestBodySize</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">MaxRequestBodySize is the maximum inbound MCP proxy request body size in bytes.
+Zero uses the default limit of 8 MiB.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.mcpPort" data-path-key="|spec|mcpPort|" data-parent-path="spec" data-name="mcpPort" data-text="MCPPort is the port that MCP server listens to format: int32 minimum: 1 maximum: 65535">
   <span class="prop-name">mcpPort</span>
   <span class="type-badge">integer</span>

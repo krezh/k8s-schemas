@@ -598,7 +598,8 @@ configuration to the runtime contract.
 
 This is independent of allowConfidentialClientRegistration: it neither
 enables nor requires unauthenticated confidential dynamic client
-registration. maxItems: 10">
+registration.
+This legacy field is deprecated; use inboundGrants.tokenExchange.delegateClients. maxItems: 10">
 <summary>
   <span class="prop-name">delegateClients</span>
   <span class="type-badge">[]object</span>
@@ -611,7 +612,8 @@ configuration to the runtime contract.
 
 This is independent of allowConfidentialClientRegistration: it neither
 enables nor requires unauthenticated confidential dynamic client
-registration.</div><div class="prop-constraints">
+registration.
+This legacy field is deprecated; use inboundGrants.tokenExchange.delegateClients.</div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.delegateClients[].audiences" data-path-key="|spec|authServerConfig|delegateClients[]|audiences|" data-parent-path="spec.authServerConfig.delegateClients" data-name="audiences" data-text="Audiences is the narrowed set of RFC 8707 resources this client may request. minItems: 1 maxItems: 10">
@@ -670,8 +672,8 @@ but instead of swapping ToolHive JWTs for upstream tokens the proxy STRIPS
 the client&#39;s credential headers (Authorization, Cookie, Proxy-Authorization)
 after validating the JWT — the backend receives an unauthenticated request.
 Use headerForward to attach static credentials (e.g. an API key) if the
-backend needs them. Cannot be combined with token exchange or AWS STS,
-which would re-add credentials after the strip.
+backend needs them. Cannot be combined with token exchange, AWS STS, or OBO
+middleware, which would re-add credentials after the strip.
 This is useful when the backend MCP server does not require authentication
 (e.g., public documentation servers) but you still want client authentication.">
   <span class="prop-name">disableUpstreamTokenInjection</span>
@@ -683,8 +685,8 @@ but instead of swapping ToolHive JWTs for upstream tokens the proxy STRIPS
 the client&#39;s credential headers (Authorization, Cookie, Proxy-Authorization)
 after validating the JWT — the backend receives an unauthenticated request.
 Use headerForward to attach static credentials (e.g. an API key) if the
-backend needs them. Cannot be combined with token exchange or AWS STS,
-which would re-add credentials after the strip.
+backend needs them. Cannot be combined with token exchange, AWS STS, or OBO
+middleware, which would re-add credentials after the strip.
 This is useful when the backend MCP server does not require authentication
 (e.g., public documentation servers) but you still want client authentication.
   </div>
@@ -780,6 +782,322 @@ auth codes and refresh tokens will be invalid after restart).</div>
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants" data-path-key="|spec|authServerConfig|inboundGrants|" data-parent-path="spec.authServerConfig" data-name="inboundGrants" data-text="InboundGrants configures canonical inbound OAuth grant families.">
+<summary>
+  <span class="prop-name">inboundGrants</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">InboundGrants configures canonical inbound OAuth grant families.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|" data-parent-path="spec.authServerConfig.inboundGrants" data-name="jwtBearer" data-text="JWTBearer configures RFC 7523 issuer policies.">
+<summary>
+  <span class="prop-name">jwtBearer</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">JWTBearer configures RFC 7523 issuer policies.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|issuerPolicies|" data-parent-path="spec.authServerConfig.inboundGrants.jwtBearer" data-name="issuerPolicies" data-text="IssuerPolicies binds RFC 7523 policy to named trusted issuers. maxItems: 20">
+<summary>
+  <span class="prop-name">issuerPolicies</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">IssuerPolicies binds RFC 7523 policy to named trusted issuers.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 20"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">20</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].acceptedAudiences" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|issuerPolicies[]|acceptedAudiences|" data-parent-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies" data-name="acceptedAudiences" data-text="AcceptedAudiences identifies this authorization server&#39;s accepted
+assertion audiences. When omitted, runtime validation defaults to the
+token endpoint. maxItems: 50">
+  <span class="prop-name">acceptedAudiences</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">AcceptedAudiences identifies this authorization server&#39;s accepted
+assertion audiences. When omitted, runtime validation defaults to the
+token endpoint.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].issuerRef" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|issuerPolicies[]|issuerRef|" data-parent-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies" data-name="issuerRef" data-text="IssuerRef references trustedIssuers[].name. minLength: 1 maxLength: 253">
+  <span class="prop-name">issuerRef</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">IssuerRef references trustedIssuers[].name.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].maxAssertionAge" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|issuerPolicies[]|maxAssertionAge|" data-parent-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies" data-name="maxAssertionAge" data-text="MaxAssertionAge caps the exp-iat interval independently of exp.">
+  <span class="prop-name">maxAssertionAge</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">MaxAssertionAge caps the exp-iat interval independently of exp.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].subjectBindings" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|issuerPolicies[]|subjectBindings|" data-parent-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies" data-name="subjectBindings" data-text="SubjectBindings maps an exact external subject to allowed RFC 8707
+resources. minItems: 1 maxItems: 50">
+<summary>
+  <span class="prop-name">subjectBindings</span>
+  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SubjectBindings maps an exact external subject to allowed RFC 8707
+resources.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].subjectBindings[].allowedResources" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|issuerPolicies[]|subjectBindings[]|allowedResources|" data-parent-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].subjectBindings" data-name="allowedResources" data-text="AllowedResources is the exact set of RFC 8707 resources this subject may
+request. minItems: 1 maxItems: 50">
+  <span class="prop-name">allowedResources</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">AllowedResources is the exact set of RFC 8707 resources this subject may
+request.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].subjectBindings[].subject" data-path-key="|spec|authServerConfig|inboundGrants|jwtBearer|issuerPolicies[]|subjectBindings[]|subject|" data-parent-path="spec.authServerConfig.inboundGrants.jwtBearer.issuerPolicies[].subjectBindings" data-name="subject" data-text="Subject is an exact assertion sub value. Wildcards are not supported. pattern: ^[^*]&#43;$ minLength: 1 maxLength: 256">
+  <span class="prop-name">subject</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Subject is an exact assertion sub value. Wildcards are not supported.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[^*]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[^*]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 256"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">256</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth|" data-parent-path="spec.authServerConfig.inboundGrants" data-name="spiffeClientAuth" data-text="SPIFFEClientAuth associates SPIFFE principal patterns with explicit
+OAuth client identities and permissions. A sibling of TokenExchange and
+JWTBearer below, not nested under either: client authentication does
+not by itself confer a grant. See SPIFFEClientConfig. maxItems: 100">
+<summary>
+  <span class="prop-name">spiffeClientAuth</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SPIFFEClientAuth associates SPIFFE principal patterns with explicit
+OAuth client identities and permissions. A sibling of TokenExchange and
+JWTBearer below, not nested under either: client authentication does
+not by itself confer a grant. See SPIFFEClientConfig.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 100"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">100</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth[].audiences" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth[]|audiences|" data-parent-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-name="audiences" data-text="Audiences are RFC 8693 token audiences this association may request. minItems: 1 maxItems: 50">
+  <span class="prop-name">audiences</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Audiences are RFC 8693 token audiences this association may request.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth[].clientId" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth[]|clientId|" data-parent-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-name="clientId" data-text="ClientID is the explicit OAuth client_id. It is never derived from a
+SPIFFE ID. minLength: 1 maxLength: 253">
+  <span class="prop-name">clientId</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ClientID is the explicit OAuth client_id. It is never derived from a
+SPIFFE ID.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth[].methods" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth[]|methods|" data-parent-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-name="methods" data-text="Methods are the credential types this association may authenticate
+with. Must be a subset of the referenced trust domain&#39;s methods. minItems: 1 maxItems: 2">
+  <span class="prop-name">methods</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Methods are the credential types this association may authenticate
+with. Must be a subset of the referenced trust domain&#39;s methods.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 2"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">2</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth[].principalPattern" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth[]|principalPattern|" data-parent-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-name="principalPattern" data-text="PrincipalPattern is a concrete SPIFFE ID or a terminal /* pattern within
+the declared trust domain. This pattern is a best-effort CRD-level
+approximation; runtime parsing via spiffeid.FromString remains
+authoritative. pattern: ^spiffe://[a-z0-9._-]&#43;((/[a-zA-Z0-9._-]&#43;)&#43;(/\*)?|/\*)$ maxLength: 2048">
+  <span class="prop-name">principalPattern</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">PrincipalPattern is a concrete SPIFFE ID or a terminal /* pattern within
+the declared trust domain. This pattern is a best-effort CRD-level
+approximation; runtime parsing via spiffeid.FromString remains
+authoritative.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^spiffe://[a-z0-9._-]&#43;((/[a-zA-Z0-9._-]&#43;)&#43;(/\*)?|/\*)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^spiffe://[a-z0-9._-]&#43;((/[a-zA-Z0-9._-]&#43;)&#43;(/\*)?|/\*)$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth[].resources" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth[]|resources|" data-parent-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-name="resources" data-text="Resources are RFC 8707 resource indicators this association may
+request. Must be a subset of the server&#39;s allowed_audiences allowlist,
+which is derived at reconcile time and not available on this CRD, so
+allowlist membership is validated at reconcile time, not admission.
+Shape (a well-formed absolute HTTP(S) URI) is independent of that
+derived allowlist and is validated here. Distinct from Audiences: a
+resource permission does not imply the same value is also a permitted
+token audience, or vice versa. maxItems: 50">
+  <span class="prop-name">resources</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Resources are RFC 8707 resource indicators this association may
+request. Must be a subset of the server&#39;s allowed_audiences allowlist,
+which is derived at reconcile time and not available on this CRD, so
+allowlist membership is validated at reconcile time, not admission.
+Shape (a well-formed absolute HTTP(S) URI) is independent of that
+derived allowlist and is validated here. Distinct from Audiences: a
+resource permission does not imply the same value is also a permitted
+token audience, or vice versa.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth[].scopes" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth[]|scopes|" data-parent-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-name="scopes" data-text="Scopes are OAuth scopes granted to this association. Must be a subset
+of the server&#39;s effective supported scopes. minItems: 1 maxItems: 50">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Scopes are OAuth scopes granted to this association. Must be a subset
+of the server&#39;s effective supported scopes.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.spiffeClientAuth[].trustDomainRef" data-path-key="|spec|authServerConfig|inboundGrants|spiffeClientAuth[]|trustDomainRef|" data-parent-path="spec.authServerConfig.inboundGrants.spiffeClientAuth" data-name="trustDomainRef" data-text="TrustDomainRef references spiffeTrustDomains[].name. minLength: 1 maxLength: 253">
+  <span class="prop-name">trustDomainRef</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TrustDomainRef references spiffeTrustDomains[].name.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|" data-parent-path="spec.authServerConfig.inboundGrants" data-name="tokenExchange" data-text="TokenExchange configures RFC 8693 clients and issuer policies.">
+<summary>
+  <span class="prop-name">tokenExchange</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TokenExchange configures RFC 8693 clients and issuer policies.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|delegateClients|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange" data-name="delegateClients" data-text="DelegateClients configures pre-provisioned confidential clients. maxItems: 10">
+<summary>
+  <span class="prop-name">delegateClients</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">DelegateClients configures pre-provisioned confidential clients.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].audiences" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|delegateClients[]|audiences|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients" data-name="audiences" data-text="Audiences is the narrowed set of RFC 8707 resources this client may request. minItems: 1 maxItems: 10">
+  <span class="prop-name">audiences</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Audiences is the narrowed set of RFC 8707 resources this client may request.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].clientId" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|delegateClients[]|clientId|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients" data-name="clientId" data-text="ClientID is the OAuth client_id presented at the token endpoint. minLength: 1 maxLength: 256">
+  <span class="prop-name">clientId</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ClientID is the OAuth client_id presented at the token endpoint.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 256"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">256</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].clientSecretRef" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|delegateClients[]|clientSecretRef|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients" data-name="clientSecretRef" data-text="ClientSecretRef references the Kubernetes Secret key containing the client secret.">
+<summary>
+  <span class="prop-name">clientSecretRef</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ClientSecretRef references the Kubernetes Secret key containing the client secret.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].clientSecretRef.key" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|delegateClients[]|clientSecretRef|key|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].clientSecretRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].clientSecretRef.name" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|delegateClients[]|clientSecretRef|name|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].clientSecretRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients[].scopes" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|delegateClients[]|scopes|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.delegateClients" data-name="scopes" data-text="Scopes is the narrowed set of OAuth scopes this client may request. minItems: 1 maxItems: 10">
+  <span class="prop-name">scopes</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Scopes is the narrowed set of OAuth scopes this client may request.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 10"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">10</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange" data-name="issuerPolicies" data-text="IssuerPolicies binds RFC 8693 policy to named trusted issuers. maxItems: 20">
+<summary>
+  <span class="prop-name">issuerPolicies</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">IssuerPolicies binds RFC 8693 policy to named trusted issuers.</div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 20"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">20</code></div></div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies[].actorClaim" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies[]|actorClaim|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-name="actorClaim" data-text="ActorClaim names the claim containing the external actor identity. maxLength: 64">
+  <span class="prop-name">actorClaim</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ActorClaim names the claim containing the external actor identity.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 64"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies[].actorMatcher" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies[]|actorMatcher|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-name="actorMatcher" data-text="maxLength: 4096">
+  <span class="prop-name">actorMatcher</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 4096"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">4096</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies[].allowMayAct" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies[]|allowMayAct|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-name="allowMayAct" data-text="">
+  <span class="prop-name">allowMayAct</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies[].allowedActors" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies[]|allowedActors|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-name="allowedActors" data-text="maxItems: 50">
+  <span class="prop-name">allowedActors</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies[].allowedDelegateClients" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies[]|allowedDelegateClients|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-name="allowedDelegateClients" data-text="minItems: 1 maxItems: 50">
+  <span class="prop-name">allowedDelegateClients</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc"><div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies[].expectedAudience" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies[]|expectedAudience|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-name="expectedAudience" data-text="ExpectedAudience is the required RFC 8693 subject-token audience. minLength: 1 maxLength: 2048">
+  <span class="prop-name">expectedAudience</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ExpectedAudience is the required RFC 8693 subject-token audience.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies[].issuerRef" data-path-key="|spec|authServerConfig|inboundGrants|tokenExchange|issuerPolicies[]|issuerRef|" data-parent-path="spec.authServerConfig.inboundGrants.tokenExchange.issuerPolicies" data-name="issuerRef" data-text="IssuerRef references trustedIssuers[].name. minLength: 1 maxLength: 253">
+  <span class="prop-name">issuerRef</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">IssuerRef references trustedIssuers[].name.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.insecureAllowConfidentialOverLoopbackHTTP" data-path-key="|spec|authServerConfig|insecureAllowConfidentialOverLoopbackHTTP|" data-parent-path="spec.authServerConfig" data-name="insecureAllowConfidentialOverLoopbackHTTP" data-text="InsecureAllowConfidentialOverLoopbackHTTP opts in to confidential
 Dynamic Client Registration (DCR) and delegate clients when issuer is a
 plain-HTTP loopback URL (e.g. &#34;http://localhost:8080&#34;). Without this
@@ -828,9 +1146,10 @@ a misconfigured issuer will cause the pod to crash at startup rather than surfac
 as an operator condition.
 
 One combination is rejected at admission on all three CRDs regardless of the
-above: setting this field alongside allowConfidentialClientRegistration, which
-would issue client secrets in cleartext over an unauthenticated registration
-endpoint (see the XValidation rule on EmbeddedAuthServerConfig).">
+above: setting this field alongside confidential client registration or
+delegate clients, which would issue or use client secrets in cleartext over
+an unauthenticated endpoint (see the XValidation rule on
+EmbeddedAuthServerConfig).">
   <span class="prop-name">insecureAllowHTTP</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">InsecureAllowHTTP permits an http:// issuer URL for non-localhost hosts.
@@ -847,9 +1166,10 @@ a misconfigured issuer will cause the pod to crash at startup rather than surfac
 as an operator condition.
 
 One combination is rejected at admission on all three CRDs regardless of the
-above: setting this field alongside allowConfidentialClientRegistration, which
-would issue client secrets in cleartext over an unauthenticated registration
-endpoint (see the XValidation rule on EmbeddedAuthServerConfig).
+above: setting this field alongside confidential client registration or
+delegate clients, which would issue or use client secrets in cleartext over
+an unauthenticated endpoint (see the XValidation rule on
+EmbeddedAuthServerConfig).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.issuer" data-path-key="|spec|authServerConfig|issuer|" data-parent-path="spec.authServerConfig" data-name="issuer" data-text="Issuer is the issuer identifier for this authorization server.
@@ -924,6 +1244,121 @@ JWTs will be invalid after restart).</div><div class="prop-constraints">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains" data-path-key="|spec|authServerConfig|spiffeTrustDomains|" data-parent-path="spec.authServerConfig" data-name="spiffeTrustDomains" data-text="SPIFFETrustDomains declares SPIFFE trust domains for
+inboundGrants.spiffeClientAuth associations. See SPIFFETrustDomainConfig&#39;s
+doc comment for why declaring a domain does not by itself enable
+authentication in this build. minItems: 1 maxItems: 50">
+<summary>
+  <span class="prop-name">spiffeTrustDomains</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">SPIFFETrustDomains declares SPIFFE trust domains for
+inboundGrants.spiffeClientAuth associations. See SPIFFETrustDomainConfig&#39;s
+doc comment for why declaring a domain does not by itself enable
+authentication in this build.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
+<div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|bundleSource|" data-parent-path="spec.authServerConfig.spiffeTrustDomains" data-name="bundleSource" data-text="BundleSource declares exactly one future trust-bundle source. It is
+validated for shape only; fetching or loading a bundle from it is a
+later step.">
+<summary>
+  <span class="prop-name">bundleSource</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">BundleSource declares exactly one future trust-bundle source. It is
+validated for shape only; fetching or loading a bundle from it is a
+later step.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource.endpoint" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|bundleSource|endpoint|" data-parent-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource" data-name="endpoint" data-text="Endpoint declares a HTTPS SPIFFE Bundle Endpoint. Required when Type is
+&#34;bundle_endpoint&#34;.">
+<summary>
+  <span class="prop-name">endpoint</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Endpoint declares a HTTPS SPIFFE Bundle Endpoint. Required when Type is
+&#34;bundle_endpoint&#34;.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource.endpoint.profile" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|bundleSource|endpoint|profile|" data-parent-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource.endpoint" data-name="profile" data-text="Profile selects how the endpoint&#39;s TLS connection is authenticated:
+SPIFFEBundleEndpointProfileHTTPSWeb (Web PKI) or
+SPIFFEBundleEndpointProfileHTTPSSPIFFE (a separately distributed
+X.509-SVID root). enum: https_web, https_spiffe">
+  <span class="prop-name">profile</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Profile selects how the endpoint&#39;s TLS connection is authenticated:
+SPIFFEBundleEndpointProfileHTTPSWeb (Web PKI) or
+SPIFFEBundleEndpointProfileHTTPSSPIFFE (a separately distributed
+X.509-SVID root).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: https_web, https_spiffe"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">https_web, https_spiffe</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource.endpoint.url" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|bundleSource|endpoint|url|" data-parent-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource.endpoint" data-name="url" data-text="URL is the HTTPS SPIFFE Bundle Endpoint URL. minLength: 1 maxLength: 2048">
+  <span class="prop-name">url</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">URL is the HTTPS SPIFFE Bundle Endpoint URL.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource.type" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|bundleSource|type|" data-parent-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource" data-name="type" data-text="Type selects the trust-bundle source. enum: bundle_endpoint, workload_api">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Type selects the trust-bundle source.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: bundle_endpoint, workload_api"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">bundle_endpoint, workload_api</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource.workloadAPI" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|bundleSource|workloadAPI|" data-parent-path="spec.authServerConfig.spiffeTrustDomains[].bundleSource" data-name="workloadAPI" data-text="WorkloadAPI selects the local SPIFFE Workload API. Required when Type
+is &#34;workload_api&#34;.">
+  <span class="prop-name">workloadAPI</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">WorkloadAPI selects the local SPIFFE Workload API. Required when Type
+is &#34;workload_api&#34;.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].methods" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|methods|" data-parent-path="spec.authServerConfig.spiffeTrustDomains" data-name="methods" data-text="Methods explicitly enables the supported credential types for this
+trust domain. minItems: 1 maxItems: 2">
+  <span class="prop-name">methods</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Methods explicitly enables the supported credential types for this
+trust domain.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxItems: 2"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">2</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].name" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|name|" data-parent-path="spec.authServerConfig.spiffeTrustDomains" data-name="name" data-text="Name uniquely identifies this declaration and is referenced by
+inboundGrants.spiffeClientAuth[].trustDomainRef. minLength: 1 maxLength: 253">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name uniquely identifies this declaration and is referenced by
+inboundGrants.spiffeClientAuth[].trustDomainRef.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.spiffeTrustDomains[].trustDomain" data-path-key="|spec|authServerConfig|spiffeTrustDomains[]|trustDomain|" data-parent-path="spec.authServerConfig.spiffeTrustDomains" data-name="trustDomain" data-text="TrustDomain is the SPIFFE trust domain accepted by this declaration.
+This pattern is a best-effort CRD-level approximation of the SPIFFE
+trust-domain grammar; runtime parsing via
+spiffeid.TrustDomainFromString remains authoritative. pattern: ^([a-z0-9_]|[a-z0-9_]([a-z0-9_-]|\.[a-z0-9_-])*[a-z0-9_])$ minLength: 1 maxLength: 255">
+  <span class="prop-name">trustDomain</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">TrustDomain is the SPIFFE trust domain accepted by this declaration.
+This pattern is a best-effort CRD-level approximation of the SPIFFE
+trust-domain grammar; runtime parsing via
+spiffeid.TrustDomainFromString remains authoritative.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([a-z0-9_]|[a-z0-9_]([a-z0-9_-]|\.[a-z0-9_-])*[a-z0-9_])$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([a-z0-9_]|[a-z0-9_]([a-z0-9_-]|\.[a-z0-9_-])*[a-z0-9_])$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
   </div>
 </div>
   </div>
@@ -1290,14 +1725,18 @@ docs/arch/17-token-exchange-delegation.md for the trust model.</div><div class="
 subject token from this external issuer (used by allowedActors below).
 Defaults to &#34;azp&#34; when empty; use &#34;appid&#34; for Microsoft Entra v1, &#34;cid&#34;
 for Okta. The special value &#34;client_id&#34; reads the subject token&#39;s
-client_id claim instead. maxLength: 64">
+client_id claim instead.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies. maxLength: 64">
   <span class="prop-name">actorClaim</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">ActorClaim names the claim identifying the client that requested the
 subject token from this external issuer (used by allowedActors below).
 Defaults to &#34;azp&#34; when empty; use &#34;appid&#34; for Microsoft Entra v1, &#34;cid&#34;
 for Okta. The special value &#34;client_id&#34; reads the subject token&#39;s
-client_id claim instead.<div class="leaf-constraints">
+client_id claim instead.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies.<div class="leaf-constraints">
 <div class="schema-constraint" title="maxLength: 64"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">64</code></div></div>
   </div>
 </div>
@@ -1308,7 +1747,9 @@ instead of) allowedActors — either signal is sufficient. Must evaluate
 to a boolean; a non-boolean result denies the token at evaluation time,
 not at reconcile time. A syntactically invalid expression fails
 reconciliation (surfaced via the AuthServerConfigValidated condition),
-not admission — there is no validating webhook for this field. maxLength: 4096">
+not admission — there is no validating webhook for this field.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies. maxLength: 4096">
   <span class="prop-name">actorMatcher</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">ActorMatcher is an admin-authored CEL expression evaluated against the
@@ -1318,7 +1759,9 @@ instead of) allowedActors — either signal is sufficient. Must evaluate
 to a boolean; a non-boolean result denies the token at evaluation time,
 not at reconcile time. A syntactically invalid expression fails
 reconciliation (surfaced via the AuthServerConfigValidated condition),
-not admission — there is no validating webhook for this field.<div class="leaf-constraints">
+not admission — there is no validating webhook for this field.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies.<div class="leaf-constraints">
 <div class="schema-constraint" title="maxLength: 4096"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">4096</code></div></div>
   </div>
 </div>
@@ -1327,7 +1770,9 @@ delegation. Defaults to false; external issuers must be opted in
 explicitly because may_act bypasses allowedActors and actorMatcher.
 Does not affect self-issued subject tokens. The wildcard is never
 permitted alongside specific allowedDelegateClients, regardless of
-this setting.">
+this setting.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies.">
   <span class="prop-name">allowMayAct</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">AllowMayAct permits this external issuer&#39;s may_act claim to authorize
@@ -1336,22 +1781,24 @@ explicitly because may_act bypasses allowedActors and actorMatcher.
 Does not affect self-issued subject tokens. The wildcard is never
 permitted alongside specific allowedDelegateClients, regardless of
 this setting.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].allowPrivateIPs" data-path-key="|spec|authServerConfig|trustedIssuers[]|allowPrivateIPs|" data-parent-path="spec.authServerConfig.trustedIssuers" data-name="allowPrivateIPs" data-text="AllowPrivateIPs permits OIDC discovery and JWKS fetches for THIS issuer
 to resolve to a private or loopback address. Use only when the issuer
 is hosted inside the same cluster and has no public endpoint. Requires
-jwksUrl to be set explicitly (enforced at reconcile time), since
-otherwise OIDC discovery — fetched from the external issuer itself —
-would choose the private dial target.">
+jwksUrl to be set explicitly (enforced at admission and by shared
+validation), since otherwise OIDC discovery — fetched from the external
+issuer itself — would choose the private dial target.">
   <span class="prop-name">allowPrivateIPs</span>
   <span class="type-badge">boolean</span>
   <div class="leaf-desc">AllowPrivateIPs permits OIDC discovery and JWKS fetches for THIS issuer
 to resolve to a private or loopback address. Use only when the issuer
 is hosted inside the same cluster and has no public endpoint. Requires
-jwksUrl to be set explicitly (enforced at reconcile time), since
-otherwise OIDC discovery — fetched from the external issuer itself —
-would choose the private dial target.
+jwksUrl to be set explicitly (enforced at admission and by shared
+validation), since otherwise OIDC discovery — fetched from the external
+issuer itself — would choose the private dial target.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].allowedActors" data-path-key="|spec|authServerConfig|trustedIssuers[]|allowedActors|" data-parent-path="spec.authServerConfig.trustedIssuers" data-name="allowedActors" data-text="AllowedActors is the allowlist of actorClaim values authorized to
@@ -1359,7 +1806,9 @@ exchange a subject token from this issuer when it carries no
 &#34;may_act&#34; claim, in addition to (not instead of) actorMatcher below —
 either signal is sufficient. Empty denies every token unless
 actorMatcher is set, or allowMayAct is true and the token carries a
-permitted may_act claim. maxItems: 50">
+permitted may_act claim.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies. maxItems: 50">
   <span class="prop-name">allowedActors</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">AllowedActors is the allowlist of actorClaim values authorized to
@@ -1367,7 +1816,9 @@ exchange a subject token from this issuer when it carries no
 &#34;may_act&#34; claim, in addition to (not instead of) actorMatcher below —
 either signal is sufficient. Empty denies every token unless
 actorMatcher is set, or allowMayAct is true and the token carries a
-permitted may_act claim.<div class="leaf-constraints">
+permitted may_act claim.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies.<div class="leaf-constraints">
 <div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
   </div>
 </div>
@@ -1375,26 +1826,94 @@ permitted may_act claim.<div class="leaf-constraints">
 an RFC 8693 subject token from this issuer. Required unless only
 jwtBearerGrant is configured; set it to [&#34;*&#34;] to permit any confidential
 client holding the token-exchange grant, or list specific client IDs to
-bind delegation to them. minItems: 1 maxItems: 50">
+bind delegation to them.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies. minItems: 1 maxItems: 50">
   <span class="prop-name">allowedDelegateClients</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">AllowedDelegateClients restricts which ToolHive client IDs may exchange
 an RFC 8693 subject token from this issuer. Required unless only
 jwtBearerGrant is configured; set it to [&#34;*&#34;] to permit any confidential
 client holding the token-exchange grant, or list specific client IDs to
-bind delegation to them.<div class="leaf-constraints">
+bind delegation to them.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies.<div class="leaf-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].caBundleRef" data-path-key="|spec|authServerConfig|trustedIssuers[]|caBundleRef|" data-parent-path="spec.authServerConfig.trustedIssuers" data-name="caBundleRef" data-text="CABundleRef references a ConfigMap containing PEM CA certificates used when
+fetching this issuer&#39;s OIDC discovery document and JWKS. The bundle is added
+to the system roots for this issuer&#39;s client only; public roots still apply
+and other issuers are unaffected. Write access to the referenced ConfigMap is
+equivalent to controlling this issuer&#39;s trust anchor for subject-token
+validation — restrict it with the same care as a signing-key Secret.">
+<summary>
+  <span class="prop-name">caBundleRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CABundleRef references a ConfigMap containing PEM CA certificates used when
+fetching this issuer&#39;s OIDC discovery document and JWKS. The bundle is added
+to the system roots for this issuer&#39;s client only; public roots still apply
+and other issuers are unaffected. Write access to the referenced ConfigMap is
+equivalent to controlling this issuer&#39;s trust anchor for subject-token
+validation — restrict it with the same care as a signing-key Secret.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].caBundleRef.configMapRef" data-path-key="|spec|authServerConfig|trustedIssuers[]|caBundleRef|configMapRef|" data-parent-path="spec.authServerConfig.trustedIssuers[].caBundleRef" data-name="configMapRef" data-text="ConfigMapRef references a ConfigMap containing the CA certificate bundle.
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.">
+<summary>
+  <span class="prop-name">configMapRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">ConfigMapRef references a ConfigMap containing the CA certificate bundle.
+The ConfigMap key is required by the API. If omitted in a stored object, it
+defaults to &#34;ca.crt&#34; for backwards compatibility.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].caBundleRef.configMapRef.key" data-path-key="|spec|authServerConfig|trustedIssuers[]|caBundleRef|configMapRef|key|" data-parent-path="spec.authServerConfig.trustedIssuers[].caBundleRef.configMapRef" data-name="key" data-text="The key to select.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key to select.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].caBundleRef.configMapRef.name" data-path-key="|spec|authServerConfig|trustedIssuers[]|caBundleRef|configMapRef|name|" data-parent-path="spec.authServerConfig.trustedIssuers[].caBundleRef.configMapRef" data-name="name" data-text="Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].caBundleRef.configMapRef.optional" data-path-key="|spec|authServerConfig|trustedIssuers[]|caBundleRef|configMapRef|optional|" data-parent-path="spec.authServerConfig.trustedIssuers[].caBundleRef.configMapRef" data-name="optional" data-text="Specify whether the ConfigMap or its key must be defined">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the ConfigMap or its key must be defined
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].expectedAudience" data-path-key="|spec|authServerConfig|trustedIssuers[]|expectedAudience|" data-parent-path="spec.authServerConfig.trustedIssuers" data-name="expectedAudience" data-text="ExpectedAudience is the expected &#34;aud&#34; claim value that must appear in
 an RFC 8693 subject token&#39;s audience list. It is not used by an RFC 7523
-JWT-bearer assertion, whose audience is the token endpoint. minLength: 1 maxLength: 2048">
+JWT-bearer assertion, whose audience is the token endpoint.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies. minLength: 1 maxLength: 2048">
   <span class="prop-name">expectedAudience</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">ExpectedAudience is the expected &#34;aud&#34; claim value that must appear in
 an RFC 8693 subject token&#39;s audience list. It is not used by an RFC 7523
-JWT-bearer assertion, whose audience is the token endpoint.<div class="leaf-constraints">
+JWT-bearer assertion, whose audience is the token endpoint.
+This legacy field is deprecated; configure RFC 8693 policy under
+inboundGrants.tokenExchange.issuerPolicies.<div class="leaf-constraints">
 <div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
   </div>
@@ -1429,13 +1948,17 @@ empty, it is resolved via OIDC discovery at
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].jwtBearerGrant" data-path-key="|spec|authServerConfig|trustedIssuers[]|jwtBearerGrant|" data-parent-path="spec.authServerConfig.trustedIssuers" data-name="jwtBearerGrant" data-text="JWTBearerGrant enables the plain RFC 7523 JWT-bearer grant for this
-issuer. It is independent of RFC 8693 delegation policy.">
+issuer. It is independent of RFC 8693 delegation policy.
+This legacy field is deprecated; configure RFC 7523 policy under
+inboundGrants.jwtBearer.issuerPolicies.">
 <summary>
   <span class="prop-name">jwtBearerGrant</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">JWTBearerGrant enables the plain RFC 7523 JWT-bearer grant for this
-issuer. It is independent of RFC 8693 delegation policy.</div>
+issuer. It is independent of RFC 8693 delegation policy.
+This legacy field is deprecated; configure RFC 7523 policy under
+inboundGrants.jwtBearer.issuerPolicies.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].jwtBearerGrant.acceptedAudiences" data-path-key="|spec|authServerConfig|trustedIssuers[]|jwtBearerGrant|acceptedAudiences|" data-parent-path="spec.authServerConfig.trustedIssuers[].jwtBearerGrant" data-name="acceptedAudiences" data-text="AcceptedAudiences identifies this authorization server&#39;s accepted
 assertion audiences. When omitted, runtime validation defaults to the
@@ -1490,20 +2013,33 @@ request.<div class="leaf-constraints">
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.trustedIssuers[].name" data-path-key="|spec|authServerConfig|trustedIssuers[]|name|" data-parent-path="spec.authServerConfig.trustedIssuers" data-name="name" data-text="Name optionally identifies this trust declaration for canonical issuerRef references.
+Names must be unique within trustedIssuers when set. minLength: 1 maxLength: 253">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name optionally identifies this trust declaration for canonical issuerRef references.
+Names must be unique within trustedIssuers when set.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders" data-path-key="|spec|authServerConfig|upstreamProviders|" data-parent-path="spec.authServerConfig" data-name="upstreamProviders" data-text="UpstreamProviders configures connections to upstream Identity Providers.
-The embedded auth server delegates authentication to these providers.
-MCPServer and MCPRemoteProxy support a single upstream; VirtualMCPServer supports multiple. minItems: 1">
+When configured, the embedded auth server delegates interactive authentication
+to these providers. It may be omitted only when delegateClients or a trusted
+issuer with jwtBearerGrant enables token-only operation.
+MCPServer and MCPRemoteProxy support a single upstream; VirtualMCPServer supports multiple.">
 <summary>
   <span class="prop-name">upstreamProviders</span>
-  <span class="type-badge">[]object</span> <span class="required-badge">required</span>
+  <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">UpstreamProviders configures connections to upstream Identity Providers.
-The embedded auth server delegates authentication to these providers.
-MCPServer and MCPRemoteProxy support a single upstream; VirtualMCPServer supports multiple.</div><div class="prop-constraints">
-<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
+When configured, the embedded auth server delegates interactive authentication
+to these providers. It may be omitted only when delegateClients or a trusted
+issuer with jwtBearerGrant enables token-only operation.
+MCPServer and MCPRemoteProxy support a single upstream; VirtualMCPServer supports multiple.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].name" data-path-key="|spec|authServerConfig|upstreamProviders[]|name|" data-parent-path="spec.authServerConfig.upstreamProviders" data-name="name" data-text="Name uniquely identifies this upstream provider.
 Used for routing decisions and session binding in multi-upstream scenarios.
@@ -5472,6 +6008,199 @@ Only populated when IncomingAuth.OIDCConfigRef is set.
 <div class="schema-constraint" title="enum: Pending, Ready, Degraded, Failed"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Ready, Degraded, Failed</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.runtime" data-path-key="|status|runtime|" data-parent-path="status" data-name="runtime" data-text="Runtime is the status snapshot written exclusively by the vMCP process.
+The operator projects it into the top-level compatibility fields.">
+<summary>
+  <span class="prop-name">runtime</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Runtime is the status snapshot written exclusively by the vMCP process.
+The operator projects it into the top-level compatibility fields.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.runtime.backendCount" data-path-key="|status|runtime|backendCount|" data-parent-path="status.runtime" data-name="backendCount" data-text="BackendCount is the number of routable backends observed by the runtime. format: int32">
+  <span class="prop-name">backendCount</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">BackendCount is the number of routable backends observed by the runtime.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="status.runtime.conditions" data-path-key="|status|runtime|conditions|" data-parent-path="status.runtime" data-name="conditions" data-text="Conditions contains runtime health observations.">
+<summary>
+  <span class="prop-name">conditions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Conditions contains runtime health observations.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.runtime.conditions[].lastTransitionTime" data-path-key="|status|runtime|conditions[]|lastTransitionTime|" data-parent-path="status.runtime.conditions" data-name="lastTransitionTime" data-text="lastTransitionTime is the last time the condition transitioned from one status to another.
+This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable. format: date-time">
+  <span class="prop-name">lastTransitionTime</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">lastTransitionTime is the last time the condition transitioned from one status to another.
+This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.conditions[].message" data-path-key="|status|runtime|conditions[]|message|" data-parent-path="status.runtime.conditions" data-name="message" data-text="message is a human readable message indicating details about the transition.
+This may be an empty string. maxLength: 32768">
+  <span class="prop-name">message</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">message is a human readable message indicating details about the transition.
+This may be an empty string.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 32768"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">32768</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.conditions[].observedGeneration" data-path-key="|status|runtime|conditions[]|observedGeneration|" data-parent-path="status.runtime.conditions" data-name="observedGeneration" data-text="observedGeneration represents the .metadata.generation that the condition was set based upon.
+For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+with respect to the current state of the instance. format: int64 minimum: 0">
+  <span class="prop-name">observedGeneration</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">observedGeneration represents the .metadata.generation that the condition was set based upon.
+For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+with respect to the current state of the instance.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.conditions[].reason" data-path-key="|status|runtime|conditions[]|reason|" data-parent-path="status.runtime.conditions" data-name="reason" data-text="reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition.
+Producers of specific condition types may define expected values and meanings for this field,
+and whether the values are considered a guaranteed API.
+The value should be a CamelCase string.
+This field may not be empty. pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$ minLength: 1 maxLength: 1024">
+  <span class="prop-name">reason</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">reason contains a programmatic identifier indicating the reason for the condition&#39;s last transition.
+Producers of specific condition types may define expected values and meanings for this field,
+and whether the values are considered a guaranteed API.
+The value should be a CamelCase string.
+This field may not be empty.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 1024"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">1024</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.conditions[].status" data-path-key="|status|runtime|conditions[]|status|" data-parent-path="status.runtime.conditions" data-name="status" data-text="status of the condition, one of True, False, Unknown. enum: True, False, Unknown">
+  <span class="prop-name">status</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">status of the condition, one of True, False, Unknown.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: True, False, Unknown"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">True, False, Unknown</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.conditions[].type" data-path-key="|status|runtime|conditions[]|type|" data-parent-path="status.runtime.conditions" data-name="type" data-text="type of condition in CamelCase or in foo.example.com/CamelCase. pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$ maxLength: 316">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">type of condition in CamelCase or in foo.example.com/CamelCase.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 316"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">316</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="status.runtime.discoveredBackends" data-path-key="|status|runtime|discoveredBackends|" data-parent-path="status.runtime" data-name="discoveredBackends" data-text="DiscoveredBackends contains the runtime&#39;s latest backend observations.">
+<summary>
+  <span class="prop-name">discoveredBackends</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">DiscoveredBackends contains the runtime&#39;s latest backend observations.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].authConfigRef" data-path-key="|status|runtime|discoveredBackends[]|authConfigRef|" data-parent-path="status.runtime.discoveredBackends" data-name="authConfigRef" data-text="AuthConfigRef is the name of the discovered MCPExternalAuthConfig (if any)">
+  <span class="prop-name">authConfigRef</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">AuthConfigRef is the name of the discovered MCPExternalAuthConfig (if any)
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].authType" data-path-key="|status|runtime|discoveredBackends[]|authType|" data-parent-path="status.runtime.discoveredBackends" data-name="authType" data-text="AuthType is the type of authentication configured">
+  <span class="prop-name">authType</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">AuthType is the type of authentication configured
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].circuitBreakerState" data-path-key="|status|runtime|discoveredBackends[]|circuitBreakerState|" data-parent-path="status.runtime.discoveredBackends" data-name="circuitBreakerState" data-text="CircuitBreakerState is the current circuit breaker state (closed, open, half-open).
+Empty when circuit breaker is disabled or not configured. enum: closed, open, half-open">
+  <span class="prop-name">circuitBreakerState</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CircuitBreakerState is the current circuit breaker state (closed, open, half-open).
+Empty when circuit breaker is disabled or not configured.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: closed, open, half-open"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">closed, open, half-open</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].circuitLastChanged" data-path-key="|status|runtime|discoveredBackends[]|circuitLastChanged|" data-parent-path="status.runtime.discoveredBackends" data-name="circuitLastChanged" data-text="CircuitLastChanged is the timestamp when the circuit breaker state last changed.
+Empty when circuit breaker is disabled or has never changed state. format: date-time">
+  <span class="prop-name">circuitLastChanged</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CircuitLastChanged is the timestamp when the circuit breaker state last changed.
+Empty when circuit breaker is disabled or has never changed state.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].consecutiveFailures" data-path-key="|status|runtime|discoveredBackends[]|consecutiveFailures|" data-parent-path="status.runtime.discoveredBackends" data-name="consecutiveFailures" data-text="ConsecutiveFailures is the current count of consecutive health check failures.
+Resets to 0 when the backend becomes healthy again.">
+  <span class="prop-name">consecutiveFailures</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">ConsecutiveFailures is the current count of consecutive health check failures.
+Resets to 0 when the backend becomes healthy again.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].lastHealthCheck" data-path-key="|status|runtime|discoveredBackends[]|lastHealthCheck|" data-parent-path="status.runtime.discoveredBackends" data-name="lastHealthCheck" data-text="LastHealthCheck is the timestamp of the last health check format: date-time">
+  <span class="prop-name">lastHealthCheck</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LastHealthCheck is the timestamp of the last health check<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].mcpRevision" data-path-key="|status|runtime|discoveredBackends[]|mcpRevision|" data-parent-path="status.runtime.discoveredBackends" data-name="mcpRevision" data-text="MCPRevision is the backend&#39;s negotiated MCP protocol revision
+(&#34;2026-07-28&#34; or &#34;2025-11-25&#34;). Empty when the backend has not been probed.">
+  <span class="prop-name">mcpRevision</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">MCPRevision is the backend&#39;s negotiated MCP protocol revision
+(&#34;2026-07-28&#34; or &#34;2025-11-25&#34;). Empty when the backend has not been probed.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].message" data-path-key="|status|runtime|discoveredBackends[]|message|" data-parent-path="status.runtime.discoveredBackends" data-name="message" data-text="Message provides additional information about the backend status">
+  <span class="prop-name">message</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Message provides additional information about the backend status
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].name" data-path-key="|status|runtime|discoveredBackends[]|name|" data-parent-path="status.runtime.discoveredBackends" data-name="name" data-text="Name is the name of the backend MCPServer">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the backend MCPServer
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].status" data-path-key="|status|runtime|discoveredBackends[]|status|" data-parent-path="status.runtime.discoveredBackends" data-name="status" data-text="Status is the current status of the backend (ready, degraded, unavailable, unauthenticated, unknown).
+Use BackendHealthStatus.ToCRDStatus() to populate this field.">
+  <span class="prop-name">status</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Status is the current status of the backend (ready, degraded, unavailable, unauthenticated, unknown).
+Use BackendHealthStatus.ToCRDStatus() to populate this field.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.discoveredBackends[].url" data-path-key="|status|runtime|discoveredBackends[]|url|" data-parent-path="status.runtime.discoveredBackends" data-name="url" data-text="URL is the URL of the backend MCPServer">
+  <span class="prop-name">url</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">URL is the URL of the backend MCPServer
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.message" data-path-key="|status|runtime|message|" data-parent-path="status.runtime" data-name="message" data-text="Message provides detail about the runtime phase.">
+  <span class="prop-name">message</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Message provides detail about the runtime phase.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.runtime.phase" data-path-key="|status|runtime|phase|" data-parent-path="status.runtime" data-name="phase" data-text="Phase is the lifecycle phase observed by the running vMCP process. enum: Pending, Ready, Degraded, Failed">
+  <span class="prop-name">phase</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Phase is the lifecycle phase observed by the running vMCP process.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Pending, Ready, Degraded, Failed"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Ready, Degraded, Failed</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="status.telemetryConfigHash" data-path-key="|status|telemetryConfigHash|" data-parent-path="status" data-name="telemetryConfigHash" data-text="TelemetryConfigHash is the hash of the referenced MCPTelemetryConfig spec for change detection.
 Only populated when TelemetryConfigRef is set.">
   <span class="prop-name">telemetryConfigHash</span>
