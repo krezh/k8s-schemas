@@ -2431,6 +2431,21 @@ URL associated with the resource (e.g., MCPServer or vMCP) using this config.
 <div class="schema-constraint" title="pattern: ^https?://.*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://.*$</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.tokenEndpointAuthMethod" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|tokenEndpointAuthMethod|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="tokenEndpointAuthMethod" data-text="TokenEndpointAuthMethod selects how the client authenticates at the OAuth token
+endpoint. When empty and a client secret is configured, client_secret_basic is
+used, matching the RFC 7591 default for confidential clients. Set this to
+client_secret_post only for providers that require credentials in the request body.
+Public clients without a secret use the &#34;none&#34; method. enum: none, client_secret_basic, client_secret_post">
+  <span class="prop-name">tokenEndpointAuthMethod</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">TokenEndpointAuthMethod selects how the client authenticates at the OAuth token
+endpoint. When empty and a client secret is configured, client_secret_basic is
+used, matching the RFC 7591 default for confidential clients. Set this to
+client_secret_post only for providers that require credentials in the request body.
+Public clients without a secret use the &#34;none&#34; method.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: none, client_secret_basic, client_secret_post"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">none, client_secret_basic, client_secret_post</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.tokenResponseMapping" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|tokenResponseMapping|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="tokenResponseMapping" data-text="TokenResponseMapping configures custom field extraction from non-standard token responses.
 Some OAuth providers (e.g., GovSlack) nest token fields under non-standard paths
 instead of returning them at the top level. When set, ToolHive performs the token
@@ -2674,7 +2689,7 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.clientId" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|clientId|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="clientId" data-text="ClientID is the OAuth 2.0 client identifier registered with the upstream IdP.">
   <span class="prop-name">clientId</span>
-  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <span class="type-badge">string</span>
   <div class="leaf-desc">ClientID is the OAuth 2.0 client identifier registered with the upstream IdP.
   </div>
 </div>
@@ -2697,6 +2712,148 @@ Optional for public clients using PKCE instead of client secret.</div>
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="dcrConfig" data-text="DCRConfig enables RFC 7591 Dynamic Client Registration. When set, ClientID
+and ClientSecretRef must be omitted. If neither discoveryUrl nor
+registrationEndpoint is set, discovery is derived from issuerUrl.">
+<summary>
+  <span class="prop-name">dcrConfig</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">DCRConfig enables RFC 7591 Dynamic Client Registration. When set, ClientID
+and ClientSecretRef must be omitted. If neither discoveryUrl nor
+registrationEndpoint is set, discovery is derived from issuerUrl.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.discoveryUrl" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|discoveryUrl|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig" data-name="discoveryUrl" data-text="DiscoveryURL is the RFC 8414 / OIDC Discovery document URL. The resolver
+issues a single GET against this URL (no well-known-path fallback) and
+reads registration_endpoint, authorization_endpoint, token_endpoint,
+token_endpoint_auth_methods_supported, and scopes_supported from the
+response.
+Mutually exclusive with RegistrationEndpoint.
+HTTPS is required because the registration endpoint resolved from this
+document carries the initial access token and the issued client_secret
+(RFC 7591 §3, RFC 8414 §3). MaxLength is a defensive size cap (etcd
+object budget, regex evaluation cost) and matches the conventional URL
+length cap. pattern: ^https://[^\s?#]&#43;[^/\s?#]$ maxLength: 2048">
+  <span class="prop-name">discoveryUrl</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">DiscoveryURL is the RFC 8414 / OIDC Discovery document URL. The resolver
+issues a single GET against this URL (no well-known-path fallback) and
+reads registration_endpoint, authorization_endpoint, token_endpoint,
+token_endpoint_auth_methods_supported, and scopes_supported from the
+response.
+Mutually exclusive with RegistrationEndpoint.
+HTTPS is required because the registration endpoint resolved from this
+document carries the initial access token and the issued client_secret
+(RFC 7591 §3, RFC 8414 §3). MaxLength is a defensive size cap (etcd
+object budget, regex evaluation cost) and matches the conventional URL
+length cap.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https://[^\s?#]&#43;[^/\s?#]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https://[^\s?#]&#43;[^/\s?#]$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.initialAccessTokenRef" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|initialAccessTokenRef|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig" data-name="initialAccessTokenRef" data-text="InitialAccessTokenRef is an optional reference to a Kubernetes Secret
+carrying an RFC 7591 §3 initial access token. When set, the resolver
+presents the token value as a Bearer credential on the registration
+request. Mirrors the ClientSecretRef pattern.">
+<summary>
+  <span class="prop-name">initialAccessTokenRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">InitialAccessTokenRef is an optional reference to a Kubernetes Secret
+carrying an RFC 7591 §3 initial access token. When set, the resolver
+presents the token value as a Bearer credential on the registration
+request. Mirrors the ClientSecretRef pattern.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.initialAccessTokenRef.key" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|initialAccessTokenRef|key|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.initialAccessTokenRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.initialAccessTokenRef.name" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|initialAccessTokenRef|name|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.initialAccessTokenRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.registrationEndpoint" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|registrationEndpoint|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig" data-name="registrationEndpoint" data-text="RegistrationEndpoint is the RFC 7591 registration endpoint URL used
+directly, bypassing discovery. When using this field, the caller is
+expected to also supply AuthorizationEndpoint, TokenEndpoint, and an
+explicit Scopes list on the parent OAuth2UpstreamConfig.
+Mutually exclusive with DiscoveryURL.
+HTTPS is required because the registration endpoint carries the initial
+access token and the issued client_secret (RFC 7591 §3, RFC 8414 §3).
+MaxLength is a defensive size cap (etcd object budget, regex evaluation
+cost) and matches the conventional URL length cap. pattern: ^https://[^\s?#]&#43;[^/\s?#]$ maxLength: 2048">
+  <span class="prop-name">registrationEndpoint</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RegistrationEndpoint is the RFC 7591 registration endpoint URL used
+directly, bypassing discovery. When using this field, the caller is
+expected to also supply AuthorizationEndpoint, TokenEndpoint, and an
+explicit Scopes list on the parent OAuth2UpstreamConfig.
+Mutually exclusive with DiscoveryURL.
+HTTPS is required because the registration endpoint carries the initial
+access token and the issued client_secret (RFC 7591 §3, RFC 8414 §3).
+MaxLength is a defensive size cap (etcd object budget, regex evaluation
+cost) and matches the conventional URL length cap.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^https://[^\s?#]&#43;[^/\s?#]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https://[^\s?#]&#43;[^/\s?#]$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 2048"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">2048</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.softwareId" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|softwareId|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig" data-name="softwareId" data-text="SoftwareID is the RFC 7591 &#34;software_id&#34; registration metadata value,
+identifying the client software independent of any particular
+registration instance. Typically a UUID or short identifier. maxLength: 255">
+  <span class="prop-name">softwareId</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SoftwareID is the RFC 7591 &#34;software_id&#34; registration metadata value,
+identifying the client software independent of any particular
+registration instance. Typically a UUID or short identifier.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig.softwareStatement" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|dcrConfig|softwareStatement|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig.dcrConfig" data-name="softwareStatement" data-text="SoftwareStatement is the RFC 7591 &#34;software_statement&#34; JWT asserting
+metadata about the client software, signed by a party the authorization
+server trusts.
+
+Stored inline on the CR. The JWT is signed but not encrypted, so its
+contents are visible to anyone with get/list/watch on this resource and
+appear in etcd backups in plaintext. Treat the value as non-confidential
+(signed attestation, not a secret). Operators that rotate software
+statements like bearer credentials should keep them at the authorization
+server side and rely on the registration endpoint&#39;s initial access
+token (see InitialAccessTokenRef) instead of placing them on the CR.
+
+Bounded to 16384 characters as a defensive size cap (etcd object
+budget, regex evaluation cost). Real-world signed statements with
+embedded x5c certificate chains, JWKS keys, or OIDC-Federation
+trust-framework metadata routinely exceed 4 KB. maxLength: 16384">
+  <span class="prop-name">softwareStatement</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">SoftwareStatement is the RFC 7591 &#34;software_statement&#34; JWT asserting
+metadata about the client software, signed by a party the authorization
+server trusts.
+
+Stored inline on the CR. The JWT is signed but not encrypted, so its
+contents are visible to anyone with get/list/watch on this resource and
+appear in etcd backups in plaintext. Treat the value as non-confidential
+(signed attestation, not a secret). Operators that rotate software
+statements like bearer credentials should keep them at the authorization
+server side and rely on the registration endpoint&#39;s initial access
+token (see InitialAccessTokenRef) instead of placing them on the CR.
+
+Bounded to 16384 characters as a defensive size cap (etcd object
+budget, regex evaluation cost). Real-world signed statements with
+embedded x5c certificate chains, JWKS keys, or OIDC-Federation
+trust-framework metadata routinely exceed 4 KB.<div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 16384"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">16384</code></div></div>
   </div>
 </div>
   </div>

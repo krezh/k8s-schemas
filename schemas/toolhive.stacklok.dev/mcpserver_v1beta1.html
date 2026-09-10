@@ -892,6 +892,17 @@ The default value is applied by Kubernetes but will be ignored for non-stdio tra
 <div class="schema-constraint" title="maximum: 65535"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">65535</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.proxyReadTimeout" data-path-key="|spec|proxyReadTimeout|" data-parent-path="spec" data-name="proxyReadTimeout" data-text="ProxyReadTimeout bounds how long the proxy spends reading a full request
+(headers &#43; body), mitigating slow-upload connection exhaustion. Applies to
+all transports. Defaults to 30s if not specified. Example: &#34;1m&#34;. format: duration">
+  <span class="prop-name">proxyReadTimeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ProxyReadTimeout bounds how long the proxy spends reading a full request
+(headers &#43; body), mitigating slow-upload connection exhaustion. Applies to
+all transports. Defaults to 30s if not specified. Example: &#34;1m&#34;.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: duration"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">duration</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.rateLimiting" data-path-key="|spec|rateLimiting|" data-parent-path="spec" data-name="rateLimiting" data-text="RateLimiting defines rate limiting configuration for the MCP server.
 Requires Redis session storage to be configured for distributed rate limiting.">
 <summary>
