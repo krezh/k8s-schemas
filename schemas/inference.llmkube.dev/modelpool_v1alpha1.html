@@ -490,6 +490,24 @@ are expected to schedule onto the same node so they contend for the same
 device memory. Mirrors a standard Kubernetes node selector.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.reclaimAfter" data-path-key="|spec|reclaimAfter|" data-parent-path="spec" data-name="reclaimAfter" data-text="ReclaimAfter is how long the resident non-default member must be
+continuously idle before the slot is reclaimed for spec.default. Only
+consulted when SwapPolicy is &#34;reclaim&#34; and Default is set. It MUST be set
+comfortably longer than the on-demand member&#39;s typical inter-request gap:
+a value shorter than that gap trades cross-model request coalescing for
+load-side thrash, reclaiming the default only to swap it straight back
+out on the next on-demand request. Defaults to 300s.">
+  <span class="prop-name">reclaimAfter</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ReclaimAfter is how long the resident non-default member must be
+continuously idle before the slot is reclaimed for spec.default. Only
+consulted when SwapPolicy is &#34;reclaim&#34; and Default is set. It MUST be set
+comfortably longer than the on-demand member&#39;s typical inter-request gap:
+a value shorter than that gap trades cross-model request coalescing for
+load-side thrash, reclaiming the default only to swap it straight back
+out on the next on-demand request. Defaults to 300s.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.swapBudget" data-path-key="|spec|swapBudget|" data-parent-path="spec" data-name="swapBudget" data-text="SwapBudget bounds how long the router holds a cross-model request open
 while it drains the incumbent and cold-loads the target member. It is
 deliberately decoupled from the router&#39;s response-header (generation)
@@ -512,15 +530,17 @@ serves the next request). Defaults to 300s.
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.swapPolicy" data-path-key="|spec|swapPolicy|" data-parent-path="spec" data-name="swapPolicy" data-text="SwapPolicy selects how the slot owner is chosen when demand crosses model
 boundaries. &#34;sticky&#34; (default) keeps the incumbent until a different
-member is requested. It is the only policy in v1; a priority-based reclaim
-policy is a planned follow-up. enum: sticky">
+member is requested. &#34;reclaim&#34; additionally returns the slot to
+spec.default after the resident non-default member has been idle for
+spec.reclaimAfter. enum: sticky, reclaim">
   <span class="prop-name">swapPolicy</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">SwapPolicy selects how the slot owner is chosen when demand crosses model
 boundaries. &#34;sticky&#34; (default) keeps the incumbent until a different
-member is requested. It is the only policy in v1; a priority-based reclaim
-policy is a planned follow-up.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: sticky"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">sticky</code></div></div>
+member is requested. &#34;reclaim&#34; additionally returns the slot to
+spec.default after the resident non-default member has been idle for
+spec.reclaimAfter.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: sticky, reclaim"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">sticky, reclaim</code></div></div>
   </div>
 </div>
   </div>
@@ -653,6 +673,19 @@ pool is not mid-swap.
   <span class="type-badge">string</span>
   <div class="leaf-desc">Phase is the pool lifecycle phase: Pending, Ready, Swapping, or Degraded.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: Pending, Ready, Swapping, Degraded"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Pending, Ready, Swapping, Degraded</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.residentIdleSince" data-path-key="|status|residentIdleSince|" data-parent-path="status" data-name="residentIdleSince" data-text="ResidentIdleSince is when the resident non-default member was first
+observed idle under the &#34;reclaim&#34; swap policy. It is cleared when the
+member serves a request again or when spec.default becomes resident, and
+is used to time the reclaim of the slot back to spec.default. format: date-time">
+  <span class="prop-name">residentIdleSince</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ResidentIdleSince is when the resident non-default member was first
+observed idle under the &#34;reclaim&#34; swap policy. It is cleared when the
+member serves a request again or when spec.default becomes resident, and
+is used to time the reclaim of the slot back to spec.default.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.residentMember" data-path-key="|status|residentMember|" data-parent-path="status" data-name="residentMember" data-text="ResidentMember is the member that currently owns the shared GPU slot, or

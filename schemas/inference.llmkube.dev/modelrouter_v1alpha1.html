@@ -682,6 +682,23 @@ Must be lowercase alphanumeric or &#39;-&#39;.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^[a-z0-9][a-z0-9-]{0,62}$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9][a-z0-9-]{0,62}$</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.backends[].resolution" data-path-key="|spec|backends[]|resolution|" data-parent-path="spec.backends" data-name="resolution" data-text="Resolution selects how a local (inferenceServiceRef) backend&#39;s upstream
+address is resolved. &#34;service&#34; (the default) dispatches to the
+InferenceService&#39;s ClusterIP Service DNS name, so a keep-alive client
+can pin to one pod through conntrack. &#34;endpoint&#34; compiles one address
+per ready pod and the router-proxy balances requests across them.
+External backends ignore this field. enum: service, endpoint">
+  <span class="prop-name">resolution</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Resolution selects how a local (inferenceServiceRef) backend&#39;s upstream
+address is resolved. &#34;service&#34; (the default) dispatches to the
+InferenceService&#39;s ClusterIP Service DNS name, so a keep-alive client
+can pin to one pod through conntrack. &#34;endpoint&#34; compiles one address
+per ready pod and the router-proxy balances requests across them.
+External backends ignore this field.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: service, endpoint"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">service, endpoint</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.backends[].tier" data-path-key="|spec|backends[]|tier|" data-parent-path="spec.backends" data-name="tier" data-text="Tier classifies the backend for rule matching. &#34;local&#34; backends are
 served from inside the cluster; &#34;cloud&#34; backends egress the cluster
 boundary. Fail-closed rules can only route to local-tier backends. enum: local, cloud">
@@ -1645,6 +1662,31 @@ traffic is distributed across all entries by Backend.Weight. For
 &#34;shadow&#34;, the first entry serves the response and subsequent entries
 receive mirrored requests for evaluation only.<div class="leaf-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.rules[].route.poolActivation" data-path-key="|spec|rules[]|route|poolActivation|" data-parent-path="spec.rules[].route" data-name="poolActivation" data-text="PoolActivation decides what the proxy does when a backend in
+Backends is a ModelPool member that is not resident and the resident
+member is busy. &#34;Wait&#34; (default) holds the request open until the
+incumbent drains and the target loads, bounded by the pool&#39;s
+swapBudget. &#34;IfIdle&#34; only starts a swap when the incumbent is idle;
+while it is busy the pooled backend is skipped immediately and the
+request falls through to the next entry in Backends, so a rule such
+as [preferred-model, resident-model] serves on whichever is warm
+instead of queueing behind in-flight work. Non-pooled backends and
+same-model requests are unaffected. enum: Wait, IfIdle">
+  <span class="prop-name">poolActivation</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PoolActivation decides what the proxy does when a backend in
+Backends is a ModelPool member that is not resident and the resident
+member is busy. &#34;Wait&#34; (default) holds the request open until the
+incumbent drains and the target loads, bounded by the pool&#39;s
+swapBudget. &#34;IfIdle&#34; only starts a swap when the incumbent is idle;
+while it is busy the pooled backend is skipped immediately and the
+request falls through to the next entry in Backends, so a rule such
+as [preferred-model, resident-model] serves on whichever is warm
+instead of queueing behind in-flight work. Non-pooled backends and
+same-model requests are unaffected.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Wait, IfIdle"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Wait, IfIdle</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.rules[].route.strategy" data-path-key="|spec|rules[]|route|strategy|" data-parent-path="spec.rules[].route" data-name="strategy" data-text="Strategy selects how multiple backends are used. enum: primary-fallback, weighted, shadow">

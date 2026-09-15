@@ -1999,10 +1999,12 @@ Defaults to &#34;&#34;.
 </summary>
 <div class="prop-content"><div class="prop-desc">Selects a key of a ConfigMap.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.env[].valueFrom.configMapKeyRef.key" data-path-key="|spec|env[]|valueFrom|configMapKeyRef|key|" data-parent-path="spec.env[].valueFrom.configMapKeyRef" data-name="key" data-text="The key to select.">
+<div class="prop-leaf" data-prop-row data-path="spec.env[].valueFrom.configMapKeyRef.key" data-path-key="|spec|env[]|valueFrom|configMapKeyRef|key|" data-parent-path="spec.env[].valueFrom.configMapKeyRef" data-name="key" data-text="The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.">
   <span class="prop-name">key</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The key to select.
+  <div class="leaf-desc">The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.env[].valueFrom.configMapKeyRef.name" data-path-key="|spec|env[]|valueFrom|configMapKeyRef|name|" data-parent-path="spec.env[].valueFrom.configMapKeyRef" data-name="name" data-text="Name of the referent.
@@ -2232,12 +2234,26 @@ ExtraVolumes (or a volume from another passthrough field).">
 appended after the model-storage mounts. Names must match an entry in
 ExtraVolumes (or a volume from another passthrough field).</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].mountPath" data-path-key="|spec|extraVolumeMounts[]|mountPath|" data-parent-path="spec.extraVolumeMounts" data-name="mountPath" data-text="Path within the container at which the volume should be mounted.  Must
-not contain &#39;:&#39;.">
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].bindMountOptions" data-path-key="|spec|extraVolumeMounts[]|bindMountOptions|" data-parent-path="spec.extraVolumeMounts" data-name="bindMountOptions" data-text="bindMountOptions is the list of additional bind mount options to apply when
+mounting this volume into the container. Allowed values are noexec,
+nodev, and nosuid. These are Linux mount options and have no effect on
+Windows nodes.
+This field is not supported with image volumes.
+This is an alpha field and requires enabling the VolumeBindMountOptions feature gate.">
+  <span class="prop-name">bindMountOptions</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">bindMountOptions is the list of additional bind mount options to apply when
+mounting this volume into the container. Allowed values are noexec,
+nodev, and nosuid. These are Linux mount options and have no effect on
+Windows nodes.
+This field is not supported with image volumes.
+This is an alpha field and requires enabling the VolumeBindMountOptions feature gate.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].mountPath" data-path-key="|spec|extraVolumeMounts[]|mountPath|" data-parent-path="spec.extraVolumeMounts" data-name="mountPath" data-text="Path within the container at which the volume should be mounted.">
   <span class="prop-name">mountPath</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Path within the container at which the volume should be mounted.  Must
-not contain &#39;:&#39;.
+  <div class="leaf-desc">Path within the container at which the volume should be mounted.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumeMounts[].mountPropagation" data-path-key="|spec|extraVolumeMounts[]|mountPropagation|" data-parent-path="spec.extraVolumeMounts" data-name="mountPropagation" data-text="mountPropagation determines how mounts are propagated from the host
@@ -2669,6 +2685,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].configMap.defaultUser" data-path-key="|spec|extraVolumes[]|configMap|defaultUser|" data-parent-path="spec.extraVolumes[].configMap" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].configMap.items" data-path-key="|spec|extraVolumes[]|configMap|items|" data-parent-path="spec.extraVolumes[].configMap" data-name="items" data-text="items if unspecified, each key-value pair in the Data field of the referenced
 ConfigMap will be projected into the volume as a file whose name is the
 key and content is the value. If specified, the listed keys will be
@@ -2721,6 +2748,17 @@ May not start with the string &#39;..&#39;.">
 May not be an absolute path.
 May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].configMap.items[].user" data-path-key="|spec|extraVolumes[]|configMap|items[]|user|" data-parent-path="spec.extraVolumes[].configMap.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -2853,6 +2891,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].downwardAPI.defaultUser" data-path-key="|spec|extraVolumes[]|downwardAPI|defaultUser|" data-parent-path="spec.extraVolumes[].downwardAPI" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].downwardAPI.items" data-path-key="|spec|extraVolumes[]|downwardAPI|items|" data-parent-path="spec.extraVolumes[].downwardAPI" data-name="items" data-text="Items is a list of downward API volume file">
 <summary>
   <span class="prop-name">items</span>
@@ -2936,6 +2985,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].downwardAPI.items[].user" data-path-key="|spec|extraVolumes[]|downwardAPI|items[]|user|" data-parent-path="spec.extraVolumes[].downwardAPI.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -2961,6 +3021,27 @@ More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir">
 The default is &#34;&#34; which means to use the node&#39;s default medium.
 Must be an empty string (default) or Memory.
 More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].emptyDir.mode" data-path-key="|spec|extraVolumes[]|emptyDir|mode|" data-parent-path="spec.extraVolumes[].emptyDir" data-name="mode" data-text="mode specifies the permission bits for the emptyDir directory, in numeric
+notation (e.g., 0755, 01777). Must be a value between 0000 and 01777.
+If not specified, defaults to 0777.
+This might be in conflict with other options that affect the file
+mode, like fsGroup. If fsGroup is specified, the fsGroup permissions
+will override the mode specified here.
+This field has no effect on Windows.
+This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled. format: int32">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">mode specifies the permission bits for the emptyDir directory, in numeric
+notation (e.g., 0755, 01777). Must be a value between 0000 and 01777.
+If not specified, defaults to 0777.
+This might be in conflict with other options that affect the file
+mode, like fsGroup. If fsGroup is specified, the fsGroup permissions
+will override the mode specified here.
+This field has no effect on Windows.
+This field is alpha and requires EmptyDirVolumeMode featuregate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].emptyDir.sizeLimit" data-path-key="|spec|extraVolumes[]|emptyDir|sizeLimit|" data-parent-path="spec.extraVolumes[].emptyDir" data-name="sizeLimit" data-text="sizeLimit is the total amount of local storage required for this EmptyDir volume.
@@ -3119,8 +3200,8 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access
 * An existing PVC (PersistentVolumeClaim)
 If the provisioner or an external controller can support the specified data source,
 it will create a new volume based on the contents of the specified data source.
-When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef,
-and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified.
+dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be
+copied to dataSource when dataSourceRef.namespace is not specified.
 If the namespace is specified, then dataSourceRef will not be copied to dataSource.">
 <summary>
   <span class="prop-name">dataSource</span>
@@ -3131,8 +3212,8 @@ If the namespace is specified, then dataSourceRef will not be copied to dataSour
 * An existing PVC (PersistentVolumeClaim)
 If the provisioner or an external controller can support the specified data source,
 it will create a new volume based on the contents of the specified data source.
-When the AnyVolumeDataSource feature gate is enabled, dataSource contents will be copied to dataSourceRef,
-and dataSourceRef contents will be copied to dataSource when dataSourceRef.namespace is not specified.
+dataSource contents will be copied to dataSourceRef, and dataSourceRef contents will be
+copied to dataSource when dataSourceRef.namespace is not specified.
 If the namespace is specified, then dataSourceRef will not be copied to dataSource.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSource.apiGroup" data-path-key="|spec|extraVolumes[]|ephemeral|volumeClaimTemplate|spec|dataSource|apiGroup|" data-parent-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSource" data-name="apiGroup" data-text="APIGroup is the group for the resource being referenced.
@@ -3181,7 +3262,6 @@ There are three important differences between dataSource and dataSourceRef:
   specified.
 * While dataSource only allows local objects, dataSourceRef allows objects
   in any namespaces.
-(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.
 (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.">
 <summary>
   <span class="prop-name">dataSourceRef</span>
@@ -3208,7 +3288,6 @@ There are three important differences between dataSource and dataSourceRef:
   specified.
 * While dataSource only allows local objects, dataSourceRef allows objects
   in any namespaces.
-(Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled.
 (Alpha) Using the namespace field of dataSourceRef requires the CrossNamespaceVolumeDataSource feature gate to be enabled.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSourceRef.apiGroup" data-path-key="|spec|extraVolumes[]|ephemeral|volumeClaimTemplate|spec|dataSourceRef|apiGroup|" data-parent-path="spec.extraVolumes[].ephemeral.volumeClaimTemplate.spec.dataSourceRef" data-name="apiGroup" data-text="APIGroup is the group for the resource being referenced.
@@ -4074,6 +4153,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.defaultUser" data-path-key="|spec|extraVolumes[]|projected|defaultUser|" data-parent-path="spec.extraVolumes[].projected" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].projected.sources" data-path-key="|spec|extraVolumes[]|projected|sources|" data-parent-path="spec.extraVolumes[].projected" data-name="sources" data-text="sources is the list of volume projections. Each entry in this list
 handles one source.">
 <summary>
@@ -4214,6 +4304,17 @@ Mutually-exclusive with name.  The contents of all selected
 ClusterTrustBundles will be unified and deduplicated.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].clusterTrustBundle.user" data-path-key="|spec|extraVolumes[]|projected|sources[]|clusterTrustBundle|user|" data-parent-path="spec.extraVolumes[].projected.sources[].clusterTrustBundle" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -4276,6 +4377,17 @@ May not start with the string &#39;..&#39;.">
 May not be an absolute path.
 May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].configMap.items[].user" data-path-key="|spec|extraVolumes[]|projected|sources[]|configMap|items[]|user|" data-parent-path="spec.extraVolumes[].projected.sources[].configMap.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -4394,6 +4506,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].downwardAPI.items[].user" data-path-key="|spec|extraVolumes[]|projected|sources[]|downwardAPI|items[]|user|" data-parent-path="spec.extraVolumes[].projected.sources[].downwardAPI.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -4588,6 +4711,17 @@ longer than 24 hours.<div class="leaf-constraints">
   <div class="leaf-desc">Kubelet&#39;s generated CSRs will be addressed to this signer.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].podCertificate.user" data-path-key="|spec|extraVolumes[]|projected|sources[]|podCertificate|user|" data-parent-path="spec.extraVolumes[].projected.sources[].podCertificate" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].podCertificate.userAnnotations" data-path-key="|spec|extraVolumes[]|projected|sources[]|podCertificate|userAnnotations|" data-parent-path="spec.extraVolumes[].projected.sources[].podCertificate" data-name="userAnnotations" data-text="userAnnotations allow pod authors to pass additional information to
 the signer implementation.  Kubernetes does not restrict or validate this
 metadata in any way.
@@ -4682,6 +4816,17 @@ May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].secret.items[].user" data-path-key="|spec|extraVolumes[]|projected|sources[]|secret|items[]|user|" data-parent-path="spec.extraVolumes[].projected.sources[].secret.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -4750,6 +4895,17 @@ token into.">
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">path is the path relative to the mount point of the file to project the
 token into.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].projected.sources[].serviceAccountToken.user" data-path-key="|spec|extraVolumes[]|projected|sources[]|serviceAccountToken|user|" data-parent-path="spec.extraVolumes[].projected.sources[].serviceAccountToken" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -5063,6 +5219,17 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].secret.defaultUser" data-path-key="|spec|extraVolumes[]|secret|defaultUser|" data-parent-path="spec.extraVolumes[].secret" data-name="defaultUser" data-text="defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">defaultUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">defaultUser is Optional: The owner UID of the created files by default.
+The defaultUser field is only used as a fallback when the item-level user field is unset.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.extraVolumes[].secret.items" data-path-key="|spec|extraVolumes[]|secret|items|" data-parent-path="spec.extraVolumes[].secret" data-name="items" data-text="items If unspecified, each key-value pair in the Data field of the referenced
 Secret will be projected into the volume as a file whose name is the
 key and content is the value. If specified, the listed keys will be
@@ -5115,6 +5282,17 @@ May not start with the string &#39;..&#39;.">
 May not be an absolute path.
 May not contain the path element &#39;..&#39;.
 May not start with the string &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.extraVolumes[].secret.items[].user" data-path-key="|spec|extraVolumes[]|secret|items[]|user|" data-parent-path="spec.extraVolumes[].secret.items" data-name="user" data-text="user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. format: int64">
+  <span class="prop-name">user</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">user is Optional: The owner UID of the created file.
+If specified, the item-level user field takes precedence over defaultUser.
+(Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
   </div>
@@ -6009,11 +6187,8 @@ It is not possible to share the same volume among privileged and unprivileged Po
 Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
 whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
 CSIDriver instance. Other volumes are always re-labelled recursively.
-&#34;MountOption&#34; value is allowed only when SELinuxMount feature gate is enabled.
 
-If not specified and SELinuxMount feature gate is enabled, &#34;MountOption&#34; is used.
-If not specified and SELinuxMount feature gate is disabled, &#34;MountOption&#34; is used for ReadWriteOncePod volumes
-and &#34;Recursive&#34; for all other volumes.
+If not specified, &#34;MountOption&#34; is used.
 
 This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
 
@@ -6034,11 +6209,8 @@ It is not possible to share the same volume among privileged and unprivileged Po
 Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
 whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
 CSIDriver instance. Other volumes are always re-labelled recursively.
-&#34;MountOption&#34; value is allowed only when SELinuxMount feature gate is enabled.
 
-If not specified and SELinuxMount feature gate is enabled, &#34;MountOption&#34; is used.
-If not specified and SELinuxMount feature gate is disabled, &#34;MountOption&#34; is used for ReadWriteOncePod volumes
-and &#34;Recursive&#34; for all other volumes.
+If not specified, &#34;MountOption&#34; is used.
 
 This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
 
@@ -6324,6 +6496,18 @@ Defaults to 3. Minimum value is 1.<div class="leaf-constraints">
 </summary>
 <div class="prop-content"><div class="prop-desc">GRPC specifies a GRPC HealthCheckRequest.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.liveness.grpc.mode" data-path-key="|spec|probeOverrides|liveness|grpc|mode|" data-parent-path="spec.probeOverrides.liveness.grpc" data-name="mode" data-text="mode specifies the connection mode for the gRPC health probe.
+Set to &#34;TLS&#34; to use TLS without certificate verification.
+Set to &#34;Plaintext&#34; to use a plaintext (insecure) connection explicitly.
+If not specified, the probe uses a plaintext (insecure) connection.">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">mode specifies the connection mode for the gRPC health probe.
+Set to &#34;TLS&#34; to use TLS without certificate verification.
+Set to &#34;Plaintext&#34; to use a plaintext (insecure) connection explicitly.
+If not specified, the probe uses a plaintext (insecure) connection.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.liveness.grpc.port" data-path-key="|spec|probeOverrides|liveness|grpc|port|" data-parent-path="spec.probeOverrides.liveness.grpc" data-name="port" data-text="Port number of the gRPC service. Number must be in the range 1 to 65535. format: int32">
   <span class="prop-name">port</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
@@ -6399,6 +6583,14 @@ Name must be an IANA_SVC_NAME.">
   <div class="leaf-desc">Name or number of the port to access on the container.
 Number must be in the range 1 to 65535.
 Name must be an IANA_SVC_NAME.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.liveness.httpGet.protocol" data-path-key="|spec|probeOverrides|liveness|httpGet|protocol|" data-parent-path="spec.probeOverrides.liveness.httpGet" data-name="protocol" data-text="Protocol selects the wire protocol for the probe connection.
+Nil defaults to HTTP/1.1.">
+  <span class="prop-name">protocol</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Protocol selects the wire protocol for the probe connection.
+Nil defaults to HTTP/1.1.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.liveness.httpGet.scheme" data-path-key="|spec|probeOverrides|liveness|httpGet|scheme|" data-parent-path="spec.probeOverrides.liveness.httpGet" data-name="scheme" data-text="Scheme to use for connecting to the host.
@@ -6551,6 +6743,18 @@ Defaults to 3. Minimum value is 1.<div class="leaf-constraints">
 </summary>
 <div class="prop-content"><div class="prop-desc">GRPC specifies a GRPC HealthCheckRequest.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.readiness.grpc.mode" data-path-key="|spec|probeOverrides|readiness|grpc|mode|" data-parent-path="spec.probeOverrides.readiness.grpc" data-name="mode" data-text="mode specifies the connection mode for the gRPC health probe.
+Set to &#34;TLS&#34; to use TLS without certificate verification.
+Set to &#34;Plaintext&#34; to use a plaintext (insecure) connection explicitly.
+If not specified, the probe uses a plaintext (insecure) connection.">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">mode specifies the connection mode for the gRPC health probe.
+Set to &#34;TLS&#34; to use TLS without certificate verification.
+Set to &#34;Plaintext&#34; to use a plaintext (insecure) connection explicitly.
+If not specified, the probe uses a plaintext (insecure) connection.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.readiness.grpc.port" data-path-key="|spec|probeOverrides|readiness|grpc|port|" data-parent-path="spec.probeOverrides.readiness.grpc" data-name="port" data-text="Port number of the gRPC service. Number must be in the range 1 to 65535. format: int32">
   <span class="prop-name">port</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
@@ -6626,6 +6830,14 @@ Name must be an IANA_SVC_NAME.">
   <div class="leaf-desc">Name or number of the port to access on the container.
 Number must be in the range 1 to 65535.
 Name must be an IANA_SVC_NAME.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.readiness.httpGet.protocol" data-path-key="|spec|probeOverrides|readiness|httpGet|protocol|" data-parent-path="spec.probeOverrides.readiness.httpGet" data-name="protocol" data-text="Protocol selects the wire protocol for the probe connection.
+Nil defaults to HTTP/1.1.">
+  <span class="prop-name">protocol</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Protocol selects the wire protocol for the probe connection.
+Nil defaults to HTTP/1.1.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.readiness.httpGet.scheme" data-path-key="|spec|probeOverrides|readiness|httpGet|scheme|" data-parent-path="spec.probeOverrides.readiness.httpGet" data-name="scheme" data-text="Scheme to use for connecting to the host.
@@ -6778,6 +6990,18 @@ Defaults to 3. Minimum value is 1.<div class="leaf-constraints">
 </summary>
 <div class="prop-content"><div class="prop-desc">GRPC specifies a GRPC HealthCheckRequest.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.startup.grpc.mode" data-path-key="|spec|probeOverrides|startup|grpc|mode|" data-parent-path="spec.probeOverrides.startup.grpc" data-name="mode" data-text="mode specifies the connection mode for the gRPC health probe.
+Set to &#34;TLS&#34; to use TLS without certificate verification.
+Set to &#34;Plaintext&#34; to use a plaintext (insecure) connection explicitly.
+If not specified, the probe uses a plaintext (insecure) connection.">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">mode specifies the connection mode for the gRPC health probe.
+Set to &#34;TLS&#34; to use TLS without certificate verification.
+Set to &#34;Plaintext&#34; to use a plaintext (insecure) connection explicitly.
+If not specified, the probe uses a plaintext (insecure) connection.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.startup.grpc.port" data-path-key="|spec|probeOverrides|startup|grpc|port|" data-parent-path="spec.probeOverrides.startup.grpc" data-name="port" data-text="Port number of the gRPC service. Number must be in the range 1 to 65535. format: int32">
   <span class="prop-name">port</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
@@ -6853,6 +7077,14 @@ Name must be an IANA_SVC_NAME.">
   <div class="leaf-desc">Name or number of the port to access on the container.
 Number must be in the range 1 to 65535.
 Name must be an IANA_SVC_NAME.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.startup.httpGet.protocol" data-path-key="|spec|probeOverrides|startup|httpGet|protocol|" data-parent-path="spec.probeOverrides.startup.httpGet" data-name="protocol" data-text="Protocol selects the wire protocol for the probe connection.
+Nil defaults to HTTP/1.1.">
+  <span class="prop-name">protocol</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Protocol selects the wire protocol for the probe connection.
+Nil defaults to HTTP/1.1.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.probeOverrides.startup.httpGet.scheme" data-path-key="|spec|probeOverrides|startup|httpGet|scheme|" data-parent-path="spec.probeOverrides.startup.httpGet" data-name="scheme" data-text="Scheme to use for connecting to the host.
@@ -7165,6 +7397,7 @@ the extended resource nvidia.com/mig-&lt;profile&gt;.
 <div class="prop-leaf" data-prop-row data-path="spec.resources.hostMemory" data-path-key="|spec|resources|hostMemory|" data-parent-path="spec.resources" data-name="hostMemory" data-text="HostMemory specifies the system RAM required for hybrid GPU/CPU offloading (e.g., &#34;64Gi&#34;).
 Used when MoE expert weights or KV cache are offloaded to CPU via moeCPUOffload or noKvOffload.
 Translated to pod resources.requests.memory, taking precedence over Memory when set.
+Sets limits.memory too unless MemoryLimit is given.
 Without this, the K8s scheduler has no visibility into the pod&#39;s actual RAM consumption,
 which can lead to OOM kills after model load. pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
   <span class="prop-name">hostMemory</span>
@@ -7172,15 +7405,61 @@ which can lead to OOM kills after model load. pattern: ^([&#43;-]?[0-9.]&#43;)([
   <div class="leaf-desc">HostMemory specifies the system RAM required for hybrid GPU/CPU offloading (e.g., &#34;64Gi&#34;).
 Used when MoE expert weights or KV cache are offloaded to CPU via moeCPUOffload or noKvOffload.
 Translated to pod resources.requests.memory, taking precedence over Memory when set.
+Sets limits.memory too unless MemoryLimit is given.
 Without this, the K8s scheduler has no visibility into the pod&#39;s actual RAM consumption,
 which can lead to OOM kills after model load.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.resources.memory" data-path-key="|spec|resources|memory|" data-parent-path="spec.resources" data-name="memory" data-text="Memory requests (e.g., &#34;4Gi&#34;) pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
+<div class="prop-leaf" data-prop-row data-path="spec.resources.memory" data-path-key="|spec|resources|memory|" data-parent-path="spec.resources" data-name="memory" data-text="Memory is the pod&#39;s memory RESERVATION (e.g., &#34;4Gi&#34;), translated to
+requests.memory. It also sets limits.memory unless MemoryLimit is given,
+so by default request and limit are the same quantity and the container
+is Guaranteed for memory. pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
   <span class="prop-name">memory</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">Memory requests (e.g., &#34;4Gi&#34;)<div class="leaf-constraints">
+  <div class="leaf-desc">Memory is the pod&#39;s memory RESERVATION (e.g., &#34;4Gi&#34;), translated to
+requests.memory. It also sets limits.memory unless MemoryLimit is given,
+so by default request and limit are the same quantity and the container
+is Guaranteed for memory.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.resources.memoryLimit" data-path-key="|spec|resources|memoryLimit|" data-parent-path="spec.resources" data-name="memoryLimit" data-text="MemoryLimit is the pod&#39;s memory CEILING (e.g., &#34;64Gi&#34;), translated to
+limits.memory. Set it to let a workload burst above its reservation.
+
+Without it, limits.memory equals the request, so a workload has to
+RESERVE its peak in order to be allowed to reach it. A server whose
+resident set idles low and grows into a large cache would have to reserve
+the peak permanently, taking that memory from the scheduler for the whole
+life of the pod even though it is free almost all the time (#1763).
+
+Leaving this unset preserves the equal request-and-limit behaviour, so
+the protection added in #1724 -- an unbounded container crossing
+MemoryPressure and taking the node NotReady instead of being OOM-killed
+-- still holds by default. This only widens the ceiling when a value is
+given, and a limit below the effective request is ignored rather than
+applied, since the kubelet rejects such a pod outright.
+
+Applies to whichever of Memory/HostMemory drives the request. pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$">
+  <span class="prop-name">memoryLimit</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">MemoryLimit is the pod&#39;s memory CEILING (e.g., &#34;64Gi&#34;), translated to
+limits.memory. Set it to let a workload burst above its reservation.
+
+Without it, limits.memory equals the request, so a workload has to
+RESERVE its peak in order to be allowed to reach it. A server whose
+resident set idles low and grows into a large cache would have to reserve
+the peak permanently, taking that memory from the scheduler for the whole
+life of the pod even though it is free almost all the time (#1763).
+
+Leaving this unset preserves the equal request-and-limit behaviour, so
+the protection added in #1724 -- an unbounded container crossing
+MemoryPressure and taking the node NotReady instead of being OOM-killed
+-- still holds by default. This only widens the ceiling when a value is
+given, and a limit below the effective request is ignored rather than
+applied, since the kubelet rejects such a pod outright.
+
+Applies to whichever of Memory/HostMemory drives the request.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([&#43;-]?[0-9.]&#43;)([eEinumkKMGTP]*[-&#43;]?[0-9]*)$</code></div></div>
   </div>
 </div>
@@ -9410,10 +9689,12 @@ when set, otherwise inferred from the runtime flags and endpoint path.
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="status.multiNode.readyMembers" data-path-key="|status|multiNode|readyMembers|" data-parent-path="status.multiNode" data-name="readyMembers" data-text="ReadyMembers counts members that are Running (rank 0 must also be Ready). format: int32">
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.readyMembers" data-path-key="|status|multiNode|readyMembers|" data-parent-path="status.multiNode" data-name="readyMembers" data-text="ReadyMembers counts members whose pod is Ready. The group condition
+additionally requires every member Running before the group serves. format: int32">
   <span class="prop-name">readyMembers</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">ReadyMembers counts members that are Running (rank 0 must also be Ready).<div class="leaf-constraints">
+  <div class="leaf-desc">ReadyMembers counts members whose pod is Ready. The group condition
+additionally requires every member Running before the group serves.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
