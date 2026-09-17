@@ -1572,12 +1572,18 @@ Empty topologyKey is not allowed.
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.args" data-path-key="|spec|args|" data-parent-path="spec" data-name="args" data-text="Args overrides the container arguments entirely.
-Only used when Runtime is &#34;generic&#34;. For llamacpp, use ExtraArgs instead.">
+<div class="prop-leaf" data-prop-row data-path="spec.args" data-path-key="|spec|args|" data-parent-path="spec" data-name="args" data-text="Args overrides the container arguments entirely. Used when Runtime is
+&#34;generic&#34;, and — whenever spec.command is set — under any runtime: a
+custom entrypoint receives spec.args verbatim (with spec.extraArgs
+appended) instead of the runtime&#39;s built args. Without a command override,
+non-generic runtimes build their own args; use ExtraArgs there instead.">
   <span class="prop-name">args</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Args overrides the container arguments entirely.
-Only used when Runtime is &#34;generic&#34;. For llamacpp, use ExtraArgs instead.
+  <div class="leaf-desc">Args overrides the container arguments entirely. Used when Runtime is
+&#34;generic&#34;, and — whenever spec.command is set — under any runtime: a
+custom entrypoint receives spec.args verbatim (with spec.extraArgs
+appended) instead of the runtime&#39;s built args. Without a command override,
+non-generic runtimes build their own args; use ExtraArgs there instead.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.autoscaling" data-path-key="|spec|autoscaling|" data-parent-path="spec" data-name="autoscaling" data-text="Autoscaling configures horizontal pod autoscaling for the inference service.
@@ -2210,7 +2216,8 @@ runtime process. Use for flags not yet supported as typed CRD fields.
 Arguments are appended after all other configured flags.
 Supported by the &#34;llamacpp&#34;, &#34;llamacpp-router&#34;, &#34;sglang&#34;, &#34;tgi&#34; and
 &#34;vllm&#34; runtimes. Ignored by &#34;generic&#34; (which takes spec.args instead)
-and &#34;personaplex&#34;.
+and &#34;personaplex&#34; — except that whenever spec.command is set, extraArgs
+are appended after spec.args regardless of runtime.
 Example: [&#34;--seed&#34;, &#34;42&#34;, &#34;--log-disable&#34;]">
   <span class="prop-name">extraArgs</span>
   <span class="type-badge">[]string</span>
@@ -2219,7 +2226,8 @@ runtime process. Use for flags not yet supported as typed CRD fields.
 Arguments are appended after all other configured flags.
 Supported by the &#34;llamacpp&#34;, &#34;llamacpp-router&#34;, &#34;sglang&#34;, &#34;tgi&#34; and
 &#34;vllm&#34; runtimes. Ignored by &#34;generic&#34; (which takes spec.args instead)
-and &#34;personaplex&#34;.
+and &#34;personaplex&#34; — except that whenever spec.command is set, extraArgs
+are appended after spec.args regardless of runtime.
 Example: [&#34;--seed&#34;, &#34;42&#34;, &#34;--log-disable&#34;]
   </div>
 </div>
