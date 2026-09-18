@@ -365,7 +365,7 @@ metadata:
     <div class="search-ghost" id="search-ghost" aria-hidden="true"><span class="search-ghost-prefix" id="search-ghost-prefix"></span><span class="search-ghost-suffix" id="search-ghost-suffix"></span></div>
     <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden></button>
   </div>
-  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.matchers for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="search-status" id="search-status" data-empty-message="Tip: use .spec.duration for path-only search" role="status" aria-live="polite" aria-atomic="true"></div>
 </div>
 <div class="toolbar">
   <div class="toolbar-left">
@@ -417,6 +417,24 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
 </summary>
 <div class="prop-content"><div class="prop-desc">SilenceSpec defines the desired state of Silence.</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.duration" data-path-key="|spec|duration|" data-parent-path="spec" data-name="duration" data-text="Duration defines how long the silence is active from StartsAt (or creation time when StartsAt is unset).
+Ignored when EndsAt is set. Takes precedence over the valid-until annotation.
+Supports weeks (w), days (d), hours (h), minutes (m), and seconds (s): &#34;7d&#34;, &#34;2w&#34;, &#34;1d12h&#34;, &#34;30m&#34;. pattern: ^(\d&#43;w(\d&#43;d)?(\d&#43;h)?(\d&#43;m)?(\d&#43;s)?|\d&#43;d(\d&#43;h)?(\d&#43;m)?(\d&#43;s)?|\d&#43;h(\d&#43;m)?(\d&#43;s)?|\d&#43;m(\d&#43;s)?|\d&#43;s)$">
+  <span class="prop-name">duration</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Duration defines how long the silence is active from StartsAt (or creation time when StartsAt is unset).
+Ignored when EndsAt is set. Takes precedence over the valid-until annotation.
+Supports weeks (w), days (d), hours (h), minutes (m), and seconds (s): &#34;7d&#34;, &#34;2w&#34;, &#34;1d12h&#34;, &#34;30m&#34;.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^(\d&#43;w(\d&#43;d)?(\d&#43;h)?(\d&#43;m)?(\d&#43;s)?|\d&#43;d(\d&#43;h)?(\d&#43;m)?(\d&#43;s)?|\d&#43;h(\d&#43;m)?(\d&#43;s)?|\d&#43;m(\d&#43;s)?|\d&#43;s)$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^(\d&#43;w(\d&#43;d)?(\d&#43;h)?(\d&#43;m)?(\d&#43;s)?|\d&#43;d(\d&#43;h)?(\d&#43;m)?(\d&#43;s)?|\d&#43;h(\d&#43;m)?(\d&#43;s)?|\d&#43;m(\d&#43;s)?|\d&#43;s)$</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.endsAt" data-path-key="|spec|endsAt|" data-parent-path="spec" data-name="endsAt" data-text="EndsAt defines when the silence expires. Takes precedence over Duration and the valid-until annotation. format: date-time">
+  <span class="prop-name">endsAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">EndsAt defines when the silence expires. Takes precedence over Duration and the valid-until annotation.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.matchers" data-path-key="|spec|matchers|" data-parent-path="spec" data-name="matchers" data-text="Matchers defines the alert matchers that this silence will apply to. minItems: 1">
 <summary>
   <span class="prop-name">matchers</span>
@@ -450,11 +468,18 @@ More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.startsAt" data-path-key="|spec|startsAt|" data-parent-path="spec" data-name="startsAt" data-text="StartsAt defines when the silence becomes active. Defaults to the object&#39;s creation timestamp. format: date-time">
+  <span class="prop-name">startsAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">StartsAt defines when the silence becomes active. Defaults to the object&#39;s creation timestamp.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
 </div>
-<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.matchers for an exact path">No matches. Try .spec.matchers for an exact path</p>
+<p class="no-results" id="no-results" data-no-results-message="No matches. Try .spec.duration for an exact path">No matches. Try .spec.duration for an exact path</p>
 </main>
 <div class="copied-toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <footer>
