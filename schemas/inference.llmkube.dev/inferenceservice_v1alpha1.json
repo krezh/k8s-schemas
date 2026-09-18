@@ -1152,7 +1152,7 @@
           ]
         },
         "command": {
-          "description": "Command overrides the container entrypoint.\nOnly used when Runtime is \"generic\" or for advanced customization.",
+          "description": "Command overrides the container entrypoint. Its effect on the container's\narguments depends on whether the runtime injects its own CLI:\nfor runtimes that build a command (vllm, sglang, personaplex), setting\nCommand declares a bring-your-own launcher, so the runtime's generated args\nare dropped and the container receives Args followed by ExtraArgs verbatim;\nfor runtimes that serve via the image entrypoint (llamacpp, tgi,\nllamacpp-router, generic), Command overrides the entrypoint only and\nwhatever args that runtime generates still apply -- llamacpp's model path,\ncontext size and host/port, tgi's --model-id, llamacpp-router's\n--models-dir. generic generates none of its own and passes Args through.",
           "items": {
             "type": "string"
           },

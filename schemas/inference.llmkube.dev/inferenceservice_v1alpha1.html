@@ -1743,12 +1743,28 @@ CacheTypeCustomV instead.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: f16, f32, q8_0, q4_0, q4_1, q5_0, q5_1, iq4_nl"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">f16, f32, q8_0, q4_0, q4_1, q5_0, q5_1, iq4_nl</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.command" data-path-key="|spec|command|" data-parent-path="spec" data-name="command" data-text="Command overrides the container entrypoint.
-Only used when Runtime is &#34;generic&#34; or for advanced customization.">
+<div class="prop-leaf" data-prop-row data-path="spec.command" data-path-key="|spec|command|" data-parent-path="spec" data-name="command" data-text="Command overrides the container entrypoint. Its effect on the container&#39;s
+arguments depends on whether the runtime injects its own CLI:
+for runtimes that build a command (vllm, sglang, personaplex), setting
+Command declares a bring-your-own launcher, so the runtime&#39;s generated args
+are dropped and the container receives Args followed by ExtraArgs verbatim;
+for runtimes that serve via the image entrypoint (llamacpp, tgi,
+llamacpp-router, generic), Command overrides the entrypoint only and
+whatever args that runtime generates still apply -- llamacpp&#39;s model path,
+context size and host/port, tgi&#39;s --model-id, llamacpp-router&#39;s
+--models-dir. generic generates none of its own and passes Args through.">
   <span class="prop-name">command</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">Command overrides the container entrypoint.
-Only used when Runtime is &#34;generic&#34; or for advanced customization.
+  <div class="leaf-desc">Command overrides the container entrypoint. Its effect on the container&#39;s
+arguments depends on whether the runtime injects its own CLI:
+for runtimes that build a command (vllm, sglang, personaplex), setting
+Command declares a bring-your-own launcher, so the runtime&#39;s generated args
+are dropped and the container receives Args followed by ExtraArgs verbatim;
+for runtimes that serve via the image entrypoint (llamacpp, tgi,
+llamacpp-router, generic), Command overrides the entrypoint only and
+whatever args that runtime generates still apply -- llamacpp&#39;s model path,
+context size and host/port, tgi&#39;s --model-id, llamacpp-router&#39;s
+--models-dir. generic generates none of its own and passes Args through.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.containerPort" data-path-key="|spec|containerPort|" data-parent-path="spec" data-name="containerPort" data-text="ContainerPort overrides the primary container port.
