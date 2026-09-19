@@ -438,6 +438,743 @@ descriptions).<div class="leaf-constraints">
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.mover" data-path-key="|spec|mover|" data-parent-path="spec" data-name="mover" data-text="Per-run mover overrides for THIS snapshot&#39;s Job (resources, cache budgets,
+`securityContext`, `privilegedMode`, `ttlSecondsAfterFinished`).
+
+Layered field-wise as `repository.moverDefaults &lt; policyRef&#39;s mover &lt;
+this mover` — the highest layer that sets a field wins, and a field you
+omit falls through, so a partial override here can only adjust what it
+names. This exists so an ad-hoc one-shot (`kubectl create` before a risky
+change, a debug run that needs more memory or a different UID) does not
+require editing the shared, GitOps-managed `SnapshotPolicy` that every
+scheduled run also uses.
+
+Two deliberate exclusions:
+
+* `mover.cache` here is **run-scoped only**. It sets this run&#39;s kopia cache
+  budgets (`--content-cache-size-mb`/`--metadata-cache-size-mb`) and, when
+  the cache is `Ephemeral`, that Job&#39;s cache-volume `capacity` and
+  `storageClassName` — a generic ephemeral volume bound to this pod and
+  GC&#39;d with it. What it cannot touch is anything **shared**: `cache.mode`
+  is policy-owned (a per-run `mode: Persistent` never mints the shared
+  PVC), and under `mode: Persistent` the PVC&#39;s own `capacity`/
+  `storageClassName` come from the policy alone, because that claim is
+  named per-POLICY and every sibling `Snapshot` depends on it.
+
+* `inheritSecurityContextFrom.snapshot` is restore-only and rejected here,
+  exactly as on `SnapshotPolicy`: a backup&#39;s identity comes from the live
+  workload; it is the run that *records* an identity.
+
+An elevated mover assembled here is gated by the namespace&#39;s
+`privileged-movers` opt-in just like a policy-level one — the gate runs on
+the merged result.">
+<summary>
+  <span class="prop-name">mover</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Per-run mover overrides for THIS snapshot&#39;s Job (resources, cache budgets,
+`securityContext`, `privilegedMode`, `ttlSecondsAfterFinished`).
+
+Layered field-wise as `repository.moverDefaults &lt; policyRef&#39;s mover &lt;
+this mover` — the highest layer that sets a field wins, and a field you
+omit falls through, so a partial override here can only adjust what it
+names. This exists so an ad-hoc one-shot (`kubectl create` before a risky
+change, a debug run that needs more memory or a different UID) does not
+require editing the shared, GitOps-managed `SnapshotPolicy` that every
+scheduled run also uses.
+
+Two deliberate exclusions:
+
+* `mover.cache` here is **run-scoped only**. It sets this run&#39;s kopia cache
+  budgets (`--content-cache-size-mb`/`--metadata-cache-size-mb`) and, when
+  the cache is `Ephemeral`, that Job&#39;s cache-volume `capacity` and
+  `storageClassName` — a generic ephemeral volume bound to this pod and
+  GC&#39;d with it. What it cannot touch is anything **shared**: `cache.mode`
+  is policy-owned (a per-run `mode: Persistent` never mints the shared
+  PVC), and under `mode: Persistent` the PVC&#39;s own `capacity`/
+  `storageClassName` come from the policy alone, because that claim is
+  named per-POLICY and every sibling `Snapshot` depends on it.
+
+* `inheritSecurityContextFrom.snapshot` is restore-only and rejected here,
+  exactly as on `SnapshotPolicy`: a backup&#39;s identity comes from the live
+  workload; it is the run that *records* an identity.
+
+An elevated mover assembled here is gated by the namespace&#39;s
+`privileged-movers` opt-in just like a policy-level one — the gate runs on
+the merged result.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.mover.cache" data-path-key="|spec|mover|cache|" data-parent-path="spec.mover" data-name="cache" data-text="Override the repository&#39;s [`CacheDefaults`] for this recipe&#39;s movers.">
+<summary>
+  <span class="prop-name">cache</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Override the repository&#39;s [`CacheDefaults`] for this recipe&#39;s movers.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.cache.capacity" data-path-key="|spec|mover|cache|capacity|" data-parent-path="spec.mover.cache" data-name="capacity" data-text="Size of the PVC backing the mover&#39;s kopia cache (e.g. `10Gi`).">
+  <span class="prop-name">capacity</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Size of the PVC backing the mover&#39;s kopia cache (e.g. `10Gi`).
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.cache.contentCacheSizeMb" data-path-key="|spec|mover|cache|contentCacheSizeMb|" data-parent-path="spec.mover.cache" data-name="contentCacheSizeMb" data-text="kopia content cache budget in MiB (`--content-cache-size-mb`). format: int64">
+  <span class="prop-name">contentCacheSizeMb</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">kopia content cache budget in MiB (`--content-cache-size-mb`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.cache.metadataCacheSizeMb" data-path-key="|spec|mover|cache|metadataCacheSizeMb|" data-parent-path="spec.mover.cache" data-name="metadataCacheSizeMb" data-text="kopia metadata cache budget in MiB (`--metadata-cache-size-mb`). format: int64">
+  <span class="prop-name">metadataCacheSizeMb</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">kopia metadata cache budget in MiB (`--metadata-cache-size-mb`).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.cache.mode" data-path-key="|spec|mover|cache|mode|" data-parent-path="spec.mover.cache" data-name="mode" data-text="How a mover&#39;s kopia cache volume is provisioned. enum: Ephemeral, Persistent">
+  <span class="prop-name">mode</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">How a mover&#39;s kopia cache volume is provisioned.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Ephemeral, Persistent"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Ephemeral, Persistent</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.cache.storageClassName" data-path-key="|spec|mover|cache|storageClassName|" data-parent-path="spec.mover.cache" data-name="storageClassName" data-text="StorageClass for the cache PVC; absent uses the cluster default.">
+  <span class="prop-name">storageClassName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">StorageClass for the cache PVC; absent uses the cluster default.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom" data-path-key="|spec|mover|inheritSecurityContextFrom|" data-parent-path="spec.mover" data-name="inheritSecurityContextFrom" data-text="Copy the UID/GID security context from a live workload rather than hard-coding it.
+
+Requires the workload to pin `runAsUser` (container or pod level): a UID that comes
+from the container image&#39;s `USER` line is invisible in the pod spec and cannot be
+inherited — the mover would silently run as its own image&#39;s UID instead.
+
+May be combined with `securityContext`/`podSecurityContext`, which override it
+field-wise and act as the fallback when no workload pod can be resolved.">
+<summary>
+  <span class="prop-name">inheritSecurityContextFrom</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Copy the UID/GID security context from a live workload rather than hard-coding it.
+
+Requires the workload to pin `runAsUser` (container or pod level): a UID that comes
+from the container image&#39;s `USER` line is invisible in the pod spec and cannot be
+inherited — the mover would silently run as its own image&#39;s UID instead.
+
+May be combined with `securityContext`/`podSecurityContext`, which override it
+field-wise and act as the fallback when no workload pod can be resolved.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.pvcConsumer" data-path-key="|spec|mover|inheritSecurityContextFrom|pvcConsumer|" data-parent-path="spec.mover.inheritSecurityContextFrom" data-name="pvcConsumer" data-text="Backup sources only: auto-derive the workload from the PVC this snapshot backs up.">
+<summary>
+  <span class="prop-name">pvcConsumer</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Backup sources only: auto-derive the workload from the PVC this snapshot backs up.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.pvcConsumer.container" data-path-key="|spec|mover|inheritSecurityContextFrom|pvcConsumer|container|" data-parent-path="spec.mover.inheritSecurityContextFrom.pvcConsumer" data-name="container" data-text="Which container within the matched consumer pod to inherit from; absent uses the first/only.">
+  <span class="prop-name">container</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which container within the matched consumer pod to inherit from; absent uses the first/only.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.snapshot" data-path-key="|spec|mover|inheritSecurityContextFrom|snapshot|" data-parent-path="spec.mover.inheritSecurityContextFrom" data-name="snapshot" data-text="Restores only: inherit the identity RECORDED on the backup itself
+(`Snapshot.status.recorded`, decoded from the `kopiur-meta` kopia tag) —
+uid/gid/fsGroup the backup mover actually ran as. Needs no live workload
+pod, so it works on a rebuilt cluster and with `target.populator`.
+Rejected at admission on SnapshotPolicy/Maintenance (backups read the
+live workload; maintenance has no snapshot). Write it as `snapshot: {}`
+(an empty sub-object) — a bare `snapshot:` is null and rejected.">
+  <span class="prop-name">snapshot</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Restores only: inherit the identity RECORDED on the backup itself
+(`Snapshot.status.recorded`, decoded from the `kopiur-meta` kopia tag) —
+uid/gid/fsGroup the backup mover actually ran as. Needs no live workload
+pod, so it works on a rebuilt cluster and with `target.populator`.
+Rejected at admission on SnapshotPolicy/Maintenance (backups read the
+live workload; maintenance has no snapshot). Write it as `snapshot: {}`
+(an empty sub-object) — a bare `snapshot:` is null and rejected.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|" data-parent-path="spec.mover.inheritSecurityContextFrom" data-name="workloadSelector" data-text="Inherit from workload pod(s) matched by an explicit label selector (backup or restore).">
+<summary>
+  <span class="prop-name">workloadSelector</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Inherit from workload pod(s) matched by an explicit label selector (backup or restore).</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector.container" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|container|" data-parent-path="spec.mover.inheritSecurityContextFrom.workloadSelector" data-name="container" data-text="Which container within the matched pod; absent uses the first/only container.">
+  <span class="prop-name">container</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Which container within the matched pod; absent uses the first/only container.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|podSelector|" data-parent-path="spec.mover.inheritSecurityContextFrom.workloadSelector" data-name="podSelector" data-text="Label selector matching the workload pod(s) to read context/hooks from.">
+<summary>
+  <span class="prop-name">podSelector</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Label selector matching the workload pod(s) to read context/hooks from.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchExpressions" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|podSelector|matchExpressions|" data-parent-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchExpressions[].key" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|podSelector|matchExpressions[]|key|" data-parent-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchExpressions[].operator" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|podSelector|matchExpressions[]|operator|" data-parent-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchExpressions[].values" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|podSelector|matchExpressions[]|values|" data-parent-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector.matchLabels" data-path-key="|spec|mover|inheritSecurityContextFrom|workloadSelector|podSelector|matchLabels|" data-parent-path="spec.mover.inheritSecurityContextFrom.workloadSelector.podSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext" data-path-key="|spec|mover|podSecurityContext|" data-parent-path="spec.mover" data-name="podSecurityContext" data-text="Pod security context for the mover (notably `fsGroup` for group-writable restore
+volumes). Same layering as `securityContext`: highest layer, merged field-wise, and
+combinable with `inheritSecurityContextFrom`.">
+<summary>
+  <span class="prop-name">podSecurityContext</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Pod security context for the mover (notably `fsGroup` for group-writable restore
+volumes). Same layering as `securityContext`: highest layer, merged field-wise, and
+combinable with `inheritSecurityContextFrom`.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext.appArmorProfile" data-path-key="|spec|mover|podSecurityContext|appArmorProfile|" data-parent-path="spec.mover.podSecurityContext" data-name="appArmorProfile" data-text="appArmorProfile is the AppArmor options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">appArmorProfile</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">appArmorProfile is the AppArmor options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.appArmorProfile.localhostProfile" data-path-key="|spec|mover|podSecurityContext|appArmorProfile|localhostProfile|" data-parent-path="spec.mover.podSecurityContext.appArmorProfile" data-name="localhostProfile" data-text="localhostProfile indicates a profile loaded on the node that should be used. The profile must be preconfigured on the node to work. Must match the loaded name of the profile. Must be set if and only if type is &#34;Localhost&#34;.">
+  <span class="prop-name">localhostProfile</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">localhostProfile indicates a profile loaded on the node that should be used. The profile must be preconfigured on the node to work. Must match the loaded name of the profile. Must be set if and only if type is &#34;Localhost&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.appArmorProfile.type" data-path-key="|spec|mover|podSecurityContext|appArmorProfile|type|" data-parent-path="spec.mover.podSecurityContext.appArmorProfile" data-name="type" data-text="type indicates which kind of AppArmor profile will be applied. Valid options are:
+  Localhost - a profile pre-loaded on the node.
+  RuntimeDefault - the container runtime&#39;s default profile.
+  Unconfined - no AppArmor enforcement.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">type indicates which kind of AppArmor profile will be applied. Valid options are:
+  Localhost - a profile pre-loaded on the node.
+  RuntimeDefault - the container runtime&#39;s default profile.
+  Unconfined - no AppArmor enforcement.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.fsGroup" data-path-key="|spec|mover|podSecurityContext|fsGroup|" data-parent-path="spec.mover.podSecurityContext" data-name="fsGroup" data-text="A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
+
+1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR&#39;d with rw-rw----
+
+If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows. format: int64">
+  <span class="prop-name">fsGroup</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
+
+1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR&#39;d with rw-rw----
+
+If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.fsGroupChangePolicy" data-path-key="|spec|mover|podSecurityContext|fsGroupChangePolicy|" data-parent-path="spec.mover.podSecurityContext" data-name="fsGroupChangePolicy" data-text="fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are &#34;OnRootMismatch&#34; and &#34;Always&#34;. If not specified, &#34;Always&#34; is used. Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">fsGroupChangePolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are &#34;OnRootMismatch&#34; and &#34;Always&#34;. If not specified, &#34;Always&#34; is used. Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.runAsGroup" data-path-key="|spec|mover|podSecurityContext|runAsGroup|" data-parent-path="spec.mover.podSecurityContext" data-name="runAsGroup" data-text="The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. format: int64">
+  <span class="prop-name">runAsGroup</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.runAsNonRoot" data-path-key="|spec|mover|podSecurityContext|runAsNonRoot|" data-parent-path="spec.mover.podSecurityContext" data-name="runAsNonRoot" data-text="Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.">
+  <span class="prop-name">runAsNonRoot</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.runAsUser" data-path-key="|spec|mover|podSecurityContext|runAsUser|" data-parent-path="spec.mover.podSecurityContext" data-name="runAsUser" data-text="The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. format: int64">
+  <span class="prop-name">runAsUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.seLinuxChangePolicy" data-path-key="|spec|mover|podSecurityContext|seLinuxChangePolicy|" data-parent-path="spec.mover.podSecurityContext" data-name="seLinuxChangePolicy" data-text="seLinuxChangePolicy defines how the container&#39;s SELinux label is applied to all volumes used by the Pod. It has no effect on nodes that do not support SELinux or to volumes does not support SELinux. Valid values are &#34;MountOption&#34; and &#34;Recursive&#34;.
+
+&#34;Recursive&#34; means relabeling of all files on all Pod volumes by the container runtime. This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+&#34;MountOption&#34; mounts all eligible Pod volumes with `-o context` mount option. This requires all Pods that share the same volume to use the same SELinux label. It is not possible to share the same volume among privileged and unprivileged Pods. Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their CSIDriver instance. Other volumes are always re-labelled recursively. &#34;MountOption&#34; value is allowed only when SELinuxMount feature gate is enabled.
+
+If not specified and SELinuxMount feature gate is enabled, &#34;MountOption&#34; is used. If not specified and SELinuxMount feature gate is disabled, &#34;MountOption&#34; is used for ReadWriteOncePod volumes and &#34;Recursive&#34; for all other volumes.
+
+This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state. Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">seLinuxChangePolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">seLinuxChangePolicy defines how the container&#39;s SELinux label is applied to all volumes used by the Pod. It has no effect on nodes that do not support SELinux or to volumes does not support SELinux. Valid values are &#34;MountOption&#34; and &#34;Recursive&#34;.
+
+&#34;Recursive&#34; means relabeling of all files on all Pod volumes by the container runtime. This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+
+&#34;MountOption&#34; mounts all eligible Pod volumes with `-o context` mount option. This requires all Pods that share the same volume to use the same SELinux label. It is not possible to share the same volume among privileged and unprivileged Pods. Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their CSIDriver instance. Other volumes are always re-labelled recursively. &#34;MountOption&#34; value is allowed only when SELinuxMount feature gate is enabled.
+
+If not specified and SELinuxMount feature gate is enabled, &#34;MountOption&#34; is used. If not specified and SELinuxMount feature gate is disabled, &#34;MountOption&#34; is used for ReadWriteOncePod volumes and &#34;Recursive&#34; for all other volumes.
+
+This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+
+All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state. Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext.seLinuxOptions" data-path-key="|spec|mover|podSecurityContext|seLinuxOptions|" data-parent-path="spec.mover.podSecurityContext" data-name="seLinuxOptions" data-text="The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">seLinuxOptions</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.seLinuxOptions.level" data-path-key="|spec|mover|podSecurityContext|seLinuxOptions|level|" data-parent-path="spec.mover.podSecurityContext.seLinuxOptions" data-name="level" data-text="Level is SELinux level label that applies to the container.">
+  <span class="prop-name">level</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Level is SELinux level label that applies to the container.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.seLinuxOptions.role" data-path-key="|spec|mover|podSecurityContext|seLinuxOptions|role|" data-parent-path="spec.mover.podSecurityContext.seLinuxOptions" data-name="role" data-text="Role is a SELinux role label that applies to the container.">
+  <span class="prop-name">role</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Role is a SELinux role label that applies to the container.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.seLinuxOptions.type" data-path-key="|spec|mover|podSecurityContext|seLinuxOptions|type|" data-parent-path="spec.mover.podSecurityContext.seLinuxOptions" data-name="type" data-text="Type is a SELinux type label that applies to the container.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Type is a SELinux type label that applies to the container.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.seLinuxOptions.user" data-path-key="|spec|mover|podSecurityContext|seLinuxOptions|user|" data-parent-path="spec.mover.podSecurityContext.seLinuxOptions" data-name="user" data-text="User is a SELinux user label that applies to the container.">
+  <span class="prop-name">user</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">User is a SELinux user label that applies to the container.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext.seccompProfile" data-path-key="|spec|mover|podSecurityContext|seccompProfile|" data-parent-path="spec.mover.podSecurityContext" data-name="seccompProfile" data-text="The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">seccompProfile</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.seccompProfile.localhostProfile" data-path-key="|spec|mover|podSecurityContext|seccompProfile|localhostProfile|" data-parent-path="spec.mover.podSecurityContext.seccompProfile" data-name="localhostProfile" data-text="localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet&#39;s configured seccomp profile location. Must be set if type is &#34;Localhost&#34;. Must NOT be set for any other type.">
+  <span class="prop-name">localhostProfile</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet&#39;s configured seccomp profile location. Must be set if type is &#34;Localhost&#34;. Must NOT be set for any other type.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.seccompProfile.type" data-path-key="|spec|mover|podSecurityContext|seccompProfile|type|" data-parent-path="spec.mover.podSecurityContext.seccompProfile" data-name="type" data-text="type indicates which kind of seccomp profile will be applied. Valid options are:
+
+Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">type indicates which kind of seccomp profile will be applied. Valid options are:
+
+Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.supplementalGroups" data-path-key="|spec|mover|podSecurityContext|supplementalGroups|" data-parent-path="spec.mover.podSecurityContext" data-name="supplementalGroups" data-text="A list of groups applied to the first process run in each container, in addition to the container&#39;s primary GID and fsGroup (if specified).  If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">supplementalGroups</span>
+  <span class="type-badge">[]integer</span>
+  <div class="leaf-desc">A list of groups applied to the first process run in each container, in addition to the container&#39;s primary GID and fsGroup (if specified).  If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.supplementalGroupsPolicy" data-path-key="|spec|mover|podSecurityContext|supplementalGroupsPolicy|" data-parent-path="spec.mover.podSecurityContext" data-name="supplementalGroupsPolicy" data-text="Defines how supplemental groups of the first container processes are calculated. Valid values are &#34;Merge&#34; and &#34;Strict&#34;. If not specified, &#34;Merge&#34; is used. (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled and the container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">supplementalGroupsPolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Defines how supplemental groups of the first container processes are calculated. Valid values are &#34;Merge&#34; and &#34;Strict&#34;. If not specified, &#34;Merge&#34; is used. (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled and the container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext.sysctls" data-path-key="|spec|mover|podSecurityContext|sysctls|" data-parent-path="spec.mover.podSecurityContext" data-name="sysctls" data-text="Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">sysctls</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.sysctls[].name" data-path-key="|spec|mover|podSecurityContext|sysctls[]|name|" data-parent-path="spec.mover.podSecurityContext.sysctls" data-name="name" data-text="Name of a property to set">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of a property to set
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.sysctls[].value" data-path-key="|spec|mover|podSecurityContext|sysctls[]|value|" data-parent-path="spec.mover.podSecurityContext.sysctls" data-name="value" data-text="Value of a property to set">
+  <span class="prop-name">value</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Value of a property to set
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.podSecurityContext.windowsOptions" data-path-key="|spec|mover|podSecurityContext|windowsOptions|" data-parent-path="spec.mover.podSecurityContext" data-name="windowsOptions" data-text="The Windows specific settings applied to all containers. If unspecified, the options within a container&#39;s SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.">
+<summary>
+  <span class="prop-name">windowsOptions</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The Windows specific settings applied to all containers. If unspecified, the options within a container&#39;s SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.windowsOptions.gmsaCredentialSpec" data-path-key="|spec|mover|podSecurityContext|windowsOptions|gmsaCredentialSpec|" data-parent-path="spec.mover.podSecurityContext.windowsOptions" data-name="gmsaCredentialSpec" data-text="GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.">
+  <span class="prop-name">gmsaCredentialSpec</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.windowsOptions.gmsaCredentialSpecName" data-path-key="|spec|mover|podSecurityContext|windowsOptions|gmsaCredentialSpecName|" data-parent-path="spec.mover.podSecurityContext.windowsOptions" data-name="gmsaCredentialSpecName" data-text="GMSACredentialSpecName is the name of the GMSA credential spec to use.">
+  <span class="prop-name">gmsaCredentialSpecName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">GMSACredentialSpecName is the name of the GMSA credential spec to use.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.windowsOptions.hostProcess" data-path-key="|spec|mover|podSecurityContext|windowsOptions|hostProcess|" data-parent-path="spec.mover.podSecurityContext.windowsOptions" data-name="hostProcess" data-text="HostProcess determines if a container should be run as a &#39;Host Process&#39; container. All of a Pod&#39;s containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.">
+  <span class="prop-name">hostProcess</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">HostProcess determines if a container should be run as a &#39;Host Process&#39; container. All of a Pod&#39;s containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.podSecurityContext.windowsOptions.runAsUserName" data-path-key="|spec|mover|podSecurityContext|windowsOptions|runAsUserName|" data-parent-path="spec.mover.podSecurityContext.windowsOptions" data-name="runAsUserName" data-text="The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.">
+  <span class="prop-name">runAsUserName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.privilegedMode" data-path-key="|spec|mover|privilegedMode|" data-parent-path="spec.mover" data-name="privilegedMode" data-text="Opt-in, namespace-gated privileged mode; preserves UID/GID on restore.">
+  <span class="prop-name">privilegedMode</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Opt-in, namespace-gated privileged mode; preserves UID/GID on restore.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.mover.resources" data-path-key="|spec|mover|resources|" data-parent-path="spec.mover" data-name="resources" data-text="Resource requests/limits for the mover container.">
+<summary>
+  <span class="prop-name">resources</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Resource requests/limits for the mover container.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.mover.resources.claims" data-path-key="|spec|mover|resources|claims|" data-parent-path="spec.mover.resources" data-name="claims" data-text="Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
+
+This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+
+This field is immutable. It can only be set for containers.">
+<summary>
+  <span class="prop-name">claims</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
+
+This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+
+This field is immutable. It can only be set for containers.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.resources.claims[].name" data-path-key="|spec|mover|resources|claims[]|name|" data-parent-path="spec.mover.resources.claims" data-name="name" data-text="Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.resources.claims[].request" data-path-key="|spec|mover|resources|claims[]|request|" data-parent-path="spec.mover.resources.claims" data-name="request" data-text="Request is the name chosen for a request in the referenced claim. If empty, everything from the claim is made available, otherwise only the result of this request.">
+  <span class="prop-name">request</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Request is the name chosen for a request in the referenced claim. If empty, everything from the claim is made available, otherwise only the result of this request.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.resources.limits" data-path-key="|spec|mover|resources|limits|" data-parent-path="spec.mover.resources" data-name="limits" data-text="Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">
+  <span class="prop-name">limits</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.resources.requests" data-path-key="|spec|mover|resources|requests|" data-parent-path="spec.mover.resources" data-name="requests" data-text="Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">
+  <span class="prop-name">requests</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.securityContext" data-path-key="|spec|mover|securityContext|" data-parent-path="spec.mover" data-name="securityContext" data-text="Container security context for the mover; merged field-wise over the hardened base,
+`moverDefaults`, and any inherited context — this is the highest layer, so every field
+set here wins. Combines with `inheritSecurityContextFrom`: fields you set override the
+workload&#39;s, fields you omit are inherited, and this context stands in alone when
+inheritance cannot resolve a pod.">
+<summary>
+  <span class="prop-name">securityContext</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Container security context for the mover; merged field-wise over the hardened base,
+`moverDefaults`, and any inherited context — this is the highest layer, so every field
+set here wins. Combines with `inheritSecurityContextFrom`: fields you set override the
+workload&#39;s, fields you omit are inherited, and this context stands in alone when
+inheritance cannot resolve a pod.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.allowPrivilegeEscalation" data-path-key="|spec|mover|securityContext|allowPrivilegeEscalation|" data-parent-path="spec.mover.securityContext" data-name="allowPrivilegeEscalation" data-text="AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">allowPrivilegeEscalation</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.mover.securityContext.appArmorProfile" data-path-key="|spec|mover|securityContext|appArmorProfile|" data-parent-path="spec.mover.securityContext" data-name="appArmorProfile" data-text="appArmorProfile is the AppArmor options to use by this container. If set, this profile overrides the pod&#39;s appArmorProfile. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">appArmorProfile</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">appArmorProfile is the AppArmor options to use by this container. If set, this profile overrides the pod&#39;s appArmorProfile. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.appArmorProfile.localhostProfile" data-path-key="|spec|mover|securityContext|appArmorProfile|localhostProfile|" data-parent-path="spec.mover.securityContext.appArmorProfile" data-name="localhostProfile" data-text="localhostProfile indicates a profile loaded on the node that should be used. The profile must be preconfigured on the node to work. Must match the loaded name of the profile. Must be set if and only if type is &#34;Localhost&#34;.">
+  <span class="prop-name">localhostProfile</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">localhostProfile indicates a profile loaded on the node that should be used. The profile must be preconfigured on the node to work. Must match the loaded name of the profile. Must be set if and only if type is &#34;Localhost&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.appArmorProfile.type" data-path-key="|spec|mover|securityContext|appArmorProfile|type|" data-parent-path="spec.mover.securityContext.appArmorProfile" data-name="type" data-text="type indicates which kind of AppArmor profile will be applied. Valid options are:
+  Localhost - a profile pre-loaded on the node.
+  RuntimeDefault - the container runtime&#39;s default profile.
+  Unconfined - no AppArmor enforcement.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">type indicates which kind of AppArmor profile will be applied. Valid options are:
+  Localhost - a profile pre-loaded on the node.
+  RuntimeDefault - the container runtime&#39;s default profile.
+  Unconfined - no AppArmor enforcement.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.securityContext.capabilities" data-path-key="|spec|mover|securityContext|capabilities|" data-parent-path="spec.mover.securityContext" data-name="capabilities" data-text="The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">capabilities</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.capabilities.add" data-path-key="|spec|mover|securityContext|capabilities|add|" data-parent-path="spec.mover.securityContext.capabilities" data-name="add" data-text="Added capabilities">
+  <span class="prop-name">add</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Added capabilities
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.capabilities.drop" data-path-key="|spec|mover|securityContext|capabilities|drop|" data-parent-path="spec.mover.securityContext.capabilities" data-name="drop" data-text="Removed capabilities">
+  <span class="prop-name">drop</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">Removed capabilities
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.privileged" data-path-key="|spec|mover|securityContext|privileged|" data-parent-path="spec.mover.securityContext" data-name="privileged" data-text="Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">privileged</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.procMount" data-path-key="|spec|mover|securityContext|procMount|" data-parent-path="spec.mover.securityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">procMount</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.readOnlyRootFilesystem" data-path-key="|spec|mover|securityContext|readOnlyRootFilesystem|" data-parent-path="spec.mover.securityContext" data-name="readOnlyRootFilesystem" data-text="Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows.">
+  <span class="prop-name">readOnlyRootFilesystem</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.runAsGroup" data-path-key="|spec|mover|securityContext|runAsGroup|" data-parent-path="spec.mover.securityContext" data-name="runAsGroup" data-text="The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. format: int64">
+  <span class="prop-name">runAsGroup</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.runAsNonRoot" data-path-key="|spec|mover|securityContext|runAsNonRoot|" data-parent-path="spec.mover.securityContext" data-name="runAsNonRoot" data-text="Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.">
+  <span class="prop-name">runAsNonRoot</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.runAsUser" data-path-key="|spec|mover|securityContext|runAsUser|" data-parent-path="spec.mover.securityContext" data-name="runAsUser" data-text="The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. format: int64">
+  <span class="prop-name">runAsUser</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.mover.securityContext.seLinuxOptions" data-path-key="|spec|mover|securityContext|seLinuxOptions|" data-parent-path="spec.mover.securityContext" data-name="seLinuxOptions" data-text="The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">seLinuxOptions</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.seLinuxOptions.level" data-path-key="|spec|mover|securityContext|seLinuxOptions|level|" data-parent-path="spec.mover.securityContext.seLinuxOptions" data-name="level" data-text="Level is SELinux level label that applies to the container.">
+  <span class="prop-name">level</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Level is SELinux level label that applies to the container.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.seLinuxOptions.role" data-path-key="|spec|mover|securityContext|seLinuxOptions|role|" data-parent-path="spec.mover.securityContext.seLinuxOptions" data-name="role" data-text="Role is a SELinux role label that applies to the container.">
+  <span class="prop-name">role</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Role is a SELinux role label that applies to the container.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.seLinuxOptions.type" data-path-key="|spec|mover|securityContext|seLinuxOptions|type|" data-parent-path="spec.mover.securityContext.seLinuxOptions" data-name="type" data-text="Type is a SELinux type label that applies to the container.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Type is a SELinux type label that applies to the container.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.seLinuxOptions.user" data-path-key="|spec|mover|securityContext|seLinuxOptions|user|" data-parent-path="spec.mover.securityContext.seLinuxOptions" data-name="user" data-text="User is a SELinux user label that applies to the container.">
+  <span class="prop-name">user</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">User is a SELinux user label that applies to the container.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.securityContext.seccompProfile" data-path-key="|spec|mover|securityContext|seccompProfile|" data-parent-path="spec.mover.securityContext" data-name="seccompProfile" data-text="The seccomp options to use by this container. If seccomp options are provided at both the pod &amp; container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.">
+<summary>
+  <span class="prop-name">seccompProfile</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The seccomp options to use by this container. If seccomp options are provided at both the pod &amp; container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.seccompProfile.localhostProfile" data-path-key="|spec|mover|securityContext|seccompProfile|localhostProfile|" data-parent-path="spec.mover.securityContext.seccompProfile" data-name="localhostProfile" data-text="localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet&#39;s configured seccomp profile location. Must be set if type is &#34;Localhost&#34;. Must NOT be set for any other type.">
+  <span class="prop-name">localhostProfile</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet&#39;s configured seccomp profile location. Must be set if type is &#34;Localhost&#34;. Must NOT be set for any other type.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.seccompProfile.type" data-path-key="|spec|mover|securityContext|seccompProfile|type|" data-parent-path="spec.mover.securityContext.seccompProfile" data-name="type" data-text="type indicates which kind of seccomp profile will be applied. Valid options are:
+
+Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.">
+  <span class="prop-name">type</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">type indicates which kind of seccomp profile will be applied. Valid options are:
+
+Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.mover.securityContext.windowsOptions" data-path-key="|spec|mover|securityContext|windowsOptions|" data-parent-path="spec.mover.securityContext" data-name="windowsOptions" data-text="The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.">
+<summary>
+  <span class="prop-name">windowsOptions</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.windowsOptions.gmsaCredentialSpec" data-path-key="|spec|mover|securityContext|windowsOptions|gmsaCredentialSpec|" data-parent-path="spec.mover.securityContext.windowsOptions" data-name="gmsaCredentialSpec" data-text="GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.">
+  <span class="prop-name">gmsaCredentialSpec</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.windowsOptions.gmsaCredentialSpecName" data-path-key="|spec|mover|securityContext|windowsOptions|gmsaCredentialSpecName|" data-parent-path="spec.mover.securityContext.windowsOptions" data-name="gmsaCredentialSpecName" data-text="GMSACredentialSpecName is the name of the GMSA credential spec to use.">
+  <span class="prop-name">gmsaCredentialSpecName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">GMSACredentialSpecName is the name of the GMSA credential spec to use.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.windowsOptions.hostProcess" data-path-key="|spec|mover|securityContext|windowsOptions|hostProcess|" data-parent-path="spec.mover.securityContext.windowsOptions" data-name="hostProcess" data-text="HostProcess determines if a container should be run as a &#39;Host Process&#39; container. All of a Pod&#39;s containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.">
+  <span class="prop-name">hostProcess</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">HostProcess determines if a container should be run as a &#39;Host Process&#39; container. All of a Pod&#39;s containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.securityContext.windowsOptions.runAsUserName" data-path-key="|spec|mover|securityContext|windowsOptions|runAsUserName|" data-parent-path="spec.mover.securityContext.windowsOptions" data-name="runAsUserName" data-text="The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.">
+  <span class="prop-name">runAsUserName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.mover.ttlSecondsAfterFinished" data-path-key="|spec|mover|ttlSecondsAfterFinished|" data-parent-path="spec.mover" data-name="ttlSecondsAfterFinished" data-text="Per-recipe override of `Job.spec.ttlSecondsAfterFinished` so finished Jobs self-GC. format: int64">
+  <span class="prop-name">ttlSecondsAfterFinished</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Per-recipe override of `Job.spec.ttlSecondsAfterFinished` so finished Jobs self-GC.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.onScheduleDelete" data-path-key="|spec|onScheduleDelete|" data-parent-path="spec" data-name="onScheduleDelete" data-text="What the deletion of a `SnapshotSchedule` does to the `Snapshot` CRs it
 produced (which Kubernetes GC cascade-deletes via their ownerReference).
 Default `Retain`: the CRs are removed but their kopia snapshots survive and

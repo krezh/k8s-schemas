@@ -1501,6 +1501,125 @@ of poisoning the typed watcher.
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.target.streamExec" data-path-key="|spec|target|streamExec|" data-parent-path="spec.target" data-name="streamExec" data-text="Stream one virtual file out of the snapshot into a command&#39;s stdin in a
+running Pod — the companion of a `stream` backup source (e.g. feeding a
+`pg_dumpall` artifact back through `psql`). Writes no PVC.">
+<summary>
+  <span class="prop-name">streamExec</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Stream one virtual file out of the snapshot into a command&#39;s stdin in a
+running Pod — the companion of a `stream` backup source (e.g. feeding a
+`pg_dumpall` artifact back through `psql`). Writes no PVC.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.fileName" data-path-key="|spec|target|streamExec|fileName|" data-parent-path="spec.target.streamExec" data-name="fileName" data-text="Which virtual file inside the snapshot to read back — the `fileName` the
+backup&#39;s stream source used (e.g. `postgres.sql`). minLength: 1 maxLength: 255">
+  <span class="prop-name">fileName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Which virtual file inside the snapshot to read back — the `fileName` the
+backup&#39;s stream source used (e.g. `postgres.sql`).<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.target.streamExec.workloadExec" data-path-key="|spec|target|streamExec|workloadExec|" data-parent-path="spec.target.streamExec" data-name="workloadExec" data-text="Where to send it: the command receives the file&#39;s bytes on stdin.">
+<summary>
+  <span class="prop-name">workloadExec</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Where to send it: the command receives the file&#39;s bytes on stdin.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.workloadExec.command" data-path-key="|spec|target|streamExec|workloadExec|command|" data-parent-path="spec.target.streamExec.workloadExec" data-name="command" data-text="The argv to execute. NOT a shell line: element 0 is the program, so use
+`[&#34;sh&#34;, &#34;-ec&#34;, &#34;...&#34;]` explicitly if you want shell semantics.
+
+Reference credentials through the container&#39;s existing environment or mounted
+Secrets — never inline them here. This argv is copied into the mover Pod&#39;s
+spec, so anyone with `pods:get` in the namespace can read it. minItems: 1">
+  <span class="prop-name">command</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The argv to execute. NOT a shell line: element 0 is the program, so use
+`[&#34;sh&#34;, &#34;-ec&#34;, &#34;...&#34;]` explicitly if you want shell semantics.
+
+Reference credentials through the container&#39;s existing environment or mounted
+Secrets — never inline them here. This argv is copied into the mover Pod&#39;s
+spec, so anyone with `pods:get` in the namespace can read it.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.workloadExec.container" data-path-key="|spec|target|streamExec|workloadExec|container|" data-parent-path="spec.target.streamExec.workloadExec" data-name="container" data-text="Container to exec in; absent uses the Pod&#39;s default container.">
+  <span class="prop-name">container</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Container to exec in; absent uses the Pod&#39;s default container.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.target.streamExec.workloadExec.podSelector" data-path-key="|spec|target|streamExec|workloadExec|podSelector|" data-parent-path="spec.target.streamExec.workloadExec" data-name="podSelector" data-text="Standard label selector identifying the workload Pod, resolved in the
+`SnapshotPolicy`&#39;s (or `Restore`&#39;s) own namespace. Must not be empty — an
+empty selector matches every Pod in the namespace.">
+<summary>
+  <span class="prop-name">podSelector</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Standard label selector identifying the workload Pod, resolved in the
+`SnapshotPolicy`&#39;s (or `Restore`&#39;s) own namespace. Must not be empty — an
+empty selector matches every Pod in the namespace.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.target.streamExec.workloadExec.podSelector.matchExpressions" data-path-key="|spec|target|streamExec|workloadExec|podSelector|matchExpressions|" data-parent-path="spec.target.streamExec.workloadExec.podSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.workloadExec.podSelector.matchExpressions[].key" data-path-key="|spec|target|streamExec|workloadExec|podSelector|matchExpressions[]|key|" data-parent-path="spec.target.streamExec.workloadExec.podSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.workloadExec.podSelector.matchExpressions[].operator" data-path-key="|spec|target|streamExec|workloadExec|podSelector|matchExpressions[]|operator|" data-parent-path="spec.target.streamExec.workloadExec.podSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.workloadExec.podSelector.matchExpressions[].values" data-path-key="|spec|target|streamExec|workloadExec|podSelector|matchExpressions[]|values|" data-parent-path="spec.target.streamExec.workloadExec.podSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.workloadExec.podSelector.matchLabels" data-path-key="|spec|target|streamExec|workloadExec|podSelector|matchLabels|" data-parent-path="spec.target.streamExec.workloadExec.podSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.target.streamExec.workloadExec.timeout" data-path-key="|spec|target|streamExec|workloadExec|timeout|" data-parent-path="spec.target.streamExec.workloadExec" data-name="timeout" data-text="Go duration bounding the command (e.g. `2h`; default `1h`). On expiry the
+command is abandoned and the run fails, leaving no snapshot behind.
+
+The same bound applies whether this exec is a backup&#39;s producer or a
+`streamExec` restore&#39;s consumer.">
+  <span class="prop-name">timeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Go duration bounding the command (e.g. `2h`; default `1h`). On expiry the
+command is abandoned and the run fails, leaving no snapshot behind.
+
+The same bound applies whether this exec is a backup&#39;s producer or a
+`streamExec` restore&#39;s consumer.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>

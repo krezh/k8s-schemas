@@ -1335,10 +1335,26 @@ the enclosing schedule&#39;s timezone, else the controller default (UTC).
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.full.lastContentReclaimedBytes" data-path-key="|status|full|lastContentReclaimedBytes|" data-parent-path="status.full" data-name="lastContentReclaimedBytes" data-text="Bytes of storage reclaimed by the most recent run of this kind. format: int64">
+<div class="prop-leaf" data-prop-row data-path="status.full.lastContentReclaimedBytes" data-path-key="|status|full|lastContentReclaimedBytes|" data-parent-path="status.full" data-name="lastContentReclaimedBytes" data-text="Bytes of backend storage the most recent run of this kind actually freed:
+the blobs kopia deleted (unreferenced packs, superseded epoch indexes and
+expired logs), summed from the run history `kopia maintenance info`
+reports. It deliberately EXCLUDES kopia&#39;s snapshot-GC figure, which only
+marks contents deleted in the index and frees no storage until a later run
+removes the blobs. Absent when the run reclaimed nothing measurable — a
+quick run on an epoch-enabled repository only advances and compacts
+epochs, so there is no figure to report; `0` always means a measured zero,
+never &#34;unknown&#34;. format: int64">
   <span class="prop-name">lastContentReclaimedBytes</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">Bytes of storage reclaimed by the most recent run of this kind.<div class="leaf-constraints">
+  <div class="leaf-desc">Bytes of backend storage the most recent run of this kind actually freed:
+the blobs kopia deleted (unreferenced packs, superseded epoch indexes and
+expired logs), summed from the run history `kopia maintenance info`
+reports. It deliberately EXCLUDES kopia&#39;s snapshot-GC figure, which only
+marks contents deleted in the index and frees no storage until a later run
+removes the blobs. Absent when the run reclaimed nothing measurable — a
+quick run on an epoch-enabled repository only advances and compacts
+epochs, so there is no figure to report; `0` always means a measured zero,
+never &#34;unknown&#34;.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
@@ -1408,6 +1424,33 @@ values are the `run-mode` annotation values. Defaults to `quick`.<div class="lea
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.observedIndexBlobs" data-path-key="|status|observedIndexBlobs|" data-parent-path="status" data-name="observedIndexBlobs" data-text="Content-index blob count re-counted right after the most recent successful run.">
+<summary>
+  <span class="prop-name">observedIndexBlobs</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Content-index blob count re-counted right after the most recent successful run.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.observedIndexBlobs.count" data-path-key="|status|observedIndexBlobs|count|" data-parent-path="status.observedIndexBlobs" data-name="count" data-text="Number of content-index blobs (`kopia index list`) after the run. format: int64">
+  <span class="prop-name">count</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Number of content-index blobs (`kopia index list`) after the run.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.observedIndexBlobs.observedAt" data-path-key="|status|observedIndexBlobs|observedAt|" data-parent-path="status.observedIndexBlobs" data-name="observedAt" data-text="RFC3339 instant the recount was taken. What makes this observation
+comparable against the repository&#39;s own `storageStats.indexBlobCountAt`,
+so whichever is newer wins rather than whichever was written last.">
+  <span class="prop-name">observedAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC3339 instant the recount was taken. What makes this observation
+comparable against the repository&#39;s own `storageStats.indexBlobCountAt`,
+so whichever is newer wins rather than whichever was written last.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="status.ownership" data-path-key="|status|ownership|" data-parent-path="status" data-name="ownership" data-text="Current lease holder, if the lease has been claimed.">
 <summary>
   <span class="prop-name">ownership</span>
@@ -1444,10 +1487,26 @@ values are the `run-mode` annotation values. Defaults to `quick`.<div class="lea
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.quick.lastContentReclaimedBytes" data-path-key="|status|quick|lastContentReclaimedBytes|" data-parent-path="status.quick" data-name="lastContentReclaimedBytes" data-text="Bytes of storage reclaimed by the most recent run of this kind. format: int64">
+<div class="prop-leaf" data-prop-row data-path="status.quick.lastContentReclaimedBytes" data-path-key="|status|quick|lastContentReclaimedBytes|" data-parent-path="status.quick" data-name="lastContentReclaimedBytes" data-text="Bytes of backend storage the most recent run of this kind actually freed:
+the blobs kopia deleted (unreferenced packs, superseded epoch indexes and
+expired logs), summed from the run history `kopia maintenance info`
+reports. It deliberately EXCLUDES kopia&#39;s snapshot-GC figure, which only
+marks contents deleted in the index and frees no storage until a later run
+removes the blobs. Absent when the run reclaimed nothing measurable — a
+quick run on an epoch-enabled repository only advances and compacts
+epochs, so there is no figure to report; `0` always means a measured zero,
+never &#34;unknown&#34;. format: int64">
   <span class="prop-name">lastContentReclaimedBytes</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">Bytes of storage reclaimed by the most recent run of this kind.<div class="leaf-constraints">
+  <div class="leaf-desc">Bytes of backend storage the most recent run of this kind actually freed:
+the blobs kopia deleted (unreferenced packs, superseded epoch indexes and
+expired logs), summed from the run history `kopia maintenance info`
+reports. It deliberately EXCLUDES kopia&#39;s snapshot-GC figure, which only
+marks contents deleted in the index and frees no storage until a later run
+removes the blobs. Absent when the run reclaimed nothing measurable — a
+quick run on an epoch-enabled repository only advances and compacts
+epochs, so there is no figure to report; `0` always means a measured zero,
+never &#34;unknown&#34;.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>

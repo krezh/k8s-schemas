@@ -1862,12 +1862,12 @@ carry, and rejecting a stale one would make switching `copyMethod` between
 `Direct` and `Snapshot`/`Clone` a two-step edit in both directions.
   </div>
 </div>
-<details class="prop" data-prop-row data-path="spec.sources[].nfs" data-path-key="|spec|sources[]|nfs|" data-parent-path="spec.sources" data-name="nfs" data-text="An inline NFS export to back up directly. Mutually exclusive with `pvc`/`pvcSelector`.">
+<details class="prop" data-prop-row data-path="spec.sources[].nfs" data-path-key="|spec|sources[]|nfs|" data-parent-path="spec.sources" data-name="nfs" data-text="An inline NFS export to back up directly. Mutually exclusive with `pvc`/`pvcSelector`/`stream`.">
 <summary>
   <span class="prop-name">nfs</span>
   <span class="type-badge">object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">An inline NFS export to back up directly. Mutually exclusive with `pvc`/`pvcSelector`.</div>
+<div class="prop-content"><div class="prop-desc">An inline NFS export to back up directly. Mutually exclusive with `pvc`/`pvcSelector`/`stream`.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.sources[].nfs.path" data-path-key="|spec|sources[]|nfs|path|" data-parent-path="spec.sources[].nfs" data-name="path" data-text="Exported path on the NFS server (e.g. `/export/kopia` or `/mnt/eros/Media`).">
   <span class="prop-name">path</span>
@@ -1998,10 +1998,36 @@ Not supported on an `nfs` source: the kubelet does not apply `fsGroup` to
 in-tree NFS volumes at all, so a read-write mount would grant nothing.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.sources[].sourcePathOverride" data-path-key="|spec|sources[]|sourcePathOverride|" data-parent-path="spec.sources" data-name="sourcePathOverride" data-text="What kopia records as the source path (default `/pvc/&lt;name&gt;`, or the NFS export `path`). maxLength: 4096">
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].sourcePathOverride" data-path-key="|spec|sources[]|sourcePathOverride|" data-parent-path="spec.sources" data-name="sourcePathOverride" data-text="What kopia records as the source path (default `/pvc/&lt;name&gt;`, or the NFS export `path`).
+
+On a `pvcSelector` source this is a footgun. It is ONE literal path, so
+it works only while the selector matches exactly one PVC; the moment a
+second PVC matches, both would land on that same kopia source, merging
+their histories into one stream where they also prune each other, so the
+BACKUP is refused at run time and no further snapshots are minted for
+that source.
+
+Watch the failed schedule fire, not verification: the earlier snapshots
+remain at that path, so verification keeps passing while backups have
+stopped. (Verification only fails on a path that never received a
+backup.) Prefer `sourcePathStrategy`, which derives a distinct path per
+PVC, or put the override on its own `pvc:` source. maxLength: 4096">
   <span class="prop-name">sourcePathOverride</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">What kopia records as the source path (default `/pvc/&lt;name&gt;`, or the NFS export `path`).<div class="leaf-constraints">
+  <div class="leaf-desc">What kopia records as the source path (default `/pvc/&lt;name&gt;`, or the NFS export `path`).
+
+On a `pvcSelector` source this is a footgun. It is ONE literal path, so
+it works only while the selector matches exactly one PVC; the moment a
+second PVC matches, both would land on that same kopia source, merging
+their histories into one stream where they also prune each other, so the
+BACKUP is refused at run time and no further snapshots are minted for
+that source.
+
+Watch the failed schedule fire, not verification: the earlier snapshots
+remain at that path, so verification keeps passing while backups have
+stopped. (Verification only fails on a path that never received a
+backup.) Prefer `sourcePathStrategy`, which derives a distinct path per
+PVC, or put the override on its own `pvc:` source.<div class="leaf-constraints">
 <div class="schema-constraint" title="maxLength: 4096"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">4096</code></div></div>
   </div>
 </div>
@@ -2016,6 +2042,133 @@ distinct kopia source path. Defaults to `PvcName`.<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: PvcName, PvcNamespacedName"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">PvcName, PvcNamespacedName</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.sources[].stream" data-path-key="|spec|sources[]|stream|" data-parent-path="spec.sources" data-name="stream" data-text="Capture a command&#39;s standard output as one virtual file — a logical backup
+(`pg_dumpall`, `mysqldump`, …) rather than a volume copy. Mutually exclusive
+with `pvc`/`pvcSelector`/`nfs`. No volume is mounted; the mover execs the
+command in a running workload Pod and streams its stdout straight into kopia.">
+<summary>
+  <span class="prop-name">stream</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Capture a command&#39;s standard output as one virtual file — a logical backup
+(`pg_dumpall`, `mysqldump`, …) rather than a volume copy. Mutually exclusive
+with `pvc`/`pvcSelector`/`nfs`. No volume is mounted; the mover execs the
+command in a running workload Pod and streams its stdout straight into kopia.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.fileName" data-path-key="|spec|sources[]|stream|fileName|" data-parent-path="spec.sources[].stream" data-name="fileName" data-text="Name of the single virtual file stored in the snapshot (e.g. `postgres.sql`).
+
+Must be ONE file name: no `/`, and not `.` or `..`. kopia stores this string
+verbatim as the entry name and does not sanitize it, so a path-shaped value
+would make a later `kopia restore` write OUTSIDE its destination directory. minLength: 1 maxLength: 255">
+  <span class="prop-name">fileName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name of the single virtual file stored in the snapshot (e.g. `postgres.sql`).
+
+Must be ONE file name: no `/`, and not `.` or `..`. kopia stores this string
+verbatim as the entry name and does not sanitize it, so a path-shaped value
+would make a later `kopia restore` write OUTSIDE its destination directory.<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 255"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">255</code></div></div>
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.sources[].stream.workloadExec" data-path-key="|spec|sources[]|stream|workloadExec|" data-parent-path="spec.sources[].stream" data-name="workloadExec" data-text="The producer: what to run, and where. Its stdout IS the backup data.">
+<summary>
+  <span class="prop-name">workloadExec</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">The producer: what to run, and where. Its stdout IS the backup data.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.workloadExec.command" data-path-key="|spec|sources[]|stream|workloadExec|command|" data-parent-path="spec.sources[].stream.workloadExec" data-name="command" data-text="The argv to execute. NOT a shell line: element 0 is the program, so use
+`[&#34;sh&#34;, &#34;-ec&#34;, &#34;...&#34;]` explicitly if you want shell semantics.
+
+Reference credentials through the container&#39;s existing environment or mounted
+Secrets — never inline them here. This argv is copied into the mover Pod&#39;s
+spec, so anyone with `pods:get` in the namespace can read it. minItems: 1">
+  <span class="prop-name">command</span>
+  <span class="type-badge">[]string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The argv to execute. NOT a shell line: element 0 is the program, so use
+`[&#34;sh&#34;, &#34;-ec&#34;, &#34;...&#34;]` explicitly if you want shell semantics.
+
+Reference credentials through the container&#39;s existing environment or mounted
+Secrets — never inline them here. This argv is copied into the mover Pod&#39;s
+spec, so anyone with `pods:get` in the namespace can read it.<div class="leaf-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.workloadExec.container" data-path-key="|spec|sources[]|stream|workloadExec|container|" data-parent-path="spec.sources[].stream.workloadExec" data-name="container" data-text="Container to exec in; absent uses the Pod&#39;s default container.">
+  <span class="prop-name">container</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Container to exec in; absent uses the Pod&#39;s default container.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.sources[].stream.workloadExec.podSelector" data-path-key="|spec|sources[]|stream|workloadExec|podSelector|" data-parent-path="spec.sources[].stream.workloadExec" data-name="podSelector" data-text="Standard label selector identifying the workload Pod, resolved in the
+`SnapshotPolicy`&#39;s (or `Restore`&#39;s) own namespace. Must not be empty — an
+empty selector matches every Pod in the namespace.">
+<summary>
+  <span class="prop-name">podSelector</span>
+  <span class="type-badge">object</span> <span class="required-badge">required</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Standard label selector identifying the workload Pod, resolved in the
+`SnapshotPolicy`&#39;s (or `Restore`&#39;s) own namespace. Must not be empty — an
+empty selector matches every Pod in the namespace.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.sources[].stream.workloadExec.podSelector.matchExpressions" data-path-key="|spec|sources[]|stream|workloadExec|podSelector|matchExpressions|" data-parent-path="spec.sources[].stream.workloadExec.podSelector" data-name="matchExpressions" data-text="matchExpressions is a list of label selector requirements. The requirements are ANDed.">
+<summary>
+  <span class="prop-name">matchExpressions</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">matchExpressions is a list of label selector requirements. The requirements are ANDed.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.workloadExec.podSelector.matchExpressions[].key" data-path-key="|spec|sources[]|stream|workloadExec|podSelector|matchExpressions[]|key|" data-parent-path="spec.sources[].stream.workloadExec.podSelector.matchExpressions" data-name="key" data-text="key is the label key that the selector applies to.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">key is the label key that the selector applies to.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.workloadExec.podSelector.matchExpressions[].operator" data-path-key="|spec|sources[]|stream|workloadExec|podSelector|matchExpressions[]|operator|" data-parent-path="spec.sources[].stream.workloadExec.podSelector.matchExpressions" data-name="operator" data-text="operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">operator represents a key&#39;s relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.workloadExec.podSelector.matchExpressions[].values" data-path-key="|spec|sources[]|stream|workloadExec|podSelector|matchExpressions[]|values|" data-parent-path="spec.sources[].stream.workloadExec.podSelector.matchExpressions" data-name="values" data-text="values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]string</span>
+  <div class="leaf-desc">values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.workloadExec.podSelector.matchLabels" data-path-key="|spec|sources[]|stream|workloadExec|podSelector|matchLabels|" data-parent-path="spec.sources[].stream.workloadExec.podSelector" data-name="matchLabels" data-text="matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.">
+  <span class="prop-name">matchLabels</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is &#34;key&#34;, the operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. The requirements are ANDed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.sources[].stream.workloadExec.timeout" data-path-key="|spec|sources[]|stream|workloadExec|timeout|" data-parent-path="spec.sources[].stream.workloadExec" data-name="timeout" data-text="Go duration bounding the command (e.g. `2h`; default `1h`). On expiry the
+command is abandoned and the run fails, leaving no snapshot behind.
+
+The same bound applies whether this exec is a backup&#39;s producer or a
+`streamExec` restore&#39;s consumer.">
+  <span class="prop-name">timeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Go duration bounding the command (e.g. `2h`; default `1h`). On expiry the
+command is abandoned and the run fails, leaving no snapshot behind.
+
+The same bound applies whether this exec is a backup&#39;s producer or a
+`streamExec` restore&#39;s consumer.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -2484,17 +2637,37 @@ withheld. See the `AdoptionSkippedByRetention` event for the levers.<div class="
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.lastVerified" data-path-key="|status|lastVerified|" data-parent-path="status" data-name="lastVerified" data-text="RFC3339 timestamp of the most recent successful verification (any tier).
-Single-repo: stamped directly by the verify mover. Multi-repo: computed
-by the controller as the MINIMUM `lastVerified` across the CURRENT
-repositories (&#34;everything is verified as of T&#34;), absent until every
-current repository has verified at least once.">
+
+Verification runs once per (repository x source) cell: a
+`spec.repositories` fan-out adds the repository dimension, and a
+`pvcSelector` source adds one cell per matched PVC (each has its own
+kopia source path, so each needs its own verification).
+
+* one repository AND a non-selector source (`pvc`/`nfs`): stamped
+  directly by the verify mover, exactly as before;
+* otherwise — a `spec.repositories` fan-out, or ANY `pvcSelector` source
+  (including one currently matching a single PVC): computed by the
+  controller as the MINIMUM across the CURRENT cells (&#34;everything is
+  verified as of T&#34;), and absent until EVERY current cell has verified at
+  least once — a partially verified policy must not display a reassuring
+  timestamp.">
   <span class="prop-name">lastVerified</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">RFC3339 timestamp of the most recent successful verification (any tier).
-Single-repo: stamped directly by the verify mover. Multi-repo: computed
-by the controller as the MINIMUM `lastVerified` across the CURRENT
-repositories (&#34;everything is verified as of T&#34;), absent until every
-current repository has verified at least once.
+
+Verification runs once per (repository x source) cell: a
+`spec.repositories` fan-out adds the repository dimension, and a
+`pvcSelector` source adds one cell per matched PVC (each has its own
+kopia source path, so each needs its own verification).
+
+* one repository AND a non-selector source (`pvc`/`nfs`): stamped
+  directly by the verify mover, exactly as before;
+* otherwise — a `spec.repositories` fan-out, or ANY `pvcSelector` source
+  (including one currently matching a single PVC): computed by the
+  controller as the MINIMUM across the CURRENT cells (&#34;everything is
+  verified as of T&#34;), and absent until EVERY current cell has verified at
+  least once — a partially verified policy must not display a reassuring
+  timestamp.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.observedGeneration" data-path-key="|status|observedGeneration|" data-parent-path="status" data-name="observedGeneration" data-text="`metadata.generation` last reconciled, for staleness detection. format: int64">
@@ -2709,11 +2882,21 @@ the spec are pruned). Empty (elided) for the single-repo shape, whose
 wire stays byte-identical.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="status.verification[].lastVerified" data-path-key="|status|verification[]|lastVerified|" data-parent-path="status.verification" data-name="lastVerified" data-text="RFC3339 timestamp of the most recent successful verification (any tier)
-against THIS repository; absent until its first successful verify.">
+against THIS repository; absent until its first successful verify.
+
+When the policy&#39;s source is a `pvcSelector`, this is the MINIMUM across
+that repository&#39;s matched PVCs, and absent until every one of them has
+verified — a repository whose volumes are only partly verified must not
+look fully verified.">
   <span class="prop-name">lastVerified</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">RFC3339 timestamp of the most recent successful verification (any tier)
 against THIS repository; absent until its first successful verify.
+
+When the policy&#39;s source is a `pvcSelector`, this is the MINIMUM across
+that repository&#39;s matched PVCs, and absent until every one of them has
+verified — a repository whose volumes are only partly verified must not
+look fully verified.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="status.verification[].repository" data-path-key="|status|verification[]|repository|" data-parent-path="status.verification" data-name="repository" data-text="The repository this record covers, normalized
@@ -2752,24 +2935,52 @@ so it re-resolves from anywhere.</div>
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="status.verificationStamps" data-path-key="|status|verificationStamps|" data-parent-path="status" data-name="verificationStamps" data-text="Internal write channel for per-repository verification (#368): RFC3339
-markers keyed by the normalized repository key
-([`repo_key`](crate::common::repo_key)). Each verify mover merge-patches
-ONLY its own key — a JSON merge patch merges map keys, so two concurrent
-per-repo verifies can never clobber one another (a Vec would be replaced
-wholesale). The controller folds these into `verification` on its next
-pass and prunes keys for repositories no longer in the spec. Never
-written for the single-repo shape.">
+<div class="prop-leaf" data-prop-row data-path="status.verificationStamps" data-path-key="|status|verificationStamps|" data-parent-path="status" data-name="verificationStamps" data-text="Internal write channel for per-cell verification: RFC3339 markers keyed
+by the (repository x source) cell a verify run covered.
+
+Key shapes, where the repository segment is the normalized repository
+key ([`repo_key`](crate::common::repo_key)) and the member segment is a
+stable 12-hex tag over the matched PVC&#39;s derived kopia source path:
+
+* `&lt;repository&gt;` — a `spec.repositories` fan-out with a single source;
+* `&lt;repository&gt;#&lt;member&gt;` — a fan-out over both dimensions;
+* `#&lt;member&gt;` — one repository, a `pvcSelector` source (the repository
+  segment is empty).
+
+`#` is the separator because a repository key cannot contain one.
+
+Each verify mover merge-patches ONLY its own key — a JSON merge patch
+merges map keys, so concurrent cells can never clobber one another (a
+Vec would be replaced wholesale). The controller folds these into
+`verification` and `lastVerified` on its next pass and prunes keys whose
+repository or matched PVC is gone. Not written when the policy targets
+one repository with a non-selector source, whose wire stays
+byte-identical; a `pvcSelector` source always uses this map, even while
+it matches a single PVC.">
   <span class="prop-name">verificationStamps</span>
   <span class="type-badge">object</span>
-  <div class="leaf-desc">Internal write channel for per-repository verification (#368): RFC3339
-markers keyed by the normalized repository key
-([`repo_key`](crate::common::repo_key)). Each verify mover merge-patches
-ONLY its own key — a JSON merge patch merges map keys, so two concurrent
-per-repo verifies can never clobber one another (a Vec would be replaced
-wholesale). The controller folds these into `verification` on its next
-pass and prunes keys for repositories no longer in the spec. Never
-written for the single-repo shape.
+  <div class="leaf-desc">Internal write channel for per-cell verification: RFC3339 markers keyed
+by the (repository x source) cell a verify run covered.
+
+Key shapes, where the repository segment is the normalized repository
+key ([`repo_key`](crate::common::repo_key)) and the member segment is a
+stable 12-hex tag over the matched PVC&#39;s derived kopia source path:
+
+* `&lt;repository&gt;` — a `spec.repositories` fan-out with a single source;
+* `&lt;repository&gt;#&lt;member&gt;` — a fan-out over both dimensions;
+* `#&lt;member&gt;` — one repository, a `pvcSelector` source (the repository
+  segment is empty).
+
+`#` is the separator because a repository key cannot contain one.
+
+Each verify mover merge-patches ONLY its own key — a JSON merge patch
+merges map keys, so concurrent cells can never clobber one another (a
+Vec would be replaced wholesale). The controller folds these into
+`verification` and `lastVerified` on its next pass and prunes keys whose
+repository or matched PVC is gone. Not written when the policy targets
+one repository with a non-selector source, whose wire stays
+byte-identical; a `pvcSelector` source always uses this map, even while
+it matches a single PVC.
   </div>
 </div>
   </div>

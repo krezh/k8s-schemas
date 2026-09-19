@@ -461,10 +461,12 @@ defaults to &#34;ca.crt&#34; for backwards compatibility.">
 The ConfigMap key is required by the API. If omitted in a stored object, it
 defaults to &#34;ca.crt&#34; for backwards compatibility.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.caBundleRef.configMapRef.key" data-path-key="|spec|caBundleRef|configMapRef|key|" data-parent-path="spec.caBundleRef.configMapRef" data-name="key" data-text="The key to select.">
+<div class="prop-leaf" data-prop-row data-path="spec.caBundleRef.configMapRef.key" data-path-key="|spec|caBundleRef|configMapRef|key|" data-parent-path="spec.caBundleRef.configMapRef" data-name="key" data-text="The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.">
   <span class="prop-name">key</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">The key to select.
+  <div class="leaf-desc">The key to select from the ConfigMap&#39;s Data field.
+Keys in the BinaryData field are not currently propagated to container env vars.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.caBundleRef.configMapRef.name" data-path-key="|spec|caBundleRef|configMapRef|name|" data-parent-path="spec.caBundleRef.configMapRef" data-name="name" data-text="Name of the referent.

@@ -3975,7 +3975,7 @@ CRD field rather than matching kopia&#39;s per-flag variations.
 A `bool` rather than a unit variant because an externally-tagged unit variant
 serializes as the bare string `&#34;Disabled&#34;`, mixing string and object forms in one
 `oneOf` and breaking the structural schema. Same shape, and same reason, as
-[`crate::cluster_repository::AllowedNamespaces::All`].
+[`AllowedNamespaces::All`](crate::cluster_repository::AllowedNamespaces::All).
 
 This is distinct from omitting `blobRetention` entirely: absent means &#34;leave the
 repository alone&#34;, so deleting the block from a manifest can never silently strip
@@ -3987,7 +3987,7 @@ ransomware protection someone configured deliberately.">
 A `bool` rather than a unit variant because an externally-tagged unit variant
 serializes as the bare string `&#34;Disabled&#34;`, mixing string and object forms in one
 `oneOf` and breaking the structural schema. Same shape, and same reason, as
-[`crate::cluster_repository::AllowedNamespaces::All`].
+[`AllowedNamespaces::All`](crate::cluster_repository::AllowedNamespaces::All).
 
 This is distinct from omitting `blobRetention` entirely: absent means &#34;leave the
 repository alone&#34;, so deleting the block from a manifest can never silently strip
@@ -4035,16 +4035,23 @@ blobs get compacted.">
 blobs get compacted.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.advanceOnCount" data-path-key="|spec|parameters|epoch|advanceOnCount|" data-parent-path="spec.parameters.epoch" data-name="advanceOnCount" data-text="Index blobs in an epoch that trigger an advance, once older than `minDuration`
-(kopia default `20`). format: int64">
+(kopia default `20`).
+
+At least `10` — kopia refuses anything lower with &#34;epoch advance on count too low&#34;. format: int64">
   <span class="prop-name">advanceOnCount</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">Index blobs in an epoch that trigger an advance, once older than `minDuration`
-(kopia default `20`).<div class="leaf-constraints">
+(kopia default `20`).
+
+At least `10` — kopia refuses anything lower with &#34;epoch advance on count too low&#34;.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.advanceOnSizeMiB" data-path-key="|spec|parameters|epoch|advanceOnSizeMiB|" data-parent-path="spec.parameters.epoch" data-name="advanceOnSizeMiB" data-text="Total index size in an epoch that triggers an advance, once older than `minDuration`
 (kopia default `10` MiB).
+
+At least `1` — kopia refuses anything lower with &#34;epoch advance on size too low&#34;,
+and 1 MiB is the smallest threshold the flag can express.
 
 Named `MiB`, not `MB`, with an explicit rename rather than the derived camelCase
 (`advanceOnSizeMb`, which reads as *megabit*). The unit is genuinely mebibytes —
@@ -4056,6 +4063,9 @@ this field&#39;s main hazard; the API surface should not reproduce it. format: i
   <div class="leaf-desc">Total index size in an epoch that triggers an advance, once older than `minDuration`
 (kopia default `10` MiB).
 
+At least `1` — kopia refuses anything lower with &#34;epoch advance on size too low&#34;,
+and 1 MiB is the smallest threshold the flag can express.
+
 Named `MiB`, not `MB`, with an explicit rename rather than the derived camelCase
 (`advanceOnSizeMb`, which reads as *megabit*). The unit is genuinely mebibytes —
 kopia&#39;s `--epoch-advance-on-size-mb` multiplies by 1048576, so `10` is 10485760
@@ -4064,32 +4074,62 @@ this field&#39;s main hazard; the API surface should not reproduce it.<div class
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.checkpointFrequency" data-path-key="|spec|parameters|epoch|checkpointFrequency|" data-parent-path="spec.parameters.epoch" data-name="checkpointFrequency" data-text="Epochs between full index checkpoints (kopia default `7`). format: int64">
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.checkpointFrequency" data-path-key="|spec|parameters|epoch|checkpointFrequency|" data-parent-path="spec.parameters.epoch" data-name="checkpointFrequency" data-text="Epochs between full index checkpoints (kopia default `7`).
+
+At least `1` — kopia refuses anything lower with &#34;invalid epoch range compaction
+period&#34;. format: int64">
   <span class="prop-name">checkpointFrequency</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">Epochs between full index checkpoints (kopia default `7`).<div class="leaf-constraints">
+  <div class="leaf-desc">Epochs between full index checkpoints (kopia default `7`).
+
+At least `1` — kopia refuses anything lower with &#34;invalid epoch range compaction
+period&#34;.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.deleteParallelism" data-path-key="|spec|parameters|epoch|deleteParallelism|" data-parent-path="spec.parameters.epoch" data-name="deleteParallelism" data-text="Parallelism for epoch cleanup deletions (kopia default `4`). format: int64">
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.deleteParallelism" data-path-key="|spec|parameters|epoch|deleteParallelism|" data-parent-path="spec.parameters.epoch" data-name="deleteParallelism" data-text="Parallelism for epoch cleanup deletions (kopia default `4`).
+
+At least `1`. This floor is kopiur&#39;s own: kopia does not validate the field, so a
+non-positive value would ask it to run epoch cleanup with no workers. format: int64">
   <span class="prop-name">deleteParallelism</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">Parallelism for epoch cleanup deletions (kopia default `4`).<div class="leaf-constraints">
+  <div class="leaf-desc">Parallelism for epoch cleanup deletions (kopia default `4`).
+
+At least `1`. This floor is kopiur&#39;s own: kopia does not validate the field, so a
+non-positive value would ask it to run epoch cleanup with no workers.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.minDuration" data-path-key="|spec|parameters|epoch|minDuration|" data-parent-path="spec.parameters.epoch" data-name="minDuration" data-text="Minimum epoch age before it may advance (kopia default `24h`). A Go-style duration
-(`6h`, `90m`). The advance **gate** — no blob count closes an epoch younger than this.">
+(`6h`, `90m`). The advance **gate** — no blob count closes an epoch younger than this.
+
+Must be at least `10m` (kopia&#39;s absolute floor) AND at least 3x `refreshFrequency`.
+When `refreshFrequency` is not declared, that second bound is measured against
+kopia&#39;s untouched `20m` default, so `10m` on its own is rejected: use `60m`, or
+declare a `refreshFrequency` of a third of it or less alongside it.">
   <span class="prop-name">minDuration</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Minimum epoch age before it may advance (kopia default `24h`). A Go-style duration
 (`6h`, `90m`). The advance **gate** — no blob count closes an epoch younger than this.
+
+Must be at least `10m` (kopia&#39;s absolute floor) AND at least 3x `refreshFrequency`.
+When `refreshFrequency` is not declared, that second bound is measured against
+kopia&#39;s untouched `20m` default, so `10m` on its own is rejected: use `60m`, or
+declare a `refreshFrequency` of a third of it or less alongside it.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.refreshFrequency" data-path-key="|spec|parameters|epoch|refreshFrequency|" data-parent-path="spec.parameters.epoch" data-name="refreshFrequency" data-text="How often clients re-read epoch state (kopia default `20m`). Go-style duration.">
+<div class="prop-leaf" data-prop-row data-path="spec.parameters.epoch.refreshFrequency" data-path-key="|spec|parameters|epoch|refreshFrequency|" data-parent-path="spec.parameters.epoch" data-name="refreshFrequency" data-text="How often clients re-read epoch state (kopia default `20m`). Go-style duration.
+
+At most `80m`: kopia requires `cleanupSafetyMargin &gt;= 3x` this value, and
+`cleanupSafetyMargin` is observable-but-not-settable here, so it stays at kopia&#39;s
+`4h` default and `4h / 3` is a hard ceiling.">
   <span class="prop-name">refreshFrequency</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">How often clients re-read epoch state (kopia default `20m`). Go-style duration.
+
+At most `80m`: kopia requires `cleanupSafetyMargin &gt;= 3x` this value, and
+`cleanupSafetyMargin` is observable-but-not-settable here, so it stays at kopia&#39;s
+`4h` default and `4h / 3` is a hard ceiling.
   </div>
 </div>
   </div>
@@ -6168,10 +6208,20 @@ when retention is off.
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.advanceOnSizeMiB" data-path-key="|status|parameters|epoch|advanceOnSizeMiB|" data-parent-path="status.parameters.epoch" data-name="advanceOnSizeMiB" data-text="Observed total index size (MiB) that triggers an epoch advance. format: int64">
+<div class="prop-leaf" data-prop-row data-path="status.parameters.epoch.advanceOnSizeMiB" data-path-key="|status|parameters|epoch|advanceOnSizeMiB|" data-parent-path="status.parameters.epoch" data-name="advanceOnSizeMiB" data-text="Observed total index size (MiB) that triggers an epoch advance, **rounded up**.
+
+kopia reports this threshold in BYTES and it need not be a whole number of MiB, so
+the mirror rounds up to keep a sub-MiB remainder visible rather than reporting a
+value the repository does not actually hold. Drift against `spec` is computed on the
+exact byte count, never on this rounded mirror. format: int64">
   <span class="prop-name">advanceOnSizeMiB</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Observed total index size (MiB) that triggers an epoch advance.<div class="leaf-constraints">
+  <div class="leaf-desc">Observed total index size (MiB) that triggers an epoch advance, **rounded up**.
+
+kopia reports this threshold in BYTES and it need not be a whole number of MiB, so
+the mirror rounds up to keep a sub-MiB remainder visible rather than reporting a
+value the repository does not actually hold. Drift against `spec` is computed on the
+exact byte count, never on this rounded mirror.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
   </div>
 </div>
@@ -6400,11 +6450,55 @@ other than the operator itself reads the `Secret`.
 </summary>
 <div class="prop-content"><div class="prop-desc">Repository size and snapshot counts from the last catalog scan.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="status.storageStats.indexBlobCount" data-path-key="|status|storageStats|indexBlobCount|" data-parent-path="status.storageStats" data-name="indexBlobCount" data-text="Number of content-index blobs (`kopia index list`) observed at the last bootstrap. format: int64">
+<div class="prop-leaf" data-prop-row data-path="status.storageStats.indexBlobCount" data-path-key="|status|storageStats|indexBlobCount|" data-parent-path="status.storageStats" data-name="indexBlobCount" data-text="Number of content-index blobs (`kopia index list`): the freshest count
+available, from either the last bootstrap or the recount a maintenance
+run takes right after compacting. `indexBlobCountAt` says when. format: int64">
   <span class="prop-name">indexBlobCount</span>
   <span class="type-badge">integer</span>
-  <div class="leaf-desc">Number of content-index blobs (`kopia index list`) observed at the last bootstrap.<div class="leaf-constraints">
+  <div class="leaf-desc">Number of content-index blobs (`kopia index list`): the freshest count
+available, from either the last bootstrap or the recount a maintenance
+run takes right after compacting. `indexBlobCountAt` says when.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int64"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int64</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.storageStats.indexBlobCountAt" data-path-key="|status|storageStats|indexBlobCountAt|" data-parent-path="status.storageStats" data-name="indexBlobCountAt" data-text="RFC3339 instant `indexBlobCount` was observed.
+
+Distinct from `lastObservedAt` (the catalog scan&#39;s timestamp) and from
+`status.health.lastProbeAt` (the backend probe&#39;s): the index-blob count
+has its own writers, and this is what lets the reconciler decide whether
+a post-maintenance recount is fresher than the bootstrap&#39;s own count.
+Without it the two observations were incomparable, so the
+`IndexBlobHealth` warning could only ever quote the bootstrap figure —
+which is pre-compaction, and stayed pre-compaction until the next
+bootstrap ran (#458).
+
+The two writers mean subtly different things, deliberately. A bootstrap
+stamps &#34;when this count was FIRST seen at this value&#34;, reusing the
+previous stamp while the number is unchanged — that arm re-observes on
+every reconcile, and a stamp that always moved would make the status
+always-changed and the reconcile a hot loop. A post-maintenance recount
+always carries its own instant, because it is a distinct observation
+taken at a known time and its whole purpose is to be comparable.">
+  <span class="prop-name">indexBlobCountAt</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">RFC3339 instant `indexBlobCount` was observed.
+
+Distinct from `lastObservedAt` (the catalog scan&#39;s timestamp) and from
+`status.health.lastProbeAt` (the backend probe&#39;s): the index-blob count
+has its own writers, and this is what lets the reconciler decide whether
+a post-maintenance recount is fresher than the bootstrap&#39;s own count.
+Without it the two observations were incomparable, so the
+`IndexBlobHealth` warning could only ever quote the bootstrap figure —
+which is pre-compaction, and stayed pre-compaction until the next
+bootstrap ran (#458).
+
+The two writers mean subtly different things, deliberately. A bootstrap
+stamps &#34;when this count was FIRST seen at this value&#34;, reusing the
+previous stamp while the number is unchanged — that arm re-observes on
+every reconcile, and a stamp that always moved would make the status
+always-changed and the reconcile a hot loop. A post-maintenance recount
+always carries its own instant, because it is a distinct observation
+taken at a known time and its whole purpose is to be comparable.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.storageStats.lastObservedAt" data-path-key="|status|storageStats|lastObservedAt|" data-parent-path="status.storageStats" data-name="lastObservedAt" data-text="RFC 3339 timestamp these stats were last observed.">
