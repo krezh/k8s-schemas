@@ -7853,6 +7853,17 @@ Defaults to 1 (sequential upgrades). Must be &gt;= 1 and &lt;= the number of mat
   <div class="leaf-desc">Debug enables debug mode for the upgrade
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.policy.drainTimeout" data-path-key="|spec|policy|drainTimeout|" data-parent-path="spec.policy" data-name="drainTimeout" data-text="DrainTimeout bounds talosctl&#39;s own node drain (talosctl 1.13&#43;); the upgrade
+fails without rebooting when the drain exceeds it. Unset keeps talosctl&#39;s
+default. Ignored when talosctl&#39;s drain is disabled. pattern: ^([0-9]&#43;[smh])&#43;$">
+  <span class="prop-name">drainTimeout</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">DrainTimeout bounds talosctl&#39;s own node drain (talosctl 1.13&#43;); the upgrade
+fails without rebooting when the drain exceeds it. Unset keeps talosctl&#39;s
+default. Ignored when talosctl&#39;s drain is disabled.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^([0-9]&#43;[smh])&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^([0-9]&#43;[smh])&#43;$</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.policy.force" data-path-key="|spec|policy|force|" data-parent-path="spec.policy" data-name="force" data-text="Force the upgrade (skip checks on etcd health and members)">
   <span class="prop-name">force</span>
   <span class="type-badge">boolean</span>
