@@ -434,11 +434,17 @@ router (#1237). It is a free-form tier label (for example &#34;eu&#34;, &#34;flo
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.heartbeatIntervalSeconds" data-path-key="|spec|heartbeatIntervalSeconds|" data-parent-path="spec" data-name="heartbeatIntervalSeconds" data-text="HeartbeatIntervalSeconds is how often the edge is expected to push status.
-The datacenter derives staleness thresholds from it (3x Stale, 10x Unreachable). format: int32 minimum: 5">
+The datacenter derives staleness thresholds from it (3x Stale, 10x Unreachable).
+The schema accepts intervals below the edge&#39;s fixed 30s push cadence; the
+hub clamps them up to that cadence before deriving thresholds, so a healthy
+site is never read Stale on a cadence the edge cannot deliver. format: int32 minimum: 5">
   <span class="prop-name">heartbeatIntervalSeconds</span>
   <span class="type-badge">integer</span>
   <div class="leaf-desc">HeartbeatIntervalSeconds is how often the edge is expected to push status.
-The datacenter derives staleness thresholds from it (3x Stale, 10x Unreachable).<div class="leaf-constraints">
+The datacenter derives staleness thresholds from it (3x Stale, 10x Unreachable).
+The schema accepts intervals below the edge&#39;s fixed 30s push cadence; the
+hub clamps them up to that cadence before deriving thresholds, so a healthy
+site is never read Stale on a cadence the edge cannot deliver.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 5"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">5</code></div></div>
   </div>

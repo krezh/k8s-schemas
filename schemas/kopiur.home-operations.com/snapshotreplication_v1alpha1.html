@@ -1616,6 +1616,24 @@ per-source failures; the mover&#39;s post-verify counts them here).<div class="l
 <div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="status.lastRun.incompleteSkipped" data-path-key="|status|lastRun|incompleteSkipped|" data-parent-path="status.lastRun" data-name="incompleteSkipped" data-text="Incomplete source manifests of selected identities — checkpoints an
+interrupted `kopia snapshot create` left behind — that this run did not
+replicate. kopia can never migrate a checkpoint as a complete snapshot,
+so they are skipped rather than failing the post-verify. Non-zero
+usually means an abandoned manual backup worth cleaning up with
+`kopia snapshot delete &lt;id&gt; --delete` (the mover log names the ids). format: uint32 minimum: 0">
+  <span class="prop-name">incompleteSkipped</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">Incomplete source manifests of selected identities — checkpoints an
+interrupted `kopia snapshot create` left behind — that this run did not
+replicate. kopia can never migrate a checkpoint as a complete snapshot,
+so they are skipped rather than failing the post-verify. Non-zero
+usually means an abandoned manual backup worth cleaning up with
+`kopia snapshot delete &lt;id&gt; --delete` (the mover log names the ids).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: uint32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">uint32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 0"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">0</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.lastRun.pruned" data-path-key="|status|lastRun|pruned|" data-parent-path="status.lastRun" data-name="pruned" data-text="Copies pruned this run per `spec.pruning`. format: uint32 minimum: 0">
   <span class="prop-name">pruned</span>
   <span class="type-badge">integer</span>
