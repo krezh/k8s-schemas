@@ -496,6 +496,10 @@ in the OAuth discovery document. When set, the discovery document will advertise
 All other endpoints (token, registration, JWKS) remain derived from the issuer.
 This is useful when the browser-facing authorization endpoint needs to be on a
 different host than the issuer used for backend-to-backend calls.
+The upstream callback (`redirectUri` on each upstream provider, defaulting to
+`{resourceUrl}/oauth/callback`) must share this hostname: the callback only
+completes a login for the browser that started it, bound by a host-only cookie
+set on this endpoint, so a different callback host rejects every browser login.
 Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts
 when insecureAllowHTTP is true) without query, fragment, or trailing slash. pattern: ^https?://[^\s?#]&#43;[^/\s?#]$">
   <span class="prop-name">authorizationEndpointBaseUrl</span>
@@ -506,6 +510,10 @@ in the OAuth discovery document. When set, the discovery document will advertise
 All other endpoints (token, registration, JWKS) remain derived from the issuer.
 This is useful when the browser-facing authorization endpoint needs to be on a
 different host than the issuer used for backend-to-backend calls.
+The upstream callback (`redirectUri` on each upstream provider, defaulting to
+`{resourceUrl}/oauth/callback`) must share this hostname: the callback only
+completes a login for the browser that started it, bound by a host-only cookie
+set on this endpoint, so a different callback host rejects every browser login.
 Must be a valid HTTPS URL (or HTTP for localhost, or HTTP for trusted in-cluster hosts
 when insecureAllowHTTP is true) without query, fragment, or trailing slash.<div class="leaf-constraints">
 <div class="schema-constraint" title="pattern: ^https?://[^\s?#]&#43;[^/\s?#]$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^https?://[^\s?#]&#43;[^/\s?#]$</code></div></div>
@@ -2434,12 +2442,18 @@ available. Never set this in production.
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.redirectUri" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|redirectUri|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
-URL associated with the resource (e.g., MCPServer or vMCP) using this config.">
+URL associated with the resource (e.g., MCPServer or vMCP) using this config.
+Its hostname must match the browser-facing authorization endpoint (`issuer`, or
+`authorizationEndpointBaseUrl` when set): the callback is bound to the browser that
+started the login by a host-only cookie, so a different host rejects every browser login.">
   <span class="prop-name">redirectUri</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.
+Its hostname must match the browser-facing authorization endpoint (`issuer`, or
+`authorizationEndpointBaseUrl` when set): the callback is bound to the browser that
+started the login by a host-only cookie, so a different host rejects every browser login.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oauth2Config.scopes" data-path-key="|spec|authServerConfig|upstreamProviders[]|oauth2Config|scopes|" data-parent-path="spec.authServerConfig.upstreamProviders[].oauth2Config" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IdP.">
@@ -2916,12 +2930,18 @@ Must be a valid HTTPS URL.<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.redirectUri" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|redirectUri|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="redirectUri" data-text="RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
-URL associated with the resource (e.g., MCPServer or vMCP) using this config.">
+URL associated with the resource (e.g., MCPServer or vMCP) using this config.
+Its hostname must match the browser-facing authorization endpoint (`issuer`, or
+`authorizationEndpointBaseUrl` when set): the callback is bound to the browser that
+started the login by a host-only cookie, so a different host rejects every browser login.">
   <span class="prop-name">redirectUri</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">RedirectURI is the callback URL where the upstream IdP will redirect after authentication.
 When not specified, defaults to `{resourceUrl}/oauth/callback` where `resourceUrl` is the
 URL associated with the resource (e.g., MCPServer or vMCP) using this config.
+Its hostname must match the browser-facing authorization endpoint (`issuer`, or
+`authorizationEndpointBaseUrl` when set): the callback is bound to the browser that
+started the login by a host-only cookie, so a different host rejects every browser login.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.upstreamProviders[].oidcConfig.scopes" data-path-key="|spec|authServerConfig|upstreamProviders[]|oidcConfig|scopes|" data-parent-path="spec.authServerConfig.upstreamProviders[].oidcConfig" data-name="scopes" data-text="Scopes are the OAuth scopes to request from the upstream IdP.
