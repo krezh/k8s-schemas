@@ -6006,6 +6006,13 @@ Ingress/LoadBalancer controller onto.
 </summary>
 <div class="prop-content"><div class="prop-desc">Catalog-materialization status (how many discovered `Snapshot`s, last refresh).</div>
   <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.catalog.coverage" data-path-key="|status|catalog|coverage|" data-parent-path="status.catalog" data-name="coverage" data-text="How much of the repository a catalog scan could see. enum: Complete, Capped, Partial">
+  <span class="prop-name">coverage</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">How much of the repository a catalog scan could see.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Complete, Capped, Partial"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Complete, Capped, Partial</code></div></div>
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="status.catalog.discoveredBackupCount" data-path-key="|status|catalog|discoveredBackupCount|" data-parent-path="status.catalog" data-name="discoveredBackupCount" data-text="How many `Snapshot` CRs were materialized from the catalog scan. format: int64">
   <span class="prop-name">discoveredBackupCount</span>
   <span class="type-badge">integer</span>

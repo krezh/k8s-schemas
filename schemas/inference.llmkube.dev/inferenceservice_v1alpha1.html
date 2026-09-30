@@ -7620,24 +7620,40 @@ for extending context (e.g. 128K to 256K).<div class="leaf-constraints">
 </div>
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.runtime" data-path-key="|spec|runtime|" data-parent-path="spec" data-name="runtime" data-text="Runtime selects the inference server backend.
-&#34;llamacpp&#34; (default): llama.cpp server with auto-generated args and /health probes.
+Unset: in-cluster, the same as &#34;llamacpp&#34;; on the metal-agent, the
+agent&#39;s --runtime flag (llama-server unless configured otherwise).
+&#34;llamacpp&#34;: llama.cpp server with auto-generated args and /health probes.
 &#34;llamacpp-router&#34;: llama.cpp server in router mode for multi-model dynamic loading.
 &#34;generic&#34;: user-provided container with custom command, args, env, and probes.
 &#34;personaplex&#34;: NVIDIA PersonaPlex (Moshi) speech-to-speech server.
 &#34;vllm&#34;: vLLM OpenAI-compatible server with PagedAttention.
 &#34;tgi&#34;: HuggingFace Text Generation Inference server.
-&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching. enum: llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic">
+&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching.
+Metal-agent only (the Model must set hardware.accelerator: metal):
+&#34;mlx-server&#34;, &#34;omlx&#34;, &#34;vllm-swift&#34;, &#34;ollama&#34;, &#34;tensorfold&#34; (TensorFold,
+exact speculative decoding on MLX; serves an MLX model directory). The
+agent must have the matching binary configured.
+No schema default: an unset value must reach the metal-agent as empty so
+its --runtime flag applies (#525). enum: llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic, mlx-server, omlx, vllm-swift, ollama, tensorfold">
   <span class="prop-name">runtime</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Runtime selects the inference server backend.
-&#34;llamacpp&#34; (default): llama.cpp server with auto-generated args and /health probes.
+Unset: in-cluster, the same as &#34;llamacpp&#34;; on the metal-agent, the
+agent&#39;s --runtime flag (llama-server unless configured otherwise).
+&#34;llamacpp&#34;: llama.cpp server with auto-generated args and /health probes.
 &#34;llamacpp-router&#34;: llama.cpp server in router mode for multi-model dynamic loading.
 &#34;generic&#34;: user-provided container with custom command, args, env, and probes.
 &#34;personaplex&#34;: NVIDIA PersonaPlex (Moshi) speech-to-speech server.
 &#34;vllm&#34;: vLLM OpenAI-compatible server with PagedAttention.
 &#34;tgi&#34;: HuggingFace Text Generation Inference server.
-&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic</code></div></div>
+&#34;sglang&#34;: SGLang OpenAI-compatible server with RadixAttention prefix caching.
+Metal-agent only (the Model must set hardware.accelerator: metal):
+&#34;mlx-server&#34;, &#34;omlx&#34;, &#34;vllm-swift&#34;, &#34;ollama&#34;, &#34;tensorfold&#34; (TensorFold,
+exact speculative decoding on MLX; serves an MLX model directory). The
+agent must have the matching binary configured.
+No schema default: an unset value must reach the metal-agent as empty so
+its --runtime flag applies (#525).<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic, mlx-server, omlx, vllm-swift, ollama, tensorfold"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">llamacpp, llamacpp-router, personaplex, vllm, tgi, sglang, generic, mlx-server, omlx, vllm-swift, ollama, tensorfold</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.runtimeClassName" data-path-key="|spec|runtimeClassName|" data-parent-path="spec" data-name="runtimeClassName" data-text="RuntimeClassName selects a Kubernetes RuntimeClass for the inference Pod.

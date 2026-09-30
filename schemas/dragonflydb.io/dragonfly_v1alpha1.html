@@ -509,10 +509,12 @@ Cannot be updated.">
 <div class="prop-content"><div class="prop-desc">List of environment variables to set in the container.
 Cannot be updated.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].env[].name" data-path-key="|spec|additionalContainers[]|env[]|name|" data-parent-path="spec.additionalContainers[].env" data-name="name" data-text="Name of the environment variable. Must be a C_IDENTIFIER.">
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].env[].name" data-path-key="|spec|additionalContainers[]|env[]|name|" data-parent-path="spec.additionalContainers[].env" data-name="name" data-text="Name of the environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name of the environment variable. Must be a C_IDENTIFIER.
+  <div class="leaf-desc">Name of the environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].env[].value" data-path-key="|spec|additionalContainers[]|env[]|value|" data-parent-path="spec.additionalContainers[].env" data-name="value" data-text="Variable references $(VAR_NAME) are expanded
@@ -604,6 +606,60 @@ spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podI
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef" data-path-key="|spec|additionalContainers[]|env[]|valueFrom|fileKeyRef|" data-parent-path="spec.additionalContainers[].env[].valueFrom" data-name="fileKeyRef" data-text="FileKeyRef selects a key of the env file.
+Requires the EnvFiles feature gate to be enabled.">
+<summary>
+  <span class="prop-name">fileKeyRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">FileKeyRef selects a key of the env file.
+Requires the EnvFiles feature gate to be enabled.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef.key" data-path-key="|spec|additionalContainers[]|env[]|valueFrom|fileKeyRef|key|" data-parent-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef" data-name="key" data-text="The key within the env file. An invalid key will prevent the pod from starting.
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key within the env file. An invalid key will prevent the pod from starting.
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef.optional" data-path-key="|spec|additionalContainers[]|env[]|valueFrom|fileKeyRef|optional|" data-parent-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef" data-name="optional" data-text="Specify whether the file or its key must be defined. If the file or key
+does not exist, then the env var is not published.
+If optional is set to true and the specified key does not exist,
+the environment variable will not be set in the Pod&#39;s containers.
+
+If optional is set to false and the specified key does not exist,
+an error will be returned during Pod creation.">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the file or its key must be defined. If the file or key
+does not exist, then the env var is not published.
+If optional is set to true and the specified key does not exist,
+the environment variable will not be set in the Pod&#39;s containers.
+
+If optional is set to false and the specified key does not exist,
+an error will be returned during Pod creation.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef.path" data-path-key="|spec|additionalContainers[]|env[]|valueFrom|fileKeyRef|path|" data-parent-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef" data-name="path" data-text="The path within the volume from which to select the file.
+Must be relative and may not contain the &#39;..&#39; path or start with &#39;..&#39;.">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The path within the volume from which to select the file.
+Must be relative and may not contain the &#39;..&#39; path or start with &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef.volumeName" data-path-key="|spec|additionalContainers[]|env[]|valueFrom|fileKeyRef|volumeName|" data-parent-path="spec.additionalContainers[].env[].valueFrom.fileKeyRef" data-name="volumeName" data-text="The name of the volume mount containing the env file.">
+  <span class="prop-name">volumeName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The name of the volume mount containing the env file.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.additionalContainers[].env[].valueFrom.resourceFieldRef" data-path-key="|spec|additionalContainers[]|env[]|valueFrom|resourceFieldRef|" data-parent-path="spec.additionalContainers[].env[].valueFrom" data-name="resourceFieldRef" data-text="Selects a resource of the container: only resources limits and requests
 (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.">
 <summary>
@@ -678,8 +734,8 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.additionalContainers[].envFrom" data-path-key="|spec|additionalContainers[]|envFrom|" data-parent-path="spec.additionalContainers" data-name="envFrom" data-text="List of sources to populate environment variables in the container.
-The keys defined within a source must be a C_IDENTIFIER. All invalid keys
-will be reported as an event when the container is starting. When a key exists in multiple
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+When a key exists in multiple
 sources, the value associated with the last source will take precedence.
 Values defined by an Env with a duplicate key will take precedence.
 Cannot be updated.">
@@ -688,8 +744,8 @@ Cannot be updated.">
   <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">List of sources to populate environment variables in the container.
-The keys defined within a source must be a C_IDENTIFIER. All invalid keys
-will be reported as an event when the container is starting. When a key exists in multiple
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+When a key exists in multiple
 sources, the value associated with the last source will take precedence.
 Values defined by an Env with a duplicate key will take precedence.
 Cannot be updated.</div>
@@ -724,10 +780,12 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].envFrom[].prefix" data-path-key="|spec|additionalContainers[]|envFrom[]|prefix|" data-parent-path="spec.additionalContainers[].envFrom" data-name="prefix" data-text="An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.">
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].envFrom[].prefix" data-path-key="|spec|additionalContainers[]|envFrom[]|prefix|" data-parent-path="spec.additionalContainers[].envFrom" data-name="prefix" data-text="Optional text to prepend to the name of each environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.">
   <span class="prop-name">prefix</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.
+  <div class="leaf-desc">Optional text to prepend to the name of each environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.additionalContainers[].envFrom[].secretRef" data-path-key="|spec|additionalContainers[]|envFrom[]|secretRef|" data-parent-path="spec.additionalContainers[].envFrom" data-name="secretRef" data-text="The Secret to select from">
@@ -1114,6 +1172,16 @@ Name must be an IANA_SVC_NAME.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].lifecycle.stopSignal" data-path-key="|spec|additionalContainers[]|lifecycle|stopSignal|" data-parent-path="spec.additionalContainers[].lifecycle" data-name="stopSignal" data-text="StopSignal defines which signal will be sent to a container when it is being stopped.
+If not specified, the default is defined by the container runtime in use.
+StopSignal can only be set for Pods with a non-empty .spec.os.name">
+  <span class="prop-name">stopSignal</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">StopSignal defines which signal will be sent to a container when it is being stopped.
+If not specified, the default is defined by the container runtime in use.
+StopSignal can only be set for Pods with a non-empty .spec.os.name
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -1661,12 +1729,14 @@ More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#cont
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.additionalContainers[].resizePolicy" data-path-key="|spec|additionalContainers[]|resizePolicy|" data-parent-path="spec.additionalContainers" data-name="resizePolicy" data-text="Resources resize policy for the container.">
+<details class="prop" data-prop-row data-path="spec.additionalContainers[].resizePolicy" data-path-key="|spec|additionalContainers[]|resizePolicy|" data-parent-path="spec.additionalContainers" data-name="resizePolicy" data-text="Resources resize policy for the container.
+This field cannot be set on ephemeral containers.">
 <summary>
   <span class="prop-name">resizePolicy</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Resources resize policy for the container.</div>
+<div class="prop-content"><div class="prop-desc">Resources resize policy for the container.
+This field cannot be set on ephemeral containers.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].resizePolicy[].resourceName" data-path-key="|spec|additionalContainers[]|resizePolicy[]|resourceName|" data-parent-path="spec.additionalContainers[].resizePolicy" data-name="resourceName" data-text="Name of the resource to which this resource resize policy applies.
 Supported values: cpu, memory.">
@@ -1701,7 +1771,7 @@ More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-co
 <details class="prop" data-prop-row data-path="spec.additionalContainers[].resources.claims" data-path-key="|spec|additionalContainers[]|resources|claims|" data-parent-path="spec.additionalContainers[].resources" data-name="claims" data-text="Claims lists the names of resources, defined in spec.resourceClaims,
 that are used by this container.
 
-This is an alpha field and requires enabling the
+This field depends on the
 DynamicResourceAllocation feature gate.
 
 This field is immutable. It can only be set for containers.">
@@ -1712,7 +1782,7 @@ This field is immutable. It can only be set for containers.">
 <div class="prop-content"><div class="prop-desc">Claims lists the names of resources, defined in spec.resourceClaims,
 that are used by this container.
 
-This is an alpha field and requires enabling the
+This field depends on the
 DynamicResourceAllocation feature gate.
 
 This field is immutable. It can only be set for containers.</div>
@@ -1764,10 +1834,10 @@ More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-co
 </div>
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].restartPolicy" data-path-key="|spec|additionalContainers[]|restartPolicy|" data-parent-path="spec.additionalContainers" data-name="restartPolicy" data-text="RestartPolicy defines the restart behavior of individual containers in a pod.
-This field may only be set for init containers, and the only allowed value is &#34;Always&#34;.
-For non-init containers or when this field is not specified,
+This overrides the pod-level restart policy. When this field is not specified,
 the restart behavior is defined by the Pod&#39;s restart policy and the container type.
-Setting the RestartPolicy as &#34;Always&#34; for the init container will have the following effect:
+Additionally, setting the RestartPolicy as &#34;Always&#34; for the init container will
+have the following effect:
 this init container will be continually restarted on
 exit until all regular containers have terminated. Once all regular
 containers have completed, all init containers with restartPolicy &#34;Always&#34;
@@ -1781,10 +1851,10 @@ completed.">
   <span class="prop-name">restartPolicy</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">RestartPolicy defines the restart behavior of individual containers in a pod.
-This field may only be set for init containers, and the only allowed value is &#34;Always&#34;.
-For non-init containers or when this field is not specified,
+This overrides the pod-level restart policy. When this field is not specified,
 the restart behavior is defined by the Pod&#39;s restart policy and the container type.
-Setting the RestartPolicy as &#34;Always&#34; for the init container will have the following effect:
+Additionally, setting the RestartPolicy as &#34;Always&#34; for the init container will
+have the following effect:
 this init container will be continually restarted on
 exit until all regular containers have terminated. Once all regular
 containers have completed, all init containers with restartPolicy &#34;Always&#34;
@@ -1797,6 +1867,80 @@ init container is started, or after any startupProbe has successfully
 completed.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.additionalContainers[].restartPolicyRules" data-path-key="|spec|additionalContainers[]|restartPolicyRules|" data-parent-path="spec.additionalContainers" data-name="restartPolicyRules" data-text="Represents a list of rules to be checked to determine if the
+container should be restarted on exit. The rules are evaluated in
+order. Once a rule matches a container exit condition, the remaining
+rules are ignored. If no rule matches the container exit condition,
+the Container-level restart policy determines the whether the container
+is restarted or not. Constraints on the rules:
+- At most 20 rules are allowed.
+- Rules can have the same action.
+- Identical rules are not forbidden in validations.
+When rules are specified, container MUST set RestartPolicy explicitly
+even it if matches the Pod&#39;s RestartPolicy.">
+<summary>
+  <span class="prop-name">restartPolicyRules</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Represents a list of rules to be checked to determine if the
+container should be restarted on exit. The rules are evaluated in
+order. Once a rule matches a container exit condition, the remaining
+rules are ignored. If no rule matches the container exit condition,
+the Container-level restart policy determines the whether the container
+is restarted or not. Constraints on the rules:
+- At most 20 rules are allowed.
+- Rules can have the same action.
+- Identical rules are not forbidden in validations.
+When rules are specified, container MUST set RestartPolicy explicitly
+even it if matches the Pod&#39;s RestartPolicy.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].restartPolicyRules[].action" data-path-key="|spec|additionalContainers[]|restartPolicyRules[]|action|" data-parent-path="spec.additionalContainers[].restartPolicyRules" data-name="action" data-text="Specifies the action taken on a container exit if the requirements
+are satisfied. The only possible value is &#34;Restart&#34; to restart the
+container.">
+  <span class="prop-name">action</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Specifies the action taken on a container exit if the requirements
+are satisfied. The only possible value is &#34;Restart&#34; to restart the
+container.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.additionalContainers[].restartPolicyRules[].exitCodes" data-path-key="|spec|additionalContainers[]|restartPolicyRules[]|exitCodes|" data-parent-path="spec.additionalContainers[].restartPolicyRules" data-name="exitCodes" data-text="Represents the exit codes to check on container exits.">
+<summary>
+  <span class="prop-name">exitCodes</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Represents the exit codes to check on container exits.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].restartPolicyRules[].exitCodes.operator" data-path-key="|spec|additionalContainers[]|restartPolicyRules[]|exitCodes|operator|" data-parent-path="spec.additionalContainers[].restartPolicyRules[].exitCodes" data-name="operator" data-text="Represents the relationship between the container exit code(s) and the
+specified values. Possible values are:
+- In: the requirement is satisfied if the container exit code is in the
+  set of specified values.
+- NotIn: the requirement is satisfied if the container exit code is
+  not in the set of specified values.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Represents the relationship between the container exit code(s) and the
+specified values. Possible values are:
+- In: the requirement is satisfied if the container exit code is in the
+  set of specified values.
+- NotIn: the requirement is satisfied if the container exit code is
+  not in the set of specified values.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].restartPolicyRules[].exitCodes.values" data-path-key="|spec|additionalContainers[]|restartPolicyRules[]|exitCodes|values|" data-parent-path="spec.additionalContainers[].restartPolicyRules[].exitCodes" data-name="values" data-text="Specifies the set of values to check for container exit codes.
+At most 255 elements are allowed.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]integer</span>
+  <div class="leaf-desc">Specifies the set of values to check for container exit codes.
+At most 255 elements are allowed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.additionalContainers[].securityContext" data-path-key="|spec|additionalContainers[]|securityContext|" data-parent-path="spec.additionalContainers" data-name="securityContext" data-text="SecurityContext defines the security options the container should be run with.
 If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext.
 More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">
@@ -1907,14 +2051,12 @@ Note that this field cannot be set when spec.os.name is windows.
 <div class="prop-leaf" data-prop-row data-path="spec.additionalContainers[].securityContext.procMount" data-path-key="|spec|additionalContainers[]|securityContext|procMount|" data-parent-path="spec.additionalContainers[].securityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">procMount</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.
   </div>
 </div>
@@ -3483,7 +3625,7 @@ Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGr
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.additionalVolumes[].ephemeral.volumeClaimTemplate.spec.resources" data-path-key="|spec|additionalVolumes[]|ephemeral|volumeClaimTemplate|spec|resources|" data-parent-path="spec.additionalVolumes[].ephemeral.volumeClaimTemplate.spec" data-name="resources" data-text="resources represents the minimum resources the volume should have.
-If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements
+Users are allowed to specify resource requirements
 that are lower than previous value but must still be higher than capacity recorded in the
 status field of the claim.
 More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources">
@@ -3492,7 +3634,7 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resour
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">resources represents the minimum resources the volume should have.
-If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements
+Users are allowed to specify resource requirements
 that are lower than previous value but must still be higher than capacity recorded in the
 status field of the claim.
 More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources</div>
@@ -3587,29 +3729,25 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-
 <div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].ephemeral.volumeClaimTemplate.spec.volumeAttributesClassName" data-path-key="|spec|additionalVolumes[]|ephemeral|volumeClaimTemplate|spec|volumeAttributesClassName|" data-parent-path="spec.additionalVolumes[].ephemeral.volumeClaimTemplate.spec" data-name="volumeAttributesClassName" data-text="volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.
 If specified, the CSI driver will create or update the volume with the attributes defined
 in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,
-it can be changed after the claim is created. An empty string value means that no VolumeAttributesClass
-will be applied to the claim but it&#39;s not allowed to reset this field to empty string once it is set.
-If unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass
-will be set by the persistentvolume controller if it exists.
+it can be changed after the claim is created. An empty string or nil value indicates that no
+VolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,
+this field can be reset to its previous value (including nil) to cancel the modification.
 If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be
 set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource
 exists.
-More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/
-(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).">
+More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/">
   <span class="prop-name">volumeAttributesClassName</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.
 If specified, the CSI driver will create or update the volume with the attributes defined
 in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,
-it can be changed after the claim is created. An empty string value means that no VolumeAttributesClass
-will be applied to the claim but it&#39;s not allowed to reset this field to empty string once it is set.
-If unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass
-will be set by the persistentvolume controller if it exists.
+it can be changed after the claim is created. An empty string or nil value indicates that no
+VolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,
+this field can be reset to its previous value (including nil) to cancel the modification.
 If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be
 set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource
 exists.
 More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/
-(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].ephemeral.volumeClaimTemplate.spec.volumeMode" data-path-key="|spec|additionalVolumes[]|ephemeral|volumeClaimTemplate|spec|volumeMode|" data-parent-path="spec.additionalVolumes[].ephemeral.volumeClaimTemplate.spec" data-name="volumeMode" data-text="volumeMode defines what type of volume is required by the claim.
@@ -3890,22 +4028,18 @@ the subdirectory with the given name.
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.additionalVolumes[].glusterfs" data-path-key="|spec|additionalVolumes[]|glusterfs|" data-parent-path="spec.additionalVolumes" data-name="glusterfs" data-text="glusterfs represents a Glusterfs mount on the host that shares a pod&#39;s lifetime.
-Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.
-More info: https://examples.k8s.io/volumes/glusterfs/README.md">
+Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.">
 <summary>
   <span class="prop-name">glusterfs</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">glusterfs represents a Glusterfs mount on the host that shares a pod&#39;s lifetime.
-Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.
-More info: https://examples.k8s.io/volumes/glusterfs/README.md</div>
+Deprecated: Glusterfs is deprecated and the in-tree glusterfs type is no longer supported.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].glusterfs.endpoints" data-path-key="|spec|additionalVolumes[]|glusterfs|endpoints|" data-parent-path="spec.additionalVolumes[].glusterfs" data-name="endpoints" data-text="endpoints is the endpoint name that details Glusterfs topology.
-More info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod">
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].glusterfs.endpoints" data-path-key="|spec|additionalVolumes[]|glusterfs|endpoints|" data-parent-path="spec.additionalVolumes[].glusterfs" data-name="endpoints" data-text="endpoints is the endpoint name that details Glusterfs topology.">
   <span class="prop-name">endpoints</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">endpoints is the endpoint name that details Glusterfs topology.
-More info: https://examples.k8s.io/volumes/glusterfs/README.md#create-a-pod
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].glusterfs.path" data-path-key="|spec|additionalVolumes[]|glusterfs|path|" data-parent-path="spec.additionalVolumes[].glusterfs" data-name="path" data-text="path is the Glusterfs volume path.
@@ -3978,8 +4112,8 @@ The volume gets re-resolved if the pod gets deleted and recreated, which means t
 A failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.
 The types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.
 The OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.
-The volume will be mounted read-only (ro) and non-executable files (noexec).
-Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath).
+The volume will be mounted read-only (ro).
+Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.
 The field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.">
 <summary>
   <span class="prop-name">image</span>
@@ -3996,8 +4130,8 @@ The volume gets re-resolved if the pod gets deleted and recreated, which means t
 A failure to resolve or pull the image during pod startup will block containers from starting and may add significant latency. Failures will be retried using normal volume backoff and will be reported on the pod reason and message.
 The types of objects that may be mounted by this volume are defined by the container runtime implementation on a host machine and at minimum must include all valid types supported by the container image field.
 The OCI object gets mounted in a single directory (spec.containers[*].volumeMounts.mountPath) by merging the manifest layers in the same way as for container images.
-The volume will be mounted read-only (ro) and non-executable files (noexec).
-Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath).
+The volume will be mounted read-only (ro).
+Sub path mounts for containers are not supported (spec.containers[*].volumeMounts.subpath) before 1.33.
 The field spec.securityContext.fsGroupChangePolicy has no effect on this volume type.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].image.pullPolicy" data-path-key="|spec|additionalVolumes[]|image|pullPolicy|" data-parent-path="spec.additionalVolumes[].image" data-name="pullPolicy" data-text="Policy for pulling OCI objects. Possible values are:
@@ -4035,14 +4169,14 @@ container images in workload controllers like Deployments and StatefulSets.
 </details>
 <details class="prop" data-prop-row data-path="spec.additionalVolumes[].iscsi" data-path-key="|spec|additionalVolumes[]|iscsi|" data-parent-path="spec.additionalVolumes" data-name="iscsi" data-text="iscsi represents an ISCSI Disk resource that is attached to a
 kubelet&#39;s host machine and then exposed to the pod.
-More info: https://examples.k8s.io/volumes/iscsi/README.md">
+More info: https://kubernetes.io/docs/concepts/storage/volumes/#iscsi">
 <summary>
   <span class="prop-name">iscsi</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">iscsi represents an ISCSI Disk resource that is attached to a
 kubelet&#39;s host machine and then exposed to the pod.
-More info: https://examples.k8s.io/volumes/iscsi/README.md</div>
+More info: https://kubernetes.io/docs/concepts/storage/volumes/#iscsi</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].iscsi.chapAuthDiscovery" data-path-key="|spec|additionalVolumes[]|iscsi|chapAuthDiscovery|" data-parent-path="spec.additionalVolumes[].iscsi" data-name="chapAuthDiscovery" data-text="chapAuthDiscovery defines whether support iSCSI Discovery CHAP authentication">
   <span class="prop-name">chapAuthDiscovery</span>
@@ -4258,16 +4392,14 @@ Ex. &#34;ext4&#34;, &#34;xfs&#34;, &#34;ntfs&#34;. Implicitly inferred to be &#3
 </details>
 <details class="prop" data-prop-row data-path="spec.additionalVolumes[].portworxVolume" data-path-key="|spec|additionalVolumes[]|portworxVolume|" data-parent-path="spec.additionalVolumes" data-name="portworxVolume" data-text="portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
 Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type
-are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate
-is on.">
+are redirected to the pxd.portworx.com CSI driver.">
 <summary>
   <span class="prop-name">portworxVolume</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">portworxVolume represents a portworx volume attached and mounted on kubelets host machine.
 Deprecated: PortworxVolume is deprecated. All operations for the in-tree portworxVolume type
-are redirected to the pxd.portworx.com CSI driver when the CSIMigrationPortworx feature-gate
-is on.</div>
+are redirected to the pxd.portworx.com CSI driver.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].portworxVolume.fsType" data-path-key="|spec|additionalVolumes[]|portworxVolume|fsType|" data-parent-path="spec.additionalVolumes[].portworxVolume" data-name="fsType" data-text="fSType represents the filesystem type to mount
 Must be a filesystem type supported by the host operating system.
@@ -4646,6 +4778,227 @@ mode, like fsGroup, and the result can be other mode bits set.<div class="leaf-c
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|" data-parent-path="spec.additionalVolumes[].projected.sources" data-name="podCertificate" data-text="Projects an auto-rotating credential bundle (private key and certificate
+chain) that the pod can use either as a TLS client or server.
+
+Kubelet generates a private key and uses it to send a
+PodCertificateRequest to the named signer.  Once the signer approves the
+request and issues a certificate chain, Kubelet writes the key and
+certificate chain to the pod filesystem.  The pod does not start until
+certificates have been issued for each podCertificate projected volume
+source in its spec.
+
+Kubelet will begin trying to rotate the certificate at the time indicated
+by the signer using the PodCertificateRequest.Status.BeginRefreshAt
+timestamp.
+
+Kubelet can write a single file, indicated by the credentialBundlePath
+field, or separate files, indicated by the keyPath and
+certificateChainPath fields.
+
+The credential bundle is a single file in PEM format.  The first PEM
+entry is the private key (in PKCS#8 format), and the remaining PEM
+entries are the certificate chain issued by the signer (typically,
+signers will return their certificate chain in leaf-to-root order).
+
+Prefer using the credential bundle format, since your application code
+can read it atomically.  If you use keyPath and certificateChainPath,
+your application must make two separate file reads. If these coincide
+with a certificate rotation, it is possible that the private key and leaf
+certificate you read may not correspond to each other.  Your application
+will need to check for this condition, and re-read until they are
+consistent.
+
+The named signer controls chooses the format of the certificate it
+issues; consult the signer implementation&#39;s documentation to learn how to
+use the certificates it issues.">
+<summary>
+  <span class="prop-name">podCertificate</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Projects an auto-rotating credential bundle (private key and certificate
+chain) that the pod can use either as a TLS client or server.
+
+Kubelet generates a private key and uses it to send a
+PodCertificateRequest to the named signer.  Once the signer approves the
+request and issues a certificate chain, Kubelet writes the key and
+certificate chain to the pod filesystem.  The pod does not start until
+certificates have been issued for each podCertificate projected volume
+source in its spec.
+
+Kubelet will begin trying to rotate the certificate at the time indicated
+by the signer using the PodCertificateRequest.Status.BeginRefreshAt
+timestamp.
+
+Kubelet can write a single file, indicated by the credentialBundlePath
+field, or separate files, indicated by the keyPath and
+certificateChainPath fields.
+
+The credential bundle is a single file in PEM format.  The first PEM
+entry is the private key (in PKCS#8 format), and the remaining PEM
+entries are the certificate chain issued by the signer (typically,
+signers will return their certificate chain in leaf-to-root order).
+
+Prefer using the credential bundle format, since your application code
+can read it atomically.  If you use keyPath and certificateChainPath,
+your application must make two separate file reads. If these coincide
+with a certificate rotation, it is possible that the private key and leaf
+certificate you read may not correspond to each other.  Your application
+will need to check for this condition, and re-read until they are
+consistent.
+
+The named signer controls chooses the format of the certificate it
+issues; consult the signer implementation&#39;s documentation to learn how to
+use the certificates it issues.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate.certificateChainPath" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|certificateChainPath|" data-parent-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-name="certificateChainPath" data-text="Write the certificate chain at this path in the projected volume.
+
+Most applications should use credentialBundlePath.  When using keyPath
+and certificateChainPath, your application needs to check that the key
+and leaf certificate are consistent, because it is possible to read the
+files mid-rotation.">
+  <span class="prop-name">certificateChainPath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Write the certificate chain at this path in the projected volume.
+
+Most applications should use credentialBundlePath.  When using keyPath
+and certificateChainPath, your application needs to check that the key
+and leaf certificate are consistent, because it is possible to read the
+files mid-rotation.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate.credentialBundlePath" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|credentialBundlePath|" data-parent-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-name="credentialBundlePath" data-text="Write the credential bundle at this path in the projected volume.
+
+The credential bundle is a single file that contains multiple PEM blocks.
+The first PEM block is a PRIVATE KEY block, containing a PKCS#8 private
+key.
+
+The remaining blocks are CERTIFICATE blocks, containing the issued
+certificate chain from the signer (leaf and any intermediates).
+
+Using credentialBundlePath lets your Pod&#39;s application code make a single
+atomic read that retrieves a consistent key and certificate chain.  If you
+project them to separate files, your application code will need to
+additionally check that the leaf certificate was issued to the key.">
+  <span class="prop-name">credentialBundlePath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Write the credential bundle at this path in the projected volume.
+
+The credential bundle is a single file that contains multiple PEM blocks.
+The first PEM block is a PRIVATE KEY block, containing a PKCS#8 private
+key.
+
+The remaining blocks are CERTIFICATE blocks, containing the issued
+certificate chain from the signer (leaf and any intermediates).
+
+Using credentialBundlePath lets your Pod&#39;s application code make a single
+atomic read that retrieves a consistent key and certificate chain.  If you
+project them to separate files, your application code will need to
+additionally check that the leaf certificate was issued to the key.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate.keyPath" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|keyPath|" data-parent-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-name="keyPath" data-text="Write the key at this path in the projected volume.
+
+Most applications should use credentialBundlePath.  When using keyPath
+and certificateChainPath, your application needs to check that the key
+and leaf certificate are consistent, because it is possible to read the
+files mid-rotation.">
+  <span class="prop-name">keyPath</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Write the key at this path in the projected volume.
+
+Most applications should use credentialBundlePath.  When using keyPath
+and certificateChainPath, your application needs to check that the key
+and leaf certificate are consistent, because it is possible to read the
+files mid-rotation.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate.keyType" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|keyType|" data-parent-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-name="keyType" data-text="The type of keypair Kubelet will generate for the pod.
+
+Valid values are &#34;RSA3072&#34;, &#34;RSA4096&#34;, &#34;ECDSAP256&#34;, &#34;ECDSAP384&#34;,
+&#34;ECDSAP521&#34;, and &#34;ED25519&#34;.">
+  <span class="prop-name">keyType</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The type of keypair Kubelet will generate for the pod.
+
+Valid values are &#34;RSA3072&#34;, &#34;RSA4096&#34;, &#34;ECDSAP256&#34;, &#34;ECDSAP384&#34;,
+&#34;ECDSAP521&#34;, and &#34;ED25519&#34;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate.maxExpirationSeconds" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|maxExpirationSeconds|" data-parent-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-name="maxExpirationSeconds" data-text="maxExpirationSeconds is the maximum lifetime permitted for the
+certificate.
+
+Kubelet copies this value verbatim into the PodCertificateRequests it
+generates for this projection.
+
+If omitted, kube-apiserver will set it to 86400(24 hours). kube-apiserver
+will reject values shorter than 3600 (1 hour).  The maximum allowable
+value is 7862400 (91 days).
+
+The signer implementation is then free to issue a certificate with any
+lifetime *shorter* than MaxExpirationSeconds, but no shorter than 3600
+seconds (1 hour).  This constraint is enforced by kube-apiserver.
+`kubernetes.io` signers will never issue certificates with a lifetime
+longer than 24 hours. format: int32">
+  <span class="prop-name">maxExpirationSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">maxExpirationSeconds is the maximum lifetime permitted for the
+certificate.
+
+Kubelet copies this value verbatim into the PodCertificateRequests it
+generates for this projection.
+
+If omitted, kube-apiserver will set it to 86400(24 hours). kube-apiserver
+will reject values shorter than 3600 (1 hour).  The maximum allowable
+value is 7862400 (91 days).
+
+The signer implementation is then free to issue a certificate with any
+lifetime *shorter* than MaxExpirationSeconds, but no shorter than 3600
+seconds (1 hour).  This constraint is enforced by kube-apiserver.
+`kubernetes.io` signers will never issue certificates with a lifetime
+longer than 24 hours.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate.signerName" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|signerName|" data-parent-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-name="signerName" data-text="Kubelet&#39;s generated CSRs will be addressed to this signer.">
+  <span class="prop-name">signerName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Kubelet&#39;s generated CSRs will be addressed to this signer.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].podCertificate.userAnnotations" data-path-key="|spec|additionalVolumes[]|projected|sources[]|podCertificate|userAnnotations|" data-parent-path="spec.additionalVolumes[].projected.sources[].podCertificate" data-name="userAnnotations" data-text="userAnnotations allow pod authors to pass additional information to
+the signer implementation.  Kubernetes does not restrict or validate this
+metadata in any way.
+
+These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of
+the PodCertificateRequest objects that Kubelet creates.
+
+Entries are subject to the same validation as object metadata annotations,
+with the addition that all keys must be domain-prefixed. No restrictions
+are placed on values, except an overall size limitation on the entire field.
+
+Signers should document the keys and values they support. Signers should
+deny requests that contain keys they do not recognize.">
+  <span class="prop-name">userAnnotations</span>
+  <span class="type-badge">object</span>
+  <div class="leaf-desc">userAnnotations allow pod authors to pass additional information to
+the signer implementation.  Kubernetes does not restrict or validate this
+metadata in any way.
+
+These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of
+the PodCertificateRequest objects that Kubelet creates.
+
+Entries are subject to the same validation as object metadata annotations,
+with the addition that all keys must be domain-prefixed. No restrictions
+are placed on values, except an overall size limitation on the entire field.
+
+Signers should document the keys and values they support. Signers should
+deny requests that contain keys they do not recognize.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.additionalVolumes[].projected.sources[].secret" data-path-key="|spec|additionalVolumes[]|projected|sources[]|secret|" data-parent-path="spec.additionalVolumes[].projected.sources" data-name="secret" data-text="secret information about the secret data to project">
 <summary>
   <span class="prop-name">secret</span>
@@ -4847,15 +5200,13 @@ Defaults to serivceaccount user
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.additionalVolumes[].rbd" data-path-key="|spec|additionalVolumes[]|rbd|" data-parent-path="spec.additionalVolumes" data-name="rbd" data-text="rbd represents a Rados Block Device mount on the host that shares a pod&#39;s lifetime.
-Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported.
-More info: https://examples.k8s.io/volumes/rbd/README.md">
+Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported.">
 <summary>
   <span class="prop-name">rbd</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">rbd represents a Rados Block Device mount on the host that shares a pod&#39;s lifetime.
-Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported.
-More info: https://examples.k8s.io/volumes/rbd/README.md</div>
+Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.additionalVolumes[].rbd.fsType" data-path-key="|spec|additionalVolumes[]|rbd|fsType|" data-parent-path="spec.additionalVolumes[].rbd" data-name="fsType" data-text="fsType is the filesystem type of the volume that you want to mount.
 Tip: Ensure that the filesystem type is supported by the host operating system.
@@ -5631,8 +5982,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
-Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">matchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
@@ -5643,7 +5993,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
 Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.mismatchLabelKeys" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|mismatchLabelKeys|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -5653,8 +6002,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
-Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">mismatchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -5665,7 +6013,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
 Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-path-key="|spec|affinity|podAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|" data-parent-path="spec.affinity.podAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
@@ -5857,8 +6204,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
-Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">matchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
@@ -5869,7 +6215,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
 Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].mismatchLabelKeys" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|mismatchLabelKeys|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -5879,8 +6224,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
-Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">mismatchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -5891,7 +6235,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
 Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-path-key="|spec|affinity|podAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|" data-parent-path="spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
@@ -6003,8 +6346,8 @@ a node that violates one or more of the expressions. The node that is
 most preferred is the one with the greatest sum of weights, i.e.
 for each node that meets all of the scheduling requirements (resource
 request, requiredDuringScheduling anti-affinity expressions, etc.),
-compute a sum by iterating through the elements of this field and adding
-&#34;weight&#34; to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+compute a sum by iterating through the elements of this field and subtracting
+&#34;weight&#34; from the sum if the node has pods which matches the corresponding podAffinityTerm; the
 node(s) with the highest sum are the most preferred.">
 <summary>
   <span class="prop-name">preferredDuringSchedulingIgnoredDuringExecution</span>
@@ -6016,8 +6359,8 @@ a node that violates one or more of the expressions. The node that is
 most preferred is the one with the greatest sum of weights, i.e.
 for each node that meets all of the scheduling requirements (resource
 request, requiredDuringScheduling anti-affinity expressions, etc.),
-compute a sum by iterating through the elements of this field and adding
-&#34;weight&#34; to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+compute a sum by iterating through the elements of this field and subtracting
+&#34;weight&#34; from the sum if the node has pods which matches the corresponding podAffinityTerm; the
 node(s) with the highest sum are the most preferred.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution" data-name="podAffinityTerm" data-text="Required. A pod affinity term, associated with the corresponding weight.">
@@ -6092,8 +6435,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
-Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">matchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
@@ -6104,7 +6446,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
 Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.mismatchLabelKeys" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|mismatchLabelKeys|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -6114,8 +6455,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
-Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">mismatchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -6126,7 +6466,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
 Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm.namespaceSelector" data-path-key="|spec|affinity|podAntiAffinity|preferredDuringSchedulingIgnoredDuringExecution[]|podAffinityTerm|namespaceSelector|" data-parent-path="spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[].podAffinityTerm" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
@@ -6318,8 +6657,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
-Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">matchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MatchLabelKeys is a set of pod label keys to select which pods will
@@ -6330,7 +6668,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
 Also, matchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].mismatchLabelKeys" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|mismatchLabelKeys|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="mismatchLabelKeys" data-text="MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -6340,8 +6677,7 @@ to select the group of existing pods which pods will be taken into consideration
 for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the incoming
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
-Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).">
+Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.">
   <span class="prop-name">mismatchLabelKeys</span>
   <span class="type-badge">[]string</span>
   <div class="leaf-desc">MismatchLabelKeys is a set of pod label keys to select which pods will
@@ -6352,7 +6688,6 @@ for the incoming pod&#39;s pod (anti) affinity. Keys that don&#39;t exist in the
 pod labels will be ignored. The default value is empty.
 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
 Also, mismatchLabelKeys cannot be set when labelSelector isn&#39;t set.
-This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution[].namespaceSelector" data-path-key="|spec|affinity|podAntiAffinity|requiredDuringSchedulingIgnoredDuringExecution[]|namespaceSelector|" data-parent-path="spec.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution" data-name="namespaceSelector" data-text="A label query over the set of namespaces that the term applies to.
@@ -6658,14 +6993,12 @@ Note that this field cannot be set when spec.os.name is windows.
 <div class="prop-leaf" data-prop-row data-path="spec.containerSecurityContext.procMount" data-path-key="|spec|containerSecurityContext|procMount|" data-parent-path="spec.containerSecurityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">procMount</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.
   </div>
 </div>
@@ -6967,10 +7300,12 @@ WARNING: Enabling this on an existing cluster will trigger a rolling update.
 </summary>
 <div class="prop-content"><div class="prop-desc">(Optional) Env variables to add to the Dragonfly pods.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.env[].name" data-path-key="|spec|env[]|name|" data-parent-path="spec.env" data-name="name" data-text="Name of the environment variable. Must be a C_IDENTIFIER.">
+<div class="prop-leaf" data-prop-row data-path="spec.env[].name" data-path-key="|spec|env[]|name|" data-parent-path="spec.env" data-name="name" data-text="Name of the environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name of the environment variable. Must be a C_IDENTIFIER.
+  <div class="leaf-desc">Name of the environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.env[].value" data-path-key="|spec|env[]|value|" data-parent-path="spec.env" data-name="value" data-text="Variable references $(VAR_NAME) are expanded
@@ -7057,6 +7392,60 @@ spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podI
   <span class="prop-name">fieldPath</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Path of the field to select in the specified API version.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.env[].valueFrom.fileKeyRef" data-path-key="|spec|env[]|valueFrom|fileKeyRef|" data-parent-path="spec.env[].valueFrom" data-name="fileKeyRef" data-text="FileKeyRef selects a key of the env file.
+Requires the EnvFiles feature gate to be enabled.">
+<summary>
+  <span class="prop-name">fileKeyRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">FileKeyRef selects a key of the env file.
+Requires the EnvFiles feature gate to be enabled.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.env[].valueFrom.fileKeyRef.key" data-path-key="|spec|env[]|valueFrom|fileKeyRef|key|" data-parent-path="spec.env[].valueFrom.fileKeyRef" data-name="key" data-text="The key within the env file. An invalid key will prevent the pod from starting.
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key within the env file. An invalid key will prevent the pod from starting.
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.env[].valueFrom.fileKeyRef.optional" data-path-key="|spec|env[]|valueFrom|fileKeyRef|optional|" data-parent-path="spec.env[].valueFrom.fileKeyRef" data-name="optional" data-text="Specify whether the file or its key must be defined. If the file or key
+does not exist, then the env var is not published.
+If optional is set to true and the specified key does not exist,
+the environment variable will not be set in the Pod&#39;s containers.
+
+If optional is set to false and the specified key does not exist,
+an error will be returned during Pod creation.">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the file or its key must be defined. If the file or key
+does not exist, then the env var is not published.
+If optional is set to true and the specified key does not exist,
+the environment variable will not be set in the Pod&#39;s containers.
+
+If optional is set to false and the specified key does not exist,
+an error will be returned during Pod creation.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.env[].valueFrom.fileKeyRef.path" data-path-key="|spec|env[]|valueFrom|fileKeyRef|path|" data-parent-path="spec.env[].valueFrom.fileKeyRef" data-name="path" data-text="The path within the volume from which to select the file.
+Must be relative and may not contain the &#39;..&#39; path or start with &#39;..&#39;.">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The path within the volume from which to select the file.
+Must be relative and may not contain the &#39;..&#39; path or start with &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.env[].valueFrom.fileKeyRef.volumeName" data-path-key="|spec|env[]|valueFrom|fileKeyRef|volumeName|" data-parent-path="spec.env[].valueFrom.fileKeyRef" data-name="volumeName" data-text="The name of the volume mount containing the env file.">
+  <span class="prop-name">volumeName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The name of the volume mount containing the env file.
   </div>
 </div>
   </div>
@@ -7227,10 +7616,12 @@ Cannot be updated.">
 <div class="prop-content"><div class="prop-desc">List of environment variables to set in the container.
 Cannot be updated.</div>
   <div class="prop-children">
-<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].env[].name" data-path-key="|spec|initContainers[]|env[]|name|" data-parent-path="spec.initContainers[].env" data-name="name" data-text="Name of the environment variable. Must be a C_IDENTIFIER.">
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].env[].name" data-path-key="|spec|initContainers[]|env[]|name|" data-parent-path="spec.initContainers[].env" data-name="name" data-text="Name of the environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.">
   <span class="prop-name">name</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
-  <div class="leaf-desc">Name of the environment variable. Must be a C_IDENTIFIER.
+  <div class="leaf-desc">Name of the environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.initContainers[].env[].value" data-path-key="|spec|initContainers[]|env[]|value|" data-parent-path="spec.initContainers[].env" data-name="value" data-text="Variable references $(VAR_NAME) are expanded
@@ -7322,6 +7713,60 @@ spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podI
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.initContainers[].env[].valueFrom.fileKeyRef" data-path-key="|spec|initContainers[]|env[]|valueFrom|fileKeyRef|" data-parent-path="spec.initContainers[].env[].valueFrom" data-name="fileKeyRef" data-text="FileKeyRef selects a key of the env file.
+Requires the EnvFiles feature gate to be enabled.">
+<summary>
+  <span class="prop-name">fileKeyRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">FileKeyRef selects a key of the env file.
+Requires the EnvFiles feature gate to be enabled.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].env[].valueFrom.fileKeyRef.key" data-path-key="|spec|initContainers[]|env[]|valueFrom|fileKeyRef|key|" data-parent-path="spec.initContainers[].env[].valueFrom.fileKeyRef" data-name="key" data-text="The key within the env file. An invalid key will prevent the pod from starting.
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key within the env file. An invalid key will prevent the pod from starting.
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].env[].valueFrom.fileKeyRef.optional" data-path-key="|spec|initContainers[]|env[]|valueFrom|fileKeyRef|optional|" data-parent-path="spec.initContainers[].env[].valueFrom.fileKeyRef" data-name="optional" data-text="Specify whether the file or its key must be defined. If the file or key
+does not exist, then the env var is not published.
+If optional is set to true and the specified key does not exist,
+the environment variable will not be set in the Pod&#39;s containers.
+
+If optional is set to false and the specified key does not exist,
+an error will be returned during Pod creation.">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the file or its key must be defined. If the file or key
+does not exist, then the env var is not published.
+If optional is set to true and the specified key does not exist,
+the environment variable will not be set in the Pod&#39;s containers.
+
+If optional is set to false and the specified key does not exist,
+an error will be returned during Pod creation.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].env[].valueFrom.fileKeyRef.path" data-path-key="|spec|initContainers[]|env[]|valueFrom|fileKeyRef|path|" data-parent-path="spec.initContainers[].env[].valueFrom.fileKeyRef" data-name="path" data-text="The path within the volume from which to select the file.
+Must be relative and may not contain the &#39;..&#39; path or start with &#39;..&#39;.">
+  <span class="prop-name">path</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The path within the volume from which to select the file.
+Must be relative and may not contain the &#39;..&#39; path or start with &#39;..&#39;.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].env[].valueFrom.fileKeyRef.volumeName" data-path-key="|spec|initContainers[]|env[]|valueFrom|fileKeyRef|volumeName|" data-parent-path="spec.initContainers[].env[].valueFrom.fileKeyRef" data-name="volumeName" data-text="The name of the volume mount containing the env file.">
+  <span class="prop-name">volumeName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The name of the volume mount containing the env file.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.initContainers[].env[].valueFrom.resourceFieldRef" data-path-key="|spec|initContainers[]|env[]|valueFrom|resourceFieldRef|" data-parent-path="spec.initContainers[].env[].valueFrom" data-name="resourceFieldRef" data-text="Selects a resource of the container: only resources limits and requests
 (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported.">
 <summary>
@@ -7396,8 +7841,8 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.initContainers[].envFrom" data-path-key="|spec|initContainers[]|envFrom|" data-parent-path="spec.initContainers" data-name="envFrom" data-text="List of sources to populate environment variables in the container.
-The keys defined within a source must be a C_IDENTIFIER. All invalid keys
-will be reported as an event when the container is starting. When a key exists in multiple
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+When a key exists in multiple
 sources, the value associated with the last source will take precedence.
 Values defined by an Env with a duplicate key will take precedence.
 Cannot be updated.">
@@ -7406,8 +7851,8 @@ Cannot be updated.">
   <span class="type-badge">[]object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">List of sources to populate environment variables in the container.
-The keys defined within a source must be a C_IDENTIFIER. All invalid keys
-will be reported as an event when the container is starting. When a key exists in multiple
+The keys defined within a source may consist of any printable ASCII characters except &#39;=&#39;.
+When a key exists in multiple
 sources, the value associated with the last source will take precedence.
 Values defined by an Env with a duplicate key will take precedence.
 Cannot be updated.</div>
@@ -7442,10 +7887,12 @@ More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/nam
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].envFrom[].prefix" data-path-key="|spec|initContainers[]|envFrom[]|prefix|" data-parent-path="spec.initContainers[].envFrom" data-name="prefix" data-text="An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.">
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].envFrom[].prefix" data-path-key="|spec|initContainers[]|envFrom[]|prefix|" data-parent-path="spec.initContainers[].envFrom" data-name="prefix" data-text="Optional text to prepend to the name of each environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.">
   <span class="prop-name">prefix</span>
   <span class="type-badge">string</span>
-  <div class="leaf-desc">An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER.
+  <div class="leaf-desc">Optional text to prepend to the name of each environment variable.
+May consist of any printable ASCII characters except &#39;=&#39;.
   </div>
 </div>
 <details class="prop" data-prop-row data-path="spec.initContainers[].envFrom[].secretRef" data-path-key="|spec|initContainers[]|envFrom[]|secretRef|" data-parent-path="spec.initContainers[].envFrom" data-name="secretRef" data-text="The Secret to select from">
@@ -7832,6 +8279,16 @@ Name must be an IANA_SVC_NAME.
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].lifecycle.stopSignal" data-path-key="|spec|initContainers[]|lifecycle|stopSignal|" data-parent-path="spec.initContainers[].lifecycle" data-name="stopSignal" data-text="StopSignal defines which signal will be sent to a container when it is being stopped.
+If not specified, the default is defined by the container runtime in use.
+StopSignal can only be set for Pods with a non-empty .spec.os.name">
+  <span class="prop-name">stopSignal</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">StopSignal defines which signal will be sent to a container when it is being stopped.
+If not specified, the default is defined by the container runtime in use.
+StopSignal can only be set for Pods with a non-empty .spec.os.name
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -8379,12 +8836,14 @@ More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#cont
   </div>
 </div>
 </details>
-<details class="prop" data-prop-row data-path="spec.initContainers[].resizePolicy" data-path-key="|spec|initContainers[]|resizePolicy|" data-parent-path="spec.initContainers" data-name="resizePolicy" data-text="Resources resize policy for the container.">
+<details class="prop" data-prop-row data-path="spec.initContainers[].resizePolicy" data-path-key="|spec|initContainers[]|resizePolicy|" data-parent-path="spec.initContainers" data-name="resizePolicy" data-text="Resources resize policy for the container.
+This field cannot be set on ephemeral containers.">
 <summary>
   <span class="prop-name">resizePolicy</span>
   <span class="type-badge">[]object</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">Resources resize policy for the container.</div>
+<div class="prop-content"><div class="prop-desc">Resources resize policy for the container.
+This field cannot be set on ephemeral containers.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.initContainers[].resizePolicy[].resourceName" data-path-key="|spec|initContainers[]|resizePolicy[]|resourceName|" data-parent-path="spec.initContainers[].resizePolicy" data-name="resourceName" data-text="Name of the resource to which this resource resize policy applies.
 Supported values: cpu, memory.">
@@ -8419,7 +8878,7 @@ More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-co
 <details class="prop" data-prop-row data-path="spec.initContainers[].resources.claims" data-path-key="|spec|initContainers[]|resources|claims|" data-parent-path="spec.initContainers[].resources" data-name="claims" data-text="Claims lists the names of resources, defined in spec.resourceClaims,
 that are used by this container.
 
-This is an alpha field and requires enabling the
+This field depends on the
 DynamicResourceAllocation feature gate.
 
 This field is immutable. It can only be set for containers.">
@@ -8430,7 +8889,7 @@ This field is immutable. It can only be set for containers.">
 <div class="prop-content"><div class="prop-desc">Claims lists the names of resources, defined in spec.resourceClaims,
 that are used by this container.
 
-This is an alpha field and requires enabling the
+This field depends on the
 DynamicResourceAllocation feature gate.
 
 This field is immutable. It can only be set for containers.</div>
@@ -8482,10 +8941,10 @@ More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-co
 </div>
 </details>
 <div class="prop-leaf" data-prop-row data-path="spec.initContainers[].restartPolicy" data-path-key="|spec|initContainers[]|restartPolicy|" data-parent-path="spec.initContainers" data-name="restartPolicy" data-text="RestartPolicy defines the restart behavior of individual containers in a pod.
-This field may only be set for init containers, and the only allowed value is &#34;Always&#34;.
-For non-init containers or when this field is not specified,
+This overrides the pod-level restart policy. When this field is not specified,
 the restart behavior is defined by the Pod&#39;s restart policy and the container type.
-Setting the RestartPolicy as &#34;Always&#34; for the init container will have the following effect:
+Additionally, setting the RestartPolicy as &#34;Always&#34; for the init container will
+have the following effect:
 this init container will be continually restarted on
 exit until all regular containers have terminated. Once all regular
 containers have completed, all init containers with restartPolicy &#34;Always&#34;
@@ -8499,10 +8958,10 @@ completed.">
   <span class="prop-name">restartPolicy</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">RestartPolicy defines the restart behavior of individual containers in a pod.
-This field may only be set for init containers, and the only allowed value is &#34;Always&#34;.
-For non-init containers or when this field is not specified,
+This overrides the pod-level restart policy. When this field is not specified,
 the restart behavior is defined by the Pod&#39;s restart policy and the container type.
-Setting the RestartPolicy as &#34;Always&#34; for the init container will have the following effect:
+Additionally, setting the RestartPolicy as &#34;Always&#34; for the init container will
+have the following effect:
 this init container will be continually restarted on
 exit until all regular containers have terminated. Once all regular
 containers have completed, all init containers with restartPolicy &#34;Always&#34;
@@ -8515,6 +8974,80 @@ init container is started, or after any startupProbe has successfully
 completed.
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.initContainers[].restartPolicyRules" data-path-key="|spec|initContainers[]|restartPolicyRules|" data-parent-path="spec.initContainers" data-name="restartPolicyRules" data-text="Represents a list of rules to be checked to determine if the
+container should be restarted on exit. The rules are evaluated in
+order. Once a rule matches a container exit condition, the remaining
+rules are ignored. If no rule matches the container exit condition,
+the Container-level restart policy determines the whether the container
+is restarted or not. Constraints on the rules:
+- At most 20 rules are allowed.
+- Rules can have the same action.
+- Identical rules are not forbidden in validations.
+When rules are specified, container MUST set RestartPolicy explicitly
+even it if matches the Pod&#39;s RestartPolicy.">
+<summary>
+  <span class="prop-name">restartPolicyRules</span>
+  <span class="type-badge">[]object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Represents a list of rules to be checked to determine if the
+container should be restarted on exit. The rules are evaluated in
+order. Once a rule matches a container exit condition, the remaining
+rules are ignored. If no rule matches the container exit condition,
+the Container-level restart policy determines the whether the container
+is restarted or not. Constraints on the rules:
+- At most 20 rules are allowed.
+- Rules can have the same action.
+- Identical rules are not forbidden in validations.
+When rules are specified, container MUST set RestartPolicy explicitly
+even it if matches the Pod&#39;s RestartPolicy.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].restartPolicyRules[].action" data-path-key="|spec|initContainers[]|restartPolicyRules[]|action|" data-parent-path="spec.initContainers[].restartPolicyRules" data-name="action" data-text="Specifies the action taken on a container exit if the requirements
+are satisfied. The only possible value is &#34;Restart&#34; to restart the
+container.">
+  <span class="prop-name">action</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Specifies the action taken on a container exit if the requirements
+are satisfied. The only possible value is &#34;Restart&#34; to restart the
+container.
+  </div>
+</div>
+<details class="prop" data-prop-row data-path="spec.initContainers[].restartPolicyRules[].exitCodes" data-path-key="|spec|initContainers[]|restartPolicyRules[]|exitCodes|" data-parent-path="spec.initContainers[].restartPolicyRules" data-name="exitCodes" data-text="Represents the exit codes to check on container exits.">
+<summary>
+  <span class="prop-name">exitCodes</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Represents the exit codes to check on container exits.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].restartPolicyRules[].exitCodes.operator" data-path-key="|spec|initContainers[]|restartPolicyRules[]|exitCodes|operator|" data-parent-path="spec.initContainers[].restartPolicyRules[].exitCodes" data-name="operator" data-text="Represents the relationship between the container exit code(s) and the
+specified values. Possible values are:
+- In: the requirement is satisfied if the container exit code is in the
+  set of specified values.
+- NotIn: the requirement is satisfied if the container exit code is
+  not in the set of specified values.">
+  <span class="prop-name">operator</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Represents the relationship between the container exit code(s) and the
+specified values. Possible values are:
+- In: the requirement is satisfied if the container exit code is in the
+  set of specified values.
+- NotIn: the requirement is satisfied if the container exit code is
+  not in the set of specified values.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.initContainers[].restartPolicyRules[].exitCodes.values" data-path-key="|spec|initContainers[]|restartPolicyRules[]|exitCodes|values|" data-parent-path="spec.initContainers[].restartPolicyRules[].exitCodes" data-name="values" data-text="Specifies the set of values to check for container exit codes.
+At most 255 elements are allowed.">
+  <span class="prop-name">values</span>
+  <span class="type-badge">[]integer</span>
+  <div class="leaf-desc">Specifies the set of values to check for container exit codes.
+At most 255 elements are allowed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
+  </div>
+</div>
+</details>
 <details class="prop" data-prop-row data-path="spec.initContainers[].securityContext" data-path-key="|spec|initContainers[]|securityContext|" data-parent-path="spec.initContainers" data-name="securityContext" data-text="SecurityContext defines the security options the container should be run with.
 If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext.
 More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">
@@ -8625,14 +9158,12 @@ Note that this field cannot be set when spec.os.name is windows.
 <div class="prop-leaf" data-prop-row data-path="spec.initContainers[].securityContext.procMount" data-path-key="|spec|initContainers[]|securityContext|procMount|" data-parent-path="spec.initContainers[].securityContext" data-name="procMount" data-text="procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.">
   <span class="prop-name">procMount</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">procMount denotes the type of proc mount to use for the containers.
 The default value is Default which uses the container runtime defaults for
 readonly paths and masked paths.
-This requires the ProcMountType feature flag to be enabled.
 Note that this field cannot be set when spec.os.name is windows.
   </div>
 </div>
@@ -9304,16 +9835,6 @@ Cannot be updated.
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.networkPolicyEnabled" data-path-key="|spec|networkPolicyEnabled|" data-parent-path="spec" data-name="networkPolicyEnabled" data-text="(Optional) Whether to create a NetworkPolicy for this Dragonfly instance.
-The NetworkPolicy restricts admin port access to operator and peer pods only.
-Defaults to true.">
-  <span class="prop-name">networkPolicyEnabled</span>
-  <span class="type-badge">boolean</span>
-  <div class="leaf-desc">(Optional) Whether to create a NetworkPolicy for this Dragonfly instance.
-The NetworkPolicy restricts admin port access to operator and peer pods only.
-Defaults to true.
-  </div>
-</div>
 <div class="prop-leaf" data-prop-row data-path="spec.nodeSelector" data-path-key="|spec|nodeSelector|" data-parent-path="spec" data-name="nodeSelector" data-text="(Optional) Dragonfly pod node selector">
   <span class="prop-name">nodeSelector</span>
   <span class="type-badge">object</span>
@@ -9812,7 +10333,7 @@ can be specified.</div>
 <details class="prop" data-prop-row data-path="spec.resources.claims" data-path-key="|spec|resources|claims|" data-parent-path="spec.resources" data-name="claims" data-text="Claims lists the names of resources, defined in spec.resourceClaims,
 that are used by this container.
 
-This is an alpha field and requires enabling the
+This field depends on the
 DynamicResourceAllocation feature gate.
 
 This field is immutable. It can only be set for containers.">
@@ -9823,7 +10344,7 @@ This field is immutable. It can only be set for containers.">
 <div class="prop-content"><div class="prop-desc">Claims lists the names of resources, defined in spec.resourceClaims,
 that are used by this container.
 
-This is an alpha field and requires enabling the
+This field depends on the
 DynamicResourceAllocation feature gate.
 
 This field is immutable. It can only be set for containers.</div>
@@ -10110,7 +10631,7 @@ Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGr
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.snapshot.persistentVolumeClaimSpec.resources" data-path-key="|spec|snapshot|persistentVolumeClaimSpec|resources|" data-parent-path="spec.snapshot.persistentVolumeClaimSpec" data-name="resources" data-text="resources represents the minimum resources the volume should have.
-If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements
+Users are allowed to specify resource requirements
 that are lower than previous value but must still be higher than capacity recorded in the
 status field of the claim.
 More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources">
@@ -10119,7 +10640,7 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resour
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">resources represents the minimum resources the volume should have.
-If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements
+Users are allowed to specify resource requirements
 that are lower than previous value but must still be higher than capacity recorded in the
 status field of the claim.
 More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources</div>
@@ -10214,29 +10735,25 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-
 <div class="prop-leaf" data-prop-row data-path="spec.snapshot.persistentVolumeClaimSpec.volumeAttributesClassName" data-path-key="|spec|snapshot|persistentVolumeClaimSpec|volumeAttributesClassName|" data-parent-path="spec.snapshot.persistentVolumeClaimSpec" data-name="volumeAttributesClassName" data-text="volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.
 If specified, the CSI driver will create or update the volume with the attributes defined
 in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,
-it can be changed after the claim is created. An empty string value means that no VolumeAttributesClass
-will be applied to the claim but it&#39;s not allowed to reset this field to empty string once it is set.
-If unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass
-will be set by the persistentvolume controller if it exists.
+it can be changed after the claim is created. An empty string or nil value indicates that no
+VolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,
+this field can be reset to its previous value (including nil) to cancel the modification.
 If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be
 set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource
 exists.
-More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/
-(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).">
+More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/">
   <span class="prop-name">volumeAttributesClassName</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.
 If specified, the CSI driver will create or update the volume with the attributes defined
 in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,
-it can be changed after the claim is created. An empty string value means that no VolumeAttributesClass
-will be applied to the claim but it&#39;s not allowed to reset this field to empty string once it is set.
-If unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass
-will be set by the persistentvolume controller if it exists.
+it can be changed after the claim is created. An empty string or nil value indicates that no
+VolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,
+this field can be reset to its previous value (including nil) to cancel the modification.
 If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be
 set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource
 exists.
 More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/
-(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.snapshot.persistentVolumeClaimSpec.volumeMode" data-path-key="|spec|snapshot|persistentVolumeClaimSpec|volumeMode|" data-parent-path="spec.snapshot.persistentVolumeClaimSpec" data-name="volumeMode" data-text="volumeMode defines what type of volume is required by the claim.
@@ -10414,7 +10931,7 @@ Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGr
 </div>
 </details>
 <details class="prop" data-prop-row data-path="spec.tiering.persistentVolumeClaimSpec.resources" data-path-key="|spec|tiering|persistentVolumeClaimSpec|resources|" data-parent-path="spec.tiering.persistentVolumeClaimSpec" data-name="resources" data-text="resources represents the minimum resources the volume should have.
-If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements
+Users are allowed to specify resource requirements
 that are lower than previous value but must still be higher than capacity recorded in the
 status field of the claim.
 More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources">
@@ -10423,7 +10940,7 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resour
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">resources represents the minimum resources the volume should have.
-If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements
+Users are allowed to specify resource requirements
 that are lower than previous value but must still be higher than capacity recorded in the
 status field of the claim.
 More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources</div>
@@ -10518,29 +11035,25 @@ More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-
 <div class="prop-leaf" data-prop-row data-path="spec.tiering.persistentVolumeClaimSpec.volumeAttributesClassName" data-path-key="|spec|tiering|persistentVolumeClaimSpec|volumeAttributesClassName|" data-parent-path="spec.tiering.persistentVolumeClaimSpec" data-name="volumeAttributesClassName" data-text="volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.
 If specified, the CSI driver will create or update the volume with the attributes defined
 in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,
-it can be changed after the claim is created. An empty string value means that no VolumeAttributesClass
-will be applied to the claim but it&#39;s not allowed to reset this field to empty string once it is set.
-If unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass
-will be set by the persistentvolume controller if it exists.
+it can be changed after the claim is created. An empty string or nil value indicates that no
+VolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,
+this field can be reset to its previous value (including nil) to cancel the modification.
 If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be
 set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource
 exists.
-More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/
-(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).">
+More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/">
   <span class="prop-name">volumeAttributesClassName</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">volumeAttributesClassName may be used to set the VolumeAttributesClass used by this claim.
 If specified, the CSI driver will create or update the volume with the attributes defined
 in the corresponding VolumeAttributesClass. This has a different purpose than storageClassName,
-it can be changed after the claim is created. An empty string value means that no VolumeAttributesClass
-will be applied to the claim but it&#39;s not allowed to reset this field to empty string once it is set.
-If unspecified and the PersistentVolumeClaim is unbound, the default VolumeAttributesClass
-will be set by the persistentvolume controller if it exists.
+it can be changed after the claim is created. An empty string or nil value indicates that no
+VolumeAttributesClass will be applied to the claim. If the claim enters an Infeasible error state,
+this field can be reset to its previous value (including nil) to cancel the modification.
 If the resource referred to by volumeAttributesClass does not exist, this PersistentVolumeClaim will be
 set to a Pending state, as reflected by the modifyVolumeStatus field, until such as a resource
 exists.
 More info: https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/
-(Beta) Using this field requires the VolumeAttributesClass feature gate to be enabled (off by default).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.tiering.persistentVolumeClaimSpec.volumeMode" data-path-key="|spec|tiering|persistentVolumeClaimSpec|volumeMode|" data-parent-path="spec.tiering.persistentVolumeClaimSpec" data-name="volumeMode" data-text="volumeMode defines what type of volume is required by the claim.
@@ -10613,15 +11126,17 @@ If the key is empty, operator must be Exists; this combination means to match al
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.tolerations[].operator" data-path-key="|spec|tolerations[]|operator|" data-parent-path="spec.tolerations" data-name="operator" data-text="Operator represents a key&#39;s relationship to the value.
-Valid operators are Exists and Equal. Defaults to Equal.
+Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.
 Exists is equivalent to wildcard for value, so that a pod can
-tolerate all taints of a particular category.">
+tolerate all taints of a particular category.
+Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).">
   <span class="prop-name">operator</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Operator represents a key&#39;s relationship to the value.
-Valid operators are Exists and Equal. Defaults to Equal.
+Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal.
 Exists is equivalent to wildcard for value, so that a pod can
 tolerate all taints of a particular category.
+Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators).
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.tolerations[].tolerationSeconds" data-path-key="|spec|tolerations[]|tolerationSeconds|" data-parent-path="spec.tolerations" data-name="tolerationSeconds" data-text="TolerationSeconds represents the period of time the toleration (which must be
@@ -10826,8 +11341,7 @@ when calculating pod topology spread skew. Options are:
 - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations.
 - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.
 
-If this value is nil, the behavior is equivalent to the Honor policy.
-This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.">
+If this value is nil, the behavior is equivalent to the Honor policy.">
   <span class="prop-name">nodeAffinityPolicy</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">NodeAffinityPolicy indicates how we will treat Pod&#39;s nodeAffinity/nodeSelector
@@ -10836,7 +11350,6 @@ when calculating pod topology spread skew. Options are:
 - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.
 
 If this value is nil, the behavior is equivalent to the Honor policy.
-This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].nodeTaintsPolicy" data-path-key="|spec|topologySpreadConstraints[]|nodeTaintsPolicy|" data-parent-path="spec.topologySpreadConstraints" data-name="nodeTaintsPolicy" data-text="NodeTaintsPolicy indicates how we will treat node taints when calculating
@@ -10845,8 +11358,7 @@ pod topology spread skew. Options are:
 has a toleration, are included.
 - Ignore: node taints are ignored. All nodes are included.
 
-If this value is nil, the behavior is equivalent to the Ignore policy.
-This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.">
+If this value is nil, the behavior is equivalent to the Ignore policy.">
   <span class="prop-name">nodeTaintsPolicy</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">NodeTaintsPolicy indicates how we will treat node taints when calculating
@@ -10856,7 +11368,6 @@ has a toleration, are included.
 - Ignore: node taints are ignored. All nodes are included.
 
 If this value is nil, the behavior is equivalent to the Ignore policy.
-This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.topologySpreadConstraints[].topologyKey" data-path-key="|spec|topologySpreadConstraints[]|topologyKey|" data-parent-path="spec.topologySpreadConstraints" data-name="topologyKey" data-text="TopologyKey is the key of node labels. Nodes that have a label with this key
@@ -10944,16 +11455,20 @@ It&#39;s a required field.
 </div>
 <div class="prop-leaf" data-prop-row data-path="status.phase" data-path-key="|status|phase|" data-parent-path="status" data-name="phase" data-text="Status of the Dragonfly Instance
 It can be one of the following:
-- &#34;ready&#34;: The Dragonfly instance is ready to serve requests
-- &#34;configuring-replication&#34;: The controller is updating the master of the Dragonfly instance
-- &#34;resources-created&#34;: The Dragonfly instance resources were created but not yet configured">
+- &#34;Ready&#34;: The Dragonfly instance is ready to serve requests
+- &#34;NotReady&#34;: The Dragonfly instance was ready but has no healthy master
+- &#34;Configuring&#34;: The controller is updating the master of the Dragonfly instance
+- &#34;RollingUpdate&#34;: The Dragonfly instance pods are being updated to a new version
+- &#34;ResourcesCreated&#34;: The Dragonfly instance resources were created but not yet configured">
   <span class="prop-name">phase</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Status of the Dragonfly Instance
 It can be one of the following:
-- &#34;ready&#34;: The Dragonfly instance is ready to serve requests
-- &#34;configuring-replication&#34;: The controller is updating the master of the Dragonfly instance
-- &#34;resources-created&#34;: The Dragonfly instance resources were created but not yet configured
+- &#34;Ready&#34;: The Dragonfly instance is ready to serve requests
+- &#34;NotReady&#34;: The Dragonfly instance was ready but has no healthy master
+- &#34;Configuring&#34;: The controller is updating the master of the Dragonfly instance
+- &#34;RollingUpdate&#34;: The Dragonfly instance pods are being updated to a new version
+- &#34;ResourcesCreated&#34;: The Dragonfly instance resources were created but not yet configured
   </div>
 </div>
   </div>
