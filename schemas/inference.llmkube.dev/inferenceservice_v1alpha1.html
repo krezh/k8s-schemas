@@ -5741,6 +5741,46 @@ Mutually exclusive with claimName, which names a cache volume to use.<div class=
 <div class="schema-constraint" title="enum: Cached, Ephemeral"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Cached, Ephemeral</code></div></div>
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.modelCache.storageClassName" data-path-key="|spec|modelCache|storageClassName|" data-parent-path="spec.modelCache" data-name="storageClassName" data-text="StorageClassName overrides the operator&#39;s --model-cache-storage-class
+flag for the model-cache PVC this operator creates for the service
+(#1963). A mixed cluster can then cache on local disk where a
+cloud-default class cannot attach, without hand-managing a claimName
+PVC per service.
+
+In perService mode the field is authoritative: the per-service claim is
+created with this class. In shared mode the namespace has one claim
+that every service shares, so the field is honored only at first
+creation (first writer wins); a service whose request differs from the
+existing claim&#39;s class gets a ModelCacheStorageClassIgnored warning and
+uses the claim as created, because storageClassName is immutable once
+bound. An empty value falls back to the flag; with neither set, the
+cluster default applies. Existing PVCs are never mutated.
+
+Mutually exclusive with claimName (the claim is user-owned) and with
+persistence Ephemeral (no PVC exists to class). minLength: 1 maxLength: 63">
+  <span class="prop-name">storageClassName</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">StorageClassName overrides the operator&#39;s --model-cache-storage-class
+flag for the model-cache PVC this operator creates for the service
+(#1963). A mixed cluster can then cache on local disk where a
+cloud-default class cannot attach, without hand-managing a claimName
+PVC per service.
+
+In perService mode the field is authoritative: the per-service claim is
+created with this class. In shared mode the namespace has one claim
+that every service shares, so the field is honored only at first
+creation (first writer wins); a service whose request differs from the
+existing claim&#39;s class gets a ModelCacheStorageClassIgnored warning and
+uses the claim as created, because storageClassName is immutable once
+bound. An empty value falls back to the flag; with neither set, the
+cluster default applies. Existing PVCs are never mutated.
+
+Mutually exclusive with claimName (the claim is user-owned) and with
+persistence Ephemeral (no PVC exists to class).<div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 63"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">63</code></div></div>
+  </div>
+</div>
   </div>
 </div>
 </details>
@@ -8619,6 +8659,26 @@ speculative decoding (as does omitting the whole block, or &#34;none&#34;).<div 
   </div>
 </div>
 </details>
+<div class="prop-leaf" data-prop-row data-path="spec.stageModel" data-path-key="|spec|stageModel|" data-parent-path="spec" data-name="stageModel" data-text="StageModel opts a runtime that does not stage models by default (generic) into
+Model-managed staging: the operator downloads the referenced Model into the model
+cache with the same init containers and read-only /models mount the built-in
+runtimes use, and sets LLMKUBE_MODEL_PATH (the primary file) and LLMKUBE_MODEL_DIR
+(the staged directory; for a single file, its directory) in the serving
+container&#39;s env. Kubernetes expands $(VAR) in args, so args can name
+$(LLMKUBE_MODEL_PATH). Runtimes that stage by default ignore it. Cannot be
+combined with skipModelInit.">
+  <span class="prop-name">stageModel</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">StageModel opts a runtime that does not stage models by default (generic) into
+Model-managed staging: the operator downloads the referenced Model into the model
+cache with the same init containers and read-only /models mount the built-in
+runtimes use, and sets LLMKUBE_MODEL_PATH (the primary file) and LLMKUBE_MODEL_DIR
+(the staged directory; for a single file, its directory) in the serving
+container&#39;s env. Kubernetes expands $(VAR) in args, so args can name
+$(LLMKUBE_MODEL_PATH). Runtimes that stage by default ignore it. Cannot be
+combined with skipModelInit.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.suspend" data-path-key="|spec|suspend|" data-parent-path="spec" data-name="suspend" data-text="Suspend stops the inference workload without losing the desired
 replica count: the serving Deployment (or metal process) is scaled to
 zero while spec.replicas is preserved, and the service reports phase
