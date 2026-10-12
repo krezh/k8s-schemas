@@ -6634,6 +6634,20 @@ A pointer so an unset value inherits from templateRef while an explicit false ov
 A pointer so an unset value inherits from templateRef while an explicit false overrides an inherited true.
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.suspend" data-path-key="|spec|suspend|" data-parent-path="spec" data-name="suspend" data-text="If true, the operator starts no new run for this RenovateJob: the schedule
+does not fire, discovery is refused and queued projects are not dispatched.
+Runs already in progress finish. Projects queued meanwhile, by webhooks,
+the UI or annotation triggers, stay Scheduled and run once it is resumed.
+A pointer so an unset value inherits from templateRef while an explicit false overrides an inherited true.">
+  <span class="prop-name">suspend</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">If true, the operator starts no new run for this RenovateJob: the schedule
+does not fire, discovery is refused and queued projects are not dispatched.
+Runs already in progress finish. Projects queued meanwhile, by webhooks,
+the UI or annotation triggers, stay Scheduled and run once it is resumed.
+A pointer so an unset value inherits from templateRef while an explicit false overrides an inherited true.
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.templateRef" data-path-key="|spec|templateRef|" data-parent-path="spec" data-name="templateRef" data-text="TemplateRef inherits shared configuration from a RenovateJobTemplate (in the
 same namespace) or a cluster-scoped ClusterRenovateJobTemplate. Fields set on
 this RenovateJob override the template&#39;s per field; fields left unset are
