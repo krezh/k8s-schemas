@@ -2612,6 +2612,70 @@ When nil, no session storage is configured.</div>
 <div class="schema-constraint" title="enum: memory, redis"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">memory, redis</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.sessionStorage.tls" data-path-key="|spec|sessionStorage|tls|" data-parent-path="spec.sessionStorage" data-name="tls" data-text="TLS enables TLS for the Redis session storage connection and, when rate
+limiting is configured, for the rate-limit connection to the same Redis.
+When omitted, the connections are plaintext and the Redis password and
+session data cross the network unencrypted. An empty object enables TLS
+with server certificate verification against the system root CAs; set
+caCertSecretRef for a private CA. A failed handshake never falls back to
+plaintext. Only used when provider is redis.">
+<summary>
+  <span class="prop-name">tls</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TLS enables TLS for the Redis session storage connection and, when rate
+limiting is configured, for the rate-limit connection to the same Redis.
+When omitted, the connections are plaintext and the Redis password and
+session data cross the network unencrypted. An empty object enables TLS
+with server certificate verification against the system root CAs; set
+caCertSecretRef for a private CA. A failed handshake never falls back to
+plaintext. Only used when provider is redis.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.sessionStorage.tls.caCertSecretRef" data-path-key="|spec|sessionStorage|tls|caCertSecretRef|" data-parent-path="spec.sessionStorage.tls" data-name="caCertSecretRef" data-text="CACertSecretRef references a Secret containing a PEM-encoded CA certificate
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.">
+<summary>
+  <span class="prop-name">caCertSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CACertSecretRef references a Secret containing a PEM-encoded CA certificate
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.tls.caCertSecretRef.key" data-path-key="|spec|sessionStorage|tls|caCertSecretRef|key|" data-parent-path="spec.sessionStorage.tls.caCertSecretRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.tls.caCertSecretRef.name" data-path-key="|spec|sessionStorage|tls|caCertSecretRef|name|" data-parent-path="spec.sessionStorage.tls.caCertSecretRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.tls.insecureSkipVerify" data-path-key="|spec|sessionStorage|tls|insecureSkipVerify|" data-parent-path="spec.sessionStorage.tls" data-name="insecureSkipVerify" data-text="InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.">
+  <span class="prop-name">insecureSkipVerify</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>

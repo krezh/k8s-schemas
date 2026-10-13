@@ -1566,13 +1566,17 @@ Only applies when sentinelConfig is set. Presence of this field enables TLS.">
 Only applies when sentinelConfig is set. Presence of this field enables TLS.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.authServerConfig.storage.redis.sentinelTls.caCertSecretRef" data-path-key="|spec|authServerConfig|storage|redis|sentinelTls|caCertSecretRef|" data-parent-path="spec.authServerConfig.storage.redis.sentinelTls" data-name="caCertSecretRef" data-text="CACertSecretRef references a Secret containing a PEM-encoded CA certificate
-for verifying the server. When not specified, system root CAs are used.">
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.">
 <summary>
   <span class="prop-name">caCertSecretRef</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">CACertSecretRef references a Secret containing a PEM-encoded CA certificate
-for verifying the server. When not specified, system root CAs are used.</div>
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.storage.redis.sentinelTls.caCertSecretRef.key" data-path-key="|spec|authServerConfig|storage|redis|sentinelTls|caCertSecretRef|key|" data-parent-path="spec.authServerConfig.storage.redis.sentinelTls.caCertSecretRef" data-name="key" data-text="Key is the key within the secret">
   <span class="prop-name">key</span>
@@ -1589,12 +1593,18 @@ for verifying the server. When not specified, system root CAs are used.</div>
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.storage.redis.sentinelTls.insecureSkipVerify" data-path-key="|spec|authServerConfig|storage|redis|sentinelTls|insecureSkipVerify|" data-parent-path="spec.authServerConfig.storage.redis.sentinelTls" data-name="insecureSkipVerify" data-text="InsecureSkipVerify skips TLS certificate verification.
-Use when connecting to services with self-signed certificates.">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.storage.redis.sentinelTls.insecureSkipVerify" data-path-key="|spec|authServerConfig|storage|redis|sentinelTls|insecureSkipVerify|" data-parent-path="spec.authServerConfig.storage.redis.sentinelTls" data-name="insecureSkipVerify" data-text="InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.">
   <span class="prop-name">insecureSkipVerify</span>
   <span class="type-badge">boolean</span>
-  <div class="leaf-desc">InsecureSkipVerify skips TLS certificate verification.
-Use when connecting to services with self-signed certificates.
+  <div class="leaf-desc">InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.
   </div>
 </div>
   </div>
@@ -1610,13 +1620,17 @@ Presence of this field enables TLS. Omit to use plaintext.">
 Presence of this field enables TLS. Omit to use plaintext.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.authServerConfig.storage.redis.tls.caCertSecretRef" data-path-key="|spec|authServerConfig|storage|redis|tls|caCertSecretRef|" data-parent-path="spec.authServerConfig.storage.redis.tls" data-name="caCertSecretRef" data-text="CACertSecretRef references a Secret containing a PEM-encoded CA certificate
-for verifying the server. When not specified, system root CAs are used.">
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.">
 <summary>
   <span class="prop-name">caCertSecretRef</span>
   <span class="type-badge">object</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">CACertSecretRef references a Secret containing a PEM-encoded CA certificate
-for verifying the server. When not specified, system root CAs are used.</div>
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.storage.redis.tls.caCertSecretRef.key" data-path-key="|spec|authServerConfig|storage|redis|tls|caCertSecretRef|key|" data-parent-path="spec.authServerConfig.storage.redis.tls.caCertSecretRef" data-name="key" data-text="Key is the key within the secret">
   <span class="prop-name">key</span>
@@ -1633,12 +1647,18 @@ for verifying the server. When not specified, system root CAs are used.</div>
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.storage.redis.tls.insecureSkipVerify" data-path-key="|spec|authServerConfig|storage|redis|tls|insecureSkipVerify|" data-parent-path="spec.authServerConfig.storage.redis.tls" data-name="insecureSkipVerify" data-text="InsecureSkipVerify skips TLS certificate verification.
-Use when connecting to services with self-signed certificates.">
+<div class="prop-leaf" data-prop-row data-path="spec.authServerConfig.storage.redis.tls.insecureSkipVerify" data-path-key="|spec|authServerConfig|storage|redis|tls|insecureSkipVerify|" data-parent-path="spec.authServerConfig.storage.redis.tls" data-name="insecureSkipVerify" data-text="InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.">
   <span class="prop-name">insecureSkipVerify</span>
   <span class="type-badge">boolean</span>
-  <div class="leaf-desc">InsecureSkipVerify skips TLS certificate verification.
-Use when connecting to services with self-signed certificates.
+  <div class="leaf-desc">InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.
   </div>
 </div>
   </div>
@@ -3138,13 +3158,15 @@ Supports ToolConfigRef for Kubernetes-native MCPToolConfig resource references.<
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.config.aggregation.conflictResolution" data-path-key="|spec|config|aggregation|conflictResolution|" data-parent-path="spec.config.aggregation" data-name="conflictResolution" data-text="ConflictResolution defines the strategy for resolving tool name conflicts.
 - prefix: Automatically prefix tool names with workload identifier
-- priority: First workload in priority order wins
+- priority: Highest-priority workload wins only if all conflicting workloads
+  are listed; otherwise all candidates are dropped (see PriorityOrder)
 - manual: Explicitly define overrides for all conflicts enum: prefix, priority, manual">
   <span class="prop-name">conflictResolution</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">ConflictResolution defines the strategy for resolving tool name conflicts.
 - prefix: Automatically prefix tool names with workload identifier
-- priority: First workload in priority order wins
+- priority: Highest-priority workload wins only if all conflicting workloads
+  are listed; otherwise all candidates are dropped (see PriorityOrder)
 - manual: Explicitly define overrides for all conflicts<div class="leaf-constraints">
 <div class="schema-constraint" title="enum: prefix, priority, manual"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">prefix, priority, manual</code></div></div>
   </div>
@@ -3170,13 +3192,25 @@ their own prompt names).
 Supports placeholders: {workload}, {workload}_, {workload}.
   </div>
 </div>
-<div class="prop-leaf" data-prop-row data-path="spec.config.aggregation.conflictResolutionConfig.priorityOrder" data-path-key="|spec|config|aggregation|conflictResolutionConfig|priorityOrder|" data-parent-path="spec.config.aggregation.conflictResolutionConfig" data-name="priorityOrder" data-text="PriorityOrder defines the workload priority order for the &#34;priority&#34; strategy.
-Listed workloads also keep their own prompt names (unlisted workloads&#39;
+<div class="prop-leaf" data-prop-row data-path="spec.config.aggregation.conflictResolutionConfig.priorityOrder" data-path-key="|spec|config|aggregation|conflictResolutionConfig|priorityOrder|" data-parent-path="spec.config.aggregation.conflictResolutionConfig" data-name="priorityOrder" data-text="PriorityOrder defines the workload priority order for the &#34;priority&#34; strategy
+(first has highest priority). It is not an allowlist: unique tools remain
+unchanged, including those from unlisted workloads. If all workloads in a
+tool-name collision are listed, the highest-priority one wins and losers
+are dropped. If any conflicting workload is unlisted, all candidates in that
+collision are dropped from advertising and routing, with no prefix fallback,
+and the collision is logged at ERROR.
+Separately, listed workloads keep their own prompt names (unlisted workloads&#39;
 prompts stay backend-prefixed).">
   <span class="prop-name">priorityOrder</span>
   <span class="type-badge">[]string</span>
-  <div class="leaf-desc">PriorityOrder defines the workload priority order for the &#34;priority&#34; strategy.
-Listed workloads also keep their own prompt names (unlisted workloads&#39;
+  <div class="leaf-desc">PriorityOrder defines the workload priority order for the &#34;priority&#34; strategy
+(first has highest priority). It is not an allowlist: unique tools remain
+unchanged, including those from unlisted workloads. If all workloads in a
+tool-name collision are listed, the highest-priority one wins and losers
+are dropped. If any conflicting workload is unlisted, all candidates in that
+collision are dropped from advertising and routing, with no prefix fallback,
+and the collision is logged at ERROR.
+Separately, listed workloads keep their own prompt names (unlisted workloads&#39;
 prompts stay backend-prefixed).
   </div>
 </div>
@@ -5255,6 +5289,36 @@ the THV_SESSION_REDIS_PASSWORD environment variable.</div>
 <div class="schema-constraint" title="enum: memory, redis"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">memory, redis</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.config.sessionStorage.tls" data-path-key="|spec|config|sessionStorage|tls|" data-parent-path="spec.config.sessionStorage" data-name="tls" data-text="TLS enables TLS for session storage and rate limiting. An empty
+configuration verifies the Redis server using system roots.
+On Kubernetes, set spec.sessionStorage.tls instead: the operator derives this
+field from it and rejects a value set under spec.config.sessionStorage.">
+<summary>
+  <span class="prop-name">tls</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TLS enables TLS for session storage and rate limiting. An empty
+configuration verifies the Redis server using system roots.
+On Kubernetes, set spec.sessionStorage.tls instead: the operator derives this
+field from it and rejects a value set under spec.config.sessionStorage.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.config.sessionStorage.tls.caCertFile" data-path-key="|spec|config|sessionStorage|tls|caCertFile|" data-parent-path="spec.config.sessionStorage.tls" data-name="caCertFile" data-text="CACertFile is the path to a PEM-encoded CA bundle. When configured, this
+bundle replaces the system roots used to verify the Redis server.">
+  <span class="prop-name">caCertFile</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">CACertFile is the path to a PEM-encoded CA bundle. When configured, this
+bundle replaces the system roots used to verify the Redis server.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.config.sessionStorage.tls.insecureSkipVerify" data-path-key="|spec|config|sessionStorage|tls|insecureSkipVerify|" data-parent-path="spec.config.sessionStorage.tls" data-name="insecureSkipVerify" data-text="InsecureSkipVerify skips server certificate and hostname verification.">
+  <span class="prop-name">insecureSkipVerify</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureSkipVerify skips server certificate and hostname verification.
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
@@ -6036,6 +6100,70 @@ When nil, no session storage is configured.</div>
 <div class="schema-constraint" title="enum: memory, redis"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">memory, redis</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="spec.sessionStorage.tls" data-path-key="|spec|sessionStorage|tls|" data-parent-path="spec.sessionStorage" data-name="tls" data-text="TLS enables TLS for the Redis session storage connection and, when rate
+limiting is configured, for the rate-limit connection to the same Redis.
+When omitted, the connections are plaintext and the Redis password and
+session data cross the network unencrypted. An empty object enables TLS
+with server certificate verification against the system root CAs; set
+caCertSecretRef for a private CA. A failed handshake never falls back to
+plaintext. Only used when provider is redis.">
+<summary>
+  <span class="prop-name">tls</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">TLS enables TLS for the Redis session storage connection and, when rate
+limiting is configured, for the rate-limit connection to the same Redis.
+When omitted, the connections are plaintext and the Redis password and
+session data cross the network unencrypted. An empty object enables TLS
+with server certificate verification against the system root CAs; set
+caCertSecretRef for a private CA. A failed handshake never falls back to
+plaintext. Only used when provider is redis.</div>
+  <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.sessionStorage.tls.caCertSecretRef" data-path-key="|spec|sessionStorage|tls|caCertSecretRef|" data-parent-path="spec.sessionStorage.tls" data-name="caCertSecretRef" data-text="CACertSecretRef references a Secret containing a PEM-encoded CA certificate
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.">
+<summary>
+  <span class="prop-name">caCertSecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">CACertSecretRef references a Secret containing a PEM-encoded CA certificate
+for verifying the server. When not specified, system root CAs are used.
+If the Secret or key does not exist, the pod cannot start (it stays in
+ContainerCreating) rather than connecting without verification.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.tls.caCertSecretRef.key" data-path-key="|spec|sessionStorage|tls|caCertSecretRef|key|" data-parent-path="spec.sessionStorage.tls.caCertSecretRef" data-name="key" data-text="Key is the key within the secret">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Key is the key within the secret
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.tls.caCertSecretRef.name" data-path-key="|spec|sessionStorage|tls|caCertSecretRef|name|" data-parent-path="spec.sessionStorage.tls.caCertSecretRef" data-name="name" data-text="Name is the name of the secret">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Name is the name of the secret
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.sessionStorage.tls.insecureSkipVerify" data-path-key="|spec|sessionStorage|tls|insecureSkipVerify|" data-parent-path="spec.sessionStorage.tls" data-name="insecureSkipVerify" data-text="InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.">
+  <span class="prop-name">insecureSkipVerify</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">InsecureSkipVerify disables server certificate and hostname verification.
+The connection is encrypted but not authenticated, so anyone able to
+impersonate the server can read the credentials and data sent over it.
+Intended for testing only; for self-signed or private CAs set
+caCertSecretRef instead.
+  </div>
+</div>
+  </div>
+</div>
+</details>
   </div>
 </div>
 </details>
