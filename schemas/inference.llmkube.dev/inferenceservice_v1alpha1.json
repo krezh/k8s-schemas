@@ -1097,7 +1097,7 @@
           ]
         },
         "bindAddress": {
-          "description": "BindAddress sets the network address the runtime listens on.\nMaps to --host for llamacpp/llamacpp-router/vllm/sglang and --hostname\nfor tgi. Default is \"::\" (dual-stack wildcard; see #972/#973). Prefer\nthis over raw spec.extraArgs: it is validated and discoverable via\n`kubectl explain`. If --host (or --hostname for TGI) is also present in\nspec.extraArgs, extraArgs wins and this is skipped.",
+          "description": "BindAddress sets the network address the runtime listens on.\nMaps to --host for llamacpp/llamacpp-router/vllm/sglang and --hostname\nfor tgi. Default is \"::\" (dual-stack wildcard; see #972/#973), except\nfor sglang, whose default is \"\" (every interface, both address\nfamilies): sglang binds \"::\" IPv6-only, so it would have no IPv4\nlistener (#2027). Prefer\nthis over raw spec.extraArgs: it is validated and discoverable via\n`kubectl explain`. If --host (or --hostname for TGI) is also present in\nspec.extraArgs, extraArgs wins and this is skipped.",
           "type": [
             "string",
             "null"
@@ -5639,11 +5639,29 @@
           "description": "SGLangConfig holds configuration for the SGLang runtime.\nOnly used when Runtime is \"sglang\".",
           "properties": {
             "attentionBackend": {
-              "description": "Attention\nAttentionBackend selects the attention implementation. flashinfer is\nfastest on recent NVIDIA GPUs; flash_attn is portable; torch_native is\nthe fallback. Maps to SGLang --attention-backend flag.",
+              "description": "Attention\nAttentionBackend selects the attention implementation. Unset lets SGLang\nchoose per model and GPU: fa3 on Hopper, trtllm_mha (MHA) or flashinfer\n(MLA) on Blackwell, flashinfer or triton elsewhere. Some models override\nthat: Qwen3.5-family hybrid models on Blackwell get triton while the\nprefix cache runs without the mamba extra buffer, which is slow on long\nprompts; flashinfer is the typed fix (see the SGLang on Blackwell guide).\nThe values are SGLang v0.5.15's --attention-backend choices. flash_attn\nis not one (SGLang exits with an invalid-choice error); it stays\naccepted so existing objects remain valid, and the SGLangSpecValid\ncondition reports it. Maps to SGLang --attention-backend flag.",
               "enum": [
+                "triton",
+                "torch_native",
+                "flex_attention",
+                "dsa",
+                "dsv4",
+                "cutlass_mla",
+                "fa3",
+                "fa4",
                 "flashinfer",
-                "flash_attn",
-                "torch_native"
+                "flashmla",
+                "trtllm_mla",
+                "cutedsl_mla",
+                "tokenspeed_mla",
+                "trtllm_mha",
+                "dual_chunk_flash_attn",
+                "aiter",
+                "wave",
+                "intel_amx",
+                "ascend",
+                "intel_xpu",
+                "flash_attn"
               ],
               "type": [
                 "string",
@@ -5937,6 +5955,33 @@
                   "description": "NumSteps is the number of draft steps per forward pass.\nMaps to SGLang --speculative-num-steps flag.",
                   "format": "int32",
                   "minimum": 1,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              },
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "stallDetection": {
+              "additionalProperties": false,
+              "description": "StallDetection opts the service into a liveness probe that detects a\nsilently wedged SGLang engine: work in flight while it stops making\nprogress, which /health does not see. The probe execs a small check\nagainst the local /metrics endpoint and fails once the engine is busy\n(sglang:num_running_reqs \u003e 0 or sglang:kv_used_tokens \u003e 0) with\nsglang:realtime_tokens_total, the prompt and generation counters, and\nsglang:kv_used_tokens all flat for windowSeconds.\n\nSGLang's signals differ from vLLM's (measured on SGLang v0.5.15): a\nrequest being prefilled is not counted in num_running_reqs, and the\nprompt and generation counters only advance when a request finishes.\nkv_used_tokens marks the engine busy through prefill and decode, and\nrealtime_tokens_total advances on every prefill chunk and decode step,\nso a wedge mid-prefill is caught and a long prefill is not mistaken\nfor one. Prefill chunks arrive further apart as context grows, so the\nwindow must exceed the slowest single chunk on the hardware.\n\nThe check replaces the /health liveness probe only; startup and\nreadiness stay on /health_generate. spec.probeOverrides.liveness still\nwins when set. The field is inert unless spec.runtime is \"sglang\". The\nprobe execs python3 and keeps its state under /tmp, so it needs an\nimage with python3 on PATH and a writable /tmp. Default off.",
+              "properties": {
+                "enabled": {
+                  "description": "Enabled turns on the stall-detecting exec liveness probe. When nil\nor false, the liveness probe is the standard /health HTTP check.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "windowSeconds": {
+                  "description": "WindowSeconds is how long every progress signal must stay flat while\nthe engine is busy before it is declared stalled. Defaults to 120\nwhen unset. Restart latency is roughly window + liveness period x\nfailure threshold (about 165s at the defaults).",
+                  "format": "int32",
+                  "maximum": 3600,
+                  "minimum": 10,
                   "type": [
                     "integer",
                     "null"
@@ -6644,6 +6689,33 @@
                 "null"
               ]
             },
+            "stallDetection": {
+              "additionalProperties": false,
+              "description": "StallDetection opts into a liveness probe that detects a silently\nstalled vLLM engine: requests stay \"running\" while generation stops,\nyet /health keeps returning 200, so every probe LLMKube configures\nlooks healthy and the router keeps sending traffic to a wedged pod\n(observed on vLLM v0.31.0; upstream vllm-project/vllm#58422).\n\nThe probe execs a small Python check against the local /metrics\nendpoint: while vllm:num_requests_running \u003e 0 and neither\nvllm:generation_tokens_total nor vllm:prompt_tokens_total has\nchanged and vllm:kv_cache_usage_perc has not moved for the window,\nthe probe fails and kubelet restarts the container. A restart\nclears the wedge (only deleting the pod recovered it in the\nfield). Idle engines (running == 0) never fail the probe.\n\nMeasured on vLLM v0.31.0 (B200, chunked prefill, 16384 batched\ntokens): a ~200K-token prefill kept both token counters flat for\nits whole 13.7s while vllm:kv_cache_usage_perc climbed steadily,\nso the kv gauge is the mid-prefill heartbeat and a long prefill is\nnot a stall. A counter that decreases resets the window (the\nmetrics registry restarted). The kv gauge is optional; without it\nthe judgment falls back to the token counters alone.\n\nThe check replaces the /health liveness probe only; startup and\nreadiness stay on /health. spec.probeOverrides.liveness still wins\nwhen set. In-cluster only: metal-agent services run no Kubernetes\nprobes, and the field is inert unless spec.runtime is \"vllm\".\nThe probe execs python3 and keeps its state under /tmp, so it needs\nan image with python3 on PATH and a writable /tmp (not a read-only\nroot filesystem). Default off; the /health liveness is unchanged\nwhen not enabled.",
+              "properties": {
+                "enabled": {
+                  "description": "Enabled turns on the stall-detecting exec liveness probe. When nil\nor false, the liveness probe is the standard /health HTTP check.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "windowSeconds": {
+                  "description": "WindowSeconds is how long the token counters and\nvllm:kv_cache_usage_perc must stay flat while\nvllm:num_requests_running \u003e 0 before the engine is declared\nstalled. Defaults to 120 when unset. The kv-cache heartbeat keeps\nlong prefills safe, so the margin guards against restarting pods\nover ordinary scheduler hiccups between probes. Restart latency is\nroughly window + liveness period x failure threshold (about 165s at\nthe defaults).",
+                  "format": "int32",
+                  "maximum": 3600,
+                  "minimum": 10,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              },
+              "type": [
+                "object",
+                "null"
+              ]
+            },
             "tensorParallelSize": {
               "description": "TensorParallelSize sets the number of GPUs for tensor parallelism.",
               "format": "int32",
@@ -6922,6 +6994,68 @@
               "description": "ReadyMembers counts members whose pod is Ready. The group condition\nadditionally requires every member Running before the group serves.",
               "format": "int32",
               "type": "integer"
+            },
+            "recreates": {
+              "additionalProperties": false,
+              "description": "Recreates records the failure-driven recreates of the group since it\nlast served. A recreate replaces every member pod, so the per-member\nrestart counts start from zero each time; this is the count that\naccumulates. Absent while the group has not failed, and cleared once\nthe group has stayed Ready, the spec changes, or the service is scaled\nto zero.",
+              "properties": {
+                "count": {
+                  "description": "Count is the number of consecutive member failures that tore the group\ndown without it serving in between.",
+                  "format": "int32",
+                  "type": "integer"
+                },
+                "groupHash": {
+                  "description": "GroupHash is the group hash the count belongs to: a spec change that\nmoves the hash starts a fresh count.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "lastFailureTime": {
+                  "description": "LastFailureTime is when the most recent failure was observed.",
+                  "format": "date-time",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "message": {
+                  "description": "Message names the member and carries the evidence of the most recent\nfailure (container, exit code, reason, and an excerpt of the\ntermination message). It survives the deletion of the pod it describes.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "nextRecreateTime": {
+                  "description": "NextRecreateTime is the earliest time the group is recreated after the\nmost recent failure. Unset once the bound is reached.",
+                  "format": "date-time",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "podUID": {
+                  "description": "PodUID is the member pod whose failure was counted last, so a teardown\nthat spans several reconciles is counted once.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "reason": {
+                  "description": "Reason is the recreate reason of the most recent failure, for example\nMemberRestarted or MemberFailed.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "count"
+              ],
+              "type": [
+                "object",
+                "null"
+              ]
             },
             "size": {
               "description": "Size is the number of members in the spec.",

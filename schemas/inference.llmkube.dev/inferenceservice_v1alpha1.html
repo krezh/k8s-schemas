@@ -1675,7 +1675,10 @@ Maps to llama.cpp --batch-size flag.<div class="leaf-constraints">
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.bindAddress" data-path-key="|spec|bindAddress|" data-parent-path="spec" data-name="bindAddress" data-text="BindAddress sets the network address the runtime listens on.
 Maps to --host for llamacpp/llamacpp-router/vllm/sglang and --hostname
-for tgi. Default is &#34;::&#34; (dual-stack wildcard; see #972/#973). Prefer
+for tgi. Default is &#34;::&#34; (dual-stack wildcard; see #972/#973), except
+for sglang, whose default is &#34;&#34; (every interface, both address
+families): sglang binds &#34;::&#34; IPv6-only, so it would have no IPv4
+listener (#2027). Prefer
 this over raw spec.extraArgs: it is validated and discoverable via
 `kubectl explain`. If --host (or --hostname for TGI) is also present in
 spec.extraArgs, extraArgs wins and this is skipped.">
@@ -1683,7 +1686,10 @@ spec.extraArgs, extraArgs wins and this is skipped.">
   <span class="type-badge">string</span>
   <div class="leaf-desc">BindAddress sets the network address the runtime listens on.
 Maps to --host for llamacpp/llamacpp-router/vllm/sglang and --hostname
-for tgi. Default is &#34;::&#34; (dual-stack wildcard; see #972/#973). Prefer
+for tgi. Default is &#34;::&#34; (dual-stack wildcard; see #972/#973), except
+for sglang, whose default is &#34;&#34; (every interface, both address
+families): sglang binds &#34;::&#34; IPv6-only, so it would have no IPv4
+listener (#2027). Prefer
 this over raw spec.extraArgs: it is validated and discoverable via
 `kubectl explain`. If --host (or --hostname for TGI) is also present in
 spec.extraArgs, extraArgs wins and this is skipped.
@@ -8046,16 +8052,33 @@ Only used when Runtime is &#34;sglang&#34;.">
 Only used when Runtime is &#34;sglang&#34;.</div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.attentionBackend" data-path-key="|spec|sglangConfig|attentionBackend|" data-parent-path="spec.sglangConfig" data-name="attentionBackend" data-text="Attention
-AttentionBackend selects the attention implementation. flashinfer is
-fastest on recent NVIDIA GPUs; flash_attn is portable; torch_native is
-the fallback. Maps to SGLang --attention-backend flag. enum: flashinfer, flash_attn, torch_native">
+AttentionBackend selects the attention implementation. Unset lets SGLang
+choose per model and GPU: fa3 on Hopper, trtllm_mha (MHA) or flashinfer
+(MLA) on Blackwell, flashinfer or triton elsewhere. Some models override
+that: Qwen3.5-family hybrid models on Blackwell get triton while the
+prefix cache runs without the mamba extra buffer, which is slow on long
+prompts; flashinfer is the typed fix (see the SGLang on Blackwell guide).
+The values are SGLang v0.5.15&#39;s --attention-backend choices. flash_attn
+is not one (SGLang exits with an invalid-choice error); it stays
+accepted so existing objects remain valid, and the SGLangSpecValid
+condition reports it. Maps to SGLang --attention-backend flag. enum: triton, torch_native, flex_attention, dsa, dsv4, cutlass_mla, fa3, fa4, flashinfer, flashmla, trtllm_mla, cutedsl_mla, tokenspeed_mla, trtllm_mha, dual_chunk_flash_attn, aiter, wave, intel_amx, ascend, intel_xpu, flash_attn">
   <span class="prop-name">attentionBackend</span>
   <span class="type-badge">string</span>
   <div class="leaf-desc">Attention
-AttentionBackend selects the attention implementation. flashinfer is
-fastest on recent NVIDIA GPUs; flash_attn is portable; torch_native is
-the fallback. Maps to SGLang --attention-backend flag.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: flashinfer, flash_attn, torch_native"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">flashinfer, flash_attn, torch_native</code></div></div>
+AttentionBackend selects the attention implementation. Unset lets SGLang
+choose per model and GPU: fa3 on Hopper, trtllm_mha (MHA) or flashinfer
+(MLA) on Blackwell, flashinfer or triton elsewhere. Some models override
+that: Qwen3.5-family hybrid models on Blackwell get triton while the
+prefix cache runs without the mamba extra buffer, which is slow on long
+prompts; flashinfer is the typed fix (see the SGLang on Blackwell guide).
+The values are SGLang v0.5.15&#39;s --attention-backend choices. flash_attn
+is not one (SGLang exits with an invalid-choice error); it stays
+accepted so existing objects remain valid, and the SGLangSpecValid
+condition reports it. Maps to SGLang --attention-backend flag.<div class="leaf-constraints">
+<details class="schema-constraint schema-constraint-long" title="enum: triton, torch_native, flex_attention, dsa, dsv4, cutlass_mla, fa3, fa4, flashinfer, flashmla, trtllm_mla, cutedsl_mla, tokenspeed_mla, trtllm_mha, dual_chunk_flash_attn, aiter, wave, intel_amx, ascend, intel_xpu, flash_attn">
+  <summary><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value schema-constraint-preview">triton, torch_native, flex_attention, dsa, dsv4, cutlass_mla, fa3, fa4, flashinfer, flashmla, trtllm_mla, cutedsl_mla, t...</code></summary>
+  <code class="schema-constraint-value schema-constraint-full">triton, torch_native, flex_attention, dsa, dsv4, cutlass_mla, fa3, fa4, flashinfer, flashmla, trtllm_mla, cutedsl_mla, tokenspeed_mla, trtllm_mha, dual_chunk_flash_attn, aiter, wave, intel_amx, ascend, intel_xpu, flash_attn</code>
+</details></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.chatTemplate" data-path-key="|spec|sglangConfig|chatTemplate|" data-parent-path="spec.sglangConfig" data-name="chatTemplate" data-text="ChatTemplate overrides the model&#39;s bundled chat template. Maps to
@@ -8425,6 +8448,81 @@ Maps to SGLang --speculative-num-steps flag. format: int32 minimum: 1">
 Maps to SGLang --speculative-num-steps flag.<div class="leaf-constraints">
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
 <div class="schema-constraint" title="minimum: 1"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">1</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<details class="prop" data-prop-row data-path="spec.sglangConfig.stallDetection" data-path-key="|spec|sglangConfig|stallDetection|" data-parent-path="spec.sglangConfig" data-name="stallDetection" data-text="StallDetection opts the service into a liveness probe that detects a
+silently wedged SGLang engine: work in flight while it stops making
+progress, which /health does not see. The probe execs a small check
+against the local /metrics endpoint and fails once the engine is busy
+(sglang:num_running_reqs &gt; 0 or sglang:kv_used_tokens &gt; 0) with
+sglang:realtime_tokens_total, the prompt and generation counters, and
+sglang:kv_used_tokens all flat for windowSeconds.
+
+SGLang&#39;s signals differ from vLLM&#39;s (measured on SGLang v0.5.15): a
+request being prefilled is not counted in num_running_reqs, and the
+prompt and generation counters only advance when a request finishes.
+kv_used_tokens marks the engine busy through prefill and decode, and
+realtime_tokens_total advances on every prefill chunk and decode step,
+so a wedge mid-prefill is caught and a long prefill is not mistaken
+for one. Prefill chunks arrive further apart as context grows, so the
+window must exceed the slowest single chunk on the hardware.
+
+The check replaces the /health liveness probe only; startup and
+readiness stay on /health_generate. spec.probeOverrides.liveness still
+wins when set. The field is inert unless spec.runtime is &#34;sglang&#34;. The
+probe execs python3 and keeps its state under /tmp, so it needs an
+image with python3 on PATH and a writable /tmp. Default off.">
+<summary>
+  <span class="prop-name">stallDetection</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">StallDetection opts the service into a liveness probe that detects a
+silently wedged SGLang engine: work in flight while it stops making
+progress, which /health does not see. The probe execs a small check
+against the local /metrics endpoint and fails once the engine is busy
+(sglang:num_running_reqs &gt; 0 or sglang:kv_used_tokens &gt; 0) with
+sglang:realtime_tokens_total, the prompt and generation counters, and
+sglang:kv_used_tokens all flat for windowSeconds.
+
+SGLang&#39;s signals differ from vLLM&#39;s (measured on SGLang v0.5.15): a
+request being prefilled is not counted in num_running_reqs, and the
+prompt and generation counters only advance when a request finishes.
+kv_used_tokens marks the engine busy through prefill and decode, and
+realtime_tokens_total advances on every prefill chunk and decode step,
+so a wedge mid-prefill is caught and a long prefill is not mistaken
+for one. Prefill chunks arrive further apart as context grows, so the
+window must exceed the slowest single chunk on the hardware.
+
+The check replaces the /health liveness probe only; startup and
+readiness stay on /health_generate. spec.probeOverrides.liveness still
+wins when set. The field is inert unless spec.runtime is &#34;sglang&#34;. The
+probe execs python3 and keeps its state under /tmp, so it needs an
+image with python3 on PATH and a writable /tmp. Default off.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.stallDetection.enabled" data-path-key="|spec|sglangConfig|stallDetection|enabled|" data-parent-path="spec.sglangConfig.stallDetection" data-name="enabled" data-text="Enabled turns on the stall-detecting exec liveness probe. When nil
+or false, the liveness probe is the standard /health HTTP check.">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Enabled turns on the stall-detecting exec liveness probe. When nil
+or false, the liveness probe is the standard /health HTTP check.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.sglangConfig.stallDetection.windowSeconds" data-path-key="|spec|sglangConfig|stallDetection|windowSeconds|" data-parent-path="spec.sglangConfig.stallDetection" data-name="windowSeconds" data-text="WindowSeconds is how long every progress signal must stay flat while
+the engine is busy before it is declared stalled. Defaults to 120
+when unset. Restart latency is roughly window &#43; liveness period x
+failure threshold (about 165s at the defaults). format: int32 minimum: 10 maximum: 3600">
+  <span class="prop-name">windowSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">WindowSeconds is how long every progress signal must stay flat while
+the engine is busy before it is declared stalled. Defaults to 120
+when unset. Restart latency is roughly window &#43; liveness period x
+failure threshold (about 165s at the defaults).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 10"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">10</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 3600"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">3600</code></div></div>
   </div>
 </div>
   </div>
@@ -9477,6 +9575,105 @@ Maps to vLLM --num-speculative-tokens flag.<div class="leaf-constraints">
   </div>
 </div>
 </details>
+<details class="prop" data-prop-row data-path="spec.vllmConfig.stallDetection" data-path-key="|spec|vllmConfig|stallDetection|" data-parent-path="spec.vllmConfig" data-name="stallDetection" data-text="StallDetection opts into a liveness probe that detects a silently
+stalled vLLM engine: requests stay &#34;running&#34; while generation stops,
+yet /health keeps returning 200, so every probe LLMKube configures
+looks healthy and the router keeps sending traffic to a wedged pod
+(observed on vLLM v0.31.0; upstream vllm-project/vllm#58422).
+
+The probe execs a small Python check against the local /metrics
+endpoint: while vllm:num_requests_running &gt; 0 and neither
+vllm:generation_tokens_total nor vllm:prompt_tokens_total has
+changed and vllm:kv_cache_usage_perc has not moved for the window,
+the probe fails and kubelet restarts the container. A restart
+clears the wedge (only deleting the pod recovered it in the
+field). Idle engines (running == 0) never fail the probe.
+
+Measured on vLLM v0.31.0 (B200, chunked prefill, 16384 batched
+tokens): a ~200K-token prefill kept both token counters flat for
+its whole 13.7s while vllm:kv_cache_usage_perc climbed steadily,
+so the kv gauge is the mid-prefill heartbeat and a long prefill is
+not a stall. A counter that decreases resets the window (the
+metrics registry restarted). The kv gauge is optional; without it
+the judgment falls back to the token counters alone.
+
+The check replaces the /health liveness probe only; startup and
+readiness stay on /health. spec.probeOverrides.liveness still wins
+when set. In-cluster only: metal-agent services run no Kubernetes
+probes, and the field is inert unless spec.runtime is &#34;vllm&#34;.
+The probe execs python3 and keeps its state under /tmp, so it needs
+an image with python3 on PATH and a writable /tmp (not a read-only
+root filesystem). Default off; the /health liveness is unchanged
+when not enabled.">
+<summary>
+  <span class="prop-name">stallDetection</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">StallDetection opts into a liveness probe that detects a silently
+stalled vLLM engine: requests stay &#34;running&#34; while generation stops,
+yet /health keeps returning 200, so every probe LLMKube configures
+looks healthy and the router keeps sending traffic to a wedged pod
+(observed on vLLM v0.31.0; upstream vllm-project/vllm#58422).
+
+The probe execs a small Python check against the local /metrics
+endpoint: while vllm:num_requests_running &gt; 0 and neither
+vllm:generation_tokens_total nor vllm:prompt_tokens_total has
+changed and vllm:kv_cache_usage_perc has not moved for the window,
+the probe fails and kubelet restarts the container. A restart
+clears the wedge (only deleting the pod recovered it in the
+field). Idle engines (running == 0) never fail the probe.
+
+Measured on vLLM v0.31.0 (B200, chunked prefill, 16384 batched
+tokens): a ~200K-token prefill kept both token counters flat for
+its whole 13.7s while vllm:kv_cache_usage_perc climbed steadily,
+so the kv gauge is the mid-prefill heartbeat and a long prefill is
+not a stall. A counter that decreases resets the window (the
+metrics registry restarted). The kv gauge is optional; without it
+the judgment falls back to the token counters alone.
+
+The check replaces the /health liveness probe only; startup and
+readiness stay on /health. spec.probeOverrides.liveness still wins
+when set. In-cluster only: metal-agent services run no Kubernetes
+probes, and the field is inert unless spec.runtime is &#34;vllm&#34;.
+The probe execs python3 and keeps its state under /tmp, so it needs
+an image with python3 on PATH and a writable /tmp (not a read-only
+root filesystem). Default off; the /health liveness is unchanged
+when not enabled.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.stallDetection.enabled" data-path-key="|spec|vllmConfig|stallDetection|enabled|" data-parent-path="spec.vllmConfig.stallDetection" data-name="enabled" data-text="Enabled turns on the stall-detecting exec liveness probe. When nil
+or false, the liveness probe is the standard /health HTTP check.">
+  <span class="prop-name">enabled</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Enabled turns on the stall-detecting exec liveness probe. When nil
+or false, the liveness probe is the standard /health HTTP check.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.stallDetection.windowSeconds" data-path-key="|spec|vllmConfig|stallDetection|windowSeconds|" data-parent-path="spec.vllmConfig.stallDetection" data-name="windowSeconds" data-text="WindowSeconds is how long the token counters and
+vllm:kv_cache_usage_perc must stay flat while
+vllm:num_requests_running &gt; 0 before the engine is declared
+stalled. Defaults to 120 when unset. The kv-cache heartbeat keeps
+long prefills safe, so the margin guards against restarting pods
+over ordinary scheduler hiccups between probes. Restart latency is
+roughly window &#43; liveness period x failure threshold (about 165s at
+the defaults). format: int32 minimum: 10 maximum: 3600">
+  <span class="prop-name">windowSeconds</span>
+  <span class="type-badge">integer</span>
+  <div class="leaf-desc">WindowSeconds is how long the token counters and
+vllm:kv_cache_usage_perc must stay flat while
+vllm:num_requests_running &gt; 0 before the engine is declared
+stalled. Defaults to 120 when unset. The kv-cache heartbeat keeps
+long prefills safe, so the margin guards against restarting pods
+over ordinary scheduler hiccups between probes. Restart latency is
+roughly window &#43; liveness period x failure threshold (about 165s at
+the defaults).<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minimum: 10"><span class="schema-constraint-label">minimum:</span> <code class="schema-constraint-value">10</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maximum: 3600"><span class="schema-constraint-label">maximum:</span> <code class="schema-constraint-value">3600</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="spec.vllmConfig.tensorParallelSize" data-path-key="|spec|vllmConfig|tensorParallelSize|" data-parent-path="spec.vllmConfig" data-name="tensorParallelSize" data-text="TensorParallelSize sets the number of GPUs for tensor parallelism. format: int32">
   <span class="prop-name">tensorParallelSize</span>
   <span class="type-badge">integer</span>
@@ -9802,6 +9999,85 @@ additionally requires every member Running before the group serves.<div class="l
 <div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
   </div>
 </div>
+<details class="prop" data-prop-row data-path="status.multiNode.recreates" data-path-key="|status|multiNode|recreates|" data-parent-path="status.multiNode" data-name="recreates" data-text="Recreates records the failure-driven recreates of the group since it
+last served. A recreate replaces every member pod, so the per-member
+restart counts start from zero each time; this is the count that
+accumulates. Absent while the group has not failed, and cleared once
+the group has stayed Ready, the spec changes, or the service is scaled
+to zero.">
+<summary>
+  <span class="prop-name">recreates</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">Recreates records the failure-driven recreates of the group since it
+last served. A recreate replaces every member pod, so the per-member
+restart counts start from zero each time; this is the count that
+accumulates. Absent while the group has not failed, and cleared once
+the group has stayed Ready, the spec changes, or the service is scaled
+to zero.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.recreates.count" data-path-key="|status|multiNode|recreates|count|" data-parent-path="status.multiNode.recreates" data-name="count" data-text="Count is the number of consecutive member failures that tore the group
+down without it serving in between. format: int32">
+  <span class="prop-name">count</span>
+  <span class="type-badge">integer</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">Count is the number of consecutive member failures that tore the group
+down without it serving in between.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: int32"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">int32</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.recreates.groupHash" data-path-key="|status|multiNode|recreates|groupHash|" data-parent-path="status.multiNode.recreates" data-name="groupHash" data-text="GroupHash is the group hash the count belongs to: a spec change that
+moves the hash starts a fresh count.">
+  <span class="prop-name">groupHash</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">GroupHash is the group hash the count belongs to: a spec change that
+moves the hash starts a fresh count.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.recreates.lastFailureTime" data-path-key="|status|multiNode|recreates|lastFailureTime|" data-parent-path="status.multiNode.recreates" data-name="lastFailureTime" data-text="LastFailureTime is when the most recent failure was observed. format: date-time">
+  <span class="prop-name">lastFailureTime</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">LastFailureTime is when the most recent failure was observed.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.recreates.message" data-path-key="|status|multiNode|recreates|message|" data-parent-path="status.multiNode.recreates" data-name="message" data-text="Message names the member and carries the evidence of the most recent
+failure (container, exit code, reason, and an excerpt of the
+termination message). It survives the deletion of the pod it describes.">
+  <span class="prop-name">message</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Message names the member and carries the evidence of the most recent
+failure (container, exit code, reason, and an excerpt of the
+termination message). It survives the deletion of the pod it describes.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.recreates.nextRecreateTime" data-path-key="|status|multiNode|recreates|nextRecreateTime|" data-parent-path="status.multiNode.recreates" data-name="nextRecreateTime" data-text="NextRecreateTime is the earliest time the group is recreated after the
+most recent failure. Unset once the bound is reached. format: date-time">
+  <span class="prop-name">nextRecreateTime</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">NextRecreateTime is the earliest time the group is recreated after the
+most recent failure. Unset once the bound is reached.<div class="leaf-constraints">
+<div class="schema-constraint" title="format: date-time"><span class="schema-constraint-label">format:</span> <code class="schema-constraint-value">date-time</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.recreates.podUID" data-path-key="|status|multiNode|recreates|podUID|" data-parent-path="status.multiNode.recreates" data-name="podUID" data-text="PodUID is the member pod whose failure was counted last, so a teardown
+that spans several reconciles is counted once.">
+  <span class="prop-name">podUID</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">PodUID is the member pod whose failure was counted last, so a teardown
+that spans several reconciles is counted once.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="status.multiNode.recreates.reason" data-path-key="|status|multiNode|recreates|reason|" data-parent-path="status.multiNode.recreates" data-name="reason" data-text="Reason is the recreate reason of the most recent failure, for example
+MemberRestarted or MemberFailed.">
+  <span class="prop-name">reason</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Reason is the recreate reason of the most recent failure, for example
+MemberRestarted or MemberFailed.
+  </div>
+</div>
+  </div>
+</div>
+</details>
 <div class="prop-leaf" data-prop-row data-path="status.multiNode.size" data-path-key="|status|multiNode|size|" data-parent-path="status.multiNode" data-name="size" data-text="Size is the number of members in the spec. format: int32">
   <span class="prop-name">size</span>
   <span class="type-badge">integer</span> <span class="required-badge">required</span>
