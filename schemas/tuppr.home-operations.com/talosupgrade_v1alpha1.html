@@ -542,6 +542,22 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
   <div class="leaf-desc">Namespace of the resource (optional, for namespaced resources)
   </div>
 </div>
+<div class="prop-leaf" data-prop-row data-path="spec.healthChecks[].skipAfterPreHooks" data-path-key="|spec|healthChecks[]|skipAfterPreHooks|" data-parent-path="spec.healthChecks" data-name="skipAfterPreHooks" data-text="SkipAfterPreHooks excludes this check from every health check run after
+the pre-hooks have completed, before the first batch and between batches.
+Set it on checks the pre-hooks themselves invalidate for the upgrade
+window (for example a Ceph HEALTH_OK check while a pre-hook holds
+`noout`). The initial check before the pre-hooks always runs. Only
+TalosUpgrade has hooks, so this has no effect on a KubernetesUpgrade.">
+  <span class="prop-name">skipAfterPreHooks</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">SkipAfterPreHooks excludes this check from every health check run after
+the pre-hooks have completed, before the first batch and between batches.
+Set it on checks the pre-hooks themselves invalidate for the upgrade
+window (for example a Ceph HEALTH_OK check while a pre-hook holds
+`noout`). The initial check before the pre-hooks always runs. Only
+TalosUpgrade has hooks, so this has no effect on a KubernetesUpgrade.
+  </div>
+</div>
 <div class="prop-leaf" data-prop-row data-path="spec.healthChecks[].timeout" data-path-key="|spec|healthChecks[]|timeout|" data-parent-path="spec.healthChecks" data-name="timeout" data-text="Timeout for this health check pattern: ^([0-9]&#43;[smh])&#43;$ minLength: 2">
   <span class="prop-name">timeout</span>
   <span class="type-badge">string</span>

@@ -1463,16 +1463,16 @@ authentication in this build.</div><div class="prop-constraints">
 <div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div><div class="prop-constraints">
 <div class="schema-constraint" title="maxItems: 50"><span class="schema-constraint-label">maxItems:</span> <code class="schema-constraint-value">50</code></div></div>
   <div class="prop-children">
-<details class="prop" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains" data-name="bundleSource" data-text="BundleSource declares exactly one future trust-bundle source. It is
-validated for shape only; fetching or loading a bundle from it is a
-later step.">
+<details class="prop" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains" data-name="bundleSource" data-text="BundleSource declares exactly one trust-bundle source and is validated for
+shape here. The standalone file loader exists, but is not wired into SPIFFE
+authentication.">
 <summary>
   <span class="prop-name">bundleSource</span>
   <span class="type-badge">object</span> <span class="required-badge">required</span>
 </summary>
-<div class="prop-content"><div class="prop-desc">BundleSource declares exactly one future trust-bundle source. It is
-validated for shape only; fetching or loading a bundle from it is a
-later step.</div>
+<div class="prop-content"><div class="prop-desc">BundleSource declares exactly one trust-bundle source and is validated for
+shape here. The standalone file loader exists, but is not wired into SPIFFE
+authentication.</div>
   <div class="prop-children">
 <details class="prop" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.endpoint" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|endpoint|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource" data-name="endpoint" data-text="Endpoint declares a HTTPS SPIFFE Bundle Endpoint. Required when Type is
 &#34;bundle_endpoint&#34;.">
@@ -1507,11 +1507,43 @@ X.509-SVID root).<div class="leaf-constraints">
   </div>
 </div>
 </details>
-<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.type" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|type|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource" data-name="type" data-text="Type selects the trust-bundle source. enum: bundle_endpoint, workload_api">
+<details class="prop" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.file" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|file|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource" data-name="file" data-text="File declares a SPIFFE trust bundle projected from a ConfigMap.
+Required when Type is &#34;file&#34;.">
+<summary>
+  <span class="prop-name">file</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">File declares a SPIFFE trust bundle projected from a ConfigMap.
+Required when Type is &#34;file&#34;.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.file.configMapKey" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|file|configMapKey|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.file" data-name="configMapKey" data-text="ConfigMapKey is the key within the ConfigMap holding the SPIFFE JWKS
+trust-bundle document. It must not be &#34;.&#34; or start with &#34;..&#34;. pattern: ^[A-Za-z0-9._-]&#43;$ minLength: 1 maxLength: 253">
+  <span class="prop-name">configMapKey</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ConfigMapKey is the key within the ConfigMap holding the SPIFFE JWKS
+trust-bundle document. It must not be &#34;.&#34; or start with &#34;..&#34;.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[A-Za-z0-9._-]&#43;$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[A-Za-z0-9._-]&#43;$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.file.configMapName" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|file|configMapName|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.file" data-name="configMapName" data-text="ConfigMapName is the name of the ConfigMap containing the trust bundle. pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$ minLength: 1 maxLength: 253">
+  <span class="prop-name">configMapName</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">ConfigMapName is the name of the ConfigMap containing the trust bundle.<div class="leaf-constraints">
+<div class="schema-constraint" title="pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"><span class="schema-constraint-label">pattern:</span> <code class="schema-constraint-value">^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="minLength: 1"><span class="schema-constraint-label">minLength:</span> <code class="schema-constraint-value">1</code></div></div><div class="leaf-constraints">
+<div class="schema-constraint" title="maxLength: 253"><span class="schema-constraint-label">maxLength:</span> <code class="schema-constraint-value">253</code></div></div>
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.type" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|type|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource" data-name="type" data-text="Type selects the trust-bundle source. enum: bundle_endpoint, file, workload_api">
   <span class="prop-name">type</span>
   <span class="type-badge">string</span> <span class="required-badge">required</span>
   <div class="leaf-desc">Type selects the trust-bundle source.<div class="leaf-constraints">
-<div class="schema-constraint" title="enum: bundle_endpoint, workload_api"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">bundle_endpoint, workload_api</code></div></div>
+<div class="schema-constraint" title="enum: bundle_endpoint, file, workload_api"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">bundle_endpoint, file, workload_api</code></div></div>
   </div>
 </div>
 <div class="prop-leaf" data-prop-row data-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource.workloadAPI" data-path-key="|spec|embeddedAuthServer|spiffeTrustDomains[]|bundleSource|workloadAPI|" data-parent-path="spec.embeddedAuthServer.spiffeTrustDomains[].bundleSource" data-name="workloadAPI" data-text="WorkloadAPI selects the local SPIFFE Workload API. Required when Type
