@@ -493,14 +493,15 @@ operator is &#34;In&#34;, and the values array contains only &#34;value&#34;. Th
 </details>
 <details class="prop" data-prop-row data-path="spec.redirectBackend.toPorts" data-path-key="|spec|redirectBackend|toPorts|" data-parent-path="spec.redirectBackend" data-name="toPorts" data-text="ToPorts is a list of L4 ports with protocol of node local pod(s) where traffic
 is redirected to.
-When multiple ports are specified, the ports must be named.">
+When multiple ports are specified, the ports must be named. minItems: 1">
 <summary>
   <span class="prop-name">toPorts</span>
   <span class="type-badge">[]object</span> <span class="required-badge">required</span>
 </summary>
 <div class="prop-content"><div class="prop-desc">ToPorts is a list of L4 ports with protocol of node local pod(s) where traffic
 is redirected to.
-When multiple ports are specified, the ports must be named.</div>
+When multiple ports are specified, the ports must be named.</div><div class="prop-constraints">
+<div class="schema-constraint" title="minItems: 1"><span class="schema-constraint-label">minItems:</span> <code class="schema-constraint-value">1</code></div></div>
   <div class="prop-children">
 <div class="prop-leaf" data-prop-row data-path="spec.redirectBackend.toPorts[].name" data-path-key="|spec|redirectBackend|toPorts[]|name|" data-parent-path="spec.redirectBackend.toPorts" data-name="name" data-text="Name is a port name, which must contain at least one [a-z],
 and may also contain [0-9] and &#39;-&#39; anywhere except adjacent to another
