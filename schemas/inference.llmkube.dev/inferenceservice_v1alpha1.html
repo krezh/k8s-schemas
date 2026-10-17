@@ -1860,6 +1860,71 @@ removes it. Defaults to true.
 </summary>
 <div class="prop-content"><div class="prop-desc">Endpoint defines the service endpoint configuration</div>
   <div class="prop-children">
+<details class="prop" data-prop-row data-path="spec.endpoint.apiKeySecretRef" data-path-key="|spec|endpoint|apiKeySecretRef|" data-parent-path="spec.endpoint" data-name="apiKeySecretRef" data-text="APIKeySecretRef names a Secret key holding the API key callers must
+present as &#34;Authorization: Bearer &lt;key&gt;&#34;. vLLM reads it as VLLM_API_KEY;
+SGLang gets it as LLMKUBE_API_KEY plus &#34;--api-key $(LLMKUBE_API_KEY)&#34;.
+Both runtimes leave /health and /metrics open, so probes keep working.
+Supported for runtime vllm and sglang. A key change takes effect when the
+pods restart. An --api-key already in extraArgs wins; LLMKube then adds
+nothing. Cannot be combined with gateway.enabled: the gateway does not
+forward the key. Not supported on ModelRouter.">
+<summary>
+  <span class="prop-name">apiKeySecretRef</span>
+  <span class="type-badge">object</span>
+</summary>
+<div class="prop-content"><div class="prop-desc">APIKeySecretRef names a Secret key holding the API key callers must
+present as &#34;Authorization: Bearer &lt;key&gt;&#34;. vLLM reads it as VLLM_API_KEY;
+SGLang gets it as LLMKUBE_API_KEY plus &#34;--api-key $(LLMKUBE_API_KEY)&#34;.
+Both runtimes leave /health and /metrics open, so probes keep working.
+Supported for runtime vllm and sglang. A key change takes effect when the
+pods restart. An --api-key already in extraArgs wins; LLMKube then adds
+nothing. Cannot be combined with gateway.enabled: the gateway does not
+forward the key. Not supported on ModelRouter.</div>
+  <div class="prop-children">
+<div class="prop-leaf" data-prop-row data-path="spec.endpoint.apiKeySecretRef.key" data-path-key="|spec|endpoint|apiKeySecretRef|key|" data-parent-path="spec.endpoint.apiKeySecretRef" data-name="key" data-text="The key of the secret to select from.  Must be a valid secret key.">
+  <span class="prop-name">key</span>
+  <span class="type-badge">string</span> <span class="required-badge">required</span>
+  <div class="leaf-desc">The key of the secret to select from.  Must be a valid secret key.
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.endpoint.apiKeySecretRef.name" data-path-key="|spec|endpoint|apiKeySecretRef|name|" data-parent-path="spec.endpoint.apiKeySecretRef" data-name="name" data-text="Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names">
+  <span class="prop-name">name</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">Name of the referent.
+This field is effectively required, but due to backwards compatibility is
+allowed to be empty. Instances of this type with an empty value here are
+almost certainly wrong.
+More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+  </div>
+</div>
+<div class="prop-leaf" data-prop-row data-path="spec.endpoint.apiKeySecretRef.optional" data-path-key="|spec|endpoint|apiKeySecretRef|optional|" data-parent-path="spec.endpoint.apiKeySecretRef" data-name="optional" data-text="Specify whether the Secret or its key must be defined">
+  <span class="prop-name">optional</span>
+  <span class="type-badge">boolean</span>
+  <div class="leaf-desc">Specify whether the Secret or its key must be defined
+  </div>
+</div>
+  </div>
+</div>
+</details>
+<div class="prop-leaf" data-prop-row data-path="spec.endpoint.externalTrafficPolicy" data-path-key="|spec|endpoint|externalTrafficPolicy|" data-parent-path="spec.endpoint" data-name="externalTrafficPolicy" data-text="ExternalTrafficPolicy sets the Service&#39;s externalTrafficPolicy. Local
+preserves the client source IP on a NodePort or LoadBalancer, which an IP
+allowlist (NetworkPolicy) needs. Unset keeps the Kubernetes default
+(Cluster). Requires endpoint.type NodePort or LoadBalancer. Not supported
+on ModelRouter. enum: Cluster, Local">
+  <span class="prop-name">externalTrafficPolicy</span>
+  <span class="type-badge">string</span>
+  <div class="leaf-desc">ExternalTrafficPolicy sets the Service&#39;s externalTrafficPolicy. Local
+preserves the client source IP on a NodePort or LoadBalancer, which an IP
+allowlist (NetworkPolicy) needs. Unset keeps the Kubernetes default
+(Cluster). Requires endpoint.type NodePort or LoadBalancer. Not supported
+on ModelRouter.<div class="leaf-constraints">
+<div class="schema-constraint" title="enum: Cluster, Local"><span class="schema-constraint-label">enum:</span> <code class="schema-constraint-value">Cluster, Local</code></div></div>
+  </div>
+</div>
 <details class="prop" data-prop-row data-path="spec.endpoint.gateway" data-path-key="|spec|endpoint|gateway|" data-parent-path="spec.endpoint" data-name="gateway" data-text="Gateway opts this InferenceService into Envoy AI Gateway exposure. When
 set and Enabled, the operator generates the Backend / AIServiceBackend /
 AIGatewayRoute resources that front this service through a pre-installed

@@ -133,7 +133,7 @@
               "description": "GPU specifies GPU device requirements",
               "properties": {
                 "count": {
-                  "description": "Count specifies the number of GPUs required\nSupports multi-GPU for model sharding (future feature)",
+                  "description": "Count is the number of GPUs the model uses. It sizes the runtime (for\nexample vLLM's --tensor-parallel-size when above 1) and, without\nresourceClaims, requests that many devices through the device plugin as a\ncontainer limit (nvidia.com/gpu by default). With resourceClaims set the\nclaims allocate the devices and no device-plugin limit is added; set Count\nto the number of devices the claims provide so the runtime is sized to match.",
                   "format": "int32",
                   "maximum": 8,
                   "minimum": 0,
@@ -166,7 +166,7 @@
                   ]
                 },
                 "resourceClaims": {
-                  "description": "ResourceClaims defines DRA (Dynamic Resource Allocation) claims for GPU devices.\nUses resource.k8s.io/v1 PodResourceClaim format. Each claim must have exactly\none of resourceClaimName or resourceClaimTemplateName set.\nMutually exclusive with resourceName.",
+                  "description": "ResourceClaims defines DRA (Dynamic Resource Allocation) claims for GPU devices.\nUses resource.k8s.io/v1 PodResourceClaim format. Each claim must have exactly\none of resourceClaimName or resourceClaimTemplateName set.\nMutually exclusive with resourceName. When set, the operator does not add a\ndevice-plugin GPU limit; Count still sizes the runtime.",
                   "items": {
                     "additionalProperties": false,
                     "description": "PodResourceClaim references exactly one ResourceClaim, either directly\nor by naming a ResourceClaimTemplate which is then turned into a ResourceClaim\nfor the pod.\n\nIt adds a name to it that uniquely identifies the ResourceClaim inside the Pod.\nContainers that need access to the ResourceClaim reference it with this name.\n\nWhen the DRAWorkloadResourceClaims feature gate is enabled and this Pod\nbelongs to a PodGroup, a PodResourceClaim is matched to a\nPodGroupResourceClaim if all of their fields are equal (Name,\nResourceClaimName, and ResourceClaimTemplateName). A matched claim references\na single ResourceClaim shared across all Pods in the PodGroup, reserved for\nthe PodGroup in ResourceClaimStatus.ReservedFor rather than for individual\nPods.",
